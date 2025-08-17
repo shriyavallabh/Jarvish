@@ -1,0 +1,141 @@
+version: 1
+defaults:
+  context_roots: ["./docs","./context","./workflow","./agents"]
+  readme: "./README.md"
+  budget:
+    max_tokens: 160000
+    hard_timeout_s: 900
+    temperature: 0.2
+  io:
+    save_md_summaries: true
+    persist_paths: true
+  run:
+    parallel_ok: true
+    checkpoint_each_prompt: true
+
+agents:
+  controller:
+    name: "Controller"
+    path: "/"
+    color: "#0B1F33"
+    emoji: "🎛️"
+
+  design/ux-researcher:
+    name: "UX Researcher"
+    color: "#6366F1"
+    emoji: "🔎"
+    reads: ["docs/PRD.md","context/phase1/*"]
+    writes: ["context/phase1/ux/*.md"]
+
+  design/ui-designer:
+    name: "UI Designer"
+    color: "#CEA200"
+    emoji: "🎨"
+    reads: ["context/phase1/ux/*.md","docs/14*","docs/product/overview.md"]
+    writes: ["context/phase2/ui/*.md"]
+
+  design/whimsy-injector:
+    name: "Whimsy Injector"
+    color: "#D946EF"
+    emoji: "✨"
+    reads: ["context/phase2/ui/*.md"]
+    writes: ["context/phase2/whimsy/*.md"]
+
+  eng/rapid-prototyper:
+    name: "Rapid Prototyper"
+    color: "#06B6D4"
+    emoji: "⚡"
+    reads: ["docs/PRD.md","workflow/chain.yaml"]
+    writes: ["context/phase1/plan/*.md"]
+
+  eng/frontend-dev:
+    name: "Frontend Dev"
+    color: "#10B981"
+    emoji: "🧩"
+    reads: ["context/phase2/**/*","docs/14*"]
+    writes: ["context/phase3/frontend/*.md"]
+
+  eng/backend-dev:
+    name: "Backend Dev"
+    color: "#0C310C"
+    emoji: "🛠️"
+    reads: ["docs/api/*","docs/data-model/*","docs/wa/*","docs/ai/*","docs/compliance/*"]
+    writes: ["context/phase4/backend/*.md"]
+
+  eng/test-runner:
+    name: "Test Runner"
+    color: "#D92D20"
+    emoji: "🧪"
+    reads: ["context/phase3/frontend/*","context/phase4/backend/*"]
+    writes: ["context/phase4/tests/*.md"]
+
+  eng/perf-benchmarker:
+    name: "Perf Benchmarker"
+    color: "#F79009"
+    emoji: "🚀"
+    reads: ["context/phase3/frontend/*","context/phase4/backend/*","docs/13*"]
+    writes: ["context/phase4/perf/*.md"]
+
+  domain/compliance-guard:
+    name: "Compliance Guard"
+    color: "#1E3A8A"
+    emoji: "🛡️"
+    reads: ["docs/compliance/*","context/phase3/frontend/*","context/phase4/backend/*"]
+    writes: ["context/phase4/compliance/*.md"]
+
+  domain/wa-template-manager:
+    name: "WA Template Manager"
+    color: "#0EA5E9"
+    emoji: "📩"
+    reads: ["docs/wa/*","docs/8*"]
+    writes: ["context/phase4/wa/*.md"]
+
+  domain/render-pipeline-architect:
+    name: "Render Pipeline Architect"
+    color: "#8B5CF6"
+    emoji: "🖼️"
+    reads: ["docs/7*","docs/12*"]
+    writes: ["context/phase4/render/*.md"]
+
+  domain/scheduler-orchestrator:
+    name: "Scheduler Orchestrator"
+    color: "#F59E0B"
+    emoji: "⏱️"
+    reads: ["docs/5*","docs/6*","docs/13*"]
+    writes: ["context/phase4/scheduler/*.md"]
+
+  domain/analytics-intelligence:
+    name: "Analytics Intelligence"
+    color: "#3B82F6"
+    emoji: "📈"
+    reads: ["docs/13*","docs/5*","docs/20*"]
+    writes: ["context/phase4/analytics/*.md"]
+
+  domain/data-modeler:
+    name: "Data Modeler"
+    color: "#475569"
+    emoji: "🗃️"
+    reads: ["docs/data-model/*","docs/10*"]
+    writes: ["context/phase1/data/*.md"]
+
+  domain/security-dpo-advisor:
+    name: "Security & DPO Advisor"
+    color: "#164E63"
+    emoji: "🔐"
+    reads: ["docs/9*","docs/13*","docs/20*"]
+    writes: ["context/phase4/security/*.md"]
+
+  ops/devops-observability:
+    name: "DevOps & Observability"
+    color: "#6B7280"
+    emoji: "📟"
+    reads: ["docs/13*","docs/3*","docs/12*"]
+    writes: ["context/phase4/devops/*.md"]
+
+run:
+  parallel_groups:
+    - ["design/ui-designer","design/whimsy-injector"]
+    - ["eng/test-runner","eng/perf-benchmarker","domain/compliance-guard"]
+
+checkpoints:
+  after_each_prompt: true

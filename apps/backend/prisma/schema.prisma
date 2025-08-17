@@ -1,0 +1,588 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Multi-tenant Advisor/User model
+model Advisor {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  name            String
+  passwordHash    String
+  
+  // Business Information
+  arnNumber       String?   @unique // ARN/RIA registration number
+  companyName     String?
+  businessType    BusinessType @default(INDIVIDUAL)
+  
+  // Contact & Preferences
+  phoneNumber     String?   @unique
+  whatsappNumber  String?
+  languagePrefs   String[]  @default(["EN"])
+  timezone        String    @default("Asia/Kolkata")
+  
+  // Subscription & Tier
+  tier            SubscriptionTier @default(BASIC)
+  isVerified      Boolean   @default(false)
+  emailVerified   Boolean   @default(false)
+  whatsappVerified Boolean  @default(false)
+  
+  // Activity Tracking
+  lastLogin       DateTime?
+  loginCount      Int       @default(0)
+  isActive        Boolean   @default(true)
+  
+  // Compliance & Risk
+  complianceScore Float     @default(100)
+  riskLevel       RiskLevel @default(LOW)
+  
+  // Metadata
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime? // Soft delete for DPDP compliance
+  
+  // Relations
+  contents        Content[]
+  templates       ContentTemplate[]
+  analytics       Analytics[]
+  subscriptions   Subscription[]
+  auditLogs       AuditLog[]
+  complianceChecks ComplianceCheck[]
+  whatsappMessages WhatsAppMessage[]
+  notifications   Notification[]
+  apiKeys         ApiKey[]
+  sessions        Session[]
+  
+  @@index([email])
+  @@index([arnNumber])
+  @@index([tier])
+  @@index([createdAt])
+  @@map("advisors")
+}
+
+// Content Management
+model Content {
+  id              String        @id @default(cuid())
+  advisorId       String
+  
+  // Content Details
+  title           String?
+  body            String        @db.Text
+  contentType     ContentType   @default(WHATSAPP)
+  language        Language      @default(EN)
+  topicFamily     String?       // MF, Insurance, PMS, etc.
+  
+  // Compliance & Approval
+  status          ContentStatus @default(DRAFT)
+  complianceScore Float?
+  riskScore       Float?
+  approvalStage   Int           @default(0) // 0-3 for three-stage approval
+  
+  // Compliance Issues (JSON)
+  complianceIssues Json?        // Array of issues found
+  suggestions      Json?        // AI-generated improvements
+  
+  // Scheduling & Delivery
+  scheduledFor    DateTime?
+  publishedAt     DateTime?
+  deliveredAt     DateTime?
+  expiresAt       DateTime?
+  
+  // Performance Metrics
+  viewCount       Int           @default(0)
+  clickCount      Int           @default(0)
+  shareCount      Int           @default(0)
+  
+  // Metadata
+  metadata        Json?         // Additional flexible data
+  tags            String[]      @default([])
+  version         Int           @default(1)
+  parentId        String?       // For content versioning
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  advisor         Advisor       @relation(fields: [advisorId], references: [id])
+  complianceChecks ComplianceCheck[]
+  whatsappMessages WhatsAppMessage[]
+  auditLogs       AuditLog[]
+  
+  @@index([advisorId, status])
+  @@index([contentType])
+  @@index([scheduledFor])
+  @@index([createdAt])
+  @@map("contents")
+}
+
+// Content Templates
+model ContentTemplate {
+  id              String        @id @default(cuid())
+  advisorId       String?       // Null for system templates
+  
+  name            String
+  description     String?
+  body            String        @db.Text
+  contentType     ContentType
+  language        Language      @default(EN)
+  category        String
+  
+  // Template Variables
+  variables       Json?         // Array of variable definitions
+  
+  isSystem        Boolean       @default(false)
+  isActive        Boolean       @default(true)
+  useCount        Int           @default(0)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  advisor         Advisor?      @relation(fields: [advisorId], references: [id])
+  
+  @@index([advisorId])
+  @@index([category])
+  @@map("content_templates")
+}
+
+// Compliance & Validation
+model ComplianceCheck {
+  id              String        @id @default(cuid())
+  contentId       String
+  advisorId       String
+  
+  // Check Details
+  checkType       ComplianceCheckType
+  stage           Int           // 1, 2, or 3
+  status          ComplianceStatus @default(PENDING)
+  
+  // Scores
+  score           Float
+  threshold       Float         @default(80)
+  passed          Boolean       @default(false)
+  
+  // Issues Found
+  violations      Json?         // Array of violations
+  warnings        Json?         // Array of warnings
+  suggestions     Json?         // Improvement suggestions
+  
+  // AI Analysis
+  aiModel         String?
+  aiResponse      Json?
+  processingTime  Int?          // in milliseconds
+  
+  createdAt       DateTime      @default(now())
+  completedAt     DateTime?
+  
+  // Relations
+  content         Content       @relation(fields: [contentId], references: [id])
+  advisor         Advisor       @relation(fields: [advisorId], references: [id])
+  
+  @@index([contentId, stage])
+  @@index([advisorId])
+  @@index([createdAt])
+  @@map("compliance_checks")
+}
+
+// WhatsApp Integration
+model WhatsAppMessage {
+  id              String        @id @default(cuid())
+  advisorId       String
+  contentId       String?
+  
+  // Message Details
+  messageId       String        @unique // WhatsApp message ID
+  recipientPhone  String
+  recipientName   String?
+  
+  // Message Content
+  messageType     WhatsAppMessageType @default(TEXT)
+  body            String?       @db.Text
+  mediaUrl        String?
+  templateName    String?
+  
+  // Status Tracking
+  status          MessageStatus @default(QUEUED)
+  sentAt          DateTime?
+  deliveredAt     DateTime?
+  readAt          DateTime?
+  failedAt        DateTime?
+  errorMessage    String?
+  
+  // Metadata
+  metadata        Json?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  advisor         Advisor       @relation(fields: [advisorId], references: [id])
+  content         Content?      @relation(fields: [contentId], references: [id])
+  
+  @@index([advisorId])
+  @@index([messageId])
+  @@index([status])
+  @@map("whatsapp_messages")
+}
+
+// Subscriptions & Billing
+model Subscription {
+  id              String        @id @default(cuid())
+  advisorId       String
+  
+  // Subscription Details
+  tier            SubscriptionTier
+  status          SubscriptionStatus @default(ACTIVE)
+  
+  // Billing
+  billingCycle    BillingCycle  @default(MONTHLY)
+  amount          Float
+  currency        String        @default("INR")
+  
+  // Razorpay Integration
+  razorpaySubscriptionId String? @unique
+  razorpayPlanId  String?
+  razorpayCustomerId String?
+  
+  // Period
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  trialEnd        DateTime?
+  canceledAt      DateTime?
+  
+  // Usage Limits
+  contentLimit    Int
+  messagesLimit   Int
+  
+  // Metadata
+  metadata        Json?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  advisor         Advisor       @relation(fields: [advisorId], references: [id])
+  payments        Payment[]
+  
+  @@index([advisorId])
+  @@index([status])
+  @@map("subscriptions")
+}
+
+// Payment Records
+model Payment {
+  id              String        @id @default(cuid())
+  subscriptionId  String
+  
+  // Payment Details
+  amount          Float
+  currency        String        @default("INR")
+  status          PaymentStatus @default(PENDING)
+  
+  // Razorpay
+  razorpayPaymentId String?     @unique
+  razorpayOrderId String?       @unique
+  razorpaySignature String?
+  
+  // Timestamps
+  paidAt          DateTime?
+  failedAt        DateTime?
+  refundedAt      DateTime?
+  
+  metadata        Json?
+  createdAt       DateTime      @default(now())
+  
+  // Relations
+  subscription    Subscription  @relation(fields: [subscriptionId], references: [id])
+  
+  @@index([subscriptionId])
+  @@map("payments")
+}
+
+// Analytics & Metrics
+model Analytics {
+  id              String        @id @default(cuid())
+  advisorId       String
+  
+  // Event Tracking
+  eventType       EventType
+  eventName       String
+  eventData       Json?
+  
+  // Context
+  sessionId       String?
+  ipAddress       String?
+  userAgent       String?
+  
+  // Performance Metrics
+  duration        Int?          // in milliseconds
+  
+  timestamp       DateTime      @default(now())
+  
+  // Relations
+  advisor         Advisor       @relation(fields: [advisorId], references: [id])
+  
+  @@index([advisorId, eventType])
+  @@index([timestamp])
+  @@map("analytics")
+}
+
+// Audit Logs for Compliance
+model AuditLog {
+  id              String        @id @default(cuid())
+  advisorId       String?
+  contentId       String?
+  
+  // Action Details
+  action          String
+  entity          String
+  entityId        String
+  
+  // Change Tracking
+  oldValues       Json?
+  newValues       Json?
+  
+  // Context
+  ipAddress       String?
+  userAgent       String?
+  requestId       String?
+  
+  timestamp       DateTime      @default(now())
+  
+  // Relations
+  advisor         Advisor?      @relation(fields: [advisorId], references: [id])
+  content         Content?      @relation(fields: [contentId], references: [id])
+  
+  @@index([advisorId])
+  @@index([entity, entityId])
+  @@index([timestamp])
+  @@map("audit_logs")
+}
+
+// Notifications
+model Notification {
+  id              String        @id @default(cuid())
+  advisorId       String
+  
+  // Notification Details
+  type            NotificationType
+  title           String
+  message         String
+  
+  // Status
+  isRead          Boolean       @default(false)
+  readAt          DateTime?
+  
+  // Action
+  actionUrl       String?
+  actionLabel     String?
+  
+  // Delivery
+  channels        String[]      @default(["IN_APP"]) // IN_APP, EMAIL, WHATSAPP
+  emailSent       Boolean       @default(false)
+  whatsappSent    Boolean       @default(false)
+  
+  createdAt       DateTime      @default(now())
+  expiresAt       DateTime?
+  
+  // Relations
+  advisor         Advisor       @relation(fields: [advisorId], references: [id])
+  
+  @@index([advisorId, isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+// API Keys for External Access
+model ApiKey {
+  id              String        @id @default(cuid())
+  advisorId       String
+  
+  name            String
+  key             String        @unique
+  hashedKey       String        @unique
+  
+  // Permissions
+  permissions     String[]      @default([])
+  rateLimit       Int           @default(100)
+  
+  // Usage
+  lastUsedAt      DateTime?
+  useCount        Int           @default(0)
+  
+  // Status
+  isActive        Boolean       @default(true)
+  expiresAt       DateTime?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  advisor         Advisor       @relation(fields: [advisorId], references: [id])
+  
+  @@index([hashedKey])
+  @@index([advisorId])
+  @@map("api_keys")
+}
+
+// Session Management
+model Session {
+  id              String        @id @default(cuid())
+  advisorId       String
+  
+  token           String        @unique
+  refreshToken    String?       @unique
+  
+  // Session Info
+  ipAddress       String?
+  userAgent       String?
+  deviceInfo      Json?
+  
+  // Validity
+  isValid         Boolean       @default(true)
+  expiresAt       DateTime
+  
+  createdAt       DateTime      @default(now())
+  lastActivity    DateTime      @default(now())
+  
+  // Relations
+  advisor         Advisor       @relation(fields: [advisorId], references: [id])
+  
+  @@index([token])
+  @@index([advisorId])
+  @@map("sessions")
+}
+
+// ENUMS
+
+enum BusinessType {
+  INDIVIDUAL
+  COMPANY
+  PARTNERSHIP
+  LLP
+}
+
+enum SubscriptionTier {
+  BASIC
+  STANDARD
+  PRO
+  ENTERPRISE
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ContentType {
+  WHATSAPP
+  STATUS
+  LINKEDIN
+  EMAIL
+  SMS
+  BLOG
+}
+
+enum Language {
+  EN
+  HI
+  GU
+  MR
+  TA
+  TE
+  KN
+  ML
+  BN
+  PA
+}
+
+enum ContentStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  PUBLISHED
+  SCHEDULED
+  ARCHIVED
+}
+
+enum ComplianceCheckType {
+  SEBI
+  NSE
+  BSE
+  AMFI
+  IRDAI
+  CUSTOM
+}
+
+enum ComplianceStatus {
+  PENDING
+  IN_PROGRESS
+  PASSED
+  FAILED
+  MANUAL_REVIEW
+}
+
+enum WhatsAppMessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  DOCUMENT
+  TEMPLATE
+}
+
+enum MessageStatus {
+  QUEUED
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELED
+  UNPAID
+  PAUSED
+}
+
+enum BillingCycle {
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum EventType {
+  LOGIN
+  LOGOUT
+  CONTENT_CREATED
+  CONTENT_APPROVED
+  CONTENT_REJECTED
+  MESSAGE_SENT
+  SUBSCRIPTION_CHANGED
+  PROFILE_UPDATED
+  API_CALL
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+  COMPLIANCE_ALERT
+  SUBSCRIPTION_ALERT
+  SYSTEM_UPDATE
+}

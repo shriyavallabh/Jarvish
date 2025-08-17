@@ -1,0 +1,22 @@
+{
+  "name": "project-one-agents",
+  "version": "1.0.0",
+  "description": "Project One 25-Agent Orchestration System",
+  "scripts": {
+    "agent": "ts-node scripts/agent-cli.ts",
+    "agents:list": "ts-node scripts/agent-cli.ts /list",
+    "agents:help": "ts-node scripts/agent-cli.ts /help",
+    "build": "tsc",
+    "mcp:server": "npm run build && node mcp-server.js"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^24.2.1",
+    "js-yaml": "^4.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.3"
+  }
+}

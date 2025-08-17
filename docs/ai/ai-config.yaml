@@ -1,0 +1,57 @@
+ai_config:
+  vendor: openai
+  models:
+    compliance_primary: gpt-4o-mini
+    compliance_fallback: gpt-3.5-turbo
+    content_generation: gpt-4.1
+    translation: gpt-4o-mini
+    personalization: gpt-4o-mini
+  
+  temperature:
+    compliance: 0.2
+    content_generation_en: 0.5
+    content_generation_hi_mr: 0.4
+    translation: 0.3
+  
+  latency_targets:
+    lint_p95_ms: 1500
+    generation_p95_ms: 3500
+    translation_p95_ms: 2000
+  
+  cost_controls:
+    daily_generation_cap_per_advisor: 10
+    daily_lint_cap_per_advisor: 20
+    monthly_budget_ceiling_inr: 25000
+    degradation_threshold_percent: 150
+  
+  fallback_strategy:
+    - primary_model
+    - lighter_model
+    - cached_variant
+    - baseline_template
+    - fallback_pack
+  
+  caching:
+    content_ttl_days: 14
+    prompt_cache_enabled: true
+    cache_by_hash: true
+  
+  personalization:
+    learning_scope: "ranking_only"  # never compliance rules
+    profile_attributes:
+      - topic_affinity
+      - tone_preference
+      - language_usage
+      - engagement_success
+  
+  audit:
+    retention_days: 1825  # 5 years
+    log_model_versions: true
+    log_prompt_hashes: true
+    log_input_output_hashes: true
+  
+  monitoring:
+    track_false_positives: true
+    track_advisor_satisfaction: true
+    anomaly_detection: true
+    cost_per_pack_tracking: true
