@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - AI-First Financial Advisory Platform | Stealth Wealth</title>
+    <style>
+        /* Stealth Wealth Theme - Private banking, understated luxury */
+        :root {
+            --bg-primary: #0D0D0D;
+            --bg-secondary: #1A1A1A;
+            --bg-card: #252525;
+            --bg-accent: #2F2F2F;
+            --text-primary: #F5F5F5;
+            --text-secondary: #B8B8B8;
+            --text-muted: #808080;
+            --accent-gold: #D4AF37;
+            --accent-platinum: #E5E4E2;
+            --accent-bronze: #CD7F32;
+            --accent-cta: #1C3A32;
+            --border: #3A3A3A;
+            --shadow-subtle: 0 2px 10px rgba(0, 0, 0, 0.5);
+            --shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Poppins:wght@300;400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-weight: 300;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(13, 13, 13, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-bronze));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-cta), #244A40);
+            color: var(--accent-platinum);
+            padding: 0.8rem 2rem;
+            border-radius: 2px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            border: 1px solid transparent;
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 0 6rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center top, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-text .accent-line {
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-bronze));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            line-height: 1.8;
+        }
+
+        .trust-indicators {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .trust-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-bronze));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .trust-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .luxury-card {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-accent));
+            border-radius: 2px;
+            padding: 3rem;
+            box-shadow: var(--shadow-elevated);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .luxury-card::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 2px;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            padding: 3rem 2rem;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover {
+            background: var(--bg-card);
+        }
+
+        .feature-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--accent-platinum);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 6rem 0;
+            background: var(--bg-primary);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            margin-top: 5rem;
+            position: relative;
+        }
+
+        .pricing-card {
+            background: var(--bg-primary);
+            padding: 3rem 2rem;
+            border: 1px solid var(--border);
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .pricing-card:nth-child(2) {
+            border-left: none;
+            border-right: none;
+        }
+
+        .pricing-card.featured {
+            background: var(--bg-card);
+            z-index: 1;
+            transform: scale(1.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .pricing-card:hover {
+            background: var(--bg-card);
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-elevated);
+            z-index: 2;
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .plan-tier {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        .plan-name {
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .plan-price .currency {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .plan-description {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            min-height: 50px;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 3rem;
+        }
+
+        .plan-features li {
+            padding: 1rem 0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-weight: 300;
+            font-size: 0.95rem;
+        }
+
+        .plan-button {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .plan-button:hover {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+        }
+
+        .pricing-card.featured .plan-button {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+        }
+
+        .pricing-card.featured .plan-button:hover {
+            background: var(--accent-bronze);
+            border-color: var(--accent-bronze);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 4rem 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-bronze));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-primary);
+            padding: 4rem 0;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-bronze));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-description {
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .footer-column h4 {
+            color: var(--accent-platinum);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card:nth-child(2) {
+                border: 1px solid var(--border);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="logo">Jarvish</a>
+                <div class="nav-links">
+                    <a href="#features">Services</a>
+                    <a href="#pricing">Membership</a>
+                    <a href="#about">Legacy</a>
+                    <a href="#" class="cta-button">Private Access</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>
+                        Discretion in<br>
+                        <span class="accent-line">Digital Wealth</span><br>
+                        Management
+                    </h1>
+                    <p class="subtitle">
+                        An exclusive AI-powered platform for financial advisors who value privacy, 
+                        sophistication, and uncompromising compliance standards.
+                    </p>
+                    
+                    <div class="trust-indicators">
+                        <div class="trust-item">
+                            <div class="trust-icon">🏛️</div>
+                            <span class="trust-text">SEBI Registered</span>
+                        </div>
+                        <div class="trust-item">
+                            <div class="trust-icon">🔒</div>
+                            <span class="trust-text">Bank-Grade Security</span>
+                        </div>
+                        <div class="trust-item">
+                            <div class="trust-icon">✓</div>
+                            <span class="trust-text">SOC 2 Certified</span>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="cta-button" style="padding: 1rem 3rem;">
+                        Request Private Demo
+                    </a>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="luxury-card">
+                        <div style="margin-bottom: 2rem;">
+                            <div style="width: 60px; height: 2px; background: var(--accent-gold); margin-bottom: 1rem;"></div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Exclusive Access</div>
+                        </div>
+                        <div style="font-family: 'Fraunces', serif; font-size: 2rem; margin-bottom: 1rem; color: var(--accent-platinum);">Private Beta</div>
+                        <div style="color: var(--text-secondary); font-weight: 300; line-height: 1.6;">
+                            Limited to 100 select advisors managing portfolios exceeding ₹100 Cr.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">₹5,000 Cr+</div>
+                    <div class="stat-label">Assets Under Advisory</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">500+</div>
+                    <div class="stat-label">Elite Advisors</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">2.5M</div>
+                    <div class="stat-label">Secure Transactions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">99.9%</div>
+                    <div class="stat-label">Compliance Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Understated Excellence</h2>
+                <p>Sophisticated tools for the discerning financial advisor</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3>White Glove Service</h3>
+                    <p>Dedicated relationship managers providing personalized support for your unique requirements.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Private Infrastructure</h3>
+                    <p>Isolated cloud environments with military-grade encryption and zero-knowledge architecture.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Bespoke AI Models</h3>
+                    <p>Custom-trained algorithms adapted to your investment philosophy and client communication style.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Silent Analytics</h3>
+                    <p>Deep insights without the noise. Elegant dashboards focusing on what truly matters.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Compliance Elegance</h3>
+                    <p>Seamless regulatory adherence without the bureaucratic friction.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Global Standards</h3>
+                    <p>International best practices adapted for Indian regulatory requirements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>Membership Tiers</h2>
+                <p>Exclusivity has its privileges</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="plan-tier">Essential</div>
+                    <div class="plan-name">Foundation</div>
+                    <div class="plan-price">
+                        <span class="currency">₹</span>2,999
+                        <span>/month</span>
+                    </div>
+                    <p class="plan-description">For emerging advisors building their digital presence</p>
+                    <ul class="plan-features">
+                        <li>500 messages monthly</li>
+                        <li>Standard AI assistance</li>
+                        <li>Core compliance tools</li>
+                        <li>Email support</li>
+                        <li>Basic analytics</li>
+                    </ul>
+                    <button class="plan-button">Begin Journey</button>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="plan-tier">Preferred</div>
+                    <div class="plan-name">Executive</div>
+                    <div class="plan-price">
+                        <span class="currency">₹</span>5,999
+                        <span>/month</span>
+                    </div>
+                    <p class="plan-description">For established practices demanding excellence</p>
+                    <ul class="plan-features">
+                        <li>2,000 messages monthly</li>
+                        <li>Advanced AI customization</li>
+                        <li>Priority compliance review</li>
+                        <li>Dedicated support line</li>
+                        <li>Premium analytics suite</li>
+                        <li>Team collaboration (3 seats)</li>
+                    </ul>
+                    <button class="plan-button">Select Membership</button>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="plan-tier">Exclusive</div>
+                    <div class="plan-name">Private</div>
+                    <div class="plan-price">
+                        <span class="currency">₹</span>11,999
+                        <span>/month</span>
+                    </div>
+                    <p class="plan-description">For elite firms requiring bespoke solutions</p>
+                    <ul class="plan-features">
+                        <li>Unlimited messaging</li>
+                        <li>Custom AI training</li>
+                        <li>White-label options</li>
+                        <li>Concierge support</li>
+                        <li>Custom integrations</li>
+                        <li>Unlimited team access</li>
+                    </ul>
+                    <button class="plan-button">Private Consultation</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-brand">Jarvish</div>
+                    <p class="footer-description">
+                        Elevating financial advisory through intelligent automation 
+                        and uncompromising standards of excellence.
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Private Banking</a></li>
+                        <li><a href="#">Wealth Management</a></li>
+                        <li><a href="#">Advisory Excellence</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Compliance</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">SEBI Guidelines</a></li>
+                        <li><a href="#">Privacy Standards</a></li>
+                        <li><a href="#">Security Protocols</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Connect</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Private Access</a></li>
+                        <li><a href="#">Concierge</a></li>
+                        <li><a href="#">Partner Program</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Jarvish. Excellence in Financial Technology.</p>
+                <p>SEBI Registered | SOC 2 Type II Certified</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

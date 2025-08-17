@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Institutional Trust</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #F8F7F5;
+            color: #2C3E50;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: #1A2332;
+            color: white;
+            padding: 20px 40px;
+            border-bottom: 3px solid #D4AF37;
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            font-family: 'Georgia', serif;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 32px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+        }
+        
+        .nav-item {
+            color: #B8C5D6;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .nav-item:hover {
+            color: #D4AF37;
+        }
+        
+        .dashboard-header {
+            background: white;
+            padding: 24px 40px;
+            border-bottom: 1px solid #DDD;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .dashboard-header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: 400;
+            color: #1A2332;
+            font-family: 'Georgia', serif;
+        }
+        
+        .summary-cards {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .summary-card {
+            background: #F8F7F5;
+            padding: 12px 20px;
+            border: 1px solid #DDD;
+            border-radius: 4px;
+            min-width: 120px;
+        }
+        
+        .card-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1A2332;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .card-label {
+            font-size: 11px;
+            color: #667;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        main {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 40px;
+        }
+        
+        .controls-bar {
+            background: white;
+            padding: 20px;
+            border: 1px solid #DDD;
+            border-radius: 4px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .batch-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid #1A2332;
+            background: white;
+            color: #1A2332;
+            font-size: 13px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background: #1A2332;
+            color: white;
+        }
+        
+        .btn-primary {
+            background: #1A2332;
+            color: white;
+            border-color: #1A2332;
+        }
+        
+        .btn-primary:hover {
+            background: #2C3E50;
+            border-color: #2C3E50;
+        }
+        
+        .btn-approve {
+            background: #27AE60;
+            color: white;
+            border-color: #27AE60;
+        }
+        
+        .btn-approve:hover {
+            background: #219A52;
+            border-color: #219A52;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 12px;
+        }
+        
+        select {
+            padding: 10px 16px;
+            border: 1px solid #DDD;
+            background: white;
+            font-size: 13px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            border-radius: 3px;
+        }
+        
+        .data-table {
+            background: white;
+            border: 1px solid #DDD;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: #F5F5F5;
+            border-bottom: 2px solid #DDD;
+        }
+        
+        th {
+            padding: 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #667;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid #EEE;
+            transition: background 0.2s;
+        }
+        
+        tbody tr:hover {
+            background: #FAFAFA;
+        }
+        
+        tbody tr.selected {
+            background: #FFF9E6;
+        }
+        
+        td {
+            padding: 20px 16px;
+            font-size: 14px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .checkbox-cell {
+            width: 40px;
+            text-align: center;
+        }
+        
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .content-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1A2332;
+            margin-bottom: 4px;
+        }
+        
+        .content-meta {
+            font-size: 12px;
+            color: #667;
+        }
+        
+        .advisor-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .advisor-name {
+            font-weight: 500;
+            color: #2C3E50;
+        }
+        
+        .advisor-region {
+            font-size: 12px;
+            color: #667;
+        }
+        
+        .risk-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .risk-low {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #C8E6C9;
+        }
+        
+        .risk-medium {
+            background: #FFF3E0;
+            color: #F57C00;
+            border: 1px solid #FFE0B2;
+        }
+        
+        .risk-high {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 1px solid #FFCDD2;
+        }
+        
+        .risk-score {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+            border: 1px solid #DDD;
+            background: white;
+            color: #667;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s;
+        }
+        
+        .btn-small:hover {
+            border-color: #1A2332;
+            color: #1A2332;
+        }
+        
+        .expand-row {
+            background: #FAFAFA;
+            display: none;
+        }
+        
+        .expand-row.show {
+            display: table-row;
+        }
+        
+        .expand-content {
+            padding: 24px;
+            grid-column: span 7;
+        }
+        
+        .preview-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        .preview-panel {
+            background: white;
+            border: 1px solid #DDD;
+            border-radius: 4px;
+            padding: 16px;
+        }
+        
+        .preview-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #667;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #EEE;
+        }
+        
+        .preview-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2C3E50;
+        }
+        
+        .compliance-flags {
+            margin-top: 16px;
+            padding: 12px;
+            background: #FFF9E6;
+            border: 1px solid #FFD700;
+            border-radius: 4px;
+        }
+        
+        .flag-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .flag-icon {
+            color: #F57C00;
+        }
+        
+        .footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1A2332;
+            color: white;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .footer-status {
+            display: flex;
+            gap: 32px;
+            font-size: 13px;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #27AE60;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .timestamp {
+            font-size: 12px;
+            color: #B8C5D6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">JARVISHHH ADMINISTRATIVE PORTAL</div>
+            <nav class="header-nav">
+                <a href="#" class="nav-item">Dashboard</a>
+                <a href="#" class="nav-item">Analytics</a>
+                <a href="#" class="nav-item">Compliance</a>
+                <a href="#" class="nav-item">Settings</a>
+                <a href="#" class="nav-item">Logout</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="dashboard-header">
+        <div class="dashboard-header-content">
+            <h1 class="page-title">Content Approval Queue</h1>
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="card-value">47</div>
+                    <div class="card-label">Pending</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-value">92.4%</div>
+                    <div class="card-label">Approval Rate</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-value">2.3m</div>
+                    <div class="card-label">Avg Time</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-value">1,247</div>
+                    <div class="card-label">Processed</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <main>
+        <div class="controls-bar">
+            <div class="batch-controls">
+                <span style="font-size: 13px; color: #667;">3 items selected</span>
+                <button class="btn btn-approve" onclick="approveSelected()">Approve Selected</button>
+                <button class="btn" onclick="rejectSelected()">Reject Selected</button>
+                <button class="btn" onclick="bulkEdit()">Bulk Edit</button>
+            </div>
+            <div class="filter-controls">
+                <select>
+                    <option>All Risk Levels</option>
+                    <option>Low Risk</option>
+                    <option>Medium Risk</option>
+                    <option>High Risk</option>
+                </select>
+                <select>
+                    <option>Sort by Priority</option>
+                    <option>Sort by Time</option>
+                    <option>Sort by Risk Score</option>
+                    <option>Sort by Region</option>
+                </select>
+                <button class="btn">Export CSV</button>
+            </div>
+        </div>
+        
+        <div class="data-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell">
+                            <input type="checkbox" id="selectAll">
+                        </th>
+                        <th>Content Title</th>
+                        <th>Advisor</th>
+                        <th>Risk Assessment</th>
+                        <th>AI Score</th>
+                        <th>Submitted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="selected">
+                        <td class="checkbox-cell">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td>
+                            <div class="content-title">Market Update: Nifty Hits New High</div>
+                            <div class="content-meta">ID: CNT-2024-0847 | Type: Market Commentary</div>
+                        </td>
+                        <td>
+                            <div class="advisor-info">
+                                <span class="advisor-name">Rajesh Kumar</span>
+                                <span class="advisor-region">Mumbai Region</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="risk-badge risk-low">
+                                <div class="risk-score">8.2</div>
+                                <div>Low Risk</div>
+                            </div>
+                        </td>
+                        <td style="text-align: center; font-weight: 600;">95%</td>
+                        <td>2 mins ago</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-small" onclick="toggleExpand(this)">View</button>
+                                <button class="btn-small">Approve</button>
+                                <button class="btn-small">Edit</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="expand-row">
+                        <td colspan="7">
+                            <div class="expand-content">
+                                <div class="preview-container">
+                                    <div class="preview-panel">
+                                        <div class="preview-title">Original Content</div>
+                                        <div class="preview-text">
+                                            Markets soared today with Nifty crossing 22,000 for the first time in history. 
+                                            Banking and IT sectors led the rally with gains of 2.3% and 1.8% respectively. 
+                                            This presents a good opportunity for investors to review their portfolio allocation 
+                                            and consider rebalancing based on current valuations.
+                                        </div>
+                                    </div>
+                                    <div class="preview-panel">
+                                        <div class="preview-title">WhatsApp Preview</div>
+                                        <div class="preview-text">
+                                            📈 *Market Update - 15 Jan 2024*<br><br>
+                                            Nifty hits record high of 22,000!<br><br>
+                                            ✅ Banking sector: +2.3%<br>
+                                            ✅ IT sector: +1.8%<br>
+                                            ✅ Auto sector: +1.2%<br><br>
+                                            💡 Consider reviewing your portfolio allocation
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr class="selected">
+                        <td class="checkbox-cell">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td>
+                            <div class="content-title">Tax Saving Tips for FY 2024-25</div>
+                            <div class="content-meta">ID: CNT-2024-0846 | Type: Educational</div>
+                        </td>
+                        <td>
+                            <div class="advisor-info">
+                                <span class="advisor-name">Priya Sharma</span>
+                                <span class="advisor-region">Delhi NCR</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="risk-badge risk-medium">
+                                <div class="risk-score">5.7</div>
+                                <div>Medium</div>
+                            </div>
+                        </td>
+                        <td style="text-align: center; font-weight: 600;">78%</td>
+                        <td>5 mins ago</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-small">View</button>
+                                <button class="btn-small">Review</button>
+                                <button class="btn-small">Edit</button>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="checkbox-cell">
+                            <input type="checkbox">
+                        </td>
+                        <td>
+                            <div class="content-title">Gold Investment Strategy Update</div>
+                            <div class="content-meta">ID: CNT-2024-0845 | Type: Investment Advisory</div>
+                        </td>
+                        <td>
+                            <div class="advisor-info">
+                                <span class="advisor-name">Amit Patel</span>
+                                <span class="advisor-region">Gujarat</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="risk-badge risk-high">
+                                <div class="risk-score">3.2</div>
+                                <div>High Risk</div>
+                            </div>
+                        </td>
+                        <td style="text-align: center; font-weight: 600;">42%</td>
+                        <td>8 mins ago</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-small">View</button>
+                                <button class="btn-small">Reject</button>
+                                <button class="btn-small">Revise</button>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr class="selected">
+                        <td class="checkbox-cell">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td>
+                            <div class="content-title">Mutual Fund SIP Benefits Explained</div>
+                            <div class="content-meta">ID: CNT-2024-0844 | Type: Educational</div>
+                        </td>
+                        <td>
+                            <div class="advisor-info">
+                                <span class="advisor-name">Sneha Reddy</span>
+                                <span class="advisor-region">Hyderabad</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="risk-badge risk-low">
+                                <div class="risk-score">9.1</div>
+                                <div>Low Risk</div>
+                            </div>
+                        </td>
+                        <td style="text-align: center; font-weight: 600;">91%</td>
+                        <td>12 mins ago</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-small">View</button>
+                                <button class="btn-small">Approve</button>
+                                <button class="btn-small">Edit</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    
+    <div class="footer-bar">
+        <div class="footer-status">
+            <div class="status-item">
+                <div class="status-indicator"></div>
+                <span>System Online</span>
+            </div>
+            <div class="status-item">
+                <span>Queue: 47 items</span>
+            </div>
+            <div class="status-item">
+                <span>Avg Processing: 2.3 min</span>
+            </div>
+            <div class="status-item">
+                <span>Compliance Check: Active</span>
+            </div>
+        </div>
+        <div class="timestamp">Last refresh: 20:31:45 IST</div>
+    </div>
+    
+    <script>
+        function toggleExpand(btn) {
+            const row = btn.closest('tr');
+            const expandRow = row.nextElementSibling;
+            expandRow.classList.toggle('show');
+        }
+        
+        function approveSelected() {
+            const checked = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+            alert(`Approving ${checked.length} items for publication...`);
+        }
+        
+        function rejectSelected() {
+            const checked = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+            if (confirm(`Are you sure you want to reject ${checked.length} items?`)) {
+                alert('Items rejected and advisors will be notified.');
+            }
+        }
+        
+        function bulkEdit() {
+            alert('Opening bulk edit interface...');
+        }
+        
+        // Select all functionality
+        document.getElementById('selectAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                cb.checked = this.checked;
+                cb.closest('tr').classList.toggle('selected', this.checked);
+            });
+        });
+        
+        // Individual checkbox selection
+        document.querySelectorAll('tbody input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', function() {
+                this.closest('tr').classList.toggle('selected', this.checked);
+                updateSelectedCount();
+            });
+        });
+        
+        function updateSelectedCount() {
+            const count = document.querySelectorAll('tbody input[type="checkbox"]:checked').length;
+            document.querySelector('.batch-controls span').textContent = `${count} items selected`;
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'a' && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                document.getElementById('selectAll').click();
+            }
+            if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                approveSelected();
+            }
+        });
+    </script>
+</body>
+</html>

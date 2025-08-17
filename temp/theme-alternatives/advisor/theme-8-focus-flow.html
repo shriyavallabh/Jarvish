@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Focus Flow - Advisor Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Focus Flow Color Palette - Distraction-Free Creation */
+            --bg-primary: #161B22;
+            --bg-secondary: #0D1117;
+            --bg-tertiary: #21262D;
+            --bg-card: #30363D;
+            --bg-hover: #484F58;
+            
+            --text-primary: #F0F6FC;
+            --text-secondary: #8B949E;
+            --text-tertiary: #6E7681;
+            
+            --accent-focus: #58A6FF;
+            --accent-create: #3FB950;
+            --accent-flow: #A371F7;
+            --accent-warning: #D29922;
+            --accent-danger: #F85149;
+            
+            --border-color: rgba(48, 54, 61, 0.5);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.12);
+            
+            --gradient-focus: linear-gradient(135deg, #58A6FF, #3FB950);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .dashboard-container {
+            max-width: 100%;
+            padding: 0;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Focus Mode Header */
+        .header {
+            background: var(--bg-secondary);
+            padding: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .focus-mode-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            border: 1px solid var(--accent-focus);
+        }
+
+        .focus-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-create);
+            border-radius: 50%;
+            animation: focus-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes focus-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .focus-text {
+            font-size: 12px;
+            color: var(--accent-focus);
+            font-weight: 500;
+        }
+
+        /* Prominent Countdown Timer */
+        .countdown-bar {
+            background: linear-gradient(90deg, var(--bg-tertiary), var(--bg-card));
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-bar::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 70%;
+            background: var(--gradient-focus);
+            animation: countdown-progress 1s ease-in-out;
+        }
+
+        @keyframes countdown-progress {
+            from { width: 0; }
+            to { width: 70%; }
+        }
+
+        .countdown-main {
+            font-size: 32px;
+            font-weight: 700;
+            background: var(--gradient-focus);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+            font-family: 'SF Mono', monospace;
+        }
+
+        .countdown-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Content Creation Zone */
+        .creation-zone {
+            padding: 20px;
+            background: var(--bg-primary);
+            flex: 1;
+        }
+
+        .zone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .zone-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .flow-indicator {
+            display: flex;
+            gap: 4px;
+        }
+
+        .flow-step {
+            width: 24px;
+            height: 4px;
+            background: var(--bg-card);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .flow-step.active {
+            background: var(--accent-focus);
+            width: 32px;
+        }
+
+        .flow-step.completed {
+            background: var(--accent-create);
+        }
+
+        /* Content Composer - Full Focus */
+        .composer-workspace {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .composer-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tool-btn {
+            padding: 8px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tool-btn.active {
+            background: var(--accent-focus);
+            color: white;
+            border-color: var(--accent-focus);
+        }
+
+        .content-textarea {
+            width: 100%;
+            min-height: 200px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .content-textarea:focus {
+            outline: none;
+            border-color: var(--accent-focus);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+        }
+
+        /* AI Suggestions - Inline */
+        .ai-suggestions {
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-flow);
+        }
+
+        .ai-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--accent-flow);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .suggestion-chip {
+            padding: 6px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--accent-focus);
+            color: white;
+            border-color: var(--accent-focus);
+        }
+
+        /* Content Pipeline - Minimal */
+        .pipeline-minimal {
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            margin-bottom: 16px;
+        }
+
+        .pipeline-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .pipeline-stat {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .pipeline-stat.active {
+            border-color: var(--accent-focus);
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 20px;
+            background: var(--bg-primary);
+        }
+
+        .action-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .action-card:active {
+            transform: scale(0.98);
+        }
+
+        .action-icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 8px;
+            color: var(--accent-focus);
+        }
+
+        .action-title {
+            font-size: 13px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .action-desc {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        /* WhatsApp Preview */
+        .whatsapp-preview {
+            padding: 20px;
+            background: var(--bg-secondary);
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .preview-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .preview-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--accent-create);
+        }
+
+        .preview-device {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            max-width: 100%;
+        }
+
+        .preview-message {
+            background: #005C4B;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: white;
+            position: relative;
+        }
+
+        .preview-message::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -7px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid #005C4B;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+        }
+
+        /* Floating Action Button */
+        .fab-container {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 99;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .fab-main {
+            background: var(--gradient-focus);
+            color: white;
+        }
+
+        .fab-secondary {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        /* Bottom Navigation - Simplified */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 8px 0;
+            z-index: 100;
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item.active {
+            color: var(--accent-focus);
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        /* Focus Timer Widget */
+        .focus-timer {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--accent-focus);
+            border-radius: 8px;
+            padding: 12px;
+            display: none;
+            z-index: 98;
+        }
+
+        .focus-timer.active {
+            display: block;
+        }
+
+        .timer-display {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-focus);
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .dashboard-container {
+                max-width: 1200px;
+                padding: 20px;
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .pipeline-stats {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="focus-mode-indicator">
+                    <span class="focus-dot"></span>
+                    <span class="focus-text">Focus Mode Active</span>
+                </div>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+            </div>
+        </header>
+
+        <!-- Countdown Timer -->
+        <div class="countdown-bar">
+            <div class="countdown-main" id="countdown">05:42:18</div>
+            <div class="countdown-label">Until 06:00 IST Deadline</div>
+        </div>
+
+        <!-- Content Creation Zone -->
+        <section class="creation-zone">
+            <div class="zone-header">
+                <h2 class="zone-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                    </svg>
+                    Content Creator
+                </h2>
+                <div class="flow-indicator">
+                    <div class="flow-step completed"></div>
+                    <div class="flow-step active"></div>
+                    <div class="flow-step"></div>
+                    <div class="flow-step"></div>
+                </div>
+            </div>
+
+            <div class="composer-workspace">
+                <div class="composer-toolbar">
+                    <button class="tool-btn active">Market Update</button>
+                    <button class="tool-btn">Investment Tip</button>
+                    <button class="tool-btn">Educational</button>
+                    <button class="tool-btn">Risk Alert</button>
+                    <button class="tool-btn">Success Story</button>
+                </div>
+
+                <textarea class="content-textarea" placeholder="Start creating your content here... Focus on delivering value to your clients.">Today's market volatility presents a unique opportunity for systematic investors. Here's why staying disciplined matters:
+
+1. Market corrections are temporary, but quality investments endure
+2. Rupee cost averaging works best during volatile periods
+3. Focus on asset allocation, not market timing
+
+Remember: Time in the market beats timing the market.</textarea>
+
+                <div class="ai-suggestions">
+                    <div class="ai-label">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+                        </svg>
+                        AI Enhancements
+                    </div>
+                    <div class="suggestion-chips">
+                        <span class="suggestion-chip">Add statistics</span>
+                        <span class="suggestion-chip">Include disclaimer</span>
+                        <span class="suggestion-chip">Simplify language</span>
+                        <span class="suggestion-chip">Add CTA</span>
+                        <span class="suggestion-chip">Localize content</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pipeline Stats -->
+        <section class="pipeline-minimal">
+            <div class="pipeline-stats">
+                <div class="pipeline-stat">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Drafts</div>
+                </div>
+                <div class="pipeline-stat active">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Creating</div>
+                </div>
+                <div class="pipeline-stat">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Ready</div>
+                </div>
+                <div class="pipeline-stat">
+                    <div class="stat-number">45</div>
+                    <div class="stat-label">Sent</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <div class="action-card">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                </svg>
+                <div class="action-title">Schedule</div>
+                <div class="action-desc">Plan ahead</div>
+            </div>
+            <div class="action-card">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <div class="action-title">Compliance</div>
+                <div class="action-desc">Check status</div>
+            </div>
+            <div class="action-card">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+                <div class="action-title">Analytics</div>
+                <div class="action-desc">View insights</div>
+            </div>
+            <div class="action-card">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
+                </svg>
+                <div class="action-title">Templates</div>
+                <div class="action-desc">Quick start</div>
+            </div>
+        </section>
+
+        <!-- WhatsApp Preview -->
+        <section class="whatsapp-preview">
+            <div class="preview-header">
+                <span class="preview-title">WhatsApp Preview</span>
+                <span class="preview-status">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                    Live
+                </span>
+            </div>
+            <div class="preview-device">
+                <div class="preview-message">
+                    Today's market volatility presents a unique opportunity for systematic investors. Here's why staying disciplined matters:
+
+                    1. Market corrections are temporary, but quality investments endure
+                    2. Rupee cost averaging works best during volatile periods
+                    3. Focus on asset allocation, not market timing
+
+                    Remember: Time in the market beats timing the market.
+                </div>
+                <div style="font-size: 10px; color: var(--text-tertiary); text-align: right;">
+                    Delivered to 247 clients
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom padding -->
+        <div style="height: 80px;"></div>
+
+        <!-- Floating Action Buttons -->
+        <div class="fab-container">
+            <div class="fab fab-secondary">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+            </div>
+            <div class="fab fab-main">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Focus Timer Widget -->
+        <div class="focus-timer">
+            <div class="timer-display">25:00</div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-items">
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    <span class="nav-label">Home</span>
+                </div>
+                <div class="nav-item active">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                    </svg>
+                    <span class="nav-label">Create</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                    </svg>
+                    <span class="nav-label">Schedule</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                    <span class="nav-label">Analytics</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span class="nav-label">Profile</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Countdown Timer
+        function updateCountdown() {
+            const now = new Date();
+            const deadline = new Date();
+            deadline.setHours(6, 0, 0, 0);
+            
+            if (now > deadline) {
+                deadline.setDate(deadline.getDate() + 1);
+            }
+            
+            const diff = deadline - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Auto-save indicator
+        let saveTimeout;
+        const textarea = document.querySelector('.content-textarea');
+        textarea.addEventListener('input', () => {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                const focusIndicator = document.querySelector('.focus-text');
+                focusIndicator.textContent = 'Auto-saved';
+                setTimeout(() => {
+                    focusIndicator.textContent = 'Focus Mode Active';
+                }, 2000);
+            }, 1000);
+        });
+
+        // Touch interactions
+        document.querySelectorAll('.tool-btn, .suggestion-chip, .action-card, .nav-item').forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            element.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Tool button switching
+        document.querySelectorAll('.tool-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Suggestion chip interaction
+        document.querySelectorAll('.suggestion-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                const text = this.textContent;
+                // Simulate applying suggestion
+                this.style.background = 'var(--accent-create)';
+                this.style.color = 'white';
+                setTimeout(() => {
+                    this.style.background = '';
+                    this.style.color = '';
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>

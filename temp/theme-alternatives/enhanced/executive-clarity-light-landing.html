@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - Enhanced Executive Clarity Light Theme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Executive Clarity Navy with Gold Accents */
+            --primary-navy: #1E3A8A;
+            --primary-navy-light: #3B52A5;
+            --primary-navy-dark: #0F1F4C;
+            --accent-gold: #CEA200;
+            --accent-gold-light: #E6BC1F;
+            --accent-gold-subtle: rgba(206, 162, 0, 0.1);
+            
+            /* Professional Grays */
+            --gray-50: #FAFBFC;
+            --gray-100: #F4F6F8;
+            --gray-200: #E5E9ED;
+            --gray-300: #D1D7DE;
+            --gray-400: #98A4B3;
+            --gray-500: #6B7785;
+            --gray-600: #4A5563;
+            --gray-700: #2D3643;
+            --gray-800: #1A202C;
+            --gray-900: #0A0E14;
+            
+            /* Semantic Colors */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --info: #3B82F6;
+            
+            /* Typography */
+            --font-headline: 'Fraunces', serif;
+            --font-body: 'Poppins', sans-serif;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+            --shadow-glow: 0 0 30px rgba(206, 162, 0, 0.15);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(180deg, #FFFFFF 0%, var(--gray-50) 100%);
+            color: var(--gray-800);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-200);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-headline);
+            font-size: 1.875rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-navy-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-navy);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-navy-light) 100%);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(206, 162, 0, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-gold-subtle);
+            color: var(--accent-gold);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--accent-gold-light);
+        }
+
+        h1 {
+            font-family: var(--font-headline);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--primary-navy);
+            letter-spacing: -0.03em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        /* AI Workflow Steps */
+        .workflow-steps {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .workflow-step {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .workflow-step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .workflow-step:hover::before {
+            transform: scaleX(1);
+        }
+
+        .workflow-step:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-gold-light);
+        }
+
+        .step-number {
+            background: var(--primary-navy);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .step-text {
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .workflow-arrow {
+            color: var(--gray-400);
+            font-size: 1.25rem;
+        }
+
+        /* Floating Metrics Animation */
+        .metrics-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+            padding: 0 2rem;
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+            animation: float 3s ease-in-out infinite;
+            animation-delay: var(--delay);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:nth-child(1) { --delay: 0s; }
+        .metric-card:nth-child(2) { --delay: 0.5s; }
+        .metric-card:nth-child(3) { --delay: 1s; }
+
+        .metric-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-gold-light);
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-navy), var(--accent-gold));
+        }
+
+        .metric-number {
+            font-family: var(--font-headline);
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-navy-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .metric-label {
+            color: var(--gray-600);
+            font-weight: 500;
+            font-size: 1.125rem;
+        }
+
+        /* Animated Bar Graph */
+        .graph-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            margin: 2rem auto;
+            max-width: 800px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .graph-title {
+            font-family: var(--font-headline);
+            font-size: 1.5rem;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+        }
+
+        .bar-graph {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 200px;
+            gap: 1rem;
+        }
+
+        @keyframes growBar {
+            from { height: 0; }
+            to { height: var(--bar-height); }
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--primary-navy-light) 0%, var(--primary-navy) 100%);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            animation: growBar 1.5s ease-out forwards;
+            animation-delay: var(--bar-delay);
+            transition: all 0.3s ease;
+        }
+
+        .bar:nth-child(1) { --bar-height: 60%; --bar-delay: 0.1s; }
+        .bar:nth-child(2) { --bar-height: 80%; --bar-delay: 0.2s; }
+        .bar:nth-child(3) { --bar-height: 100%; --bar-delay: 0.3s; }
+        .bar:nth-child(4) { --bar-height: 90%; --bar-delay: 0.4s; }
+        .bar:nth-child(5) { --bar-height: 95%; --bar-delay: 0.5s; }
+
+        .bar:hover {
+            background: linear-gradient(180deg, var(--accent-gold-light) 0%, var(--accent-gold) 100%);
+            transform: scaleY(1.05);
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            white-space: nowrap;
+        }
+
+        /* Journey Timeline Section */
+        .journey-section {
+            background: linear-gradient(180deg, var(--gray-50) 0%, white 100%);
+            padding: 5rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .journey-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .journey-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .journey-title {
+            font-family: var(--font-headline);
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .journey-subtitle {
+            color: var(--gray-600);
+            font-size: 1.25rem;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-navy), var(--accent-gold));
+            z-index: 0;
+        }
+
+        .timeline-step {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+            animation: slideIn 0.8s ease-out forwards;
+            animation-delay: var(--step-delay);
+            opacity: 0;
+        }
+
+        .timeline-step:nth-child(1) { --step-delay: 0.2s; }
+        .timeline-step:nth-child(2) { --step-delay: 0.4s; }
+        .timeline-step:nth-child(3) { --step-delay: 0.6s; }
+        .timeline-step:nth-child(4) { --step-delay: 0.8s; }
+
+        .timeline-step:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-gold-light);
+        }
+
+        .timeline-day {
+            background: var(--accent-gold-subtle);
+            color: var(--accent-gold);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 1rem;
+            border: 1px solid var(--accent-gold-light);
+        }
+
+        .timeline-title {
+            font-family: var(--font-headline);
+            font-size: 1.5rem;
+            color: var(--primary-navy);
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 5rem 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            background: var(--accent-gold-subtle);
+            border-radius: 50%;
+            transform: translate(20px, -20px);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-gold-light);
+        }
+
+        .feature-card:hover::after {
+            transform: translate(10px, -10px) scale(1.2);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-navy-light) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-family: var(--font-headline);
+            font-size: 1.5rem;
+            color: var(--primary-navy);
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-navy-light) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(206, 162, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-family: var(--font-headline);
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: white;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-description {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .primary-cta {
+            background: white;
+            color: var(--primary-navy);
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .primary-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+            background: var(--accent-gold-light);
+        }
+
+        .secondary-cta {
+            background: transparent;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-cta:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 3rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-family: var(--font-headline);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--accent-gold-light);
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            padding: 0.25rem 0;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-gold-light);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .workflow-steps {
+                flex-direction: column;
+            }
+
+            .workflow-arrow {
+                display: none;
+            }
+
+            .timeline::before {
+                display: none;
+            }
+
+            .bar-graph {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Jarvish</div>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#journey" class="nav-link">Journey</a>
+                <a href="#compliance" class="nav-link">Compliance</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#" class="cta-button">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">SEBI Registered RIA Platform</div>
+            <h1>Transform Your Advisory Practice with <span class="gradient-text">AI-Powered Excellence</span></h1>
+            <p class="hero-description">
+                Elevate your financial advisory services with enterprise-grade compliance automation and intelligent content generation designed for India's elite advisors.
+            </p>
+
+            <!-- AI Workflow Steps -->
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <span class="step-text">Analyze market trends</span>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <span class="step-text">Generate personalized content</span>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <span class="step-text">Check SEBI compliance</span>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <span class="step-text">Content ready for delivery</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Metrics -->
+    <section class="metrics-container">
+        <div class="metric-card">
+            <div class="metric-number">500+</div>
+            <div class="metric-label">MFDs Transformed</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">99.9%</div>
+            <div class="metric-label">Compliance Rate</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">2.5M</div>
+            <div class="metric-label">Messages Delivered</div>
+        </div>
+    </section>
+
+    <!-- Animated Bar Graph -->
+    <div class="graph-container">
+        <h3 class="graph-title">Advisory Growth Trajectory</h3>
+        <div class="bar-graph">
+            <div class="bar">
+                <span class="bar-label">Week 1</span>
+            </div>
+            <div class="bar">
+                <span class="bar-label">Week 2</span>
+            </div>
+            <div class="bar">
+                <span class="bar-label">Week 3</span>
+            </div>
+            <div class="bar">
+                <span class="bar-label">Week 4</span>
+            </div>
+            <div class="bar">
+                <span class="bar-label">Month 2</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Journey Timeline Section -->
+    <section class="journey-section" id="journey">
+        <div class="journey-container">
+            <div class="journey-header">
+                <h2 class="journey-title">Your Journey from Setup to Scale in 30 Days</h2>
+                <p class="journey-subtitle">Transform your practice with our proven roadmap</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-step">
+                    <div class="timeline-day">Day 1-3</div>
+                    <h3 class="timeline-title">Quick Setup</h3>
+                    <p class="timeline-description">Onboard your practice, configure compliance settings, and import your client base in minutes.</p>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-day">Day 4-10</div>
+                    <h3 class="timeline-title">First Campaign</h3>
+                    <p class="timeline-description">Launch your first AI-powered campaign with pre-approved templates and real-time compliance checks.</p>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-day">Day 11-20</div>
+                    <h3 class="timeline-title">Optimize</h3>
+                    <p class="timeline-description">Analyze performance metrics, refine your content strategy, and enhance client engagement.</p>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-day">Day 21-30</div>
+                    <h3 class="timeline-title">Scale</h3>
+                    <p class="timeline-description">Automate workflows, expand your reach, and achieve 10x productivity with AI assistance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="features" id="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Market Intelligence</h3>
+                <p class="feature-description">Real-time market analysis and insights powered by advanced AI algorithms to keep you ahead of trends.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✍️</div>
+                <h3 class="feature-title">Content Generation</h3>
+                <p class="feature-description">Create personalized, compliant content in seconds with our SEBI-aware AI writing assistant.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✓</div>
+                <h3 class="feature-title">Compliance Automation</h3>
+                <p class="feature-description">Automatic SEBI compliance checking with real-time validation and audit trail generation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">WhatsApp Integration</h3>
+                <p class="feature-description">Seamlessly deliver content to clients through WhatsApp Business API with tracking.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3 class="feature-title">Performance Analytics</h3>
+                <p class="feature-description">Comprehensive dashboards showing engagement metrics and ROI analysis.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 class="feature-title">Enterprise Security</h3>
+                <p class="feature-description">Bank-grade encryption and security protocols to protect your data and client information.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Transform Your Advisory Practice?</h2>
+            <p class="cta-description">Join 500+ financial advisors who have revolutionized their client engagement</p>
+            <div class="cta-buttons">
+                <a href="#" class="primary-cta">Start Free Trial</a>
+                <a href="#" class="secondary-cta">Schedule Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Product</h3>
+                <a href="#" class="footer-link">Features</a>
+                <a href="#" class="footer-link">Pricing</a>
+                <a href="#" class="footer-link">Security</a>
+                <a href="#" class="footer-link">Roadmap</a>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <a href="#" class="footer-link">About Us</a>
+                <a href="#" class="footer-link">Careers</a>
+                <a href="#" class="footer-link">Press</a>
+                <a href="#" class="footer-link">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <a href="#" class="footer-link">Documentation</a>
+                <a href="#" class="footer-link">API Reference</a>
+                <a href="#" class="footer-link">Blog</a>
+                <a href="#" class="footer-link">Support</a>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">SEBI Compliance</a>
+                <a href="#" class="footer-link">Data Protection</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Jarvish. All rights reserved. | SEBI Registered Investment Advisor</p>
+        </div>
+    </footer>
+</body>
+</html>

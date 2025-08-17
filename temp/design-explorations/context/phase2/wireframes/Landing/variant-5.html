@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Let's make compliance feel less complicated. We help Indian financial advisors create SEBI-compliant content that clients actually want to read.">
+    <title>Project One - Your Compliance Partner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #FAF9F7;
+            --surface: #FFFFFF;
+            --primary: #4A904B;
+            --secondary: #5C4033;
+            --accent: #F4A261;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border: #E8E6E3;
+            --success: #4A904B;
+            --warning: #F4A261;
+            --error: #E76F51;
+            --info: #6B9BD1;
+            --cream: #FFFBF5;
+        }
+
+        @font-face {
+            font-family: 'Fraunces';
+            font-weight: 400 700;
+            font-display: swap;
+            src: local('Fraunces'), local('Georgia'), serif;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-20deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes softPulse {
+            0%, 100% { 
+                box-shadow: 0 4px 12px rgba(74, 144, 75, 0.2); 
+            }
+            50% { 
+                box-shadow: 0 4px 20px rgba(74, 144, 75, 0.3); 
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Open Sans', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Fraunces', Georgia, serif;
+            color: var(--secondary);
+            font-weight: 400;
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+        }
+
+        /* Header */
+        header {
+            background: var(--cream);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-name {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .logo-tagline {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 200ms ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-rounded {
+            background: var(--surface);
+            color: var(--text-primary);
+            padding: 0.625rem 1.25rem;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            text-decoration: none;
+            transition: all 200ms ease;
+        }
+
+        .btn-rounded:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--surface);
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 24px;
+            text-decoration: none;
+            transition: all 200ms ease;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(74, 144, 75, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .welcome-badge {
+            display: inline-block;
+            background: var(--surface);
+            padding: 0.75rem 1.25rem;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            font-size: 0.9375rem;
+        }
+
+        .wave-emoji {
+            display: inline-block;
+            margin-left: 0.5rem;
+            animation: wave 1s ease-in-out 2;
+        }
+
+        .hero h1 {
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-green {
+            background: var(--primary);
+            color: var(--surface);
+            padding: 0.875rem 1.75rem;
+            border-radius: 24px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 200ms ease;
+            animation: softPulse 2s ease-in-out infinite;
+        }
+
+        .btn-green:hover {
+            transform: scale(1.02);
+            background: #3D7A3E;
+        }
+
+        .btn-play {
+            background: var(--surface);
+            color: var(--text-primary);
+            padding: 0.875rem 1.75rem;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 200ms ease;
+        }
+
+        .btn-play:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .illustration-box {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #FFE5D9, #FFD7BA);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Trust Section */
+        .trust-section {
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .trust-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .trust-intro {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .trust-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .trust-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(92, 64, 51, 0.1);
+        }
+
+        .trust-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .trust-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* How It Works */
+        .process-section {
+            padding: 4rem 2rem;
+            background: var(--surface);
+        }
+
+        .process-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .process-step {
+            background: var(--background);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .process-step::after {
+            content: '↓';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .process-step:last-child::after {
+            display: none;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--surface);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-left: 64px;
+        }
+
+        /* Features */
+        .features-section {
+            padding: 4rem 2rem;
+        }
+
+        .features-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 200ms ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-illustration {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #B7E4C7, #95D5B2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            margin-bottom: 1rem;
+        }
+
+        .feature-divider {
+            width: 100%;
+            height: 2px;
+            background: var(--border);
+            margin: 1rem 0;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Testimonial */
+        .testimonial-section {
+            padding: 4rem 2rem;
+            background: var(--cream);
+        }
+
+        .testimonial-container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonial-card {
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--background);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .testimonial-quote {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        /* Pricing */
+        .pricing-section {
+            padding: 4rem 2rem;
+        }
+
+        .pricing-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .pricing-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 200ms ease;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: var(--surface);
+            padding: 0.25rem 1rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .pricing-tier {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-subtitle-card {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-period {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-perfect {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 0.25rem 0;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 4rem 2rem;
+            background: var(--cream);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-box {
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .cta-title {
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background: var(--primary);
+            color: var(--surface);
+            padding: 1rem 2.5rem;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 1.125rem;
+            font-weight: 500;
+            display: inline-block;
+            animation: softPulse 2s ease-in-out infinite;
+            transition: all 200ms ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            background: #3D7A3E;
+        }
+
+        .cta-subtext {
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .chat-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .chat-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 2;
+        }
+
+        footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .trust-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav role="navigation" aria-label="Main navigation">
+            <div class="logo">
+                <span class="logo-icon">🌱</span>
+                <div class="logo-text">
+                    <span class="logo-name">Project One</span>
+                    <span class="logo-tagline">Your compliance partner</span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#how">How it Works</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#resources">Resources</a>
+                <a href="#help">Help</a>
+                <a href="#" class="btn-rounded">Hi! Login</a>
+                <a href="#" class="btn-primary">Get Started</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" aria-label="Hero">
+            <div class="hero-content">
+                <div class="welcome-badge">
+                    Welcome, friend! <span class="wave-emoji">👋</span>
+                </div>
+                <h1>Let's make compliance<br>feel less complicated</h1>
+                <p class="hero-description">
+                    We help Indian financial advisors create SEBI-compliant content that clients actually want to read. No stress, no confusion, just simple tools that work.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn-green">Start free for 14 days</a>
+                    <a href="#" class="btn-play">▶ Watch Sarah explain</a>
+                </div>
+                <div class="illustration-box">
+                    [Illustration: Friendly advisor with clients]
+                </div>
+            </div>
+        </section>
+
+        <section class="trust-section" aria-label="Trust">
+            <div class="trust-container">
+                <p class="trust-intro">Some nice things to know about us:</p>
+                <div class="trust-grid">
+                    <div class="trust-card">
+                        <div class="trust-number">500+</div>
+                        <div class="trust-label">Happy<br>Advisors</div>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-number">2.5M</div>
+                        <div class="trust-label">Messages<br>Shared</div>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-number">99.9%</div>
+                        <div class="trust-label">Peace<br>of Mind</div>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-number">12</div>
+                        <div class="trust-label">Languages<br>We Speak</div>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-number">4.9</div>
+                        <div class="trust-label">Stars<br>from You</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="process-section" id="how" aria-label="How It Works">
+            <div class="process-container">
+                <h2 class="section-title">Here's how we make your day easier 🌟</h2>
+                
+                <div class="process-step">
+                    <div class="step-header">
+                        <div class="step-icon">📝</div>
+                        <div class="step-title">Step 1</div>
+                    </div>
+                    <p class="step-description">
+                        <strong>You tell us what you want to share</strong><br>
+                        Type in Hindi, English, or any language you prefer - we understand them all!
+                    </p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-header">
+                        <div class="step-icon">🤖</div>
+                        <div class="step-title">Step 2</div>
+                    </div>
+                    <p class="step-description">
+                        <strong>Our friendly AI helps you craft it</strong><br>
+                        We check SEBI rules instantly so you don't have to worry about compliance issues
+                    </p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-header">
+                        <div class="step-icon">📱</div>
+                        <div class="step-title">Step 3</div>
+                    </div>
+                    <p class="step-description">
+                        <strong>Share with your clients instantly</strong><br>
+                        Send via WhatsApp, LinkedIn, or email - all from one simple dashboard
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section" aria-label="Features">
+            <div class="features-container">
+                <h2 class="section-title">Everything you need, nothing you don't</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-illustration"></div>
+                        <h3 class="feature-title">Smart Writing</h3>
+                        <div class="feature-divider"></div>
+                        <p class="feature-description">
+                            Our AI learns your style and helps you write naturally
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-illustration" style="background: linear-gradient(135deg, #AED9E0, #9DB4C0);"></div>
+                        <h3 class="feature-title">Always Compliant</h3>
+                        <div class="feature-divider"></div>
+                        <p class="feature-description">
+                            Sleep easy knowing every message is SEBI-approved before sending
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-illustration" style="background: linear-gradient(135deg, #FFE5D9, #FFD7BA);"></div>
+                        <h3 class="feature-title">Multi-Language</h3>
+                        <div class="feature-divider"></div>
+                        <p class="feature-description">
+                            Speak to clients in the language they're most comfortable with
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-illustration" style="background: linear-gradient(135deg, #FEC89A, #F4A261);"></div>
+                        <h3 class="feature-title">Clear Analytics</h3>
+                        <div class="feature-divider"></div>
+                        <p class="feature-description">
+                            See what's working with simple charts and friendly insights
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonial-section" aria-label="Testimonial">
+            <div class="testimonial-container">
+                <div class="testimonial-card">
+                    <div class="avatar">👤</div>
+                    <p class="testimonial-quote">
+                        "Before Project One, I spent hours worrying about compliance. Now I focus on what I love - helping my clients grow their wealth. It's like having a compliance expert sitting next to me!"
+                    </p>
+                    <p class="testimonial-author">
+                        Priya Sharma, MFD from Mumbai<br>
+                        Growing her practice since 2019
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing-section" id="pricing" aria-label="Pricing">
+            <div class="pricing-container">
+                <h2 class="section-title">Simple, honest pricing</h2>
+                <p class="pricing-subtitle">(No surprises, we promise! 🤝)</p>
+                
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-tier">Getting Started</div>
+                        <div class="pricing-amount">₹2,999</div>
+                        <div class="pricing-period">per month</div>
+                        <div class="pricing-perfect">Perfect for:</div>
+                        <ul class="pricing-features">
+                            <li>• New MFDs</li>
+                            <li>• 100 posts</li>
+                            <li>• Email help</li>
+                        </ul>
+                        <a href="#" class="btn-rounded">Try free</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <span class="popular-badge">⭐ Popular</span>
+                        <div class="pricing-tier">Growing Practice</div>
+                        <div class="pricing-amount">₹5,999</div>
+                        <div class="pricing-period">per month</div>
+                        <div class="pricing-perfect">Perfect for:</div>
+                        <ul class="pricing-features">
+                            <li>• Active advisors</li>
+                            <li>• 500 posts</li>
+                            <li>• Fast help</li>
+                        </ul>
+                        <a href="#" class="btn-primary">Try free</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <div class="pricing-tier">Leading the Way</div>
+                        <div class="pricing-amount">Let's talk</div>
+                        <div class="pricing-period">&nbsp;</div>
+                        <div class="pricing-perfect">Perfect for:</div>
+                        <ul class="pricing-features">
+                            <li>• Large teams</li>
+                            <li>• Custom needs</li>
+                            <li>• VIP support</li>
+                        </ul>
+                        <a href="#" class="btn-rounded">Chat now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section" aria-label="CTA">
+            <div class="cta-container">
+                <div class="cta-box">
+                    <h2 class="cta-title">Ready to make compliance simple?</h2>
+                    <a href="#" class="cta-button">Start your free trial today 🎉</a>
+                    <p class="cta-subtext">
+                        No credit card needed • Cancel anytime<br>
+                        Questions? <a href="#" class="chat-link">Chat with us! 💬</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            Made with ❤️ in Bangalore • © 2024 Project One • We're here to help!<br>
+            <a href="#">Privacy</a> •
+            <a href="#">Terms</a> •
+            <a href="#">Contact</a> •
+            <a href="#">Blog</a> •
+            <a href="#">Community</a>
+        </p>
+    </footer>
+
+    <a href="#main" class="sr-only">Skip to main content</a>
+</body>
+</html>

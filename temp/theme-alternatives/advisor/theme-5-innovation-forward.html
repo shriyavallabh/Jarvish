@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innovation Forward - Advisor Dashboard</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #14b8a6;
+            --accent: #f43f5e;
+            --success: #22c55e;
+            --warning: #eab308;
+            --error: #ef4444;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --surface-glass: rgba(255, 255, 255, 0.8);
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --gradient-ai: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-tech: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%);
+            --gradient-glow: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.15);
+            --shadow-glow: 0 0 50px rgba(99, 102, 241, 0.3);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --radius-lg: 24px;
+            --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            z-index: -1;
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Futuristic Navigation */
+        .nav-container {
+            background: var(--surface-glass);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-ai);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8); }
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            font-family: var(--font-display);
+            background: var(--gradient-ai);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 16px;
+            right: 16px;
+            height: 2px;
+            background: var(--gradient-ai);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-assistant-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--gradient-ai);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ai-assistant-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .ai-pulse {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.5); }
+        }
+
+        .profile-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .profile-chip:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gradient-tech);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* Main Dashboard */
+        .dashboard-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* AI Insights Panel */
+        .ai-insights {
+            background: var(--gradient-ai);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            color: white;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-insights::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .ai-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .ai-title {
+            font-size: 28px;
+            font-weight: 700;
+            font-family: var(--font-display);
+            margin-bottom: 8px;
+        }
+
+        .ai-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .ai-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .ai-stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+        }
+
+        .ai-stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .ai-stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            font-family: var(--font-display);
+            margin-bottom: 4px;
+        }
+
+        .ai-stat-desc {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .ai-recommendation {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .ai-message {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        /* Live Metrics Dashboard */
+        .metrics-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .metric-widget {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .metric-widget:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-light);
+        }
+
+        .metric-widget::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .metric-widget.primary::before {
+            background: var(--gradient-ai);
+        }
+
+        .metric-widget.success::before {
+            background: linear-gradient(90deg, var(--success) 0%, var(--secondary) 100%);
+        }
+
+        .metric-widget.warning::before {
+            background: linear-gradient(90deg, var(--warning) 0%, var(--accent) 100%);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .metric-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+
+        .metric-live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .metric-main {
+            font-size: 36px;
+            font-weight: 700;
+            font-family: var(--font-display);
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .metric-chart {
+            height: 60px;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.1) 0%, transparent 100%);
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        .trend-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
+        }
+
+        .trend-up {
+            color: var(--success);
+        }
+
+        .trend-down {
+            color: var(--error);
+        }
+
+        /* Smart Actions Grid */
+        .smart-actions {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .smart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .smart-title {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: var(--font-display);
+        }
+
+        .smart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .smart-card {
+            background: var(--background);
+            border: 2px solid transparent;
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .smart-card:hover {
+            border-color: var(--primary);
+            background: var(--surface);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .smart-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: var(--gradient-ai);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            transform: rotate(45deg);
+        }
+
+        .smart-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .smart-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .smart-icon.gradient {
+            background: var(--gradient-ai);
+        }
+
+        .smart-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Activity Stream */
+        .activity-stream {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+        }
+
+        .stream-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .stream-title {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: var(--font-display);
+        }
+
+        .stream-filter {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-chip {
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .stream-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .stream-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: var(--background);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .stream-item:hover {
+            background: var(--surface);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stream-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .stream-icon.ai {
+            background: var(--gradient-ai);
+        }
+
+        .stream-icon.success {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success);
+        }
+
+        .stream-icon.info {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .stream-content {
+            flex: 1;
+        }
+
+        .stream-event {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .stream-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .stream-time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Countdown Timer */
+        .countdown-widget {
+            position: fixed;
+            top: 100px;
+            right: 24px;
+            background: var(--gradient-tech);
+            color: white;
+            padding: 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+            z-index: 90;
+            min-width: 160px;
+            text-align: center;
+        }
+
+        .countdown-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .countdown-timer {
+            font-size: 28px;
+            font-weight: 700;
+            font-family: var(--font-display);
+            letter-spacing: -1px;
+        }
+
+        /* Chat FAB */
+        .chat-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-ai);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            box-shadow: var(--shadow-xl);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .chat-fab:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .ai-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .countdown-widget {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .dashboard-main {
+                padding: 16px;
+            }
+
+            .ai-insights {
+                padding: 20px;
+            }
+
+            .ai-title {
+                font-size: 22px;
+            }
+
+            .smart-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .stream-filter {
+                display: none;
+            }
+
+            .profile-chip span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-content">
+            <div class="nav-left">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <span style="color: white; font-weight: 700; font-size: 20px;">AI</span>
+                    </div>
+                    <div class="logo-text">FinComm AI</div>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-link active">Dashboard</a></li>
+                    <li><a href="#" class="nav-link">AI Studio</a></li>
+                    <li><a href="#" class="nav-link">Analytics</a></li>
+                    <li><a href="#" class="nav-link">Automation</a></li>
+                    <li><a href="#" class="nav-link">Insights</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <button class="ai-assistant-btn">
+                    <span class="ai-pulse"></span>
+                    <span>AI Assistant</span>
+                </button>
+                <div class="profile-chip">
+                    <div class="profile-pic">RN</div>
+                    <span style="font-weight: 500; font-size: 13px; padding-right: 8px;">Rohan</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard-main">
+        <!-- AI Insights Panel -->
+        <section class="ai-insights">
+            <div class="ai-content">
+                <div class="ai-header">
+                    <div>
+                        <h1 class="ai-title">AI-Powered Morning Brief</h1>
+                        <p class="ai-subtitle">Your intelligent content is ready for delivery</p>
+                    </div>
+                </div>
+                <div class="ai-stats">
+                    <div class="ai-stat-card">
+                        <div class="ai-stat-label">Content Ready</div>
+                        <div class="ai-stat-value">5/5</div>
+                        <div class="ai-stat-desc">AI-optimized for engagement</div>
+                    </div>
+                    <div class="ai-stat-card">
+                        <div class="ai-stat-label">Predicted Engagement</div>
+                        <div class="ai-stat-value">87%</div>
+                        <div class="ai-stat-desc">+15% vs baseline</div>
+                    </div>
+                    <div class="ai-stat-card">
+                        <div class="ai-stat-label">Smart Recipients</div>
+                        <div class="ai-stat-value">312</div>
+                        <div class="ai-stat-desc">AI-segmented groups</div>
+                    </div>
+                    <div class="ai-stat-card">
+                        <div class="ai-stat-label">Compliance Score</div>
+                        <div class="ai-stat-value">99.2%</div>
+                        <div class="ai-stat-desc">Auto-validated</div>
+                    </div>
+                </div>
+                <div class="ai-recommendation">
+                    <div class="ai-icon">💡</div>
+                    <div class="ai-message">
+                        <strong>AI Insight:</strong> Based on current market sentiment, consider adding a brief note about Independence Day investment opportunities. This could boost engagement by 12%.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Metrics Dashboard -->
+        <div class="metrics-dashboard">
+            <div class="metric-widget primary">
+                <div class="metric-header">
+                    <div class="metric-title">WhatsApp Health</div>
+                    <div class="metric-live">
+                        <span class="live-dot"></span>
+                        <span>LIVE</span>
+                    </div>
+                </div>
+                <div class="metric-main">99.8%</div>
+                <div class="metric-chart"></div>
+                <div class="metric-trend">
+                    <span class="trend-indicator trend-up">↑ 0.3%</span>
+                    <span style="color: var(--text-muted); font-size: 12px;">Optimal</span>
+                </div>
+            </div>
+
+            <div class="metric-widget success">
+                <div class="metric-header">
+                    <div class="metric-title">AI Content Score</div>
+                    <div class="metric-live">
+                        <span class="live-dot"></span>
+                        <span>LIVE</span>
+                    </div>
+                </div>
+                <div class="metric-main">94/100</div>
+                <div class="metric-chart"></div>
+                <div class="metric-trend">
+                    <span class="trend-indicator trend-up">↑ 8 pts</span>
+                    <span style="color: var(--text-muted); font-size: 12px;">Excellent</span>
+                </div>
+            </div>
+
+            <div class="metric-widget warning">
+                <div class="metric-header">
+                    <div class="metric-title">Automation Active</div>
+                    <div class="metric-live">
+                        <span class="live-dot"></span>
+                        <span>LIVE</span>
+                    </div>
+                </div>
+                <div class="metric-main">12/15</div>
+                <div class="metric-chart"></div>
+                <div class="metric-trend">
+                    <span class="trend-indicator trend-up">↑ 3 new</span>
+                    <span style="color: var(--text-muted); font-size: 12px;">Workflows</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Smart Actions -->
+        <div class="smart-actions">
+            <div class="smart-header">
+                <h2 class="smart-title">Smart Actions</h2>
+            </div>
+            <div class="smart-grid">
+                <div class="smart-card">
+                    <div class="smart-icon gradient">🤖</div>
+                    <div class="smart-label">AI Create</div>
+                </div>
+                <div class="smart-card">
+                    <div class="smart-icon gradient">📊</div>
+                    <div class="smart-label">Analytics</div>
+                </div>
+                <div class="smart-card">
+                    <div class="smart-icon gradient">🎯</div>
+                    <div class="smart-label">Targeting</div>
+                </div>
+                <div class="smart-card">
+                    <div class="smart-icon gradient">⚡</div>
+                    <div class="smart-label">Automate</div>
+                </div>
+                <div class="smart-card">
+                    <div class="smart-icon gradient">🧠</div>
+                    <div class="smart-label">AI Insights</div>
+                </div>
+                <div class="smart-card">
+                    <div class="smart-icon gradient">🎨</div>
+                    <div class="smart-label">Templates</div>
+                </div>
+                <div class="smart-card">
+                    <div class="smart-icon gradient">📱</div>
+                    <div class="smart-label">WhatsApp</div>
+                </div>
+                <div class="smart-card">
+                    <div class="smart-icon gradient">⚙️</div>
+                    <div class="smart-label">Settings</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Stream -->
+        <div class="activity-stream">
+            <div class="stream-header">
+                <h3 class="stream-title">Activity Stream</h3>
+                <div class="stream-filter">
+                    <button class="filter-chip active">All</button>
+                    <button class="filter-chip">AI</button>
+                    <button class="filter-chip">System</button>
+                </div>
+            </div>
+            <div class="stream-list">
+                <div class="stream-item">
+                    <div class="stream-icon ai">🤖</div>
+                    <div class="stream-content">
+                        <div class="stream-event">AI Content Generation Complete</div>
+                        <div class="stream-desc">5 pieces optimized for maximum engagement</div>
+                        <div class="stream-time">2 minutes ago</div>
+                    </div>
+                </div>
+                <div class="stream-item">
+                    <div class="stream-icon success">✅</div>
+                    <div class="stream-content">
+                        <div class="stream-event">Compliance Auto-Check Passed</div>
+                        <div class="stream-desc">All content verified against SEBI guidelines</div>
+                        <div class="stream-time">15 minutes ago</div>
+                    </div>
+                </div>
+                <div class="stream-item">
+                    <div class="stream-icon info">📈</div>
+                    <div class="stream-content">
+                        <div class="stream-event">Predictive Analytics Updated</div>
+                        <div class="stream-desc">87% engagement predicted for today's pack</div>
+                        <div class="stream-time">1 hour ago</div>
+                    </div>
+                </div>
+                <div class="stream-item">
+                    <div class="stream-icon ai">🧠</div>
+                    <div class="stream-content">
+                        <div class="stream-event">AI Learning Complete</div>
+                        <div class="stream-desc">Model updated with yesterday's performance data</div>
+                        <div class="stream-time">3 hours ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Countdown Widget -->
+    <div class="countdown-widget">
+        <div class="countdown-label">Delivery In</div>
+        <div class="countdown-timer" id="timer">02:34:15</div>
+    </div>
+
+    <!-- Chat FAB -->
+    <button class="chat-fab">💬</button>
+
+    <script>
+        // Countdown Timer
+        function updateTimer() {
+            const now = new Date();
+            const target = new Date();
+            target.setHours(6, 0, 0, 0);
+            
+            if (now > target) {
+                target.setDate(target.getDate() + 1);
+            }
+            
+            const diff = target - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            const timer = document.getElementById('timer');
+            if (timer) {
+                timer.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // Animate metrics
+        document.querySelectorAll('.metric-chart').forEach(chart => {
+            const gradient = document.createElement('div');
+            gradient.style.height = '100%';
+            gradient.style.background = 'linear-gradient(90deg, transparent 0%, rgba(99, 102, 241, 0.3) 50%, transparent 100%)';
+            gradient.style.animation = 'slideChart 3s linear infinite';
+            chart.appendChild(gradient);
+        });
+
+        // Add chart animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideChart {
+                from { transform: translateX(-100%); }
+                to { transform: translateX(100%); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Clarity Dark - Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-bg: #0A0E1A;
+            --secondary-bg: #141824;
+            --card-bg: #1A1F2E;
+            --sidebar-bg: #0D1117;
+            --text-primary: #E8E9ED;
+            --text-secondary: #B4B7C1;
+            --gold-primary: #F0C674;
+            --gold-secondary: #E4C441;
+            --gold-light: #FFE4A3;
+            --navy-dark: #4A7BA7;
+            --navy-light: #6FA0D0;
+            --success: #4ADE80;
+            --warning: #FCD34D;
+            --error: #F87171;
+            --info: #60A5FA;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-role {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .nav-menu {
+            flex: 1;
+            padding: 1.5rem 0;
+            overflow-y: auto;
+        }
+        
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+        
+        .nav-section-title {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 2rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            background: rgba(240, 198, 116, 0.05);
+            color: var(--gold-primary);
+        }
+        
+        .nav-item.active {
+            background: rgba(240, 198, 116, 0.1);
+            color: var(--gold-primary);
+        }
+        
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--gold-primary);
+        }
+        
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: var(--gold-primary);
+            color: var(--primary-bg);
+            padding: 0.125rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .header-button {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .header-button:hover {
+            border-color: var(--gold-primary);
+            color: var(--gold-primary);
+            background: rgba(240, 198, 116, 0.05);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .user-menu:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary-bg);
+        }
+        
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 2rem;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: slideUp 0.6s ease-out;
+            animation-delay: calc(var(--card-index) * 0.1s);
+            animation-fill-mode: both;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
+            border-color: var(--gold-primary);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(240, 198, 116, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-title {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(240, 198, 116, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-primary);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.813rem;
+            font-weight: 600;
+        }
+        
+        .stat-change.positive {
+            background: rgba(74, 222, 128, 0.1);
+            color: var(--success);
+        }
+        
+        .stat-change.negative {
+            background: rgba(248, 113, 113, 0.1);
+            color: var(--error);
+        }
+        
+        /* Charts Section */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chart-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .chart-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chart-option {
+            padding: 0.375rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.813rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .chart-option.active {
+            background: rgba(240, 198, 116, 0.1);
+            border-color: var(--gold-primary);
+            color: var(--gold-primary);
+        }
+        
+        .chart-option:hover {
+            border-color: var(--gold-primary);
+            color: var(--gold-primary);
+        }
+        
+        /* Animated Bar Chart */
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 200px;
+            padding: 1rem 0;
+        }
+        
+        .bar {
+            flex: 1;
+            margin: 0 0.5rem;
+            background: linear-gradient(180deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            animation: growBar 1s ease-out forwards;
+            animation-delay: calc(var(--bar-index) * 0.1s);
+            height: 0;
+            opacity: 0.9;
+            transition: opacity 0.2s ease;
+        }
+        
+        @keyframes growBar {
+            to {
+                height: var(--bar-height);
+            }
+        }
+        
+        .bar:hover {
+            opacity: 1;
+        }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+        
+        /* Activity List */
+        .activity-list {
+            list-style: none;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            animation: fadeIn 0.5s ease-out;
+            animation-delay: calc(var(--item-index) * 0.1s);
+            animation-fill-mode: both;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            margin-top: 0.5rem;
+            flex-shrink: 0;
+        }
+        
+        .activity-indicator.success {
+            background: var(--success);
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+        
+        .activity-indicator.warning {
+            background: var(--warning);
+            box-shadow: 0 0 10px rgba(252, 211, 77, 0.5);
+        }
+        
+        .activity-indicator.info {
+            background: var(--info);
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-time {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+        
+        /* Data Table */
+        .table-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .table-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .btn-action {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-secondary) 0%, var(--gold-primary) 100%);
+            color: var(--primary-bg);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(240, 198, 116, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--gold-primary);
+            color: var(--gold-primary);
+            background: rgba(240, 198, 116, 0.05);
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        th {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.813rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        td {
+            padding: 1rem 1.5rem;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        tbody tr {
+            transition: background 0.2s ease;
+        }
+        
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-badge.active {
+            background: rgba(74, 222, 128, 0.1);
+            color: var(--success);
+        }
+        
+        .status-badge.pending {
+            background: rgba(252, 211, 77, 0.1);
+            color: var(--warning);
+        }
+        
+        .status-badge.inactive {
+            background: rgba(248, 113, 113, 0.1);
+            color: var(--error);
+        }
+        
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .dashboard-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Executive Clarity</div>
+            <div class="admin-role">Admin Dashboard</div>
+        </div>
+        
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <div class="nav-section-title">Main</div>
+                <a href="#" class="nav-item active">
+                    <span class="nav-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span>Advisors</span>
+                    <span class="nav-badge">247</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📝</span>
+                    <span>Content</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Management</div>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">✓</span>
+                    <span>Compliance</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">💳</span>
+                    <span>Billing</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">🔔</span>
+                    <span>Notifications</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">🎯</span>
+                    <span>Campaigns</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">System</div>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">🔒</span>
+                    <span>Security</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📚</span>
+                    <span>API Docs</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="mobile-menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('active')">
+                    ☰
+                </button>
+                <h1 class="page-title">Dashboard Overview</h1>
+            </div>
+            
+            <div class="header-right">
+                <button class="header-button">
+                    <span>🔔</span>
+                    <span>Alerts</span>
+                </button>
+                <button class="header-button">
+                    <span>📥</span>
+                    <span>Export</span>
+                </button>
+                <div class="user-menu">
+                    <div class="user-avatar">AD</div>
+                    <div>
+                        <div style="font-size: 0.875rem; font-weight: 500;">Admin User</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">admin@executive.com</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card" style="--card-index: 0;">
+                    <div class="stat-header">
+                        <div class="stat-title">Total Advisors</div>
+                        <div class="stat-icon">👥</div>
+                    </div>
+                    <div class="stat-value">2,847</div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>12.5% from last month</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card" style="--card-index: 1;">
+                    <div class="stat-header">
+                        <div class="stat-title">Active Users</div>
+                        <div class="stat-icon">✓</div>
+                    </div>
+                    <div class="stat-value">1,923</div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>8.3% from last week</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card" style="--card-index: 2;">
+                    <div class="stat-header">
+                        <div class="stat-title">Content Generated</div>
+                        <div class="stat-icon">📝</div>
+                    </div>
+                    <div class="stat-value">45.2K</div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>23.1% increase</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card" style="--card-index: 3;">
+                    <div class="stat-header">
+                        <div class="stat-title">Compliance Score</div>
+                        <div class="stat-icon">🛡️</div>
+                    </div>
+                    <div class="stat-value">98.7%</div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>0.3% improvement</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h2 class="chart-title">Platform Growth</h2>
+                        <div class="chart-options">
+                            <button class="chart-option active">Weekly</button>
+                            <button class="chart-option">Monthly</button>
+                            <button class="chart-option">Yearly</button>
+                        </div>
+                    </div>
+                    <div class="bar-chart">
+                        <div class="bar" style="--bar-height: 65%; --bar-index: 0;">
+                            <span class="bar-label">Mon</span>
+                        </div>
+                        <div class="bar" style="--bar-height: 78%; --bar-index: 1;">
+                            <span class="bar-label">Tue</span>
+                        </div>
+                        <div class="bar" style="--bar-height: 52%; --bar-index: 2;">
+                            <span class="bar-label">Wed</span>
+                        </div>
+                        <div class="bar" style="--bar-height: 89%; --bar-index: 3;">
+                            <span class="bar-label">Thu</span>
+                        </div>
+                        <div class="bar" style="--bar-height: 94%; --bar-index: 4;">
+                            <span class="bar-label">Fri</span>
+                        </div>
+                        <div class="bar" style="--bar-height: 72%; --bar-index: 5;">
+                            <span class="bar-label">Sat</span>
+                        </div>
+                        <div class="bar" style="--bar-height: 45%; --bar-index: 6;">
+                            <span class="bar-label">Sun</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h2 class="chart-title">Recent Activity</h2>
+                    </div>
+                    <ul class="activity-list">
+                        <li class="activity-item" style="--item-index: 0;">
+                            <div class="activity-indicator success"></div>
+                            <div class="activity-content">
+                                <div class="activity-title">New advisor registered</div>
+                                <div class="activity-description">Rajesh Kumar from Mumbai</div>
+                                <div class="activity-time">2 minutes ago</div>
+                            </div>
+                        </li>
+                        <li class="activity-item" style="--item-index: 1;">
+                            <div class="activity-indicator warning"></div>
+                            <div class="activity-content">
+                                <div class="activity-title">Compliance review pending</div>
+                                <div class="activity-description">15 content pieces awaiting review</div>
+                                <div class="activity-time">15 minutes ago</div>
+                            </div>
+                        </li>
+                        <li class="activity-item" style="--item-index: 2;">
+                            <div class="activity-indicator info"></div>
+                            <div class="activity-content">
+                                <div class="activity-title">System update completed</div>
+                                <div class="activity-description">AI model v2.5 deployed</div>
+                                <div class="activity-time">1 hour ago</div>
+                            </div>
+                        </li>
+                        <li class="activity-item" style="--item-index: 3;">
+                            <div class="activity-indicator success"></div>
+                            <div class="activity-content">
+                                <div class="activity-title">Milestone reached</div>
+                                <div class="activity-description">50K content pieces generated</div>
+                                <div class="activity-time">3 hours ago</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Data Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h2 class="table-title">Top Performing Advisors</h2>
+                    <div class="table-actions">
+                        <button class="btn-action btn-secondary">Filter</button>
+                        <button class="btn-action btn-primary">View All</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Content Created</th>
+                                <th>Engagement Rate</th>
+                                <th>Compliance Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Priya Sharma</td>
+                                <td>Delhi</td>
+                                <td>342</td>
+                                <td>87.5%</td>
+                                <td>99.2%</td>
+                                <td><span class="status-badge active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Amit Patel</td>
+                                <td>Mumbai</td>
+                                <td>298</td>
+                                <td>82.3%</td>
+                                <td>98.8%</td>
+                                <td><span class="status-badge active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sanjay Verma</td>
+                                <td>Bangalore</td>
+                                <td>276</td>
+                                <td>79.1%</td>
+                                <td>99.5%</td>
+                                <td><span class="status-badge active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Neha Gupta</td>
+                                <td>Chennai</td>
+                                <td>251</td>
+                                <td>91.2%</td>
+                                <td>97.9%</td>
+                                <td><span class="status-badge pending">Under Review</span></td>
+                            </tr>
+                            <tr>
+                                <td>Rahul Singh</td>
+                                <td>Pune</td>
+                                <td>239</td>
+                                <td>85.7%</td>
+                                <td>99.1%</td>
+                                <td><span class="status-badge active">Active</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

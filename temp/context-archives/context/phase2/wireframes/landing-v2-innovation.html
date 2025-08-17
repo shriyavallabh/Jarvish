@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project One - Innovation Engine | Next-Gen FinTech Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Innovation Engine Palette - Silicon Valley Inspired */
+            --engine-void: #030712;           /* Deep tech black */
+            --engine-neon: #00F5FF;           /* Electric cyan */
+            --engine-plasma: #7C3AED;         /* Electric purple */
+            --engine-quantum: #10B981;        /* Quantum green */
+            --engine-frost: #F8FAFC;          /* Pure white */
+            --engine-graphite: #475569;       /* Tech gray */
+            --engine-crimson: #EF4444;        /* Alert red */
+            --engine-amber: #F59E0B;          /* Warning amber */
+            --engine-slate: #1E293B;          /* Secondary dark */
+            
+            /* Typography */
+            --font-primary: "Poppins", system-ui, sans-serif;
+            --font-display: "Fraunces", Georgia, serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--engine-void);
+            color: var(--engine-frost);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 245, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .bg-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--engine-neon);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 60%; top: 40%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 80%; top: 70%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 90%; top: 10%; animation-delay: 4s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+        }
+        
+        /* Futuristic Navigation */
+        .engine-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(3, 7, 18, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 245, 255, 0.2);
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .engine-logo {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--engine-frost);
+            text-decoration: none;
+            position: relative;
+            padding: 8px 16px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .engine-logo::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--engine-neon), var(--engine-plasma), var(--engine-quantum));
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .engine-logo:hover::before {
+            opacity: 0.2;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--engine-frost);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-links a::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+        
+        .engine-cta {
+            background: linear-gradient(135deg, var(--engine-neon) 0%, var(--engine-plasma) 100%);
+            color: var(--engine-void);
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .engine-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 245, 255, 0.3);
+        }
+        
+        /* Hero Section */
+        .engine-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 80px;
+        }
+        
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 245, 255, 0.1);
+            color: var(--engine-neon);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 245, 255, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(0, 245, 255, 0); }
+        }
+        
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 96px;
+            font-weight: 900;
+            color: var(--engine-frost);
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--engine-frost) 0%, var(--engine-neon) 50%, var(--engine-plasma) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.2); }
+        }
+        
+        .hero-subtitle {
+            font-size: 32px;
+            color: var(--engine-graphite);
+            margin-bottom: 24px;
+            font-weight: 300;
+            line-height: 1.2;
+        }
+        
+        .hero-description {
+            font-size: 20px;
+            color: var(--engine-graphite);
+            margin-bottom: 48px;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-bottom: 80px;
+        }
+        
+        .engine-primary {
+            background: linear-gradient(135deg, var(--engine-neon) 0%, var(--engine-quantum) 100%);
+            color: var(--engine-void);
+            padding: 20px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .engine-primary::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .engine-primary:hover::before {
+            left: 100%;
+        }
+        
+        .engine-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 48px rgba(0, 245, 255, 0.4);
+        }
+        
+        .engine-secondary {
+            background: transparent;
+            color: var(--engine-neon);
+            padding: 20px 40px;
+            border: 2px solid var(--engine-neon);
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .engine-secondary::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--engine-neon);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+        
+        .engine-secondary:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .engine-secondary:hover {
+            color: var(--engine-void);
+        }
+        
+        /* Tech Dashboard */
+        .tech-dashboard {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(3, 7, 18, 0.8);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 80px rgba(0, 245, 255, 0.2);
+            backdrop-filter: blur(20px);
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--engine-slate) 0%, var(--engine-void) 100%);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(0, 245, 255, 0.2);
+        }
+        
+        .terminal-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .control-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .control-dot.close { background: var(--engine-crimson); }
+        .control-dot.minimize { background: var(--engine-amber); }
+        .control-dot.maximize { background: var(--engine-quantum); }
+        
+        .dashboard-title {
+            color: var(--engine-neon);
+            font-weight: 600;
+            font-size: 16px;
+            font-family: monospace;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--engine-quantum);
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--engine-quantum);
+            border-radius: 50%;
+            animation: blink 1s ease-in-out infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        .dashboard-content {
+            padding: 32px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: rgba(0, 245, 255, 0.05);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 245, 255, 0.1);
+        }
+        
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--engine-neon);
+            margin-bottom: 8px;
+            animation: countUp 2s ease-out;
+        }
+        
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--engine-graphite);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .terminal-output {
+            background: rgba(3, 7, 18, 0.8);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            font-family: monospace;
+            font-size: 14px;
+            color: var(--engine-quantum);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .terminal-line {
+            margin-bottom: 8px;
+            animation: typewriter 0.1s ease-out;
+        }
+        
+        .terminal-line:nth-child(1) { animation-delay: 0.1s; }
+        .terminal-line:nth-child(2) { animation-delay: 0.3s; }
+        .terminal-line:nth-child(3) { animation-delay: 0.5s; }
+        .terminal-line:nth-child(4) { animation-delay: 0.7s; }
+        
+        @keyframes typewriter {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .cursor {
+            display: inline-block;
+            background: var(--engine-neon);
+            width: 8px;
+            height: 16px;
+            animation: blink 1s infinite;
+        }
+        
+        /* Features Section */
+        .engine-features {
+            padding: 120px 0;
+            background: var(--engine-void);
+        }
+        
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .section-badge {
+            display: inline-block;
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--engine-plasma);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 64px;
+            font-weight: 800;
+            color: var(--engine-frost);
+            margin-bottom: 24px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--engine-frost) 0%, var(--engine-plasma) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-description {
+            font-size: 20px;
+            color: var(--engine-graphite);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        
+        .feature-engine {
+            background: rgba(3, 7, 18, 0.8);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-engine::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 245, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .feature-engine:hover::before {
+            opacity: 1;
+        }
+        
+        .feature-engine:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 245, 255, 0.2);
+        }
+        
+        .feature-icon-engine {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--engine-neon) 0%, var(--engine-plasma) 100%);
+            border-radius: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--engine-void);
+            font-weight: 700;
+        }
+        
+        .feature-title-engine {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--engine-frost);
+            margin-bottom: 16px;
+        }
+        
+        .feature-description-engine {
+            font-size: 16px;
+            color: var(--engine-graphite);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .feature-link {
+            color: var(--engine-neon);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+        
+        .feature-link:hover {
+            color: var(--engine-plasma);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 72px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 16px 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 48px;
+            }
+            
+            .hero-subtitle {
+                font-size: 24px;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 42px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-grid"></div>
+        <div class="bg-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="engine-nav">
+        <div class="nav-container">
+            <a href="#" class="engine-logo">Project One</a>
+            <ul class="nav-links">
+                <li><a href="#ai">AI Engine</a></li>
+                <li><a href="#quantum">Quantum</a></li>
+                <li><a href="#neural">Neural</a></li>
+                <li><a href="#matrix">Matrix</a></li>
+            </ul>
+            <a href="#launch" class="engine-cta">Launch Beta</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="engine-hero">
+        <div class="hero-container">
+            <div class="hero-badge">
+                ⚡ Next-Gen FinTech Intelligence
+            </div>
+            <h1 class="hero-title">Innovation Engine</h1>
+            <p class="hero-subtitle">AI-Powered Financial Intelligence Platform</p>
+            <p class="hero-description">
+                Revolutionary machine learning algorithms meet institutional-grade compliance. 
+                Built for the future of financial advisory services in the age of artificial intelligence.
+            </p>
+            <div class="hero-actions">
+                <a href="#demo" class="engine-primary">Initialize System</a>
+                <a href="#tech" class="engine-secondary">View Tech Stack</a>
+            </div>
+            
+            <div class="tech-dashboard">
+                <div class="dashboard-header">
+                    <div class="terminal-controls">
+                        <div class="control-dot close"></div>
+                        <div class="control-dot minimize"></div>
+                        <div class="control-dot maximize"></div>
+                    </div>
+                    <div class="dashboard-title">project-one-intelligence-v2.1.0</div>
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        <span>SYSTEM ONLINE</span>
+                    </div>
+                </div>
+                <div class="dashboard-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">99.97%</div>
+                            <div class="stat-label">AI Accuracy</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">847K</div>
+                            <div class="stat-label">Neural Paths</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">Auto-Learning</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">∞</div>
+                            <div class="stat-label">Scalability</div>
+                        </div>
+                    </div>
+                    <div class="terminal-output">
+                        <div class="terminal-line">$ initializing quantum-compliance-engine...</div>
+                        <div class="terminal-line">$ loading neural-market-analysis-v3.2...</div>
+                        <div class="terminal-line">$ connecting-to-sebi-regulatory-matrix...</div>
+                        <div class="terminal-line">$ system-ready: all-modules-operational <span class="cursor"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="engine-features">
+        <div class="features-container">
+            <div class="section-header">
+                <div class="section-badge">Innovation Suite</div>
+                <h2 class="section-title">Quantum Intelligence</h2>
+                <p class="section-description">
+                    Next-generation technology stack designed for the future of financial services.
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-engine">
+                    <div class="feature-icon-engine">🧠</div>
+                    <h3 class="feature-title-engine">Neural Processing</h3>
+                    <p class="feature-description-engine">
+                        Advanced neural networks with deep learning capabilities. Process millions of data points 
+                        in real-time with quantum-level precision and accuracy.
+                    </p>
+                    <a href="#neural" class="feature-link">Explore Neural Tech →</a>
+                </div>
+                <div class="feature-engine">
+                    <div class="feature-icon-engine">⚡</div>
+                    <h3 class="feature-title-engine">Quantum Compliance</h3>
+                    <p class="feature-description-engine">
+                        Revolutionary compliance engine powered by quantum algorithms. 
+                        Zero-latency regulatory monitoring with predictive violation detection.
+                    </p>
+                    <a href="#quantum" class="feature-link">View Quantum Suite →</a>
+                </div>
+                <div class="feature-engine">
+                    <div class="feature-icon-engine">🌐</div>
+                    <h3 class="feature-title-engine">Matrix Intelligence</h3>
+                    <p class="feature-description-engine">
+                        Global financial data matrix with real-time analytics. 
+                        Connect to 100+ exchanges and process petabytes of market intelligence.
+                    </p>
+                    <a href="#matrix" class="feature-link">Access Matrix →</a>
+                </div>
+                <div class="feature-engine">
+                    <div class="feature-icon-engine">🚀</div>
+                    <h3 class="feature-title-engine">Hyper Automation</h3>
+                    <p class="feature-description-engine">
+                        Autonomous content generation with self-learning algorithms. 
+                        Evolves with market conditions and adapts to regulatory changes instantly.
+                    </p>
+                    <a href="#automation" class="feature-link">Launch Automation →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

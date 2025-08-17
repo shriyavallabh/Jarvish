@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Hub - Project One Advisor Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Elite Hub Palette - Premium Executive */
+            --elite-obsidian: #0F1419;         /* Deep executive black */
+            --elite-platinum: #FAFBFC;         /* Premium white */
+            --elite-gold: #F7931E;             /* Executive gold */
+            --elite-emerald: #059669;          /* Trust emerald */
+            --elite-sapphire: #1E3A8A;         /* Executive sapphire */
+            --elite-pearl: #FFFFFF;            /* Pure white */
+            --elite-graphite: #4B5563;         /* Sophisticated gray */
+            --elite-crimson: #DC2626;          /* Alert red */
+            --elite-silver: #F3F4F6;           /* Light silver */
+            --elite-navy: #1E293B;             /* Executive navy */
+            
+            /* Typography */
+            --font-primary: "Poppins", system-ui, sans-serif;
+            --font-display: "Fraunces", Georgia, serif;
+            --font-mono: "SF Mono", "Monaco", "Inconsolata", monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--elite-platinum);
+            color: var(--elite-obsidian);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Elegant Background */
+        .elite-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, 
+                var(--elite-platinum) 0%, 
+                rgba(247, 147, 30, 0.02) 50%, 
+                var(--elite-silver) 100%);
+        }
+        
+        .elegant-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="elegantGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="%23F7931E" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23elegantGrid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        /* Elite Dashboard Layout */
+        .elite-dashboard {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Executive Header */
+        .elite-header {
+            background: var(--elite-pearl);
+            border-bottom: 1px solid rgba(247, 147, 30, 0.2);
+            padding: 20px 40px;
+            box-shadow: 0 2px 20px rgba(15, 20, 25, 0.08);
+        }
+        
+        .header-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .elite-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--elite-gold), var(--elite-emerald));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--elite-pearl);
+            font-weight: 800;
+            font-size: 20px;
+        }
+        
+        .brand-text {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--elite-obsidian);
+        }
+        
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--elite-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .nav-item {
+            color: var(--elite-graphite);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--elite-gold);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-item:hover::after,
+        .nav-item.active::after {
+            width: 100%;
+        }
+        
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--elite-obsidian);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .elite-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--elite-emerald);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--elite-emerald);
+            border-radius: 50%;
+            animation: eliteStatus 3s ease-in-out infinite;
+        }
+        
+        @keyframes eliteStatus {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--elite-sapphire), var(--elite-navy));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--elite-pearl);
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .profile-info {
+            text-align: right;
+        }
+        
+        .profile-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--elite-obsidian);
+        }
+        
+        .profile-role {
+            font-size: 11px;
+            color: var(--elite-graphite);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Main Content */
+        .elite-main {
+            flex: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px;
+            width: 100%;
+        }
+        
+        .main-header {
+            margin-bottom: 40px;
+        }
+        
+        .welcome-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .welcome-text {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--elite-obsidian);
+        }
+        
+        .elite-badge {
+            background: linear-gradient(135deg, var(--elite-gold), rgba(247, 147, 30, 0.8));
+            color: var(--elite-pearl);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 16px rgba(247, 147, 30, 0.3);
+        }
+        
+        .subtitle-text {
+            font-size: 16px;
+            color: var(--elite-graphite);
+            margin-bottom: 24px;
+        }
+        
+        /* Executive Dashboard Grid */
+        .executive-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+        
+        .executive-card {
+            background: var(--elite-pearl);
+            border: 1px solid rgba(247, 147, 30, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(15, 20, 25, 0.08);
+        }
+        
+        .executive-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--elite-gold), var(--elite-emerald));
+        }
+        
+        .executive-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 48px rgba(15, 20, 25, 0.15);
+        }
+        
+        .card-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--elite-gold), var(--elite-emerald));
+            border-radius: 16px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--elite-pearl);
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .card-value {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--elite-obsidian);
+            margin-bottom: 8px;
+        }
+        
+        .card-label {
+            font-size: 12px;
+            color: var(--elite-graphite);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        
+        .card-change {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+        
+        .card-change.positive {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--elite-emerald);
+        }
+        
+        .card-change.negative {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--elite-crimson);
+        }
+        
+        /* Portfolio Overview */
+        .portfolio-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+        }
+        
+        .portfolio-chart {
+            background: var(--elite-pearl);
+            border: 1px solid rgba(247, 147, 30, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(15, 20, 25, 0.08);
+        }
+        
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+        
+        .chart-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--elite-obsidian);
+        }
+        
+        .chart-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .chart-control {
+            padding: 6px 12px;
+            border: 1px solid rgba(247, 147, 30, 0.3);
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            background: transparent;
+            color: var(--elite-graphite);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .chart-control.active,
+        .chart-control:hover {
+            background: var(--elite-gold);
+            color: var(--elite-pearl);
+            border-color: var(--elite-gold);
+        }
+        
+        .chart-visualization {
+            height: 280px;
+            background: linear-gradient(135deg, 
+                rgba(247, 147, 30, 0.05) 0%, 
+                rgba(5, 150, 105, 0.05) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-placeholder {
+            text-align: center;
+        }
+        
+        .chart-main-value {
+            font-family: var(--font-mono);
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--elite-gold);
+            margin-bottom: 8px;
+        }
+        
+        .chart-subtitle {
+            color: var(--elite-emerald);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Activity Panel */
+        .activity-panel {
+            background: var(--elite-pearl);
+            border: 1px solid rgba(247, 147, 30, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(15, 20, 25, 0.08);
+        }
+        
+        .activity-header {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--elite-obsidian);
+            margin-bottom: 24px;
+        }
+        
+        .activity-feed {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .activity-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--elite-silver);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--elite-sapphire), var(--elite-emerald));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--elite-pearl);
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-text {
+            font-size: 14px;
+            color: var(--elite-obsidian);
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        
+        .activity-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .activity-time {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--elite-graphite);
+        }
+        
+        .activity-badge {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--elite-emerald);
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .executive-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .portfolio-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .header-nav {
+                display: none;
+            }
+            
+            .executive-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .welcome-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="elite-bg">
+        <div class="elegant-pattern"></div>
+    </div>
+
+    <div class="elite-dashboard">
+        <!-- Executive Header -->
+        <header class="elite-header">
+            <div class="header-container">
+                <div class="elite-brand">
+                    <div class="brand-icon">P1</div>
+                    <div>
+                        <div class="brand-text">Project One</div>
+                        <div class="brand-subtitle">Elite Hub</div>
+                    </div>
+                </div>
+                
+                <nav class="header-nav">
+                    <a href="#" class="nav-item active">Dashboard</a>
+                    <a href="#" class="nav-item">Portfolio</a>
+                    <a href="#" class="nav-item">Clients</a>
+                    <a href="#" class="nav-item">Analytics</a>
+                    <a href="#" class="nav-item">Reports</a>
+                </nav>
+                
+                <div class="header-actions">
+                    <div class="elite-status">
+                        <div class="status-dot"></div>
+                        <span>Elite Active</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="profile-info">
+                            <div class="profile-name">Arjun Sharma</div>
+                            <div class="profile-role">Senior Advisor</div>
+                        </div>
+                        <div class="profile-avatar">AS</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="elite-main">
+            <div class="main-header">
+                <div class="welcome-section">
+                    <h1 class="welcome-text">Good Afternoon, Arjun</h1>
+                    <div class="elite-badge">Elite Member</div>
+                </div>
+                <p class="subtitle-text">Your portfolio is performing exceptionally well. Here's your executive summary.</p>
+            </div>
+
+            <!-- Executive Dashboard Grid -->
+            <section class="executive-grid">
+                <div class="executive-card">
+                    <div class="card-icon">💎</div>
+                    <div class="card-value">₹147.8Cr</div>
+                    <div class="card-label">Total AUM</div>
+                    <div class="card-change positive">+18.7% QoQ</div>
+                </div>
+                <div class="executive-card">
+                    <div class="card-icon">📊</div>
+                    <div class="card-value">2,340</div>
+                    <div class="card-label">Elite Clients</div>
+                    <div class="card-change positive">+156 New</div>
+                </div>
+                <div class="executive-card">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-value">24.7%</div>
+                    <div class="card-label">Annual Returns</div>
+                    <div class="card-change positive">+3.2% vs Benchmark</div>
+                </div>
+                <div class="executive-card">
+                    <div class="card-icon">🏆</div>
+                    <div class="card-value">99.9%</div>
+                    <div class="card-label">Satisfaction</div>
+                    <div class="card-change positive">+0.2% This Month</div>
+                </div>
+            </section>
+
+            <!-- Portfolio Overview -->
+            <section class="portfolio-section">
+                <div class="portfolio-chart">
+                    <div class="chart-header">
+                        <h2 class="chart-title">Portfolio Performance</h2>
+                        <div class="chart-controls">
+                            <button class="chart-control">1D</button>
+                            <button class="chart-control">1W</button>
+                            <button class="chart-control active">1M</button>
+                            <button class="chart-control">3M</button>
+                            <button class="chart-control">1Y</button>
+                        </div>
+                    </div>
+                    <div class="chart-visualization">
+                        <div class="chart-placeholder">
+                            <div class="chart-main-value">+24.7%</div>
+                            <div class="chart-subtitle">Annual Performance</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="activity-panel">
+                    <h3 class="activity-header">Recent Activity</h3>
+                    <div class="activity-feed">
+                        <div class="activity-item">
+                            <div class="activity-avatar">RC</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Rohit Chandra invested ₹5.2Cr in Large Cap Fund</div>
+                                <div class="activity-meta">
+                                    <div class="activity-time">2 hours ago</div>
+                                    <div class="activity-badge">High Value</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar">PS</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Priya Shah portfolio rebalanced automatically</div>
+                                <div class="activity-meta">
+                                    <div class="activity-time">4 hours ago</div>
+                                    <div class="activity-badge">Automated</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar">MG</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Monthly SIP increased to ₹2L for Mukesh Gupta</div>
+                                <div class="activity-meta">
+                                    <div class="activity-time">6 hours ago</div>
+                                    <div class="activity-badge">Growth</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar">SK</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Sunita Kumar referred 3 new HNI clients</div>
+                                <div class="activity-meta">
+                                    <div class="activity-time">8 hours ago</div>
+                                    <div class="activity-badge">Referral</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Terminal - Neon Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @keyframes neonFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-1px, 1px); }
+            40% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0A0A0A;
+            color: #00FF41;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 255, 65, 0.03) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(0, 255, 65, 0.03) 3px
+                );
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(0, 255, 65, 0.05));
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 2px solid #00FF41;
+            padding: 20px 40px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #00FF41;
+            text-shadow: 0 0 10px #00FF41, 0 0 20px #00FF41;
+            animation: neonFlicker 2s infinite;
+        }
+        
+        .system-status {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .status-metric {
+            position: relative;
+            padding: 8px 16px;
+            border: 1px solid #00FF41;
+            background: rgba(0, 255, 65, 0.05);
+        }
+        
+        .metric-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00FFFF;
+            text-shadow: 0 0 5px #00FFFF;
+        }
+        
+        .metric-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #00FF41;
+            letter-spacing: 1px;
+        }
+        
+        .status-metric::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00FFFF, transparent);
+            animation: scan 2s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        main {
+            max-width: 1600px;
+            margin: 32px auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .terminal-header {
+            color: #00FFFF;
+            font-size: 14px;
+            margin-bottom: 24px;
+            padding: 12px;
+            border: 1px solid #00FFFF;
+            background: rgba(0, 255, 255, 0.05);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .terminal-header::before {
+            content: "> ";
+            color: #00FF41;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 24px;
+            margin-bottom: 32px;
+            padding: 16px;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .batch-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: 1px solid #00FF41;
+            background: transparent;
+            color: #00FF41;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 65, 0.2);
+            transition: left 0.3s;
+        }
+        
+        .btn:hover::before {
+            left: 0;
+        }
+        
+        .btn:hover {
+            color: #0A0A0A;
+            background: #00FF41;
+            text-shadow: none;
+            box-shadow: 0 0 20px #00FF41;
+            animation: glitch 0.3s;
+        }
+        
+        .btn-danger {
+            border-color: #FF0040;
+            color: #FF0040;
+        }
+        
+        .btn-danger:hover {
+            background: #FF0040;
+            box-shadow: 0 0 20px #FF0040;
+        }
+        
+        .btn-cyan {
+            border-color: #00FFFF;
+            color: #00FFFF;
+        }
+        
+        .btn-cyan:hover {
+            background: #00FFFF;
+            box-shadow: 0 0 20px #00FFFF;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 12px;
+        }
+        
+        select {
+            padding: 12px;
+            background: #0A0A0A;
+            border: 1px solid #00FF41;
+            color: #00FF41;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .queue-container {
+            display: grid;
+            gap: 2px;
+            background: #00FF41;
+            padding: 2px;
+            border: 1px solid #00FF41;
+        }
+        
+        .queue-item {
+            background: #0A0A0A;
+            padding: 24px;
+            position: relative;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .queue-item:hover {
+            border-color: #00FFFF;
+            box-shadow: inset 0 0 30px rgba(0, 255, 255, 0.1);
+        }
+        
+        .item-grid {
+            display: grid;
+            grid-template-columns: 40px 1fr 200px;
+            gap: 24px;
+            align-items: start;
+        }
+        
+        .checkbox-wrapper input {
+            width: 20px;
+            height: 20px;
+            accent-color: #00FF41;
+            cursor: pointer;
+        }
+        
+        .content-section h3 {
+            font-size: 18px;
+            color: #00FFFF;
+            margin-bottom: 8px;
+            text-shadow: 0 0 5px #00FFFF;
+        }
+        
+        .meta-info {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: #00FF41;
+            margin-bottom: 16px;
+        }
+        
+        .meta-info span::before {
+            content: "[ ";
+            color: #00FFFF;
+        }
+        
+        .meta-info span::after {
+            content: " ]";
+            color: #00FFFF;
+        }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .preview-pane {
+            padding: 12px;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            background: rgba(0, 255, 65, 0.02);
+            position: relative;
+        }
+        
+        .preview-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #00FFFF;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        
+        .preview-content {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #00FF41;
+        }
+        
+        .risk-panel {
+            border: 1px solid #00FFFF;
+            padding: 16px;
+            background: rgba(0, 255, 255, 0.05);
+            text-align: center;
+        }
+        
+        .risk-display {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        
+        .risk-value {
+            font-size: 48px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        
+        .risk-low {
+            color: #00FF41;
+            text-shadow: 0 0 20px #00FF41;
+        }
+        
+        .risk-medium {
+            color: #FFD700;
+            text-shadow: 0 0 20px #FFD700;
+        }
+        
+        .risk-high {
+            color: #FF0040;
+            text-shadow: 0 0 20px #FF0040;
+            animation: glitch 2s infinite;
+        }
+        
+        .risk-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 8px;
+        }
+        
+        .actions-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-size: 10px;
+            color: #00FF41;
+            animation: matrix-fall linear infinite;
+        }
+        
+        @keyframes matrix-fall {
+            to {
+                transform: translateY(200vh);
+            }
+        }
+        
+        .floating-terminal {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 320px;
+            background: #0A0A0A;
+            border: 2px solid #00FFFF;
+            padding: 16px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            z-index: 100;
+        }
+        
+        .terminal-title {
+            color: #00FFFF;
+            font-size: 12px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .terminal-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .stat {
+            padding: 8px;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            background: rgba(0, 255, 65, 0.05);
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            color: #00FFFF;
+            text-shadow: 0 0 5px #00FFFF;
+        }
+        
+        .stat-label {
+            font-size: 10px;
+            color: #00FF41;
+            text-transform: uppercase;
+        }
+        
+        .warning-strip {
+            background: repeating-linear-gradient(
+                45deg,
+                #FF0040,
+                #FF0040 10px,
+                #FFD700 10px,
+                #FFD700 20px
+            );
+            height: 4px;
+            width: 100%;
+            margin: 16px 0;
+        }
+        
+        .highlight {
+            background: rgba(0, 255, 255, 0.2);
+            color: #00FFFF;
+            padding: 2px 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg" id="matrix"></div>
+    
+    <header>
+        <div class="header-content">
+            <div class="logo">JARVISHHH_SYS</div>
+            <div class="system-status">
+                <div class="status-metric">
+                    <div class="metric-value">047</div>
+                    <div class="metric-label">Queue_Size</div>
+                </div>
+                <div class="status-metric">
+                    <div class="metric-value">92.4%</div>
+                    <div class="metric-label">Success_Rate</div>
+                </div>
+                <div class="status-metric">
+                    <div class="metric-value">02:18</div>
+                    <div class="metric-label">Avg_Process</div>
+                </div>
+                <div class="status-metric">
+                    <div class="metric-value">1247</div>
+                    <div class="metric-label">Processed</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="terminal-header">ADMIN_TERMINAL // APPROVAL_QUEUE // STATUS: ACTIVE // TIME: 20:32:17 IST</div>
+        
+        <div class="controls">
+            <div class="batch-actions">
+                <button class="btn" onclick="approveSelected()">[APPROVE_BATCH]</button>
+                <button class="btn btn-danger" onclick="rejectSelected()">[REJECT_BATCH]</button>
+                <button class="btn btn-cyan" onclick="bulkEdit()">[EDIT_MULTIPLE]</button>
+            </div>
+            <div class="filters">
+                <select>
+                    <option>FILTER::ALL_RISK</option>
+                    <option>FILTER::LOW_ONLY</option>
+                    <option>FILTER::MEDIUM</option>
+                    <option>FILTER::HIGH_ALERT</option>
+                </select>
+                <select>
+                    <option>SORT::PRIORITY</option>
+                    <option>SORT::TIMESTAMP</option>
+                    <option>SORT::RISK_SCORE</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="queue-container">
+            <div class="queue-item">
+                <div class="item-grid">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" checked>
+                    </div>
+                    <div class="content-section">
+                        <h3>Market Update: Nifty Hits New High</h3>
+                        <div class="meta-info">
+                            <span>Rajesh_Kumar</span>
+                            <span>Mumbai_Region</span>
+                            <span>02_min_ago</span>
+                        </div>
+                        <div class="preview-grid">
+                            <div class="preview-pane">
+                                <div class="preview-label">SOURCE_CONTENT</div>
+                                <div class="preview-content">
+                                    Markets soared with <span class="highlight">Nifty crossing 22,000</span>. 
+                                    Banking and IT sectors led the rally.
+                                </div>
+                            </div>
+                            <div class="preview-pane">
+                                <div class="preview-label">OUTPUT_PREVIEW</div>
+                                <div class="preview-content">
+                                    [MARKET_UPDATE]<br>
+                                    NIFTY: 22,000 [+2.1%]<br>
+                                    BANK: +2.3% | IT: +1.8%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="risk-panel">
+                        <div class="risk-display">
+                            <div class="risk-value risk-low">8.2</div>
+                            <div class="risk-label">LOW_RISK</div>
+                        </div>
+                        <div class="actions-panel">
+                            <button class="btn btn-cyan">[APPROVE]</button>
+                            <button class="btn">[MODIFY]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="queue-item">
+                <div class="item-grid">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" checked>
+                    </div>
+                    <div class="content-section">
+                        <h3>Tax Saving Tips for FY 2024-25</h3>
+                        <div class="meta-info">
+                            <span>Priya_Sharma</span>
+                            <span>Delhi_NCR</span>
+                            <span>05_min_ago</span>
+                        </div>
+                        <div class="preview-grid">
+                            <div class="preview-pane">
+                                <div class="preview-label">SOURCE_CONTENT</div>
+                                <div class="preview-content">
+                                    Maximize savings with <span class="highlight">Section 80C</span>. 
+                                    ELSS funds offer dual benefits.
+                                </div>
+                            </div>
+                            <div class="preview-pane">
+                                <div class="preview-label">OUTPUT_PREVIEW</div>
+                                <div class="preview-content">
+                                    [TAX_ALERT]<br>
+                                    SAVE: ₹46,800<br>
+                                    OPTIONS: ELSS|PPF|NPS
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="risk-panel">
+                        <div class="risk-display">
+                            <div class="risk-value risk-medium">5.7</div>
+                            <div class="risk-label">MED_RISK</div>
+                        </div>
+                        <div class="actions-panel">
+                            <button class="btn">[REVIEW]</button>
+                            <button class="btn">[MODIFY]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="queue-item">
+                <div class="warning-strip"></div>
+                <div class="item-grid">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox">
+                    </div>
+                    <div class="content-section">
+                        <h3>Gold Investment Strategy Update</h3>
+                        <div class="meta-info">
+                            <span>Amit_Patel</span>
+                            <span>Gujarat</span>
+                            <span>08_min_ago</span>
+                        </div>
+                        <div class="preview-grid">
+                            <div class="preview-pane">
+                                <div class="preview-label">SOURCE_CONTENT</div>
+                                <div class="preview-content">
+                                    Gold expected to reach <span class="highlight" style="background: rgba(255, 0, 64, 0.3); color: #FF0040;">₹75,000</span> by month end.
+                                </div>
+                            </div>
+                            <div class="preview-pane">
+                                <div class="preview-label">COMPLIANCE_FLAGS</div>
+                                <div class="preview-content" style="color: #FF0040;">
+                                    [!] PRICE_PREDICTION<br>
+                                    [!] NO_DISCLAIMER<br>
+                                    [!] SPECIFIC_TIMEFRAME
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="risk-panel">
+                        <div class="risk-display">
+                            <div class="risk-value risk-high">3.2</div>
+                            <div class="risk-label">HIGH_RISK</div>
+                        </div>
+                        <div class="actions-panel">
+                            <button class="btn btn-danger">[REJECT]</button>
+                            <button class="btn">[REVISE]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div class="floating-terminal">
+        <div class="terminal-title">> SYSTEM_MONITOR</div>
+        <div class="terminal-stats">
+            <div class="stat">
+                <div class="stat-value">047</div>
+                <div class="stat-label">QUEUE</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">02:18</div>
+                <div class="stat-label">AVG_TIME</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">92.4%</div>
+                <div class="stat-label">APPROVED</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">008</div>
+                <div class="stat-label">ESCALATED</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Matrix rain effect
+        function createMatrix() {
+            const matrix = document.getElementById('matrix');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            
+            for (let i = 0; i < 20; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = Math.random() * 100 + '%';
+                column.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                column.style.animationDelay = Math.random() * 5 + 's';
+                
+                let text = '';
+                for (let j = 0; j < 50; j++) {
+                    text += chars[Math.floor(Math.random() * chars.length)] + '<br>';
+                }
+                column.innerHTML = text;
+                matrix.appendChild(column);
+            }
+        }
+        
+        createMatrix();
+        
+        function approveSelected() {
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+            console.log(`> EXECUTING: BATCH_APPROVE [${checked.length} items]`);
+            alert(`[SYSTEM] Processing batch approval for ${checked.length} items...`);
+        }
+        
+        function rejectSelected() {
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+            console.log(`> EXECUTING: BATCH_REJECT [${checked.length} items]`);
+            alert(`[SYSTEM] Rejecting ${checked.length} items...`);
+        }
+        
+        function bulkEdit() {
+            console.log('> EXECUTING: BULK_EDIT_INTERFACE');
+            alert('[SYSTEM] Initializing bulk edit interface...');
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'a' && e.metaKey) {
+                e.preventDefault();
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+                console.log('> SELECT_ALL executed');
+            }
+            if (e.key === 'Enter' && e.metaKey) {
+                approveSelected();
+            }
+        });
+        
+        // Terminal typing effect
+        const terminal = document.querySelector('.terminal-header');
+        setInterval(() => {
+            const time = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' });
+            terminal.textContent = `ADMIN_TERMINAL // APPROVAL_QUEUE // STATUS: ACTIVE // TIME: ${time} IST`;
+        }, 1000);
+    </script>
+</body>
+</html>

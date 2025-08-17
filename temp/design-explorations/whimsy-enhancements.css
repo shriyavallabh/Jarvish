@@ -1,0 +1,781 @@
+/* ============================================
+   JARVISH WHIMSY ENHANCEMENTS
+   Professional Micro-interactions & Polish
+   Version: 1.0 - Final Polish
+   ============================================ */
+
+/* ============================================
+   ANIMATION TIMING FUNCTIONS
+   ============================================ */
+:root {
+  /* Professional Easing Curves */
+  --ease-professional: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-confident: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-gentle: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  --ease-bounce-subtle: cubic-bezier(0.68, -0.15, 0.265, 1.15);
+  
+  /* Animation Durations */
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-standard: 250ms;
+  --duration-smooth: 350ms;
+  --duration-graceful: 500ms;
+  --duration-deliberate: 800ms;
+  
+  /* Micro-interaction Delays */
+  --delay-hover: 50ms;
+  --delay-stagger: 30ms;
+  --delay-cascade: 100ms;
+}
+
+/* ============================================
+   BUTTON ENHANCEMENTS
+   ============================================ */
+
+/* Primary Button Polish */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition: all var(--duration-standard) var(--ease-professional);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translate(-50%, -50%);
+  transition: width var(--duration-smooth) var(--ease-professional),
+              height var(--duration-smooth) var(--ease-professional);
+}
+
+.btn:hover::before {
+  width: 300%;
+  height: 300%;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(var(--color-gold-rgb), 0.25);
+}
+
+.btn:active {
+  transform: translateY(0);
+  transition-duration: var(--duration-instant);
+}
+
+/* Button Loading State */
+.btn.loading {
+  color: transparent;
+  pointer-events: none;
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  margin-left: -10px;
+  margin-top: -10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: buttonSpin var(--duration-deliberate) linear infinite;
+}
+
+@keyframes buttonSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Success State Animation */
+.btn.success {
+  animation: successPulse var(--duration-graceful) var(--ease-bounce-subtle);
+  background: var(--color-success);
+}
+
+@keyframes successPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* ============================================
+   INPUT FIELD ENHANCEMENTS
+   ============================================ */
+
+.input-group {
+  position: relative;
+}
+
+.input-field {
+  transition: all var(--duration-standard) var(--ease-professional);
+  background-image: linear-gradient(to bottom, transparent, transparent);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* Focus Glow Effect */
+.input-field:focus {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(var(--color-gold-rgb), 0.05),
+    transparent
+  );
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(var(--color-gold-rgb), 0.1);
+}
+
+/* Floating Label Animation */
+.input-group label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all var(--duration-standard) var(--ease-professional);
+  pointer-events: none;
+  color: var(--color-gray-500);
+}
+
+.input-field:focus ~ label,
+.input-field:not(:placeholder-shown) ~ label {
+  top: 0;
+  transform: translateY(-100%) scale(0.85);
+  color: var(--color-gold);
+  font-weight: var(--font-medium);
+  background: var(--color-white);
+  padding: 0 4px;
+  margin-left: -4px;
+}
+
+/* Validation States */
+.input-field.valid {
+  border-color: var(--color-success);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(18, 183, 106, 0.05),
+    transparent
+  );
+}
+
+.input-field.invalid {
+  border-color: var(--color-danger);
+  animation: invalidShake var(--duration-smooth) var(--ease-bounce-subtle);
+}
+
+@keyframes invalidShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Validation Icons */
+.input-validation-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  transition: transform var(--duration-standard) var(--ease-bounce-subtle);
+}
+
+.input-field.valid ~ .input-validation-icon {
+  transform: translateY(-50%) scale(1);
+  color: var(--color-success);
+}
+
+/* ============================================
+   CARD HOVER EFFECTS
+   ============================================ */
+
+.card {
+  transition: all var(--duration-smooth) var(--ease-professional);
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0) rotateY(0);
+}
+
+.card:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+  box-shadow: 
+    0 20px 40px -10px rgba(var(--color-ink-rgb), 0.15),
+    0 0 0 1px rgba(var(--color-gold-rgb), 0.1);
+}
+
+/* Card Reveal Animation */
+.card[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: cardReveal var(--duration-graceful) var(--ease-professional) forwards;
+}
+
+@keyframes cardReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered Card Animation */
+.card:nth-child(1) { animation-delay: calc(var(--delay-stagger) * 0); }
+.card:nth-child(2) { animation-delay: calc(var(--delay-stagger) * 1); }
+.card:nth-child(3) { animation-delay: calc(var(--delay-stagger) * 2); }
+.card:nth-child(4) { animation-delay: calc(var(--delay-stagger) * 3); }
+.card:nth-child(5) { animation-delay: calc(var(--delay-stagger) * 4); }
+
+/* ============================================
+   COMPLIANCE SCORE ANIMATIONS
+   ============================================ */
+
+.compliance-score {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compliance-score-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid rgba(var(--color-gray-rgb), 0.1);
+}
+
+.compliance-score-fill {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: var(--color-success);
+  animation: scoreRotate var(--duration-deliberate) var(--ease-professional);
+  transform-origin: center;
+}
+
+@keyframes scoreRotate {
+  from {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(calc(var(--score) * 3.6deg));
+    opacity: 1;
+  }
+}
+
+.compliance-score-number {
+  font-weight: var(--font-bold);
+  font-size: var(--text-h3);
+  animation: countUp var(--duration-deliberate) var(--ease-professional);
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+
+/* Skeleton Screen Shimmer */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-100) 0%,
+    var(--color-gray-50) 50%,
+    var(--color-gray-100) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Premium Loading Spinner */
+.spinner-premium {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.spinner-premium::before,
+.spinner-premium::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid transparent;
+}
+
+.spinner-premium::before {
+  border-top-color: var(--color-gold);
+  animation: spinPrimary 1s linear infinite;
+}
+
+.spinner-premium::after {
+  border-bottom-color: var(--color-ink);
+  animation: spinSecondary 1.5s linear infinite;
+}
+
+@keyframes spinPrimary {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spinSecondary {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+/* Progress Bar */
+.progress-bar {
+  height: 4px;
+  background: var(--color-gray-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-gold),
+    var(--color-gold-light)
+  );
+  border-radius: var(--radius-full);
+  transition: width var(--duration-smooth) var(--ease-professional);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ============================================
+   NAVIGATION TRANSITIONS
+   ============================================ */
+
+/* Smooth Page Transitions */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all var(--duration-smooth) var(--ease-professional);
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all var(--duration-smooth) var(--ease-professional);
+}
+
+/* Tab Indicator Animation */
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  height: 3px;
+  background: var(--gradient-gold);
+  transition: all var(--duration-standard) var(--ease-professional);
+  border-radius: var(--radius-full);
+}
+
+/* Active Navigation Item */
+.nav-item {
+  position: relative;
+  transition: all var(--duration-standard) var(--ease-professional);
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: var(--gradient-gold);
+  border-radius: var(--radius-full);
+  transition: height var(--duration-standard) var(--ease-professional);
+}
+
+.nav-item.active::before,
+.nav-item:hover::before {
+  height: 60%;
+}
+
+/* ============================================
+   TOAST & NOTIFICATION ANIMATIONS
+   ============================================ */
+
+.toast {
+  animation: toastSlideIn var(--duration-smooth) var(--ease-bounce-subtle);
+  transform-origin: top center;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.toast-exit {
+  animation: toastSlideOut var(--duration-standard) var(--ease-professional);
+}
+
+@keyframes toastSlideOut {
+  to {
+    opacity: 0;
+    transform: translateY(-100%) scale(0.9);
+  }
+}
+
+/* Success Toast Animation */
+.toast-success::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--color-success);
+  animation: toastTimer 3s linear;
+}
+
+@keyframes toastTimer {
+  from { width: 100%; }
+  to { width: 0; }
+}
+
+/* ============================================
+   MODAL ANIMATIONS
+   ============================================ */
+
+.modal-backdrop {
+  animation: fadeIn var(--duration-standard) var(--ease-professional);
+}
+
+.modal-content {
+  animation: modalZoomIn var(--duration-smooth) var(--ease-bounce-subtle);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ============================================
+   DATA VISUALIZATION ENHANCEMENTS
+   ============================================ */
+
+/* Chart Bar Animation */
+.chart-bar {
+  transform-origin: bottom;
+  animation: barGrow var(--duration-graceful) var(--ease-professional);
+}
+
+@keyframes barGrow {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Metric Card Value Animation */
+.metric-value {
+  animation: metricPop var(--duration-smooth) var(--ease-bounce-subtle);
+}
+
+@keyframes metricPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Trend Indicator Animation */
+.trend-up {
+  animation: trendUp var(--duration-standard) var(--ease-professional);
+}
+
+.trend-down {
+  animation: trendDown var(--duration-standard) var(--ease-professional);
+}
+
+@keyframes trendUp {
+  from {
+    transform: translateY(5px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes trendDown {
+  from {
+    transform: translateY(-5px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   MOBILE TOUCH ENHANCEMENTS
+   ============================================ */
+
+/* Touch Ripple Effect */
+.touch-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(var(--color-gold-rgb), 0.3);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.touch-ripple:active::after {
+  animation: ripple var(--duration-smooth) var(--ease-professional);
+}
+
+@keyframes ripple {
+  to {
+    width: 200%;
+    height: 200%;
+    opacity: 0;
+  }
+}
+
+/* Pull to Refresh */
+.pull-refresh-indicator {
+  transform: translateY(-100%);
+  transition: transform var(--duration-standard) var(--ease-professional);
+}
+
+.pull-refresh-indicator.pulling {
+  transform: translateY(0);
+}
+
+.pull-refresh-indicator.refreshing {
+  animation: pullRefreshSpin 1s linear infinite;
+}
+
+@keyframes pullRefreshSpin {
+  from { transform: translateY(0) rotate(0deg); }
+  to { transform: translateY(0) rotate(360deg); }
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* Focus Visible Styles */
+*:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Keep essential loading indicators */
+  .spinner-premium::before,
+  .spinner-premium::after,
+  .skeleton {
+    animation-duration: 1s !important;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  .input-field {
+    border-width: 2px;
+  }
+  
+  .card {
+    border: 2px solid var(--color-gray-800);
+  }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* GPU Acceleration for Smooth Animations */
+.btn,
+.card,
+.modal-content,
+.toast,
+.nav-item,
+.tab-indicator {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Remove will-change after animation */
+.animation-complete {
+  will-change: auto;
+}
+
+/* Battery Saver Mode */
+@media (prefers-reduced-data: reduce) {
+  .progress-bar-fill::after,
+  .skeleton {
+    animation: none;
+  }
+}
+
+/* ============================================
+   SPECIAL EFFECTS
+   ============================================ */
+
+/* Gold Shimmer for Premium Elements */
+.premium-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-shimmer::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(var(--color-gold-rgb), 0.1) 50%,
+    transparent 70%
+  );
+  animation: premiumShimmer 3s infinite;
+}
+
+@keyframes premiumShimmer {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* Success Celebration */
+.celebration {
+  animation: celebrate var(--duration-graceful) var(--ease-bounce-subtle);
+}
+
+@keyframes celebrate {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.05) rotate(-2deg); }
+  75% { transform: scale(1.05) rotate(2deg); }
+}
+
+/* Professional Pulse for Important Elements */
+.pulse-professional {
+  animation: professionalPulse 2s infinite;
+}
+
+@keyframes professionalPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(var(--color-gold-rgb), 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(var(--color-gold-rgb), 0);
+  }
+}

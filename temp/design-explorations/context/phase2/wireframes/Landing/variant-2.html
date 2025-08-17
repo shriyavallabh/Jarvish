@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The only AI platform Indian advisors actually trust. Create regulatory-perfect WhatsApp content in seconds.">
+    <title>Project One - SEBI Compliant Content Automation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #FFFFFF;
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --text-muted: #6B7280;
+            --accent: #111827;
+            --border: #E5E7EB;
+            --hover: #F9FAFB;
+        }
+
+        @font-face {
+            font-family: 'Fraunces';
+            font-weight: 400 900;
+            font-display: swap;
+            src: local('Fraunces'), local('Georgia'), serif;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Open Sans', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        .small-caps {
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 1px solid var(--border);
+            background: var(--background);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9375rem;
+            transition: text-decoration-thickness 150ms ease;
+            text-underline-offset: 4px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--text-primary);
+            padding: 0.5rem 1.25rem;
+            border-radius: 0;
+            background: transparent;
+            transition: all 200ms ease;
+        }
+
+        .btn-outline:hover {
+            background: var(--text-primary);
+            color: var(--background);
+            text-decoration: none;
+        }
+
+        .btn-solid {
+            background: var(--text-primary);
+            color: var(--background);
+            padding: 0.5rem 1.25rem;
+            border: 1px solid var(--text-primary);
+            transition: all 200ms ease;
+        }
+
+        .btn-solid:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .divider-line {
+            height: 1px;
+            background: var(--border);
+            margin: 4rem 0;
+        }
+
+        .divider-dashed {
+            height: 1px;
+            background-image: linear-gradient(to right, var(--border) 50%, transparent 50%);
+            background-size: 8px 1px;
+            margin: 4rem 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 2rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-rule {
+            width: 120px;
+            height: 1px;
+            background: var(--text-primary);
+            margin: 2rem auto;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin: 2rem 0 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .text-link {
+            color: var(--text-primary);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            transition: text-decoration-thickness 150ms ease;
+        }
+
+        .text-link:hover {
+            text-decoration-thickness: 2px;
+        }
+
+        /* Metrics Table */
+        .metrics-section {
+            padding: 0 2rem;
+        }
+
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .metrics-table td {
+            padding: 1.5rem;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+
+        .metrics-table td:last-child {
+            border-right: none;
+        }
+
+        .metric-number {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Features Grid */
+        .features-section {
+            padding: 4rem 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            border: 1px solid var(--border);
+            padding: 2rem;
+            background: var(--background);
+            transition: background 150ms ease;
+        }
+
+        .feature-card:hover {
+            background: var(--hover);
+        }
+
+        .feature-number {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-divider {
+            width: 30px;
+            height: 2px;
+            background: var(--text-primary);
+            margin: 1rem 0;
+        }
+
+        .feature-content {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 1rem 0;
+        }
+
+        .feature-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            display: inline-block;
+            margin-top: 1rem;
+            transition: all 150ms ease;
+        }
+
+        .feature-link:hover {
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        /* Testimonial */
+        .testimonial-section {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .testimonial-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem;
+        }
+
+        .testimonial-quote {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.75rem;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .testimonial-author {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        /* Pricing Table */
+        .pricing-section {
+            padding: 4rem 2rem;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-subheader {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pricing-table th {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.125rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            background: var(--background);
+        }
+
+        .pricing-table td {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.9375rem;
+        }
+
+        .pricing-popular {
+            background: var(--hover);
+            position: relative;
+        }
+
+        .popular-badge {
+            display: inline-block;
+            background: var(--text-primary);
+            color: var(--background);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .price-amount {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .price-period {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Animations */
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            animation: countUp 1.5s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .metrics-table {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .metrics-table td {
+                border-bottom: 1px solid var(--border);
+            }
+
+            .pricing-table {
+                font-size: 0.875rem;
+            }
+
+            .price-amount {
+                font-size: 1.25rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--text-primary);
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav role="navigation" aria-label="Main navigation">
+            <div class="logo">PROJECT ONE</div>
+            <div class="nav-links">
+                <a href="#solutions">Solutions</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#about">About</a>
+                <a href="#" class="btn-outline">Sign In</a>
+                <a href="#" class="btn-solid">Start</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" aria-label="Hero">
+            <p class="small-caps">SEBI COMPLIANT CONTENT AUTOMATION</p>
+            <h1>The Only AI Platform<br>Indian Advisors<br>Actually Trust.</h1>
+            <div class="hero-rule"></div>
+            <p class="hero-description">
+                Create regulatory-perfect WhatsApp content in seconds.<br>
+                Join 500+ MFDs already growing 3x faster.
+            </p>
+            <div class="hero-buttons">
+                <a href="#" class="btn-solid">Executive Access</a>
+                <a href="#" class="text-link">Learn how it works →</a>
+            </div>
+        </section>
+
+        <section class="metrics-section" aria-label="Metrics">
+            <table class="metrics-table">
+                <tr>
+                    <td>
+                        <span class="metric-number">500+</span>
+                        <span class="metric-label">Active<br>MFDs</span>
+                    </td>
+                    <td>
+                        <span class="metric-number">2.5M</span>
+                        <span class="metric-label">Messages<br>Sent</span>
+                    </td>
+                    <td>
+                        <span class="metric-number">99.9%</span>
+                        <span class="metric-label">Compliant<br>Score</span>
+                    </td>
+                    <td>
+                        <span class="metric-number">12</span>
+                        <span class="metric-label">Languages<br>Supported</span>
+                    </td>
+                    <td>
+                        <span class="metric-number">4.9/5</span>
+                        <span class="metric-label">Rating<br>Score</span>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="divider-dashed"></div>
+
+        <section class="features-section" aria-label="Features">
+            <p class="small-caps" style="text-align: center;">PLATFORM CAPABILITIES</p>
+            
+            <div class="features-grid">
+                <article class="feature-card">
+                    <div class="feature-number">01.</div>
+                    <div class="feature-divider"></div>
+                    <h3>AI Content<br>Generation</h3>
+                    <p class="feature-content">
+                        Transform market data into personalized WhatsApp messages in Hindi, Marathi, and 10+ languages.
+                    </p>
+                    <a href="#" class="feature-link">See example →</a>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-number">02.</div>
+                    <div class="feature-divider"></div>
+                    <h3>Compliance<br>Monitoring</h3>
+                    <p class="feature-content">
+                        Real-time SEBI compliance scoring before you send anything to clients.
+                    </p>
+                    <a href="#" class="feature-link">View demo →</a>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-number">03.</div>
+                    <div class="feature-divider"></div>
+                    <h3>Multi-Channel<br>Distribution</h3>
+                    <p class="feature-content">
+                        Reach clients on WhatsApp, LinkedIn, Email with one-click publishing.
+                    </p>
+                    <a href="#" class="feature-link">Learn more →</a>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-number">04.</div>
+                    <div class="feature-divider"></div>
+                    <h3>Performance<br>Analytics</h3>
+                    <p class="feature-content">
+                        Track engagement, compliance scores, and ROI of every message sent.
+                    </p>
+                    <a href="#" class="feature-link">See metrics →</a>
+                </article>
+            </div>
+        </section>
+
+        <div class="divider-line"></div>
+
+        <section class="testimonial-section" aria-label="Testimonial">
+            <div class="testimonial-content">
+                <blockquote class="testimonial-quote">
+                    "Project One transformed how I communicate with clients. What used to take hours now takes minutes, and I never worry about compliance violations anymore."
+                </blockquote>
+                <p class="testimonial-author">
+                    — Rajesh Kumar, MFD<br>
+                    SEBI Registration: ARN-123456<br>
+                    Managing ₹50 Cr+ AUM
+                </p>
+            </div>
+        </section>
+
+        <section class="pricing-section" id="pricing" aria-label="Pricing">
+            <h2 class="pricing-header">TRANSPARENT PRICING</h2>
+            <p class="pricing-subheader">No hidden fees. No surprises.</p>
+            
+            <table class="pricing-table">
+                <thead>
+                    <tr>
+                        <th>STARTER</th>
+                        <th class="pricing-popular">
+                            PROFESSIONAL
+                            <span class="popular-badge">POPULAR</span>
+                        </th>
+                        <th>ENTERPRISE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span class="price-amount">₹2,999</span>
+                            <span class="price-period">per month</span>
+                        </td>
+                        <td class="pricing-popular">
+                            <span class="price-amount">₹5,999</span>
+                            <span class="price-period">per month</span>
+                        </td>
+                        <td>
+                            <span class="price-amount">Custom</span>
+                            <span class="price-period">Pricing</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>100 posts/mo</td>
+                        <td class="pricing-popular">500 posts/mo</td>
+                        <td>Unlimited posts</td>
+                    </tr>
+                    <tr>
+                        <td>Basic AI</td>
+                        <td class="pricing-popular">Advanced AI</td>
+                        <td>Custom AI models</td>
+                    </tr>
+                    <tr>
+                        <td>WhatsApp only</td>
+                        <td class="pricing-popular">Multi-channel</td>
+                        <td>API access</td>
+                    </tr>
+                    <tr>
+                        <td>Email support</td>
+                        <td class="pricing-popular">Priority support</td>
+                        <td>Dedicated CSM</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" class="btn-outline">Start Free</a></td>
+                        <td class="pricing-popular"><a href="#" class="btn-solid">Start Trial</a></td>
+                        <td><a href="#" class="btn-outline">Contact Sales</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>PROJECT ONE · SEBI REGISTERED · PRIVACY · TERMS · CONTACT · BANGALORE</p>
+    </footer>
+
+    <a href="#main" class="sr-only">Skip to main content</a>
+</body>
+</html>

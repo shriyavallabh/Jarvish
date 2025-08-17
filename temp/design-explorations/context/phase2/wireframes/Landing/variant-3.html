@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SEBI-Compliant Content Automation Platform. Empowering Indian Financial Advisors with AI-Driven Regulatory Compliance.">
+    <title>Project One - Financial Advisory Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #F8F9FA;
+            --surface: #FFFFFF;
+            --primary: #1E3A8A;
+            --secondary: #059669;
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --border: #E5E7EB;
+            --warning: #D97706;
+            --error: #DC2626;
+        }
+
+        @font-face {
+            font-family: 'Georgia';
+            font-weight: 400 700;
+            font-display: swap;
+            src: local('Georgia'), serif;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Open Sans', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: Georgia, serif;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        /* Header */
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: var(--primary);
+        }
+
+        .logo-tagline {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9375rem;
+            transition: color 200ms ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-navy {
+            background: var(--primary);
+            color: var(--surface);
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: background 200ms ease;
+        }
+
+        .btn-navy:hover {
+            background: #1A3276;
+        }
+
+        .btn-navy-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.625rem 1.25rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 200ms ease;
+        }
+
+        .btn-navy-outline:hover {
+            background: var(--primary);
+            color: var(--surface);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--background);
+            padding: 4rem 2rem;
+        }
+
+        .hero-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero h1 {
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .trust-badges {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .trust-badges span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Performance Metrics */
+        .metrics-section {
+            background: var(--surface);
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .metrics-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .metrics-title {
+            font-family: Georgia, serif;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .metric-chart {
+            height: 100px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .bar {
+            width: 12px;
+            background: var(--primary);
+            opacity: 0.8;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 4rem 2rem;
+            background: var(--background);
+        }
+
+        .features-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: Georgia, serif;
+            font-size: 1.75rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .feature-content h3 {
+            font-family: Georgia, serif;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .feature-content p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Compliance Standards */
+        .compliance-section {
+            background: var(--surface);
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .compliance-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .compliance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .compliance-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+        }
+
+        .check {
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        /* Pricing Table */
+        .pricing-section {
+            padding: 4rem 2rem;
+            background: var(--background);
+        }
+
+        .pricing-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .pricing-table th {
+            background: var(--primary);
+            color: var(--surface);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .pricing-table td {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            font-size: 0.9375rem;
+        }
+
+        .pricing-table tr:nth-child(even) {
+            background: var(--background);
+        }
+
+        .price-highlight {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            background: var(--surface);
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .testimonials-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            padding: 2rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-text {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--surface);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .footer-content p {
+            font-size: 0.875rem;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--surface);
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 0.875rem;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .feature-item {
+                flex-direction: column;
+            }
+
+            .pricing-table {
+                font-size: 0.8125rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav role="navigation" aria-label="Main navigation">
+            <div class="logo-section">
+                <div class="logo">PROJECT ONE</div>
+                <div class="logo-tagline">Financial Advisory Platform</div>
+            </div>
+            <div class="nav-links">
+                <a href="#products">Products</a>
+                <a href="#solutions">Solutions</a>
+                <a href="#resources">Resources</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#" class="btn-navy-outline">Login</a>
+                <a href="#" class="btn-navy">Demo</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" aria-label="Hero">
+            <div class="hero-container">
+                <h1>SEBI-Compliant Content Automation Platform</h1>
+                <p class="hero-subtitle">
+                    Empowering Indian Financial Advisors with<br>
+                    AI-Driven Regulatory Compliance
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn-navy">Request Demo</a>
+                    <a href="#" class="btn-navy-outline">Download Brochure</a>
+                </div>
+                <div class="trust-badges">
+                    <span>Trusted by 500+ MFDs</span>
+                    <span>|</span>
+                    <span>SEBI Registered</span>
+                    <span>|</span>
+                    <span>ISO 27001 Certified</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="metrics-section" aria-label="Performance Metrics">
+            <div class="metrics-container">
+                <h2 class="metrics-title">Key Performance Indicators</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-chart">
+                            <div class="bar" style="height: 90%;"></div>
+                            <div class="bar" style="height: 95%;"></div>
+                            <div class="bar" style="height: 99%;"></div>
+                        </div>
+                        <div class="metric-value">99.9%</div>
+                        <div class="metric-label">SEBI Compliant</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-chart">
+                            <div class="bar" style="height: 40%;"></div>
+                            <div class="bar" style="height: 60%;"></div>
+                            <div class="bar" style="height: 80%;"></div>
+                            <div class="bar" style="height: 100%;"></div>
+                        </div>
+                        <div class="metric-value">2.5M</div>
+                        <div class="metric-label">Monthly Volume</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-chart">
+                            <div class="bar" style="height: 60%;"></div>
+                            <div class="bar" style="height: 75%;"></div>
+                            <div class="bar" style="height: 85%;"></div>
+                            <div class="bar" style="height: 100%;"></div>
+                        </div>
+                        <div class="metric-value">↑45%</div>
+                        <div class="metric-label">3X Faster Growth</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section" aria-label="Core Features">
+            <div class="features-container">
+                <h2 class="section-title">Platform Capabilities</h2>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🤖</div>
+                    <div class="feature-content">
+                        <h3>Content Generation</h3>
+                        <p>Advanced AI algorithms generate SEBI-compliant content in multiple Indian languages including Hindi, Marathi, Gujarati, and English.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-content">
+                        <h3>Compliance Monitoring</h3>
+                        <p>Real-time compliance scoring ensures all content meets SEBI regulations before distribution to clients.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-content">
+                        <h3>Multi-Channel Distribution</h3>
+                        <p>Seamlessly distribute content across WhatsApp, LinkedIn, Email, and SMS with unified compliance tracking.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-content">
+                        <h3>Analytics & Reporting</h3>
+                        <p>Comprehensive dashboard with engagement metrics, compliance scores, and ROI tracking for data-driven decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="compliance-section" aria-label="Compliance Standards">
+            <div class="compliance-container">
+                <h2 class="section-title">Regulatory Compliance & Security</h2>
+                <div class="compliance-grid">
+                    <div class="compliance-item">
+                        <span class="check">✓</span> SEBI Registered
+                    </div>
+                    <div class="compliance-item">
+                        <span class="check">✓</span> ISO 27001:2013
+                    </div>
+                    <div class="compliance-item">
+                        <span class="check">✓</span> DPDP Act 2023
+                    </div>
+                    <div class="compliance-item">
+                        <span class="check">✓</span> BSE/NSE Compliant
+                    </div>
+                    <div class="compliance-item">
+                        <span class="check">✓</span> SSL Encrypted
+                    </div>
+                    <div class="compliance-item">
+                        <span class="check">✓</span> Daily Backups
+                    </div>
+                    <div class="compliance-item">
+                        <span class="check">✓</span> AMFI Guidelines
+                    </div>
+                    <div class="compliance-item">
+                        <span class="check">✓</span> 99.9% Uptime SLA
+                    </div>
+                    <div class="compliance-item">
+                        <span class="check">✓</span> SOC 2 Type II
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing-section" id="pricing" aria-label="Pricing Structure">
+            <div class="pricing-container">
+                <h2 class="section-title">Transparent Pricing Plans</h2>
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Starter</th>
+                            <th>Professional</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monthly Fee</td>
+                            <td><span class="price-highlight">₹2,999</span></td>
+                            <td><span class="price-highlight">₹5,999</span></td>
+                            <td>Custom</td>
+                        </tr>
+                        <tr>
+                            <td>Content/Month</td>
+                            <td>100</td>
+                            <td>500</td>
+                            <td>Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>Languages</td>
+                            <td>3</td>
+                            <td>8</td>
+                            <td>All</td>
+                        </tr>
+                        <tr>
+                            <td>Channels</td>
+                            <td>WhatsApp</td>
+                            <td>Multi-Channel</td>
+                            <td>All</td>
+                        </tr>
+                        <tr>
+                            <td>Support</td>
+                            <td>Email</td>
+                            <td>Priority</td>
+                            <td>Dedicated</td>
+                        </tr>
+                        <tr>
+                            <td>Training</td>
+                            <td>Self-serve</td>
+                            <td>Quarterly</td>
+                            <td>Weekly</td>
+                        </tr>
+                        <tr>
+                            <td>API Access</td>
+                            <td>No</td>
+                            <td>Limited</td>
+                            <td>Full</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><a href="#" class="btn-navy-outline">Start Trial</a></td>
+                            <td><a href="#" class="btn-navy">Most Popular</a></td>
+                            <td><a href="#" class="btn-navy-outline">Contact Sales</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="testimonials-section" aria-label="Client Testimonials">
+            <div class="testimonials-container">
+                <h2 class="section-title">What Our Clients Say</h2>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">
+                        "Exceptional compliance automation that has transformed our practice."
+                    </p>
+                    <p class="testimonial-author">
+                        — Amit Sharma, Senior MFD, Mumbai | ARN-145678 | AUM: ₹75 Cr
+                    </p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">
+                        "The platform's accuracy and efficiency are unmatched in the market."
+                    </p>
+                    <p class="testimonial-author">
+                        — Priya Patel, RIA, Ahmedabad | Registration: INA000012345
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>
+                © 2024 Project One Technologies Pvt. Ltd. | CIN: U72900KA2024PTC123456<br>
+                Registered Office: Bangalore | SEBI Registration: INA000012345
+            </p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Compliance</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <a href="#main" class="sr-only">Skip to main content</a>
+</body>
+</html>

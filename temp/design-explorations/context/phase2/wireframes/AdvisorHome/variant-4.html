@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVISH // NEON SYSTEMS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #151521;
+            --neon-cyan: #00ffff;
+            --neon-pink: #ff00ff;
+            --neon-yellow: #ffff00;
+            --neon-green: #00ff00;
+            --neon-purple: #9945ff;
+            --text-primary: #ffffff;
+            --text-secondary: #8b8b9f;
+        }
+        
+        body {
+            font-family: 'Orbitron', monospace;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated Grid Background */
+        .grid-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 10s linear infinite;
+            z-index: 0;
+        }
+        
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Glitch Effect */
+        @keyframes glitch {
+            0%, 100% { 
+                text-shadow: 
+                    2px 0 var(--neon-cyan),
+                    -2px 0 var(--neon-pink),
+                    0 0 20px var(--neon-cyan);
+            }
+            25% { 
+                text-shadow: 
+                    -2px 0 var(--neon-pink),
+                    2px 0 var(--neon-cyan),
+                    0 0 20px var(--neon-pink);
+            }
+            50% { 
+                text-shadow: 
+                    2px 2px var(--neon-yellow),
+                    -2px -2px var(--neon-green),
+                    0 0 30px var(--neon-yellow);
+            }
+        }
+        
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            padding: 20px 0;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 15, 0.8);
+            border-bottom: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            animation: glitch 3s infinite;
+        }
+        
+        .cyber-status {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .status-pill {
+            padding: 8px 16px;
+            border: 1px solid var(--neon-green);
+            border-radius: 20px;
+            background: rgba(0, 255, 0, 0.1);
+            color: var(--neon-green);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse-neon 2s infinite;
+        }
+        
+        @keyframes pulse-neon {
+            0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(0, 255, 0, 0.8); }
+        }
+        
+        /* Hero Timer */
+        .hero-timer {
+            text-align: center;
+            padding: 60px 0;
+            position: relative;
+        }
+        
+        .countdown-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--neon-cyan);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+        
+        .mega-countdown {
+            font-size: 96px;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(255, 0, 255, 0.5);
+            animation: rgb-shift 3s linear infinite;
+            letter-spacing: 8px;
+        }
+        
+        @keyframes rgb-shift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green);
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 40px 0;
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 8px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            animation: scan 3s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-pink);
+            box-shadow: 
+                0 10px 40px rgba(255, 0, 255, 0.3),
+                inset 0 0 20px rgba(255, 0, 255, 0.1);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+        }
+        
+        .stat-icon {
+            font-size: 20px;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+        
+        .stat-value {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 10px 0;
+        }
+        
+        .stat-progress {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            border-radius: 2px;
+            animation: progress-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes progress-glow {
+            0%, 100% { box-shadow: 0 0 10px var(--neon-cyan); }
+            50% { box-shadow: 0 0 20px var(--neon-pink); }
+        }
+        
+        /* Action Zone */
+        .action-zone {
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .action-title {
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+        }
+        
+        .action-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .cyber-btn {
+            padding: 16px 32px;
+            background: transparent;
+            border: 2px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: var(--neon-cyan);
+            transform: translate(-50%, -50%);
+            transition: all 0.3s;
+        }
+        
+        .cyber-btn:hover {
+            color: var(--bg-dark);
+            text-shadow: none;
+            box-shadow: 
+                0 0 20px var(--neon-cyan),
+                inset 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+        
+        .cyber-btn:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .cyber-btn span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cyber-btn.primary {
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+            animation: rainbow-border 3s linear infinite;
+        }
+        
+        @keyframes rainbow-border {
+            0% { border-color: var(--neon-pink); color: var(--neon-pink); }
+            33% { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+            66% { border-color: var(--neon-yellow); color: var(--neon-yellow); }
+            100% { border-color: var(--neon-pink); color: var(--neon-pink); }
+        }
+        
+        .cyber-btn.primary::before {
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan));
+        }
+        
+        /* Data Stream */
+        .data-stream {
+            padding: 40px 0;
+        }
+        
+        .stream-header {
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--neon-green);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        .stream-list {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .stream-item {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .stream-item:hover {
+            background: rgba(0, 255, 255, 0.05);
+            padding-left: 24px;
+        }
+        
+        .stream-time {
+            color: var(--neon-yellow);
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .stream-content {
+            flex: 1;
+            margin: 0 20px;
+            color: var(--text-primary);
+        }
+        
+        .stream-status {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        
+        .status-live {
+            background: rgba(0, 255, 0, 0.2);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+        }
+        
+        .status-pending {
+            background: rgba(255, 255, 0, 0.2);
+            color: var(--neon-yellow);
+            border: 1px solid var(--neon-yellow);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mega-countdown { font-size: 48px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .action-grid { flex-direction: column; }
+            .cyber-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Grid Background -->
+    <div class="grid-bg"></div>
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">JARVISH</div>
+                <div class="cyber-status">
+                    <span class="status-pill">🚀 SYSTEM ONLINE</span>
+                    <span class="status-pill">⚡ TIER: PLATINUM</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Timer -->
+        <section class="hero-timer">
+            <div class="countdown-label">[ DISTRIBUTION COUNTDOWN ]</div>
+            <div class="mega-countdown" id="countdown">04:23:15</div>
+            <div class="status-bar">
+                <div class="status-item">
+                    <span class="status-dot"></span>
+                    <span>PACK READY</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-dot"></span>
+                    <span>API CONNECTED</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-dot"></span>
+                    <span>AI ACTIVE</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Stats Grid -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-label">[ TODAY'S PACK ]</span>
+                    <span class="stat-icon">📦</span>
+                </div>
+                <div class="stat-value">5/5</div>
+                <div class="stat-progress">
+                    <div class="progress-bar" style="width: 100%"></div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-label">[ CLIENT NETWORK ]</span>
+                    <span class="stat-icon">🌐</span>
+                </div>
+                <div class="stat-value">1,247</div>
+                <div class="stat-progress">
+                    <div class="progress-bar" style="width: 85%"></div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-label">[ WHATSAPP HEALTH ]</span>
+                    <span class="stat-icon">💬</span>
+                </div>
+                <div class="stat-value">98%</div>
+                <div class="stat-progress">
+                    <div class="progress-bar" style="width: 98%"></div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-label">[ ENGAGEMENT RATE ]</span>
+                    <span class="stat-icon">⚡</span>
+                </div>
+                <div class="stat-value">72%</div>
+                <div class="stat-progress">
+                    <div class="progress-bar" style="width: 72%"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Action Zone -->
+        <section class="action-zone">
+            <h2 class="action-title">[ COMMAND CENTER ]</h2>
+            <div class="action-grid">
+                <button class="cyber-btn primary"><span>🚀 LAUNCH DISTRIBUTION</span></button>
+                <button class="cyber-btn"><span>⚡ CREATE CONTENT</span></button>
+                <button class="cyber-btn"><span>📊 ANALYTICS</span></button>
+                <button class="cyber-btn"><span>🎮 AI ASSIST</span></button>
+            </div>
+        </section>
+        
+        <!-- Data Stream -->
+        <section class="data-stream">
+            <h3 class="stream-header">[ ACTIVITY STREAM ]</h3>
+            <div class="stream-list">
+                <div class="stream-item">
+                    <span class="stream-time">10:30</span>
+                    <span class="stream-content">Market Analysis: Nifty 50 Technical Outlook</span>
+                    <span class="stream-status status-pending">PENDING</span>
+                </div>
+                <div class="stream-item">
+                    <span class="stream-time">YEST</span>
+                    <span class="stream-content">Weekly Portfolio Performance Dashboard</span>
+                    <span class="stream-status status-live">DELIVERED</span>
+                </div>
+                <div class="stream-item">
+                    <span class="stream-time">DEC-13</span>
+                    <span class="stream-content">Tax Optimization Strategies 2024-25</span>
+                    <span class="stream-status status-live">DELIVERED</span>
+                </div>
+                <div class="stream-item">
+                    <span class="stream-time">DEC-12</span>
+                    <span class="stream-content">Crypto vs Traditional Assets Analysis</span>
+                    <span class="stream-status status-live">DELIVERED</span>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        // Countdown timer
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date();
+            target.setHours(6, 0, 0, 0);
+            if (now > target) target.setDate(target.getDate() + 1);
+            
+            const diff = target - now;
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>

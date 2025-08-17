@@ -1,0 +1,12 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { AdminApproval } from '../apps/web/components/AdminApproval';
+declare const meta: Meta<typeof AdminApproval>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export declare const Default: Story;
+export declare const HighRiskFilter: Story;
+export declare const BatchMode: Story;
+export declare const ReviewDetail: Story;
+export declare const Escalations: Story;
+export declare const EmptyQueue: Story;
+export declare const FullQueue: Story;

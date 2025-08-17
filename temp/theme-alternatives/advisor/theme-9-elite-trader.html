@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Elite Trader - Advisor Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Elite Trader Color Palette - Market-Focused, Data-Heavy */
+            --bg-primary: #0A0E1B;
+            --bg-secondary: #0F1823;
+            --bg-tertiary: #1A2332;
+            --bg-card: #1E2A3A;
+            --bg-hover: #2A3847;
+            
+            --text-primary: #E1E8F0;
+            --text-secondary: #94A3B8;
+            --text-tertiary: #64748B;
+            
+            --accent-bull: #00D084;
+            --accent-bear: #FF4757;
+            --accent-neutral: #FFB800;
+            --accent-data: #00B4D8;
+            --accent-premium: #9333EA;
+            
+            --border-color: rgba(148, 163, 184, 0.1);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.7);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.9);
+            
+            --gradient-bull: linear-gradient(135deg, #00D084, #00B4D8);
+            --gradient-bear: linear-gradient(135deg, #FF4757, #FF6B7A);
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', 'SF Mono', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Grid Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 180, 216, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 180, 216, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .dashboard-container {
+            max-width: 100%;
+            padding: 0;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Trading Header */
+        .header {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .market-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .market-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .market-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-bull);
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .market-label {
+            color: var(--text-secondary);
+        }
+
+        /* Countdown Ticker */
+        .countdown-ticker {
+            background: var(--bg-tertiary);
+            padding: 8px 16px;
+            border-bottom: 2px solid var(--accent-data);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ticker-time {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-data);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .ticker-label {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Market Indices */
+        .market-indices {
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .index-card {
+            min-width: 100px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .index-name {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .index-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .index-change {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .index-change.positive {
+            color: var(--accent-bull);
+        }
+
+        .index-change.negative {
+            color: var(--accent-bear);
+        }
+
+        /* Data Grid Section */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            padding: 16px;
+            background: var(--bg-primary);
+        }
+
+        .data-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-bull);
+        }
+
+        .data-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .data-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-badge {
+            padding: 2px 6px;
+            background: var(--accent-data);
+            color: white;
+            font-size: 9px;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        /* Performance Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .metric-item {
+            background: var(--bg-tertiary);
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .metric-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 9px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-trend {
+            display: inline-block;
+            font-size: 10px;
+            margin-top: 4px;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+
+        .metric-trend.up {
+            background: rgba(0, 208, 132, 0.1);
+            color: var(--accent-bull);
+        }
+
+        .metric-trend.down {
+            background: rgba(255, 71, 87, 0.1);
+            color: var(--accent-bear);
+        }
+
+        /* Content Pipeline - Trading Style */
+        .pipeline-trading {
+            padding: 16px;
+            background: var(--bg-secondary);
+        }
+
+        .pipeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .pipeline-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pipeline-flow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+        }
+
+        .flow-item {
+            background: var(--bg-card);
+            padding: 8px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .flow-item.active {
+            border-color: var(--accent-data);
+            background: rgba(0, 180, 216, 0.1);
+        }
+
+        .flow-count {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-data);
+        }
+
+        .flow-label {
+            font-size: 9px;
+            color: var(--text-tertiary);
+            margin-top: 2px;
+        }
+
+        /* AI Trading Assistant */
+        .ai-trading {
+            padding: 16px;
+            background: var(--bg-primary);
+        }
+
+        .ai-terminal {
+            background: #000;
+            border: 1px solid var(--accent-data);
+            border-radius: 4px;
+            padding: 16px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .terminal-prompt {
+            color: var(--accent-bull);
+            font-size: 12px;
+        }
+
+        .terminal-cursor {
+            width: 8px;
+            height: 14px;
+            background: var(--accent-bull);
+            animation: cursor-blink 1s infinite;
+        }
+
+        @keyframes cursor-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .terminal-output {
+            font-size: 11px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .terminal-command {
+            color: var(--accent-data);
+            margin-top: 8px;
+        }
+
+        /* Position Tracker */
+        .positions-section {
+            padding: 16px;
+            background: var(--bg-secondary);
+        }
+
+        .position-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .position-item {
+            background: var(--bg-card);
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+        }
+
+        .position-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .position-symbol {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .position-details {
+            font-size: 10px;
+            color: var(--text-tertiary);
+        }
+
+        .position-pnl {
+            text-align: right;
+        }
+
+        .pnl-value {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .pnl-value.profit {
+            color: var(--accent-bull);
+        }
+
+        .pnl-value.loss {
+            color: var(--accent-bear);
+        }
+
+        .pnl-percentage {
+            font-size: 10px;
+            color: var(--text-tertiary);
+        }
+
+        /* WhatsApp Analytics */
+        .wa-analytics {
+            padding: 16px;
+            background: var(--bg-primary);
+        }
+
+        .analytics-terminal {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 12px;
+        }
+
+        .analytics-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 11px;
+        }
+
+        .analytics-row:last-child {
+            border-bottom: none;
+        }
+
+        .analytics-label {
+            color: var(--text-secondary);
+        }
+
+        .analytics-value {
+            text-align: right;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Quick Actions - Trading Style */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 16px;
+            background: var(--bg-secondary);
+        }
+
+        .action-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 4px;
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+            background: var(--bg-hover);
+        }
+
+        .action-icon {
+            width: 24px;
+            height: 24px;
+            margin: 0 auto 4px;
+            color: var(--accent-data);
+        }
+
+        .action-text {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Bottom Navigation - Minimal */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--accent-data);
+            padding: 8px 0;
+            z-index: 100;
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item.active {
+            color: var(--accent-data);
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-bottom: 4px;
+        }
+
+        .nav-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Chat Feature - Terminal Style */
+        .chat-terminal {
+            position: fixed;
+            bottom: 70px;
+            right: 16px;
+            width: 48px;
+            height: 48px;
+            background: var(--bg-card);
+            border: 1px solid var(--accent-data);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .chat-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--accent-data);
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .dashboard-container {
+                max-width: 1400px;
+                padding: 20px;
+            }
+
+            .data-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+
+        /* Data Stream Animation */
+        .data-stream {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, var(--accent-data), transparent);
+            background-size: 100% 200px;
+            animation: stream 3s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes stream {
+            0% { background-position: 0 -200px; }
+            100% { background-position: 0 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="data-stream"></div>
+    <div class="dashboard-container">
+        <!-- Trading Header -->
+        <header class="header">
+            <div class="header-grid">
+                <div class="market-status">
+                    <div class="market-indicator">
+                        <span class="market-dot"></span>
+                        <span class="market-label">Markets Open</span>
+                    </div>
+                    <div class="market-indicator">
+                        <span class="market-label">NSE | BSE</span>
+                    </div>
+                </div>
+                <div style="font-size: 11px; color: var(--text-tertiary);">
+                    Elite Trader Pro
+                </div>
+            </div>
+        </header>
+
+        <!-- Countdown Ticker -->
+        <div class="countdown-ticker">
+            <div>
+                <div class="ticker-label">Content Deadline</div>
+                <div class="ticker-time" id="countdown">05:42:18</div>
+            </div>
+            <div style="text-align: right;">
+                <div class="ticker-label">IST 06:00</div>
+                <div style="font-size: 12px; color: var(--accent-bull);">ON TRACK</div>
+            </div>
+        </div>
+
+        <!-- Market Indices -->
+        <div class="market-indices">
+            <div class="index-card">
+                <div class="index-name">NIFTY 50</div>
+                <div class="index-value">21,453.10</div>
+                <div class="index-change positive">+1.24%</div>
+            </div>
+            <div class="index-card">
+                <div class="index-name">SENSEX</div>
+                <div class="index-value">71,847.50</div>
+                <div class="index-change positive">+1.18%</div>
+            </div>
+            <div class="index-card">
+                <div class="index-name">BANK NIFTY</div>
+                <div class="index-value">47,832.45</div>
+                <div class="index-change negative">-0.45%</div>
+            </div>
+            <div class="index-card">
+                <div class="index-name">NIFTY IT</div>
+                <div class="index-value">35,621.30</div>
+                <div class="index-change positive">+2.34%</div>
+            </div>
+            <div class="index-card">
+                <div class="index-name">USD/INR</div>
+                <div class="index-value">83.24</div>
+                <div class="index-change negative">-0.12%</div>
+            </div>
+        </div>
+
+        <!-- Data Grid -->
+        <section class="data-grid">
+            <div class="data-card">
+                <div class="data-header">
+                    <span class="data-title">Portfolio Performance</span>
+                    <span class="data-badge">LIVE</span>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-value">₹2.4Cr</div>
+                        <div class="metric-label">AUM</div>
+                        <span class="metric-trend up">↑ 12.4%</span>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">327</div>
+                        <div class="metric-label">Clients</div>
+                        <span class="metric-trend up">↑ 8.2%</span>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">94%</div>
+                        <div class="metric-label">Win Rate</div>
+                        <span class="metric-trend up">↑ 2.1%</span>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">1.8</div>
+                        <div class="metric-label">Sharpe</div>
+                        <span class="metric-trend down">↓ 0.2</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Pipeline Trading -->
+        <section class="pipeline-trading">
+            <div class="pipeline-header">
+                <span class="pipeline-title">Content Pipeline</span>
+                <span style="font-size: 10px; color: var(--accent-data);">AUTOMATED</span>
+            </div>
+            <div class="pipeline-flow">
+                <div class="flow-item">
+                    <div class="flow-count">5</div>
+                    <div class="flow-label">Draft</div>
+                </div>
+                <div class="flow-item active">
+                    <div class="flow-count">3</div>
+                    <div class="flow-label">Review</div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-count">12</div>
+                    <div class="flow-label">Ready</div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-count">24</div>
+                    <div class="flow-label">Queue</div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-count">487</div>
+                    <div class="flow-label">Sent</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Trading Assistant -->
+        <section class="ai-trading">
+            <div class="ai-terminal">
+                <div class="terminal-header">
+                    <span class="terminal-prompt">AI_TRADER@JARVISH:~$</span>
+                    <div class="terminal-cursor"></div>
+                </div>
+                <div class="terminal-output">
+                    <div class="terminal-command">> analyze_market_sentiment</div>
+                    <div style="margin-top: 8px;">
+                        BULLISH SIGNAL DETECTED<br>
+                        - IT Sector: Strong momentum (+2.34%)<br>
+                        - FII Activity: Net buyers ₹1,247 Cr<br>
+                        - Options Data: PCR at 1.24 (Bullish)<br>
+                        <br>
+                        CONTENT RECOMMENDATION:<br>
+                        "Tech stocks lead market rally. Consider IT sector funds for long-term growth. Volatility presents buying opportunity in quality names."
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Positions Tracker -->
+        <section class="positions-section">
+            <div class="pipeline-header">
+                <span class="pipeline-title">Client Positions</span>
+                <span style="font-size: 10px; color: var(--accent-bull);">P&L: +14.2%</span>
+            </div>
+            <div class="position-list">
+                <div class="position-item">
+                    <div class="position-info">
+                        <span class="position-symbol">RELIANCE</span>
+                        <span class="position-details">500 shares @ ₹2,450</span>
+                    </div>
+                    <div class="position-pnl">
+                        <div class="pnl-value profit">+₹47,500</div>
+                        <div class="pnl-percentage">+3.88%</div>
+                    </div>
+                </div>
+                <div class="position-item">
+                    <div class="position-info">
+                        <span class="position-symbol">TCS</span>
+                        <span class="position-details">200 shares @ ₹3,780</span>
+                    </div>
+                    <div class="position-pnl">
+                        <div class="pnl-value profit">+₹28,400</div>
+                        <div class="pnl-percentage">+3.76%</div>
+                    </div>
+                </div>
+                <div class="position-item">
+                    <div class="position-info">
+                        <span class="position-symbol">HDFC BANK</span>
+                        <span class="position-details">300 shares @ ₹1,620</span>
+                    </div>
+                    <div class="position-pnl">
+                        <div class="pnl-value loss">-₹8,100</div>
+                        <div class="pnl-percentage">-1.67%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WhatsApp Analytics -->
+        <section class="wa-analytics">
+            <div class="pipeline-header">
+                <span class="pipeline-title">WhatsApp Analytics</span>
+                <span style="font-size: 10px; color: var(--accent-bull);">HEALTHY</span>
+            </div>
+            <div class="analytics-terminal">
+                <div class="analytics-row">
+                    <span class="analytics-label">Messages Sent</span>
+                    <span class="analytics-value">3,247</span>
+                    <span class="analytics-value" style="color: var(--accent-bull);">↑ 12%</span>
+                </div>
+                <div class="analytics-row">
+                    <span class="analytics-label">Delivery Rate</span>
+                    <span class="analytics-value">98.4%</span>
+                    <span class="analytics-value" style="color: var(--accent-bull);">↑ 0.2%</span>
+                </div>
+                <div class="analytics-row">
+                    <span class="analytics-label">Read Rate</span>
+                    <span class="analytics-value">76.8%</span>
+                    <span class="analytics-value" style="color: var(--accent-bear);">↓ 1.4%</span>
+                </div>
+                <div class="analytics-row">
+                    <span class="analytics-label">Engagement</span>
+                    <span class="analytics-value">42.3%</span>
+                    <span class="analytics-value" style="color: var(--accent-bull);">↑ 3.1%</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <div class="action-btn">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                </svg>
+                <div class="action-text">Scan</div>
+            </div>
+            <div class="action-btn">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+                <div class="action-text">Charts</div>
+            </div>
+            <div class="action-btn">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <div class="action-text">Alerts</div>
+            </div>
+            <div class="action-btn">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                </svg>
+                <div class="action-text">Orders</div>
+            </div>
+            <div class="action-btn">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
+                </svg>
+                <div class="action-text">News</div>
+            </div>
+            <div class="action-btn">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <div class="action-text">Execute</div>
+            </div>
+        </section>
+
+        <!-- Bottom padding -->
+        <div style="height: 60px;"></div>
+
+        <!-- Chat Terminal -->
+        <div class="chat-terminal">
+            <svg class="chat-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2z"/>
+            </svg>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-items">
+                <div class="nav-item active">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                    </svg>
+                    <span class="nav-label">Dashboard</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-5h2v5zm4 0h-2v-3h2v3zm0-5h-2v-2h2v2zm4 5h-2V7h2v10z"/>
+                    </svg>
+                    <span class="nav-label">Markets</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
+                    <span class="nav-label">Positions</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                    </svg>
+                    <span class="nav-label">Content</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span class="nav-label">Settings</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Countdown Timer
+        function updateCountdown() {
+            const now = new Date();
+            const deadline = new Date();
+            deadline.setHours(6, 0, 0, 0);
+            
+            if (now > deadline) {
+                deadline.setDate(deadline.getDate() + 1);
+            }
+            
+            const diff = deadline - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Simulate live data updates
+        setInterval(() => {
+            const indices = document.querySelectorAll('.index-change');
+            indices.forEach(index => {
+                const change = (Math.random() - 0.5) * 0.1;
+                const value = parseFloat(index.textContent);
+                const newValue = value + change;
+                index.textContent = `${newValue > 0 ? '+' : ''}${newValue.toFixed(2)}%`;
+                index.className = `index-change ${newValue > 0 ? 'positive' : 'negative'}`;
+            });
+        }, 5000);
+
+        // Touch optimizations
+        document.querySelectorAll('.action-btn, .nav-item, .position-item').forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.opacity = '0.8';
+            });
+            element.addEventListener('touchend', function() {
+                this.style.opacity = '1';
+            });
+        });
+    </script>
+</body>
+</html>

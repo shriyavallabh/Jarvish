@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project One - Admin Operations Console</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <style>
+        /* Authoritative Design Tokens from PRD */
+        :root {
+            /* Authoritative Colors */
+            --color-ink: #0B1F33;        /* primary text */
+            --color-gold: #CEA200;       /* micro-accent */
+            --color-cta: #0C310C;        /* primary action (Palm Green) */
+            --color-bg: #FFFFFF;         /* background */
+            --color-bg-muted: #F6F8FA;   /* muted background */
+            --color-border: #E6E8EB;     /* border */
+            --color-danger: #D92D20;     /* danger */
+            --color-success: #12B76A;    /* success */
+            --color-warning: #F79009;    /* warning */
+            
+            /* Typography - Correct Implementation */
+            --font-primary: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --font-secondary: "Fraunces", Georgia, serif;
+            --font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--color-bg);
+            color: var(--color-ink);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        /* Command Center Layout */
+        .admin-console {
+            display: grid;
+            grid-template-columns: 280px 1fr 340px;
+            grid-template-rows: 64px 1fr;
+            height: 100vh;
+            background: var(--color-bg);
+        }
+        
+        /* Professional Header */
+        .admin-header {
+            grid-column: 1 / -1;
+            background: var(--color-bg);
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .admin-logo {
+            font-family: var(--font-secondary);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-ink);
+            text-decoration: none;
+        }
+        
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-operational {
+            color: var(--color-success);
+        }
+        
+        .status-warning {
+            color: var(--color-warning);
+        }
+        
+        .status-critical {
+            color: var(--color-danger);
+        }
+        
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .alert-counter {
+            background: var(--color-danger);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: var(--color-cta);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: white;
+        }
+        
+        .user-name {
+            font-weight: 500;
+            color: var(--color-ink);
+        }
+        
+        /* Admin Sidebar */
+        .admin-sidebar {
+            background: var(--color-bg-muted);
+            border-right: 1px solid var(--color-border);
+            padding: 24px 0;
+        }
+        
+        .admin-nav-section {
+            margin-bottom: 32px;
+        }
+        
+        .admin-nav-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-ink);
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0 24px;
+            margin-bottom: 12px;
+        }
+        
+        .admin-nav-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            color: var(--color-ink);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .admin-nav-item:hover,
+        .admin-nav-item.active {
+            background: var(--color-bg);
+            border-left-color: var(--color-danger);
+            color: var(--color-danger);
+        }
+        
+        .nav-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .nav-icon {
+            width: 18px;
+            height: 18px;
+            background: currentColor;
+            border-radius: 3px;
+            opacity: 0.7;
+        }
+        
+        .nav-badge {
+            background: var(--color-danger);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        
+        /* Main Operations Area */
+        .operations-main {
+            background: var(--color-bg);
+            padding: 32px;
+            overflow-y: auto;
+        }
+        
+        .ops-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+        }
+        
+        .ops-title {
+            font-family: var(--font-secondary);
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 6px;
+        }
+        
+        .ops-subtitle {
+            font-size: 15px;
+            color: var(--color-ink);
+            opacity: 0.6;
+        }
+        
+        .ops-controls {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .control-button {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            color: var(--color-ink);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .control-button:hover {
+            border-color: var(--color-cta);
+            color: var(--color-cta);
+        }
+        
+        .control-button.primary {
+            background: var(--color-danger);
+            border-color: var(--color-danger);
+            color: white;
+        }
+        
+        .control-button.primary:hover {
+            background: #B91C1C;
+        }
+        
+        /* Critical Alert Section */
+        .critical-section {
+            background: rgba(217, 45, 32, 0.05);
+            border: 1px solid rgba(217, 45, 32, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .critical-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .critical-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--color-danger);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .critical-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-danger);
+        }
+        
+        .critical-description {
+            font-size: 14px;
+            color: var(--color-ink);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        /* Approval Queue Table */
+        .queue-section {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+        
+        .queue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border-bottom: 1px solid var(--color-border);
+            background: var(--color-bg-muted);
+        }
+        
+        .queue-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-ink);
+        }
+        
+        .queue-filters {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .filter-chip {
+            padding: 6px 12px;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-ink);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-chip:hover {
+            border-color: var(--color-cta);
+            color: var(--color-cta);
+        }
+        
+        .filter-chip.active {
+            background: var(--color-danger);
+            border-color: var(--color-danger);
+            color: white;
+        }
+        
+        .queue-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .queue-table th {
+            text-align: left;
+            padding: 16px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-ink);
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: var(--color-bg-muted);
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .queue-table td {
+            padding: 16px 24px;
+            font-size: 14px;
+            color: var(--color-ink);
+            border-bottom: 1px solid var(--color-border);
+            vertical-align: top;
+        }
+        
+        .queue-table tr:hover {
+            background: var(--color-bg-muted);
+        }
+        
+        .queue-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .priority-critical {
+            background: rgba(217, 45, 32, 0.1);
+            color: var(--color-danger);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .priority-high {
+            background: rgba(247, 144, 9, 0.1);
+            color: var(--color-warning);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .priority-medium {
+            background: rgba(12, 49, 12, 0.1);
+            color: var(--color-cta);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .compliance-critical {
+            color: var(--color-danger);
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+        
+        .compliance-warning {
+            color: var(--color-warning);
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+        
+        .compliance-good {
+            color: var(--color-success);
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .action-btn {
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        
+        .approve-btn {
+            background: rgba(18, 183, 106, 0.1);
+            color: var(--color-success);
+            border: 1px solid rgba(18, 183, 106, 0.2);
+        }
+        
+        .approve-btn:hover {
+            background: var(--color-success);
+            color: white;
+        }
+        
+        .reject-btn {
+            background: rgba(217, 45, 32, 0.1);
+            color: var(--color-danger);
+            border: 1px solid rgba(217, 45, 32, 0.2);
+        }
+        
+        .reject-btn:hover {
+            background: var(--color-danger);
+            color: white;
+        }
+        
+        .review-btn {
+            background: var(--color-bg);
+            color: var(--color-ink);
+            border: 1px solid var(--color-border);
+        }
+        
+        .review-btn:hover {
+            border-color: var(--color-cta);
+            color: var(--color-cta);
+        }
+        
+        /* System Monitoring Panel */
+        .monitoring-panel {
+            background: var(--color-bg-muted);
+            border-left: 1px solid var(--color-border);
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        .monitoring-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 24px;
+        }
+        
+        .system-metric {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .metric-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-ink);
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .metric-value {
+            font-family: var(--font-secondary);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-ink);
+            line-height: 1;
+        }
+        
+        .metric-trend {
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        .trend-up {
+            color: var(--color-success);
+        }
+        
+        .trend-down {
+            color: var(--color-danger);
+        }
+        
+        .trend-stable {
+            color: var(--color-ink);
+            opacity: 0.6;
+        }
+        
+        .metric-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--color-bg-muted);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+        
+        .metric-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .fill-excellent {
+            background: var(--color-success);
+        }
+        
+        .fill-good {
+            background: var(--color-cta);
+        }
+        
+        .fill-warning {
+            background: var(--color-warning);
+        }
+        
+        .fill-critical {
+            background: var(--color-danger);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .admin-console {
+                grid-template-columns: 260px 1fr;
+            }
+            
+            .monitoring-panel {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .admin-console {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-sidebar {
+                display: none;
+            }
+            
+            .operations-main {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-console">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <a href="../landing-page.html" class="admin-logo">Project One Admin</a>
+                <div class="system-status">
+                    <div class="status-item status-operational">
+                        <div class="status-dot"></div>
+                        <span>API Operational</span>
+                    </div>
+                    <div class="status-item status-warning">
+                        <div class="status-dot"></div>
+                        <span>Queue Backlog</span>
+                    </div>
+                    <div class="status-item status-operational">
+                        <div class="status-dot"></div>
+                        <span>WhatsApp 99.8%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="alert-counter">12 Alerts</div>
+                <div class="user-profile">
+                    <div class="avatar">SA</div>
+                    <span class="user-name">System Admin</span>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-nav-section">
+                <div class="admin-nav-title">Operations</div>
+                <a href="#" class="admin-nav-item active">
+                    <div class="nav-label">
+                        <div class="nav-icon"></div>
+                        <span>Approval Queue</span>
+                    </div>
+                    <div class="nav-badge">47</div>
+                </a>
+                <a href="#" class="admin-nav-item">
+                    <div class="nav-label">
+                        <div class="nav-icon"></div>
+                        <span>Advisor Management</span>
+                    </div>
+                </a>
+                <a href="#" class="admin-nav-item">
+                    <div class="nav-label">
+                        <div class="nav-icon"></div>
+                        <span>Content Templates</span>
+                    </div>
+                </a>
+                <a href="#" class="admin-nav-item">
+                    <div class="nav-label">
+                        <div class="nav-icon"></div>
+                        <span>System Health</span>
+                    </div>
+                    <div class="nav-badge">3</div>
+                </a>
+            </div>
+            
+            <div class="admin-nav-section">
+                <div class="admin-nav-title">Analytics</div>
+                <a href="#" class="admin-nav-item">
+                    <div class="nav-label">
+                        <div class="nav-icon"></div>
+                        <span>Performance Metrics</span>
+                    </div>
+                </a>
+                <a href="#" class="admin-nav-item">
+                    <div class="nav-label">
+                        <div class="nav-icon"></div>
+                        <span>Compliance Reports</span>
+                    </div>
+                </a>
+                <a href="#" class="admin-nav-item">
+                    <div class="nav-label">
+                        <div class="nav-icon"></div>
+                        <span>Audit Logs</span>
+                    </div>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Operations Area -->
+        <main class="operations-main">
+            <div class="ops-header">
+                <div>
+                    <h1 class="ops-title">Content Approval Queue</h1>
+                    <p class="ops-subtitle">47 items requiring immediate attention • 12 critical violations detected</p>
+                </div>
+                <div class="ops-controls">
+                    <button class="control-button">Export Report</button>
+                    <button class="control-button">Bulk Actions</button>
+                    <button class="control-button primary">Process Queue</button>
+                </div>
+            </div>
+            
+            <!-- Critical Alert -->
+            <div class="critical-section">
+                <div class="critical-header">
+                    <div class="critical-icon">!</div>
+                    <div class="critical-title">SEBI Compliance Violations Detected</div>
+                </div>
+                <div class="critical-description">
+                    12 content pieces contain potential SEBI violations requiring immediate manual review. 
+                    Auto-approval has been suspended for high-risk content pending compliance verification.
+                </div>
+            </div>
+            
+            <!-- Approval Queue -->
+            <div class="queue-section">
+                <div class="queue-header">
+                    <h2 class="queue-title">Priority Review Queue</h2>
+                    <div class="queue-filters">
+                        <div class="filter-chip active">Critical</div>
+                        <div class="filter-chip">High</div>
+                        <div class="filter-chip">Medium</div>
+                        <div class="filter-chip">All</div>
+                    </div>
+                </div>
+                
+                <table class="queue-table">
+                    <thead>
+                        <tr>
+                            <th>Content</th>
+                            <th>Advisor</th>
+                            <th>Priority</th>
+                            <th>Compliance Score</th>
+                            <th>Violations</th>
+                            <th>Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="font-weight: 600; margin-bottom: 4px;">Market Performance Claims Q4</div>
+                                <div style="font-size: 12px; opacity: 0.7;">Performance projections without disclaimers</div>
+                            </td>
+                            <td>Raj Kumar</td>
+                            <td><span class="priority-critical">Critical</span></td>
+                            <td><span class="compliance-critical">67.2</span></td>
+                            <td>
+                                <div style="font-size: 12px;">
+                                    • Missing SEBI disclaimer<br>
+                                    • Unqualified performance data<br>
+                                    • Risk disclosure inadequate
+                                </div>
+                            </td>
+                            <td>2 hrs ago</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn review-btn">Review</button>
+                                    <button class="action-btn reject-btn">Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="font-weight: 600; margin-bottom: 4px;">SIP Investment Guidance</div>
+                                <div style="font-size: 12px; opacity: 0.7;">Minor compliance adjustments needed</div>
+                            </td>
+                            <td>Priya Sharma</td>
+                            <td><span class="priority-high">High</span></td>
+                            <td><span class="compliance-warning">84.1</span></td>
+                            <td>
+                                <div style="font-size: 12px;">
+                                    • Risk categorization unclear
+                                </div>
+                            </td>
+                            <td>45 min ago</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn approve-btn">Auto-Fix</button>
+                                    <button class="action-btn review-btn">Review</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="font-weight: 600; margin-bottom: 4px;">Tax Planning Strategies 2024</div>
+                                <div style="font-size: 12px; opacity: 0.7;">Compliance verified, ready for approval</div>
+                            </td>
+                            <td>Amit Patel</td>
+                            <td><span class="priority-medium">Medium</span></td>
+                            <td><span class="compliance-good">96.7</span></td>
+                            <td>
+                                <div style="font-size: 12px; color: var(--color-success);">
+                                    All compliance checks passed
+                                </div>
+                            </td>
+                            <td>30 min ago</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn approve-btn">Approve</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="font-weight: 600; margin-bottom: 4px;">Mutual Fund Comparison</div>
+                                <div style="font-size: 12px; opacity: 0.7;">Requires performance data verification</div>
+                            </td>
+                            <td>Sunita Joshi</td>
+                            <td><span class="priority-high">High</span></td>
+                            <td><span class="compliance-warning">78.9</span></td>
+                            <td>
+                                <div style="font-size: 12px;">
+                                    • Historical data sources<br>
+                                    • Comparative methodology
+                                </div>
+                            </td>
+                            <td>1 hr ago</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn review-btn">Review</button>
+                                    <button class="action-btn reject-btn">Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="font-weight: 600; margin-bottom: 4px;">Portfolio Diversification Tips</div>
+                                <div style="font-size: 12px; opacity: 0.7;">Clean content, minimal review needed</div>
+                            </td>
+                            <td>Vikram Singh</td>
+                            <td><span class="priority-medium">Medium</span></td>
+                            <td><span class="compliance-good">93.4</span></td>
+                            <td>
+                                <div style="font-size: 12px; color: var(--color-success);">
+                                    Minor formatting only
+                                </div>
+                            </td>
+                            <td>25 min ago</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn approve-btn">Approve</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        
+        <!-- System Monitoring Panel -->
+        <aside class="monitoring-panel">
+            <h3 class="monitoring-title">System Health</h3>
+            
+            <div class="system-metric">
+                <div class="metric-header">
+                    <span class="metric-name">Content Processing</span>
+                    <span class="metric-trend trend-up">+12%</span>
+                </div>
+                <div class="metric-value">247</div>
+                <div class="metric-bar">
+                    <div class="metric-fill fill-excellent" style="width: 89%"></div>
+                </div>
+            </div>
+            
+            <div class="system-metric">
+                <div class="metric-header">
+                    <span class="metric-name">Compliance Engine</span>
+                    <span class="metric-trend trend-stable">±0%</span>
+                </div>
+                <div class="metric-value">96.8%</div>
+                <div class="metric-bar">
+                    <div class="metric-fill fill-excellent" style="width: 96%"></div>
+                </div>
+            </div>
+            
+            <div class="system-metric">
+                <div class="metric-header">
+                    <span class="metric-name">WhatsApp Delivery</span>
+                    <span class="metric-trend trend-up">+0.2%</span>
+                </div>
+                <div class="metric-value">99.8%</div>
+                <div class="metric-bar">
+                    <div class="metric-fill fill-excellent" style="width: 99%"></div>
+                </div>
+            </div>
+            
+            <div class="system-metric">
+                <div class="metric-header">
+                    <span class="metric-name">Queue Backlog</span>
+                    <span class="metric-trend trend-down">-5%</span>
+                </div>
+                <div class="metric-value">47</div>
+                <div class="metric-bar">
+                    <div class="metric-fill fill-warning" style="width: 47%"></div>
+                </div>
+            </div>
+            
+            <div class="system-metric">
+                <div class="metric-header">
+                    <span class="metric-name">Response Time</span>
+                    <span class="metric-trend trend-up">+0.1s</span>
+                </div>
+                <div class="metric-value">1.2s</div>
+                <div class="metric-bar">
+                    <div class="metric-fill fill-good" style="width: 78%"></div>
+                </div>
+            </div>
+            
+            <div class="system-metric">
+                <div class="metric-header">
+                    <span class="metric-name">Active Advisors</span>
+                    <span class="metric-trend trend-up">+15</span>
+                </div>
+                <div class="metric-value">247</div>
+                <div class="metric-bar">
+                    <div class="metric-fill fill-excellent" style="width: 85%"></div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>

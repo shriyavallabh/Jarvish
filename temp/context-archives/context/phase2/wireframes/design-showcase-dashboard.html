@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project One - Design Showcase Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Design Showcase Palette */
+            --showcase-void: #0B0D17;
+            --showcase-steel: #1E293B;
+            --showcase-azure: #3B82F6;
+            --showcase-emerald: #10B981;
+            --showcase-amber: #F59E0B;
+            --showcase-crimson: #EF4444;
+            --showcase-violet: #8B5CF6;
+            --showcase-pearl: #FFFFFF;
+            --showcase-graphite: #64748B;
+            --showcase-frost: #F8FAFC;
+            
+            /* Typography */
+            --font-primary: "Poppins", system-ui, sans-serif;
+            --font-display: "Fraunces", Georgia, serif;
+            --font-mono: "SF Mono", "Monaco", "Inconsolata", monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--showcase-void);
+            color: var(--showcase-pearl);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Showcase Background */
+        .showcase-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+        }
+        
+        .showcase-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridFloat 15s linear infinite;
+            opacity: 0.2;
+        }
+        
+        @keyframes gridFloat {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Main Container */
+        .showcase-container {
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        /* Header */
+        .showcase-header {
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .showcase-title {
+            font-family: var(--font-display);
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--showcase-azure), var(--showcase-violet), var(--showcase-emerald));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            background-size: 200% 200%;
+            animation: titleShift 6s ease-in-out infinite;
+        }
+        
+        @keyframes titleShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .showcase-subtitle {
+            font-size: 20px;
+            color: var(--showcase-graphite);
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+        
+        .showcase-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--showcase-azure);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .badge-icon {
+            width: 16px;
+            height: 16px;
+            background: var(--showcase-azure);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--showcase-void);
+            font-size: 10px;
+            font-weight: 700;
+        }
+        
+        /* Stats Bar */
+        .showcase-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: var(--font-mono);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--showcase-azure);
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--showcase-graphite);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+        
+        /* Design Categories */
+        .design-category {
+            max-width: 1400px;
+            margin: 0 auto 80px;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--showcase-pearl);
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .category-icon.landing {
+            background: linear-gradient(135deg, var(--showcase-azure), var(--showcase-violet));
+        }
+        
+        .category-icon.advisor {
+            background: linear-gradient(135deg, var(--showcase-emerald), var(--showcase-azure));
+        }
+        
+        .category-icon.admin {
+            background: linear-gradient(135deg, var(--showcase-amber), var(--showcase-crimson));
+        }
+        
+        .category-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--showcase-pearl);
+        }
+        
+        .category-subtitle {
+            font-size: 14px;
+            color: var(--showcase-graphite);
+            margin-top: 4px;
+        }
+        
+        /* Design Grid */
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        
+        .design-card {
+            background: var(--showcase-steel);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .design-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--showcase-azure), var(--showcase-violet), var(--showcase-emerald));
+            background-size: 200% 100%;
+            animation: borderFlow 3s linear infinite;
+        }
+        
+        @keyframes borderFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+        
+        .design-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 64px rgba(59, 130, 246, 0.2);
+            border-color: var(--showcase-azure);
+        }
+        
+        .design-preview {
+            height: 200px;
+            background: var(--showcase-void);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .design-preview::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 15px,
+                rgba(59, 130, 246, 0.05) 15px,
+                rgba(59, 130, 246, 0.05) 30px
+            );
+        }
+        
+        .preview-icon {
+            font-size: 48px;
+            color: var(--showcase-azure);
+            z-index: 2;
+            position: relative;
+        }
+        
+        .design-info {
+            padding: 24px;
+        }
+        
+        .design-name {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--showcase-pearl);
+            margin-bottom: 8px;
+        }
+        
+        .design-description {
+            font-size: 14px;
+            color: var(--showcase-graphite);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        
+        .design-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        
+        .design-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--showcase-azure);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .design-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .design-btn {
+            flex: 1;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--showcase-azure);
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: var(--showcase-azure);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .design-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .design-btn.primary {
+            background: var(--showcase-azure);
+            color: var(--showcase-pearl);
+        }
+        
+        .design-btn.primary:hover {
+            background: #2563EB;
+        }
+        
+        /* Footer */
+        .showcase-footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(59, 130, 246, 0.1);
+            margin-top: 60px;
+        }
+        
+        .footer-text {
+            font-size: 14px;
+            color: var(--showcase-graphite);
+            margin-bottom: 8px;
+        }
+        
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--showcase-emerald);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .showcase-title {
+                font-size: 36px;
+            }
+            
+            .showcase-stats {
+                gap: 20px;
+            }
+            
+            .design-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="showcase-bg">
+        <div class="showcase-grid"></div>
+    </div>
+
+    <div class="showcase-container">
+        <!-- Header -->
+        <header class="showcase-header">
+            <h1 class="showcase-title">Project One Design Showcase</h1>
+            <p class="showcase-subtitle">15 mind-blowing designs for the next-generation financial platform</p>
+            <div class="showcase-badge">
+                <div class="badge-icon">⚡</div>
+                <span>Complete Design Suite</span>
+            </div>
+        </header>
+
+        <!-- Stats -->
+        <section class="showcase-stats">
+            <div class="stat-item">
+                <div class="stat-value">15</div>
+                <div class="stat-label">Total Designs</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Interface Types</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Premium Quality</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">$10B</div>
+                <div class="stat-label">Company Vision</div>
+            </div>
+        </section>
+
+        <!-- Landing Pages -->
+        <section class="design-category">
+            <div class="category-header">
+                <div class="category-icon landing">🚀</div>
+                <div>
+                    <h2 class="category-title">Landing Pages</h2>
+                    <p class="category-subtitle">5 unique landing page designs for first impressions</p>
+                </div>
+            </div>
+            
+            <div class="design-grid">
+                <div class="design-card" onclick="window.open('landing-v1-fortress.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">🏰</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Fortress</h3>
+                        <p class="design-description">Ultra-premium investment banking aesthetic with sophisticated dark theme and gold accents</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Premium</span>
+                            <span class="design-tag">Banking</span>
+                            <span class="design-tag">Dark Theme</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="landing-v1-fortress.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('landing-v2-innovation.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">💡</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Innovation</h3>
+                        <p class="design-description">Silicon Valley tech powerhouse design with modern gradients and cutting-edge aesthetics</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Tech</span>
+                            <span class="design-tag">Modern</span>
+                            <span class="design-tag">Gradients</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="landing-v2-innovation.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('landing-v3-trust.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">🛡️</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Trust</h3>
+                        <p class="design-description">Swiss banking precision with clean minimalist design and trust-building elements</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Minimal</span>
+                            <span class="design-tag">Trust</span>
+                            <span class="design-tag">Clean</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="landing-v3-trust.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('landing-v4-catalyst.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">⚡</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Catalyst</h3>
+                        <p class="design-description">High-performance growth platform with dynamic energy and performance-focused design</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Performance</span>
+                            <span class="design-tag">Growth</span>
+                            <span class="design-tag">Dynamic</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="landing-v4-catalyst.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('landing-v5-visionary.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">🔮</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Visionary</h3>
+                        <p class="design-description">Future-forward executive design with cosmic aesthetics and forward-thinking elements</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Future</span>
+                            <span class="design-tag">Executive</span>
+                            <span class="design-tag">Cosmic</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="landing-v5-visionary.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Advisor Dashboards -->
+        <section class="design-category">
+            <div class="category-header">
+                <div class="category-icon advisor">📊</div>
+                <div>
+                    <h2 class="category-title">Advisor Dashboards</h2>
+                    <p class="category-subtitle">5 sophisticated advisor interfaces for financial professionals</p>
+                </div>
+            </div>
+            
+            <div class="design-grid">
+                <div class="design-card" onclick="window.open('advisor-dashboard-v1-command.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">⚔️</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Command</h3>
+                        <p class="design-description">Military-grade advisor interface with tactical precision and command center aesthetics</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Military</span>
+                            <span class="design-tag">Tactical</span>
+                            <span class="design-tag">Command</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="advisor-dashboard-v1-command.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('advisor-dashboard-v2-growth.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">📈</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Growth</h3>
+                        <p class="design-description">Performance-driven interface focused on growth metrics and portfolio optimization</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Growth</span>
+                            <span class="design-tag">Performance</span>
+                            <span class="design-tag">Metrics</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="advisor-dashboard-v2-growth.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('advisor-dashboard-v3-elite.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">👑</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Elite</h3>
+                        <p class="design-description">Premium executive interface with luxury aesthetics and high-end financial tools</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Elite</span>
+                            <span class="design-tag">Luxury</span>
+                            <span class="design-tag">Executive</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="advisor-dashboard-v3-elite.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('advisor-dashboard-v4-intelligence.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">🧠</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Intelligence</h3>
+                        <p class="design-description">AI-first interface with machine learning insights and intelligent automation</p>
+                        <div class="design-tags">
+                            <span class="design-tag">AI</span>
+                            <span class="design-tag">Intelligence</span>
+                            <span class="design-tag">Automation</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="advisor-dashboard-v4-intelligence.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('advisor-dashboard-v5-visionary.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">∞</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Visionary</h3>
+                        <p class="design-description">Future-forward design with quantum aesthetics and next-generation interface elements</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Future</span>
+                            <span class="design-tag">Quantum</span>
+                            <span class="design-tag">Visionary</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="advisor-dashboard-v5-visionary.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Dashboards -->
+        <section class="design-category">
+            <div class="category-header">
+                <div class="category-icon admin">⚙️</div>
+                <div>
+                    <h2 class="category-title">Admin Operations Dashboards</h2>
+                    <p class="category-subtitle">5 powerful admin interfaces for system operations and management</p>
+                </div>
+            </div>
+            
+            <div class="design-grid">
+                <div class="design-card" onclick="window.open('admin-dashboard-v1-control-tower.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">🗼</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Control Tower</h3>
+                        <p class="design-description">Mission-critical operations center with real-time monitoring and alert systems</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Operations</span>
+                            <span class="design-tag">Mission Critical</span>
+                            <span class="design-tag">Monitoring</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="admin-dashboard-v1-control-tower.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('admin-dashboard-v2-matrix.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">🔢</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Matrix</h3>
+                        <p class="design-description">High-tech command interface with Matrix-inspired aesthetics and terminal interfaces</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Matrix</span>
+                            <span class="design-tag">Terminal</span>
+                            <span class="design-tag">High-tech</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="admin-dashboard-v2-matrix.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('admin-dashboard-v3-executive.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">💼</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Executive</h3>
+                        <p class="design-description">Premium executive interface with sophisticated design and executive-level insights</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Executive</span>
+                            <span class="design-tag">Premium</span>
+                            <span class="design-tag">Sophisticated</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="admin-dashboard-v3-executive.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('admin-dashboard-v4-intelligence.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">🧠</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Intelligence Hub</h3>
+                        <p class="design-description">AI-powered operations center with neural network analytics and predictive intelligence</p>
+                        <div class="design-tags">
+                            <span class="design-tag">AI</span>
+                            <span class="design-tag">Neural</span>
+                            <span class="design-tag">Predictive</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="admin-dashboard-v4-intelligence.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="design-card" onclick="window.open('admin-dashboard-v5-cyberpunk-nexus.html', '_blank')">
+                    <div class="design-preview">
+                        <div class="preview-icon">⚡</div>
+                    </div>
+                    <div class="design-info">
+                        <h3 class="design-name">Cyberpunk Nexus</h3>
+                        <p class="design-description">Futuristic neon-lit cyberpunk interface with neural links and cutting-edge aesthetics</p>
+                        <div class="design-tags">
+                            <span class="design-tag">Cyberpunk</span>
+                            <span class="design-tag">Neon</span>
+                            <span class="design-tag">Futuristic</span>
+                        </div>
+                        <div class="design-actions">
+                            <a href="admin-dashboard-v5-cyberpunk-nexus.html" target="_blank" class="design-btn primary">View Design</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="showcase-footer">
+            <p class="footer-text">All designs created with Poppins & Fraunces typography, consistent branding, and $10B company vision</p>
+            <div class="footer-badge">
+                <span>✅ Complete Design Suite</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Add click animation to cards
+        document.querySelectorAll('.design-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+        
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

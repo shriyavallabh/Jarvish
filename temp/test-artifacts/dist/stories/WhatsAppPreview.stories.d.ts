@@ -1,0 +1,12 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { WhatsAppPreview } from '../apps/web/components/WhatsAppPreview';
+declare const meta: Meta<typeof WhatsAppPreview>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export declare const TextMessage: Story;
+export declare const WithImage: Story;
+export declare const ProTierBranding: Story;
+export declare const HindiContent: Story;
+export declare const WithDocument: Story;
+export declare const LongMessage: Story;
+export declare const NoDisclaimer: Story;

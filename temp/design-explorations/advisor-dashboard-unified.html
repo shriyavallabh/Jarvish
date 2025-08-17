@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advisor Dashboard - Jarvish AI Assistant</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Unified Design System -->
+    <link rel="stylesheet" href="unified-design-system.css">
+    
+    <style>
+        /* ============================================
+           ADVISOR DASHBOARD SPECIFIC STYLES
+           ============================================ */
+        
+        body {
+            background: var(--color-surface);
+            min-height: 100vh;
+        }
+        
+        /* Layout */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: var(--color-white);
+            border-right: 1px solid var(--color-gray-200);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+        
+        .user-avatar-large {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-gold);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: var(--font-bold);
+            color: var(--color-ink);
+            font-size: var(--text-body-lg);
+        }
+        
+        .user-details {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: var(--font-semibold);
+            color: var(--color-ink);
+            margin-bottom: var(--space-1);
+        }
+        
+        .user-arn {
+            font-size: var(--text-caption);
+            color: var(--color-gray-500);
+        }
+        
+        .compliance-score {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-success-light);
+            border-radius: var(--radius-md);
+        }
+        
+        .compliance-icon {
+            color: var(--color-success);
+        }
+        
+        .compliance-text {
+            font-size: var(--text-caption);
+            font-weight: var(--font-semibold);
+            color: var(--color-success-dark);
+        }
+        
+        /* Navigation */
+        .sidebar-nav {
+            flex: 1;
+            padding: var(--space-4);
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            color: var(--color-gray-600);
+            text-decoration: none;
+            font-weight: var(--font-medium);
+            transition: var(--transition-all);
+            margin-bottom: var(--space-2);
+        }
+        
+        .nav-item:hover {
+            background: var(--color-surface);
+            color: var(--color-ink);
+        }
+        
+        .nav-item.active {
+            background: var(--gradient-gold);
+            color: var(--color-ink);
+            box-shadow: var(--shadow-gold-sm);
+        }
+        
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            padding: var(--space-4);
+            border-top: 1px solid var(--color-gray-200);
+        }
+        
+        .quick-action-btn {
+            width: 100%;
+            padding: var(--space-3);
+            background: var(--gradient-cta);
+            color: var(--color-white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: var(--font-semibold);
+            cursor: pointer;
+            transition: var(--transition-all);
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--color-white);
+            padding: var(--space-6) var(--space-8);
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .welcome-section {
+            flex: 1;
+        }
+        
+        .welcome-text {
+            font-size: var(--text-body-sm);
+            color: var(--color-gray-500);
+            margin-bottom: var(--space-2);
+        }
+        
+        .page-title {
+            font-family: var(--font-heading);
+            font-size: var(--text-h3);
+            font-weight: var(--font-bold);
+            color: var(--color-ink);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+        
+        .notification-btn {
+            position: relative;
+            padding: var(--space-2);
+            background: var(--color-surface);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-all);
+        }
+        
+        .notification-btn:hover {
+            background: var(--color-white);
+            border-color: var(--color-gold);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 16px;
+            height: 16px;
+            background: var(--color-danger);
+            color: var(--color-white);
+            font-size: var(--text-micro);
+            font-weight: var(--font-bold);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Dashboard Content */
+        .dashboard-content {
+            flex: 1;
+            padding: var(--space-8);
+            overflow-y: auto;
+        }
+        
+        /* Today's Summary */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        
+        .summary-card {
+            background: var(--color-white);
+            padding: var(--space-5);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-all);
+            cursor: pointer;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .summary-card.primary {
+            background: var(--gradient-gold);
+            color: var(--color-ink);
+        }
+        
+        .summary-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-3);
+            font-size: 20px;
+        }
+        
+        .summary-value {
+            font-size: var(--text-h3);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-1);
+        }
+        
+        .summary-label {
+            font-size: var(--text-body-sm);
+            opacity: 0.8;
+        }
+        
+        /* Content Creator Section */
+        .content-creator {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: var(--space-8);
+        }
+        
+        .creator-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-6);
+        }
+        
+        .creator-title {
+            font-family: var(--font-heading);
+            font-size: var(--text-h4);
+            font-weight: var(--font-bold);
+            color: var(--color-ink);
+        }
+        
+        .ai-badge {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--gradient-gold);
+            color: var(--color-ink);
+            font-size: var(--text-caption);
+            font-weight: var(--font-semibold);
+            border-radius: var(--radius-full);
+        }
+        
+        .creator-form {
+            display: grid;
+            gap: var(--space-6);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+        }
+        
+        .content-input {
+            position: relative;
+        }
+        
+        .content-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: var(--space-4);
+            background: var(--color-surface);
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius-lg);
+            font-family: var(--font-body);
+            font-size: var(--text-body);
+            resize: vertical;
+            transition: var(--transition-all);
+        }
+        
+        .content-textarea:focus {
+            outline: none;
+            border-color: var(--color-gold);
+            background: var(--color-white);
+        }
+        
+        .ai-suggestions {
+            position: absolute;
+            top: var(--space-3);
+            right: var(--space-3);
+            display: flex;
+            gap: var(--space-2);
+        }
+        
+        .ai-suggestion-btn {
+            padding: var(--space-1) var(--space-2);
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-caption);
+            cursor: pointer;
+            transition: var(--transition-all);
+        }
+        
+        .ai-suggestion-btn:hover {
+            background: var(--gradient-gold);
+            border-color: var(--color-gold);
+        }
+        
+        /* Compliance Check */
+        .compliance-check {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-4);
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-4);
+        }
+        
+        .compliance-status {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        
+        .compliance-indicator {
+            width: 12px;
+            height: 12px;
+            background: var(--color-success);
+            border-radius: var(--radius-full);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .compliance-message {
+            font-size: var(--text-body-sm);
+            color: var(--color-gray-700);
+        }
+        
+        .compliance-score-badge {
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-success-light);
+            color: var(--color-success-dark);
+            font-weight: var(--font-semibold);
+            border-radius: var(--radius-full);
+        }
+        
+        /* Action Buttons */
+        .creator-actions {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: flex-end;
+        }
+        
+        /* Recent Posts */
+        .recent-posts {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .posts-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-6);
+        }
+        
+        .posts-title {
+            font-family: var(--font-heading);
+            font-size: var(--text-h5);
+            font-weight: var(--font-bold);
+            color: var(--color-ink);
+        }
+        
+        .post-item {
+            display: flex;
+            gap: var(--space-4);
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--color-gray-200);
+            transition: var(--transition-all);
+        }
+        
+        .post-item:hover {
+            background: var(--color-surface);
+        }
+        
+        .post-item:last-child {
+            border-bottom: none;
+        }
+        
+        .post-status {
+            width: 48px;
+            height: 48px;
+            background: var(--color-surface);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .post-status.sent {
+            background: var(--color-success-light);
+            color: var(--color-success);
+        }
+        
+        .post-status.scheduled {
+            background: var(--color-warning-light);
+            color: var(--color-warning);
+        }
+        
+        .post-content {
+            flex: 1;
+        }
+        
+        .post-text {
+            font-size: var(--text-body-sm);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-2);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            font-size: var(--text-caption);
+            color: var(--color-gray-500);
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: var(--space-2);
+            align-items: center;
+        }
+        
+        .post-action-btn {
+            padding: var(--space-2);
+            background: transparent;
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-all);
+        }
+        
+        .post-action-btn:hover {
+            background: var(--color-surface);
+            border-color: var(--color-gold);
+        }
+        
+        /* Analytics Widget */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        
+        .chart-widget {
+            background: var(--color-white);
+            padding: var(--space-6);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .engagement-stats {
+            background: var(--color-white);
+            padding: var(--space-6);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .stat-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+        
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-label {
+            font-size: var(--text-body-sm);
+            color: var(--color-gray-600);
+        }
+        
+        .stat-value {
+            font-weight: var(--font-semibold);
+            color: var(--color-ink);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .dashboard-content {
+                padding: var(--space-4);
+            }
+            
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .creator-actions {
+                flex-direction: column;
+            }
+            
+            .creator-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-profile">
+                    <div class="user-avatar-large">RK</div>
+                    <div class="user-details">
+                        <div class="user-name">Rajesh Kumar</div>
+                        <div class="user-arn">ARN: 123456</div>
+                    </div>
+                </div>
+                <div class="compliance-score">
+                    <span class="compliance-icon">✓</span>
+                    <span class="compliance-text">100% Compliant</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <span class="nav-icon">🏠</span>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">✍️</span>
+                    Create Content
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📚</span>
+                    My Library
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    Analytics
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">🎨</span>
+                    Templates
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    Settings
+                </a>
+            </nav>
+            
+            <div class="quick-actions">
+                <button class="quick-action-btn">
+                    ✨ Create New Post
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-content">
+                    <div class="welcome-section">
+                        <div class="welcome-text">Welcome back!</div>
+                        <h1 class="page-title">Your AI-Powered Dashboard</h1>
+                    </div>
+                    
+                    <div class="header-actions">
+                        <button class="notification-btn">
+                            🔔
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <button class="btn btn-primary">
+                            Schedule WhatsApp Post
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="summary-card primary">
+                        <div class="summary-icon">📱</div>
+                        <div class="summary-value">247</div>
+                        <div class="summary-label">Posts This Month</div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">👥</div>
+                        <div class="summary-value">1,234</div>
+                        <div class="summary-label">Clients Reached</div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">📈</div>
+                        <div class="summary-value">89%</div>
+                        <div class="summary-label">Engagement Rate</div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">⏱️</div>
+                        <div class="summary-value">12hrs</div>
+                        <div class="summary-label">Time Saved</div>
+                    </div>
+                </div>
+                
+                <!-- Content Creator -->
+                <div class="content-creator">
+                    <div class="creator-header">
+                        <h2 class="creator-title">Quick Content Creator</h2>
+                        <div class="ai-badge">
+                            ✨ AI-Powered
+                        </div>
+                    </div>
+                    
+                    <div class="creator-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Content Type</label>
+                                <select class="form-select">
+                                    <option>Market Update</option>
+                                    <option>Educational Post</option>
+                                    <option>Investment Tip</option>
+                                    <option>News Commentary</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Language</label>
+                                <select class="form-select">
+                                    <option>English</option>
+                                    <option>Hindi</option>
+                                    <option>Marathi</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Schedule</label>
+                                <input type="datetime-local" class="form-input" value="2024-01-15T06:00">
+                            </div>
+                        </div>
+                        
+                        <div class="content-input">
+                            <label class="form-label">Message Content</label>
+                            <textarea class="content-textarea" placeholder="Start typing or use AI suggestions...">Good morning! 🌅
+
+Today's market insight: Systematic Investment Plans (SIPs) continue to be the most effective way to build long-term wealth. 
+
+📊 Key Points:
+• Average SIP returns: 12-15% CAGR
+• Rupee cost averaging benefits
+• Power of compounding
+
+Start your investment journey today!</textarea>
+                            <div class="ai-suggestions">
+                                <button class="ai-suggestion-btn">✨ Enhance</button>
+                                <button class="ai-suggestion-btn">🔄 Rephrase</button>
+                                <button class="ai-suggestion-btn">📝 Templates</button>
+                            </div>
+                        </div>
+                        
+                        <div class="compliance-check">
+                            <div class="compliance-status">
+                                <span class="compliance-indicator"></span>
+                                <span class="compliance-message">Content is SEBI compliant and ready to send</span>
+                            </div>
+                            <div class="compliance-score-badge">Score: 98/100</div>
+                        </div>
+                        
+                        <div class="creator-actions">
+                            <button class="btn btn-outline">Save as Draft</button>
+                            <button class="btn btn-gold">Preview in WhatsApp</button>
+                            <button class="btn btn-primary btn-lg">Schedule Post</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Analytics and Engagement -->
+                <div class="analytics-grid">
+                    <div class="chart-widget">
+                        <h3 class="posts-title">Weekly Engagement Trend</h3>
+                        <div style="height: 200px; background: var(--color-surface); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--color-gray-400); margin-top: var(--space-4);">
+                            📊 Chart Visualization
+                        </div>
+                    </div>
+                    
+                    <div class="engagement-stats">
+                        <h3 class="posts-title">Today's Performance</h3>
+                        <div class="stat-row">
+                            <span class="stat-label">Messages Sent</span>
+                            <span class="stat-value">23</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Delivered</span>
+                            <span class="stat-value">100%</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Read Rate</span>
+                            <span class="stat-value">87%</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Responses</span>
+                            <span class="stat-value">34</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Posts -->
+                <div class="recent-posts">
+                    <div class="posts-header">
+                        <h3 class="posts-title">Recent Posts</h3>
+                        <a href="#" style="color: var(--color-gold); text-decoration: none; font-size: var(--text-body-sm);">View All →</a>
+                    </div>
+                    
+                    <div class="post-item">
+                        <div class="post-status sent">✓</div>
+                        <div class="post-content">
+                            <div class="post-text">
+                                Market Update: Nifty closes at record high of 20,267. Banking and IT sectors lead the rally...
+                            </div>
+                            <div class="post-meta">
+                                <span>Sent today at 6:00 AM</span>
+                                <span>• 234 recipients</span>
+                                <span>• 89% read rate</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="post-action-btn">📊</button>
+                            <button class="post-action-btn">📤</button>
+                        </div>
+                    </div>
+                    
+                    <div class="post-item">
+                        <div class="post-status scheduled">⏰</div>
+                        <div class="post-content">
+                            <div class="post-text">
+                                Investment Tip: Consider increasing your SIP amount by 10% every year to beat inflation...
+                            </div>
+                            <div class="post-meta">
+                                <span>Scheduled for tomorrow</span>
+                                <span>• 234 recipients</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="post-action-btn">✏️</button>
+                            <button class="post-action-btn">🗑️</button>
+                        </div>
+                    </div>
+                    
+                    <div class="post-item">
+                        <div class="post-status sent">✓</div>
+                        <div class="post-content">
+                            <div class="post-text">
+                                Educational: Understanding the power of compounding - How ₹10,000 monthly SIP can create...
+                            </div>
+                            <div class="post-meta">
+                                <span>Sent yesterday</span>
+                                <span>• 234 recipients</span>
+                                <span>• 92% read rate</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="post-action-btn">📊</button>
+                            <button class="post-action-btn">🔄</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Add interactivity
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // AI Suggestions
+        document.querySelectorAll('.ai-suggestion-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.style.animation = 'pulse 0.3s ease';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 300);
+            });
+        });
+        
+        // Animate summary cards on load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.summary-card').forEach((card, index) => {
+                card.style.animation = `fadeInUp 0.5s ease-out ${index * 0.1}s backwards`;
+            });
+        });
+    </script>
+</body>
+</html>

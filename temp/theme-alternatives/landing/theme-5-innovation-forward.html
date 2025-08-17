@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - AI-Native Financial Advisory Platform | Innovation Forward</title>
+    <meta name="description" content="Next-generation AI platform for tech-forward financial advisors. Automate everything, scale infinitely.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --ink: #0B1F33;
+            --gold: #CEA200;
+            --cta: #0C310C;
+            --bg: #FFFFFF;
+            --dark: #0A0E1A;
+            --electric: #00F0FF;
+            --purple: #8B5CF6;
+            --pink: #EC4899;
+            --green: #10B981;
+            --gradient-1: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+            --gradient-2: linear-gradient(135deg, #00F0FF 0%, #8B5CF6 100%);
+            --gradient-3: linear-gradient(135deg, #0C310C 0%, #10B981 100%);
+            --gray-100: #F9FAFB;
+            --gray-200: #F3F4F6;
+            --gray-300: #E5E7EB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-900: #111827;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+            --shadow-glow: 0 0 40px rgba(0, 240, 255, 0.3);
+            --radius: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @font-face {
+            font-family: 'Fraunces';
+            src: url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&display=swap');
+        }
+        
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--gray-900);
+            background: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Typography */
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: clamp(3rem, 7vw, 5rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+        
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+        
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            line-height: 1.2;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md) 0;
+        }
+        
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.875rem;
+            font-weight: 900;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo-ai {
+            display: inline-block;
+            padding: 2px 6px;
+            background: var(--gradient-2);
+            border-radius: 4px;
+            font-size: 0.625rem;
+            font-weight: 700;
+            color: var(--bg);
+            letter-spacing: 1px;
+            animation: pulse-glow 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.8); }
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--purple);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-2);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.75rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            min-height: 48px;
+            gap: var(--spacing-xs);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-ai {
+            background: var(--gradient-2);
+            color: var(--bg);
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+        
+        .btn-ai::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-ai:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .btn-ai:hover::before {
+            left: 100%;
+        }
+        
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            color: var(--gray-900);
+        }
+        
+        .btn-glass:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--purple);
+            transform: translateY(-2px);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .mobile-menu span {
+            width: 24px;
+            height: 2px;
+            background: var(--purple);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: calc(80px + var(--spacing-2xl)) 0 var(--spacing-2xl);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(0, 240, 255, 0.05) 100%);
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(0, 240, 255, 0.1) 0%, transparent 50%);
+            animation: float-gradient 20s ease-in-out infinite;
+        }
+        
+        @keyframes float-gradient {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-text {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            background: rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: var(--purple);
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            animation: slide-in 0.6s ease-out;
+        }
+        
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .ai-icon {
+            animation: rotate 4s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .hero h1 {
+            margin-bottom: var(--spacing-md);
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.7;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: 700;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .hero-visual {
+            position: relative;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        
+        .ai-interface {
+            background: var(--dark);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .ai-interface::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-2);
+            animation: scan 3s linear infinite;
+        }
+        
+        @keyframes scan {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100%); }
+        }
+        
+        .interface-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .interface-title {
+            color: var(--electric);
+            font-size: 0.875rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .interface-status {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: var(--radius);
+            padding: var(--spacing-md);
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: var(--electric);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .code-line {
+            display: block;
+            opacity: 0;
+            animation: type 0.5s forwards;
+        }
+        
+        .code-line:nth-child(1) { animation-delay: 0.5s; }
+        .code-line:nth-child(2) { animation-delay: 1s; }
+        .code-line:nth-child(3) { animation-delay: 1.5s; }
+        .code-line:nth-child(4) { animation-delay: 2s; }
+        
+        @keyframes type {
+            to { opacity: 1; }
+        }
+        
+        .ai-output {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius);
+            padding: var(--spacing-md);
+            color: var(--bg);
+        }
+        
+        .output-label {
+            font-size: 0.75rem;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .output-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--electric);
+        }
+        
+        .floating-element {
+            position: absolute;
+            background: rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: var(--radius);
+            padding: var(--spacing-sm);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-element.element-1 {
+            top: 20%;
+            right: -10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-element.element-2 {
+            bottom: 20%;
+            left: -10%;
+            animation-delay: 2s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        /* Features Section */
+        .features {
+            padding: var(--spacing-2xl) 0;
+            background: var(--gray-100);
+            position: relative;
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto var(--spacing-2xl);
+        }
+        
+        .section-tag {
+            display: inline-block;
+            padding: 4px 16px;
+            background: var(--gradient-2);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--bg);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .section-header h2 {
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(135deg, var(--dark) 0%, var(--purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-description {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        
+        .feature-card {
+            background: var(--bg);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-2);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--purple);
+        }
+        
+        .feature-card:hover::before {
+            opacity: 0.05;
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-2);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            z-index: 1;
+            color: var(--bg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .feature-card h3 {
+            margin-bottom: var(--spacing-sm);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* AI Capabilities Section */
+        .ai-capabilities {
+            padding: var(--spacing-2xl) 0;
+            background: var(--dark);
+            color: var(--bg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-capabilities::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="none" stroke="rgba(139, 92, 246, 0.1)" stroke-width="0.5" x="10" y="10" width="80" height="80"/></svg>');
+            background-size: 100px 100px;
+            animation: grid-move 10s linear infinite;
+        }
+        
+        @keyframes grid-move {
+            from { transform: translate(0, 0); }
+            to { transform: translate(100px, 100px); }
+        }
+        
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .ai-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: var(--radius);
+            padding: var(--spacing-lg);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .ai-card:hover {
+            background: rgba(139, 92, 246, 0.1);
+            transform: scale(1.05);
+            border-color: var(--electric);
+        }
+        
+        .ai-metric {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .ai-label {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: var(--spacing-2xl) 0;
+            background: var(--bg);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+        }
+        
+        .pricing-card {
+            background: var(--bg);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            position: relative;
+            transition: var(--transition);
+            border: 2px solid var(--gray-200);
+            overflow: hidden;
+        }
+        
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-2);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--purple);
+        }
+        
+        .pricing-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .pricing-card.featured {
+            background: var(--gradient-1);
+            color: var(--bg);
+            border: none;
+            transform: scale(1.05);
+        }
+        
+        .pricing-tier {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .tier-ai-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(0, 240, 255, 0.2);
+            border-radius: 4px;
+            font-size: 0.625rem;
+            font-weight: 700;
+            color: var(--electric);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .pricing-amount {
+            display: flex;
+            align-items: baseline;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .pricing-currency {
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+        
+        .pricing-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .pricing-period {
+            opacity: 0.7;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .pricing-features li {
+            padding: var(--spacing-sm) 0;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .pricing-features li::before {
+            content: '⚡';
+            color: var(--electric);
+            font-size: 1.125rem;
+        }
+        
+        .pricing-card.featured .pricing-features li::before {
+            color: var(--bg);
+        }
+        
+        .pricing-cta {
+            width: 100%;
+            padding: var(--spacing-md);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: var(--spacing-2xl) 0;
+            background: var(--gradient-1);
+            color: var(--bg);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate-slow 20s linear infinite;
+        }
+        
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-section h2 {
+            color: var(--bg);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .cta-description {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: var(--spacing-lg);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+        }
+        
+        .btn-light {
+            background: var(--bg);
+            color: var(--purple);
+        }
+        
+        .btn-light:hover {
+            background: var(--gray-100);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        /* Footer */
+        footer {
+            padding: var(--spacing-xl) 0 var(--spacing-lg);
+            background: var(--dark);
+            color: var(--bg);
+            position: relative;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        
+        .footer-logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+        
+        .footer-section h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--electric);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--electric);
+            transform: translateX(4px);
+        }
+        
+        .footer-bottom {
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--electric);
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .social-links a:hover {
+            background: var(--gradient-2);
+            color: var(--bg);
+            transform: translateY(-4px) rotate(360deg);
+            border-color: transparent;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: flex;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-visual {
+                margin-top: var(--spacing-xl);
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                text-align: center;
+            }
+            
+            .cta-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .pricing-value {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="logo">
+                    Jarvish
+                    <span class="logo-ai">AI</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#ai">AI Engine</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#" class="btn btn-glass">Sign In</a>
+                    <a href="#" class="btn btn-ai">Start Free</a>
+                </div>
+                <div class="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="ai-badge">
+                        <span class="ai-icon">🤖</span>
+                        Powered by Advanced AI
+                    </div>
+                    <h1>The Future of Financial Advisory is Here</h1>
+                    <p class="hero-description">
+                        AI-native platform that automates 90% of your workflow. Create content, 
+                        ensure compliance, and scale infinitely—all powered by cutting-edge AI 
+                        trained on millions of financial interactions.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#" class="btn btn-ai">
+                            Launch AI Assistant
+                            <span>→</span>
+                        </a>
+                        <a href="#" class="btn btn-glass">
+                            Watch AI Demo
+                        </a>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-value">0.3s</span>
+                            <span class="stat-label">Response Time</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">99.9%</span>
+                            <span class="stat-label">AI Accuracy</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">∞</span>
+                            <span class="stat-label">Scale Limit</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="ai-interface">
+                        <div class="interface-header">
+                            <span class="interface-title">AI_ENGINE_v2.0</span>
+                            <div class="interface-status">
+                                <span class="status-dot"></span>
+                                <span class="status-dot"></span>
+                                <span class="status-dot"></span>
+                            </div>
+                        </div>
+                        <div class="code-block">
+                            <span class="code-line">→ Analyzing market trends...</span>
+                            <span class="code-line">→ Generating personalized content...</span>
+                            <span class="code-line">→ Checking SEBI compliance...</span>
+                            <span class="code-line">✓ Content ready for delivery</span>
+                        </div>
+                        <div class="ai-output">
+                            <div class="output-label">AI Performance</div>
+                            <div class="output-value">2.5M+ messages processed</div>
+                        </div>
+                    </div>
+                    <div class="floating-element element-1">
+                        <span>ML Model</span>
+                    </div>
+                    <div class="floating-element element-2">
+                        <span>Neural Net</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Next-Gen Features</span>
+                <h2>AI-Powered Automation at Scale</h2>
+                <p class="section-description">
+                    Every feature engineered with AI at its core, delivering unprecedented 
+                    efficiency and intelligence to your advisory practice.
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Neural Content Engine</h3>
+                    <p class="feature-description">
+                        GPT-4 powered content generation that understands context, 
+                        tone, and compliance requirements instantly.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-time Processing</h3>
+                    <p class="feature-description">
+                        Sub-second response times with parallel processing across 
+                        multiple AI models for instant results.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔮</div>
+                    <h3>Predictive Analytics</h3>
+                    <p class="feature-description">
+                        Machine learning algorithms predict client behavior and 
+                        optimize engagement strategies automatically.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>AI Compliance Guard</h3>
+                    <p class="feature-description">
+                        Automated compliance checking with AI that learns from 
+                        regulatory updates in real-time.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Infinite Scalability</h3>
+                    <p class="feature-description">
+                        Cloud-native architecture scales automatically to handle 
+                        millions of concurrent operations.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Smart Targeting</h3>
+                    <p class="feature-description">
+                        AI-driven client segmentation with behavioral analysis 
+                        for hyper-personalized messaging.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- AI Capabilities Section -->
+    <section class="ai-capabilities" id="ai">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" style="background: var(--electric); color: var(--dark);">AI Engine</span>
+                <h2 style="color: var(--bg);">Powered by State-of-the-Art AI</h2>
+                <p class="section-description" style="color: rgba(255, 255, 255, 0.8);">
+                    Our proprietary AI engine processes millions of data points to deliver 
+                    insights and automation that transform your practice.
+                </p>
+            </div>
+            <div class="ai-grid">
+                <div class="ai-card">
+                    <div class="ai-metric">10M+</div>
+                    <div class="ai-label">Training Data Points</div>
+                </div>
+                <div class="ai-card">
+                    <div class="ai-metric">0.001s</div>
+                    <div class="ai-label">Inference Time</div>
+                </div>
+                <div class="ai-card">
+                    <div class="ai-metric">99.97%</div>
+                    <div class="ai-label">Accuracy Rate</div>
+                </div>
+                <div class="ai-card">
+                    <div class="ai-metric">24/7</div>
+                    <div class="ai-label">AI Availability</div>
+                </div>
+                <div class="ai-card">
+                    <div class="ai-metric">15+</div>
+                    <div class="ai-label">AI Models</div>
+                </div>
+                <div class="ai-card">
+                    <div class="ai-metric">∞</div>
+                    <div class="ai-label">Learning Capacity</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Pricing</span>
+                <h2>AI-Powered Plans for Every Scale</h2>
+                <p class="section-description">
+                    Start with our free AI tier and scale as you grow. No limits, no surprises.
+                </p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-tier">
+                        Starter
+                        <span class="tier-ai-badge">AI Lite</span>
+                    </div>
+                    <div class="pricing-amount">
+                        <span class="pricing-currency">₹</span>
+                        <span class="pricing-value">2,999</span>
+                        <span class="pricing-period">/month</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>500 AI-generated posts/month</li>
+                        <li>Basic compliance checking</li>
+                        <li>WhatsApp automation</li>
+                        <li>Real-time analytics</li>
+                        <li>Email support</li>
+                    </ul>
+                    <a href="#" class="btn btn-glass pricing-cta">Start Free Trial</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-tier">
+                        Pro
+                        <span class="tier-ai-badge" style="background: rgba(255, 255, 255, 0.2); color: white;">AI Pro</span>
+                    </div>
+                    <div class="pricing-amount">
+                        <span class="pricing-currency">₹</span>
+                        <span class="pricing-value">5,999</span>
+                        <span class="pricing-period">/month</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Unlimited AI generation</li>
+                        <li>Advanced ML analytics</li>
+                        <li>Custom AI training</li>
+                        <li>Priority processing</li>
+                        <li>API access</li>
+                        <li>24/7 AI support</li>
+                    </ul>
+                    <a href="#" class="btn btn-light pricing-cta">Get Started</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-tier">
+                        Enterprise
+                        <span class="tier-ai-badge">AI Max</span>
+                    </div>
+                    <div class="pricing-amount">
+                        <span class="pricing-currency">₹</span>
+                        <span class="pricing-value">11,999</span>
+                        <span class="pricing-period">/month</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Custom AI models</li>
+                        <li>Dedicated GPU cluster</li>
+                        <li>White-label AI</li>
+                        <li>On-premise deployment</li>
+                        <li>SLA guarantee</li>
+                        <li>AI consultancy</li>
+                    </ul>
+                    <a href="#" class="btn btn-glass pricing-cta">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Experience the AI Revolution</h2>
+                <p class="cta-description">
+                    Join forward-thinking advisors who are leveraging AI to automate, 
+                    scale, and dominate their market. The future is automated.
+                </p>
+                <div class="cta-actions">
+                    <a href="#" class="btn btn-light">
+                        Launch AI Assistant
+                    </a>
+                    <a href="#" class="btn btn-glass" style="background: rgba(255, 255, 255, 0.1); color: white; border-color: rgba(255, 255, 255, 0.3);">
+                        Schedule AI Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">Jarvish AI</div>
+                    <p class="footer-description">
+                        Next-generation AI platform automating financial advisory 
+                        at scale. Built for the future, available today.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">AI Engine</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">API Docs</a></li>
+                        <li><a href="#">Integrations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">AI Blog</a></li>
+                        <li><a href="#">Research</a></li>
+                        <li><a href="#">Developers</a></li>
+                        <li><a href="#">Status</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2024 Jarvish AI. Powered by cutting-edge artificial intelligence.</div>
+                <div class="social-links">
+                    <a href="#">𝕏</a>
+                    <a href="#">in</a>
+                    <a href="#">git</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

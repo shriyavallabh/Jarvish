@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - From Setup to Scale in 30 Days</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Unified Design System -->
+    <link rel="stylesheet" href="unified-design-system.css">
+    
+    <style>
+        /* ============================================
+           JOURNEY TIMELINE SPECIFIC STYLES
+           ============================================ */
+        
+        /* Timeline Container */
+        .timeline-section {
+            position: relative;
+            padding: var(--space-20) 0;
+            background: linear-gradient(180deg, var(--color-white) 0%, var(--color-surface) 100%);
+            overflow: hidden;
+        }
+        
+        .timeline-header {
+            text-align: center;
+            margin-bottom: var(--space-16);
+        }
+        
+        .timeline-subtitle {
+            display: inline-block;
+            padding: var(--space-2) var(--space-4);
+            background: var(--gradient-gold);
+            color: var(--color-ink);
+            font-size: var(--text-caption);
+            font-weight: var(--font-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wider);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-4);
+        }
+        
+        .timeline-title {
+            font-family: var(--font-heading);
+            font-size: var(--text-h1);
+            font-weight: var(--font-black);
+            color: var(--color-ink);
+            margin-bottom: var(--space-6);
+        }
+        
+        .timeline-description {
+            font-size: var(--text-body-lg);
+            color: var(--color-gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Timeline Track */
+        .timeline-track {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-12) var(--space-6);
+        }
+        
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: var(--space-6);
+            right: var(--space-6);
+            height: 4px;
+            background: linear-gradient(90deg, 
+                var(--color-cta) 0%, 
+                var(--color-gold) 25%, 
+                var(--color-gold) 75%, 
+                var(--color-success) 100%);
+            transform: translateY(-50%);
+            border-radius: var(--radius-full);
+            z-index: 1;
+        }
+        
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--color-white);
+            border-radius: var(--radius-full);
+            animation: timelineProgress 3s ease-out forwards;
+            box-shadow: var(--shadow-gold-md);
+        }
+        
+        @keyframes timelineProgress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+        
+        /* Timeline Steps */
+        .timeline-steps {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+        
+        .timeline-step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 var(--space-4);
+            cursor: pointer;
+            transition: var(--transition-all);
+        }
+        
+        .timeline-step:hover {
+            transform: translateY(-4px);
+        }
+        
+        /* Step Icon */
+        .step-icon-wrapper {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin-bottom: var(--space-6);
+            animation: fadeInUp var(--transition-slow) ease-out backwards;
+        }
+        
+        .timeline-step:nth-child(1) .step-icon-wrapper { animation-delay: 0.1s; }
+        .timeline-step:nth-child(2) .step-icon-wrapper { animation-delay: 0.2s; }
+        .timeline-step:nth-child(3) .step-icon-wrapper { animation-delay: 0.3s; }
+        .timeline-step:nth-child(4) .step-icon-wrapper { animation-delay: 0.4s; }
+        
+        .step-icon {
+            width: 100%;
+            height: 100%;
+            background: var(--color-white);
+            border: 3px solid var(--color-gold);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-all);
+        }
+        
+        .timeline-step:hover .step-icon {
+            background: var(--gradient-gold);
+            transform: scale(1.1);
+            box-shadow: var(--shadow-gold-lg);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 28px;
+            height: 28px;
+            background: var(--color-cta);
+            color: var(--color-white);
+            font-size: var(--text-caption);
+            font-weight: var(--font-bold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Step Content */
+        .step-content {
+            max-width: 250px;
+        }
+        
+        .step-day {
+            display: inline-block;
+            padding: var(--space-1) var(--space-3);
+            background: var(--color-surface);
+            color: var(--color-gray-600);
+            font-size: var(--text-caption);
+            font-weight: var(--font-semibold);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-2);
+        }
+        
+        .step-title {
+            font-family: var(--font-heading);
+            font-size: var(--text-h5);
+            font-weight: var(--font-bold);
+            color: var(--color-ink);
+            margin-bottom: var(--space-2);
+        }
+        
+        .step-description {
+            font-size: var(--text-body-sm);
+            color: var(--color-gray-500);
+            line-height: var(--line-relaxed);
+        }
+        
+        .step-features {
+            margin-top: var(--space-3);
+            text-align: left;
+        }
+        
+        .step-feature {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-caption);
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-1);
+        }
+        
+        .step-feature::before {
+            content: "✓";
+            color: var(--color-success);
+            font-weight: var(--font-bold);
+        }
+        
+        /* Milestone Badges */
+        .milestone-badge {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: var(--space-1-5) var(--space-3);
+            background: var(--gradient-gold);
+            color: var(--color-ink);
+            font-size: var(--text-micro);
+            font-weight: var(--font-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wider);
+            border-radius: var(--radius-full);
+            white-space: nowrap;
+            box-shadow: var(--shadow-gold-sm);
+            opacity: 0;
+            animation: fadeInDown var(--transition-slow) ease-out 1s forwards;
+        }
+        
+        /* Stats Section */
+        .timeline-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-6);
+            max-width: 800px;
+            margin: var(--space-12) auto 0;
+            padding: var(--space-8);
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: var(--font-heading);
+            font-size: var(--text-h2);
+            font-weight: var(--font-black);
+            color: var(--color-gold);
+            margin-bottom: var(--space-2);
+        }
+        
+        .stat-label {
+            font-size: var(--text-body-sm);
+            color: var(--color-gray-600);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wider);
+        }
+        
+        /* CTA Section */
+        .timeline-cta {
+            text-align: center;
+            margin-top: var(--space-12);
+        }
+        
+        .timeline-cta-text {
+            font-size: var(--text-body-lg);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-6);
+        }
+        
+        .timeline-cta-buttons {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .timeline-steps {
+                flex-direction: column;
+                gap: var(--space-12);
+            }
+            
+            .timeline-line {
+                top: var(--space-12);
+                bottom: var(--space-12);
+                left: 50%;
+                right: auto;
+                width: 4px;
+                height: auto;
+                transform: translateX(-50%);
+            }
+            
+            .timeline-progress {
+                width: 100% !important;
+                height: 0%;
+                animation: timelineProgressVertical 3s ease-out forwards;
+            }
+            
+            @keyframes timelineProgressVertical {
+                from { height: 0%; }
+                to { height: 100%; }
+            }
+            
+            .timeline-step {
+                flex-direction: row;
+                text-align: left;
+                max-width: 500px;
+            }
+            
+            .step-icon-wrapper {
+                margin-bottom: 0;
+                margin-right: var(--space-6);
+                flex-shrink: 0;
+            }
+            
+            .step-content {
+                max-width: none;
+            }
+            
+            .milestone-badge {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .timeline-header {
+                padding: 0 var(--space-4);
+            }
+            
+            .timeline-title {
+                font-size: var(--text-h2);
+            }
+            
+            .step-icon-wrapper {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .step-icon {
+                font-size: 24px;
+            }
+            
+            .timeline-stats {
+                grid-template-columns: 1fr;
+                padding: var(--space-6);
+            }
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Journey Timeline Section -->
+    <section class="timeline-section">
+        <div class="container">
+            <div class="timeline-header">
+                <span class="timeline-subtitle animate-fadeInDown">Your Success Journey</span>
+                <h2 class="timeline-title animate-fadeInUp">From Setup to Scale in 30 Days</h2>
+                <p class="timeline-description animate-fadeIn">
+                    Join 500+ financial advisors who transformed their practice with AI-powered compliance. 
+                    Start creating SEBI-compliant content in minutes, not hours.
+                </p>
+            </div>
+            
+            <div class="timeline-track">
+                <div class="timeline-line">
+                    <div class="timeline-progress"></div>
+                </div>
+                
+                <div class="timeline-steps">
+                    <!-- Day 0: Quick Start -->
+                    <div class="timeline-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-icon">🚀</div>
+                            <span class="step-number">1</span>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-day">Day 0</span>
+                            <h3 class="step-title">Quick Start</h3>
+                            <p class="step-description">
+                                5-minute WhatsApp setup. Your first compliant post ready instantly.
+                            </p>
+                            <div class="step-features">
+                                <div class="step-feature">WhatsApp verification</div>
+                                <div class="step-feature">ARN/RIA validation</div>
+                                <div class="step-feature">First post live</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Day 1-7: Build Momentum -->
+                    <div class="timeline-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-icon">📈</div>
+                            <span class="step-number">2</span>
+                            <span class="milestone-badge">First Week Success</span>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-day">Day 1-7</span>
+                            <h3 class="step-title">Build Momentum</h3>
+                            <p class="step-description">
+                                Daily 6 AM content delivery. 100% SEBI compliance guaranteed.
+                            </p>
+                            <div class="step-features">
+                                <div class="step-feature">7 posts published</div>
+                                <div class="step-feature">3 languages unlocked</div>
+                                <div class="step-feature">Zero compliance issues</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Day 8-21: Expand Reach -->
+                    <div class="timeline-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-icon">🌟</div>
+                            <span class="step-number">3</span>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-day">Day 8-21</span>
+                            <h3 class="step-title">Expand Reach</h3>
+                            <p class="step-description">
+                                Custom templates, multi-language posts, client engagement soars.
+                            </p>
+                            <div class="step-features">
+                                <div class="step-feature">5 custom templates</div>
+                                <div class="step-feature">50+ engaged clients</div>
+                                <div class="step-feature">2x response rate</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Day 22-30: Scale Success -->
+                    <div class="timeline-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-icon">🏆</div>
+                            <span class="step-number">4</span>
+                            <span class="milestone-badge">Full Activation</span>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-day">Day 22-30</span>
+                            <h3 class="step-title">Scale Success</h3>
+                            <p class="step-description">
+                                Full automation active. 10+ hours saved weekly. ROI proven.
+                            </p>
+                            <div class="step-features">
+                                <div class="step-feature">30 days zero-silence</div>
+                                <div class="step-feature">₹50K+ value created</div>
+                                <div class="step-feature">Ready to scale 10x</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Success Stats -->
+            <div class="timeline-stats animate-fadeInUp">
+                <div class="stat-item">
+                    <div class="stat-value">500+</div>
+                    <div class="stat-label">Active Advisors</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Compliance Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">10hrs</div>
+                    <div class="stat-label">Saved Weekly</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">30min</div>
+                    <div class="stat-label">To First Post</div>
+                </div>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="timeline-cta">
+                <p class="timeline-cta-text">
+                    Ready to transform your advisory practice? Start your journey today.
+                </p>
+                <div class="timeline-cta-buttons">
+                    <button class="btn btn-primary btn-lg">
+                        Start Free Trial - WhatsApp Setup
+                    </button>
+                    <button class="btn btn-outline btn-lg">
+                        Book a Demo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe animated elements
+        document.querySelectorAll('[class*="animate-"]').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+        
+        // Timeline step interactions
+        const steps = document.querySelectorAll('.timeline-step');
+        steps.forEach((step, index) => {
+            step.addEventListener('click', () => {
+                // Add interaction feedback
+                step.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    step.style.transform = '';
+                }, 150);
+                
+                // You can add modal or detailed view here
+                console.log(`Step ${index + 1} clicked`);
+            });
+        });
+        
+        // Progress animation on scroll
+        const progressBar = document.querySelector('.timeline-progress');
+        const timelineSection = document.querySelector('.timeline-section');
+        
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    progressBar.style.animation = 'timelineProgress 3s ease-out forwards';
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        progressObserver.observe(timelineSection);
+    </script>
+</body>
+</html>

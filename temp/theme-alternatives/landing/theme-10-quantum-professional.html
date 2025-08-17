@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - AI-First Financial Advisory Platform | Quantum Professional</title>
+    <style>
+        /* Quantum Professional Theme - Innovation leaders, next-gen credibility */
+        :root {
+            --bg-primary: #0A0F1C;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1A2332;
+            --bg-card: #1F2937;
+            --bg-hover: #2A3441;
+            --text-primary: #F9FAFB;
+            --text-secondary: #D1D5DB;
+            --text-muted: #9CA3AF;
+            --accent-quantum: #8B5CF6;
+            --accent-electric: #06B6D4;
+            --accent-fusion: #10B981;
+            --accent-gold: #F59E0B;
+            --accent-glow: #EC4899;
+            --border: #374151;
+            --gradient-quantum: linear-gradient(135deg, #8B5CF6 0%, #06B6D4 50%, #10B981 100%);
+            --gradient-dark: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            --shadow-quantum: 0 0 40px rgba(139, 92, 246, 0.3);
+            --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Quantum particles background */
+        .quantum-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-quantum);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(10, 15, 28, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+        }
+
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient-quantum);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-quantum);
+            opacity: 0.5;
+            filter: blur(4px);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-quantum);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .quantum-button {
+            background: var(--gradient-quantum);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quantum-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .quantum-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .quantum-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-quantum);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 4rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .gradient-text {
+            background: var(--gradient-quantum);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .innovation-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+        }
+
+        .innovation-badge .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-quantum);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+            }
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .holographic-card {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-hover));
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: var(--shadow-card);
+        }
+
+        .holographic-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: var(--gradient-quantum);
+            opacity: 0.1;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-quantum);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-quantum);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-quantum);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-quantum);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-card);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-quantum);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Innovation Section */
+        .innovation {
+            padding: 5rem 0;
+            background: var(--bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .innovation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .innovation-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-quantum);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .innovation-content p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tech-badge {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .tech-badge:hover {
+            background: rgba(139, 92, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .innovation-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quantum-orb {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            position: relative;
+            animation: breathe 4s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .quantum-orb::before,
+        .quantum-orb::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            animation: orbit 10s linear infinite;
+        }
+
+        .quantum-orb::before {
+            width: 350px;
+            height: 350px;
+            top: -25px;
+            left: -25px;
+        }
+
+        .quantum-orb::after {
+            width: 400px;
+            height: 400px;
+            top: -50px;
+            left: -50px;
+            animation-delay: -5s;
+        }
+
+        @keyframes orbit {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 5rem 0;
+            background: var(--bg-secondary);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .pricing-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: var(--gradient-quantum);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            animation: rotate 10s linear infinite;
+        }
+
+        .pricing-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid rgba(139, 92, 246, 0.5);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::after {
+            content: 'RECOMMENDED';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--gradient-quantum);
+            color: white;
+            padding: 0.3rem 2rem;
+            transform: rotate(45deg);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-card);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .plan-tier {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-quantum);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-quantum);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .plan-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .plan-features li {
+            padding: 0.8rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .plan-features li::before {
+            content: '✦';
+            color: var(--accent-quantum);
+            font-size: 1.2rem;
+        }
+
+        .plan-button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-quantum);
+            border: none;
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-quantum);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-primary);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-quantum);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .footer-column h4 {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-quantum);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom p {
+            color: var(--text-muted);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-quantum);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--gradient-quantum);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .innovation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Quantum Background -->
+    <div class="quantum-bg" id="quantumBg"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="logo">Jarvish</a>
+                <div class="nav-links">
+                    <a href="#features">Innovation</a>
+                    <a href="#technology">Technology</a>
+                    <a href="#pricing">Solutions</a>
+                    <a href="#" class="quantum-button">Experience Future</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="innovation-badge">
+                        <div class="pulse"></div>
+                        <span style="color: var(--accent-quantum); font-weight: 500;">Next-Gen Financial Technology</span>
+                    </div>
+                    
+                    <h1>
+                        The Future of<br>
+                        <span class="gradient-text">AI-Powered</span><br>
+                        Financial Advisory
+                    </h1>
+                    
+                    <p class="subtitle">
+                        Quantum-leap your advisory practice with cutting-edge AI technology, 
+                        predictive analytics, and seamless automation designed for tomorrow's markets.
+                    </p>
+                    
+                    <div class="cta-group">
+                        <a href="#" class="quantum-button" style="padding: 1rem 2.5rem;">
+                            Start Innovation Journey
+                        </a>
+                        <a href="#" style="padding: 1rem 2.5rem; background: transparent; border: 2px solid var(--accent-quantum); color: var(--accent-quantum); border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
+                            View Demo
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="holographic-card">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent-quantum);">Real-Time Metrics</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-value">500+</div>
+                                <div class="stat-label">Active MFDs</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">2.5M</div>
+                                <div class="stat-label">AI Interactions</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">99.9%</div>
+                                <div class="stat-label">Accuracy</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 2rem; padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 10px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                            <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem;">System Status</div>
+                            <div style="color: var(--accent-fusion); font-weight: 600;">All Systems Quantum-Ready</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quantum-Powered Features</h2>
+                <p>Revolutionary capabilities that transform financial advisory</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Neural AI Engine</h3>
+                    <p>Advanced machine learning models trained on millions of financial scenarios for unprecedented accuracy and insights.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Quantum Processing</h3>
+                    <p>Lightning-fast data processing with parallel computation capabilities for real-time market analysis and decision-making.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔮</div>
+                    <h3>Predictive Analytics</h3>
+                    <p>Future-forward market predictions using quantum algorithms and deep learning for superior investment strategies.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Quantum Security</h3>
+                    <p>Next-generation encryption using quantum-resistant algorithms to protect sensitive financial data.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Holographic Interface</h3>
+                    <p>Immersive 3D data visualization and AR-ready dashboards for intuitive market understanding.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Hyper Automation</h3>
+                    <p>Self-evolving workflows that learn and adapt to your advisory patterns for maximum efficiency.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Innovation Section -->
+    <section class="innovation" id="technology">
+        <div class="container">
+            <div class="section-header">
+                <h2>Technology Stack of Tomorrow</h2>
+                <p>Built with the most advanced technologies available</p>
+            </div>
+            
+            <div class="innovation-grid">
+                <div class="innovation-content">
+                    <h3>Powered by Innovation</h3>
+                    <p>
+                        Our platform leverages cutting-edge technologies including quantum computing principles, 
+                        advanced neural networks, and distributed ledger technology to deliver unparalleled 
+                        performance and reliability.
+                    </p>
+                    <p>
+                        Every component is optimized for the future, ensuring your advisory practice stays 
+                        ahead of the curve in an rapidly evolving financial landscape.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Quantum ML</span>
+                        <span class="tech-badge">Neural Networks</span>
+                        <span class="tech-badge">Blockchain</span>
+                        <span class="tech-badge">Edge Computing</span>
+                        <span class="tech-badge">5G Ready</span>
+                        <span class="tech-badge">AR/VR Compatible</span>
+                    </div>
+                </div>
+                
+                <div class="innovation-visual">
+                    <div class="quantum-orb"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>Choose Your Quantum Leap</h2>
+                <p>Flexible solutions for every stage of innovation</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <span class="plan-tier">STARTER</span>
+                    <div class="plan-name">Pioneer</div>
+                    <div class="plan-price">₹2,999<span>/month</span></div>
+                    <p class="plan-description">For innovators beginning their quantum journey</p>
+                    <ul class="plan-features">
+                        <li>500 AI-powered messages</li>
+                        <li>Basic quantum analytics</li>
+                        <li>Standard compliance engine</li>
+                        <li>5 neural templates</li>
+                        <li>Email support</li>
+                    </ul>
+                    <button class="plan-button">Begin Journey</button>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <span class="plan-tier">PROFESSIONAL</span>
+                    <div class="plan-name">Innovator</div>
+                    <div class="plan-price">₹5,999<span>/month</span></div>
+                    <p class="plan-description">For leaders driving financial innovation</p>
+                    <ul class="plan-features">
+                        <li>2,000 AI-powered messages</li>
+                        <li>Advanced quantum analytics</li>
+                        <li>Priority compliance processing</li>
+                        <li>50+ neural templates</li>
+                        <li>Holographic dashboard</li>
+                        <li>Priority support</li>
+                        <li>Team collaboration (3 users)</li>
+                    </ul>
+                    <button class="plan-button">Accelerate Growth</button>
+                </div>
+                
+                <div class="pricing-card">
+                    <span class="plan-tier">ENTERPRISE</span>
+                    <div class="plan-name">Visionary</div>
+                    <div class="plan-price">₹11,999<span>/month</span></div>
+                    <p class="plan-description">For organizations shaping the future</p>
+                    <ul class="plan-features">
+                        <li>Unlimited AI interactions</li>
+                        <li>Custom quantum models</li>
+                        <li>White-label solutions</li>
+                        <li>Dedicated innovation team</li>
+                        <li>API access</li>
+                        <li>Custom integrations</li>
+                        <li>Unlimited users</li>
+                        <li>SLA guarantee</li>
+                    </ul>
+                    <button class="plan-button">Transform Business</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Jarvish</h3>
+                    <p>Pioneering the future of financial advisory with quantum-powered AI technology and next-generation automation.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Innovation</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Quantum AI</a></li>
+                        <li><a href="#">Neural Networks</a></li>
+                        <li><a href="#">Predictive Models</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Solutions</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Advisory Platform</a></li>
+                        <li><a href="#">Compliance Engine</a></li>
+                        <li><a href="#">Analytics Suite</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Innovation Lab</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Jarvish. Quantum-Powered Financial Innovation.</p>
+                <div class="social-links">
+                    <a href="#">𝕏</a>
+                    <a href="#">in</a>
+                    <a href="#">◉</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Generate quantum particles
+        const quantumBg = document.getElementById('quantumBg');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            
+            // Random colors from the quantum palette
+            const colors = ['#8B5CF6', '#06B6D4', '#10B981'];
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            quantumBg.appendChild(particle);
+        }
+    </script>
+</body>
+</html>

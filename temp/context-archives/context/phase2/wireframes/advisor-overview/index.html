@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project One - Advisor Overview Wireframes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #2563EB;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .variants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+        
+        .variant-card {
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .variant-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.15);
+            border-color: #2563EB;
+        }
+        
+        .variant-header {
+            padding: 1.5rem;
+            background: #F8FAFC;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .variant-number {
+            display: inline-block;
+            background: #2563EB;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .variant-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+        
+        .variant-description {
+            color: #6B7280;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .variant-details {
+            padding: 1.5rem;
+        }
+        
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .detail-content {
+            color: #6B7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .pros, .cons {
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .pros {
+            background: #F0FDF4;
+            border: 1px solid #BBF7D0;
+        }
+        
+        .cons {
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+        }
+        
+        .pros::before {
+            content: "✅ Pros:";
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #15803D;
+        }
+        
+        .cons::before {
+            content: "⚠️ Considerations:";
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #DC2626;
+        }
+        
+        .view-button {
+            display: block;
+            width: 100%;
+            background: #2563EB;
+            color: white;
+            text-decoration: none;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .view-button:hover {
+            background: #1D4ED8;
+        }
+        
+        .mobile-note {
+            background: #FEF3C7;
+            border: 1px solid #FCD34D;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 2rem;
+            text-align: center;
+            color: #92400E;
+        }
+        
+        @media (max-width: 768px) {
+            .variants-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1rem;
+            }
+            
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 Advisor Overview Dashboard</h1>
+            <p>5 Alternative Wireframe Layouts for Review</p>
+        </div>
+        
+        <div class="mobile-note">
+            📱 <strong>Mobile Testing:</strong> Each wireframe is responsive. Try resizing your browser or use mobile dev tools to see mobile layouts.
+        </div>
+        
+        <div class="variants-grid">
+            <div class="variant-card">
+                <div class="variant-header">
+                    <div class="variant-number">1</div>
+                    <div class="variant-title">Card-Grid Dashboard</div>
+                    <div class="variant-description">Visual metrics and status cards for quick scanning of daily priorities</div>
+                </div>
+                <div class="variant-details">
+                    <div class="detail-section">
+                        <div class="detail-label">Best For</div>
+                        <div class="detail-content">Advisors who prefer visual, at-a-glance information with clear metrics display</div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            Quick visual assessment<br>
+                            Mobile-friendly grid<br>
+                            Compliance prominently displayed
+                        </div>
+                        <div class="cons">
+                            Information density limits<br>
+                            May require scrolling on mobile
+                        </div>
+                    </div>
+                </div>
+                <a href="variant-1.html" class="view-button">View Wireframe →</a>
+            </div>
+            
+            <div class="variant-card">
+                <div class="variant-header">
+                    <div class="variant-number">2</div>
+                    <div class="variant-title">List-Priority Dashboard</div>
+                    <div class="variant-description">Time-sensitive task prioritization with workflow efficiency focus</div>
+                </div>
+                <div class="variant-details">
+                    <div class="detail-section">
+                        <div class="detail-label">Best For</div>
+                        <div class="detail-content">Task-oriented advisors who work through prioritized daily workflows</div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            Clear priority hierarchy<br>
+                            Efficient task completion<br>
+                            Minimal cognitive load
+                        </div>
+                        <div class="cons">
+                            Less visual appeal<br>
+                            Limited at-a-glance metrics
+                        </div>
+                    </div>
+                </div>
+                <a href="variant-2.html" class="view-button">View Wireframe →</a>
+            </div>
+            
+            <div class="variant-card">
+                <div class="variant-header">
+                    <div class="variant-number">3</div>
+                    <div class="variant-title">Feed-Stream Dashboard</div>
+                    <div class="variant-description">Real-time activity feed with temporal organization of advisor workflows</div>
+                </div>
+                <div class="variant-details">
+                    <div class="detail-section">
+                        <div class="detail-label">Best For</div>
+                        <div class="detail-content">Advisors who want real-time updates and chronological activity tracking</div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            Real-time updates<br>
+                            Chronological clarity<br>
+                            Social media familiarity
+                        </div>
+                        <div class="cons">
+                            Information overload risk<br>
+                            Less task-focused
+                        </div>
+                    </div>
+                </div>
+                <a href="variant-3.html" class="view-button">View Wireframe →</a>
+            </div>
+            
+            <div class="variant-card">
+                <div class="variant-header">
+                    <div class="variant-number">4</div>
+                    <div class="variant-title">Command-Control Dashboard</div>
+                    <div class="variant-description">Mission-critical operations center for high-volume advisor workflows</div>
+                </div>
+                <div class="variant-details">
+                    <div class="detail-section">
+                        <div class="detail-label">Best For</div>
+                        <div class="detail-content">Power users and high-volume advisors who need comprehensive control panels</div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            Professional authority<br>
+                            Quick access to controls<br>
+                            Status clarity
+                        </div>
+                        <div class="cons">
+                            Intimidating for new users<br>
+                            Information density
+                        </div>
+                    </div>
+                </div>
+                <a href="variant-4.html" class="view-button">View Wireframe →</a>
+            </div>
+            
+            <div class="variant-card">
+                <div class="variant-header">
+                    <div class="variant-number">5</div>
+                    <div class="variant-title">AI-Assistant Dashboard</div>
+                    <div class="variant-description">Conversational AI interface with intelligent recommendations and automation</div>
+                </div>
+                <div class="variant-details">
+                    <div class="detail-section">
+                        <div class="detail-label">Best For</div>
+                        <div class="detail-content">Advisors who prefer guided experiences and AI-powered assistance</div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            Natural interaction<br>
+                            Personalized experience<br>
+                            Reduced decision fatigue
+                        </div>
+                        <div class="cons">
+                            AI dependency<br>
+                            Learning curve for traditional users
+                        </div>
+                    </div>
+                </div>
+                <a href="variant-5.html" class="view-button">View Wireframe →</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

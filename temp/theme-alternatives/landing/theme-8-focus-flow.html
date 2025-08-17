@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - AI-First Financial Advisory Platform | Focus Flow</title>
+    <style>
+        /* Focus Flow Theme - Content creators, distraction-free */
+        :root {
+            --bg-primary: #1B1B1F;
+            --bg-secondary: #232329;
+            --bg-card: #2A2A31;
+            --bg-hover: #32323A;
+            --text-primary: #FAFAFA;
+            --text-secondary: #C4C4CC;
+            --text-muted: #8B8B99;
+            --accent-focus: #7C3AED;
+            --accent-success: #10B981;
+            --accent-warning: #F59E0B;
+            --accent-gold: #FBBF24;
+            --accent-cta: #065F46;
+            --border: #3F3F47;
+            --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-deep: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --gradient-focus: linear-gradient(135deg, #7C3AED, #A855F7);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Focus Mode Indicator */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-focus);
+            z-index: 10000;
+            animation: focusGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes focusGlow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation - Minimal & Clean */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(27, 27, 31, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding-top: 3px; /* Space for focus indicator */
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: var(--gradient-focus);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-focus);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .focus-mode-toggle {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-focus);
+            color: var(--accent-focus);
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .focus-mode-toggle:hover {
+            background: var(--accent-focus);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        /* Hero Section - Clean & Focused */
+        .hero {
+            padding: 8rem 0 4rem;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .focus-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid var(--accent-focus);
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            margin-bottom: 2rem;
+            color: var(--accent-focus);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .focus-badge::before {
+            content: '⚡';
+            font-size: 1.1rem;
+        }
+
+        .hero h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero h1 .highlight {
+            background: var(--gradient-focus);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .cta-primary {
+            background: var(--gradient-focus);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.3);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            border-color: var(--accent-focus);
+            color: var(--accent-focus);
+        }
+
+        /* Focus Stats */
+        .focus-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-focus);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Features Section - Content Creator Focused */
+        .features {
+            padding: 5rem 0;
+            background: var(--bg-secondary);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-focus);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-focus);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .feature-tag {
+            display: inline-block;
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--accent-focus);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        /* Workflow Section */
+        .workflow {
+            padding: 5rem 0;
+            background: var(--bg-primary);
+        }
+
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .workflow-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .workflow-step::after {
+            content: '→';
+            position: absolute;
+            right: -2rem;
+            top: 2rem;
+            color: var(--accent-focus);
+            font-size: 1.5rem;
+            opacity: 0.5;
+        }
+
+        .workflow-step:last-child::after {
+            display: none;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-focus);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Pricing Section - Simplified */
+        .pricing {
+            padding: 5rem 0;
+            background: var(--bg-secondary);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .pricing-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+
+        .pricing-card.recommended {
+            border: 2px solid var(--accent-focus);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.recommended::before {
+            content: 'RECOMMENDED';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-focus);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-deep);
+        }
+
+        .pricing-card.recommended:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        .plan-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-focus);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .plan-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .plan-features li {
+            padding: 0.6rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .plan-features li::before {
+            content: '✓';
+            color: var(--accent-success);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .plan-button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-hover);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .plan-button:hover {
+            background: var(--gradient-focus);
+            border-color: var(--accent-focus);
+            color: white;
+        }
+
+        .pricing-card.recommended .plan-button {
+            background: var(--gradient-focus);
+            border-color: var(--accent-focus);
+            color: white;
+        }
+
+        /* Footer - Minimal */
+        footer {
+            background: var(--bg-primary);
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--gradient-focus);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-tagline {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-focus);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .focus-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-step::after {
+                display: none;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.recommended {
+                transform: scale(1);
+            }
+
+            .cta-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .cta-primary,
+            .cta-secondary {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="logo">Jarvish</a>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#workflow">Workflow</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#" class="focus-mode-toggle">Focus Mode</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="focus-badge">
+                    Focus on What Matters
+                </div>
+                
+                <h1>
+                    Create Financial Content<br>
+                    in <span class="highlight">Deep Focus</span>
+                </h1>
+                
+                <p class="subtitle">
+                    AI-powered financial advisory platform designed for content creators 
+                    who value clarity, efficiency, and distraction-free workflows.
+                </p>
+                
+                <div class="cta-group">
+                    <a href="#" class="cta-primary">
+                        Start Creating →
+                    </a>
+                    <a href="#" class="cta-secondary">
+                        Watch Demo
+                    </a>
+                </div>
+                
+                <div class="focus-stats">
+                    <div class="stat">
+                        <div class="stat-value">500+</div>
+                        <div class="stat-label">Active Creators</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">2.5M</div>
+                        <div class="stat-label">Messages Sent</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">47min</div>
+                        <div class="stat-label">Avg. Focus Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Built for Flow State</h2>
+                <p>Every feature designed to keep you in the zone</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Distraction-Free Editor</h3>
+                    <p>Clean, minimal interface that adapts to your workflow. No popups, no interruptions, just pure creation.</p>
+                    <span class="feature-tag">Focus Mode</span>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Writing Assistant</h3>
+                    <p>Intelligent suggestions that appear only when needed. SEBI-compliant content without breaking your flow.</p>
+                    <span class="feature-tag">Smart AI</span>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>One-Click Publishing</h3>
+                    <p>Seamlessly publish to WhatsApp, email, and social media. Schedule posts without leaving your workspace.</p>
+                    <span class="feature-tag">Automated</span>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Focus Analytics</h3>
+                    <p>Track your productivity patterns and optimize your creative sessions. Know when you're most effective.</p>
+                    <span class="feature-tag">Insights</span>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Template Library</h3>
+                    <p>Pre-designed templates that maintain consistency. Customize once, use forever.</p>
+                    <span class="feature-tag">Time Saver</span>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Keyboard Shortcuts</h3>
+                    <p>Complete keyboard control for power users. Never touch the mouse when you're in the flow.</p>
+                    <span class="feature-tag">Power User</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section class="workflow" id="workflow">
+        <div class="container">
+            <div class="section-header">
+                <h2>Your Creative Workflow</h2>
+                <p>From idea to published content in minutes</p>
+            </div>
+            
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Create</div>
+                    <div class="step-description">Write in our distraction-free editor</div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Enhance</div>
+                    <div class="step-description">AI checks compliance and suggests improvements</div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Review</div>
+                    <div class="step-description">Preview across all channels</div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Publish</div>
+                    <div class="step-description">One-click to reach all clients</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Choose your creative freedom</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="plan-icon">🌱</div>
+                    <div class="plan-name">Starter</div>
+                    <div class="plan-price">₹2,999<span>/mo</span></div>
+                    <p class="plan-description">For individual creators getting started</p>
+                    <ul class="plan-features">
+                        <li>500 messages/month</li>
+                        <li>Basic AI assistance</li>
+                        <li>5 templates</li>
+                        <li>Email support</li>
+                        <li>Basic analytics</li>
+                    </ul>
+                    <button class="plan-button">Start Free Trial</button>
+                </div>
+                
+                <div class="pricing-card recommended">
+                    <div class="plan-icon">🚀</div>
+                    <div class="plan-name">Creator</div>
+                    <div class="plan-price">₹5,999<span>/mo</span></div>
+                    <p class="plan-description">For serious content creators</p>
+                    <ul class="plan-features">
+                        <li>2,000 messages/month</li>
+                        <li>Advanced AI with custom training</li>
+                        <li>Unlimited templates</li>
+                        <li>Priority support</li>
+                        <li>Focus analytics</li>
+                        <li>Team collaboration (3 users)</li>
+                    </ul>
+                    <button class="plan-button">Start Free Trial</button>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="plan-icon">⚡</div>
+                    <div class="plan-name">Studio</div>
+                    <div class="plan-price">₹11,999<span>/mo</span></div>
+                    <p class="plan-description">For content teams and agencies</p>
+                    <ul class="plan-features">
+                        <li>Unlimited messages</li>
+                        <li>Custom AI models</li>
+                        <li>White-label options</li>
+                        <li>Dedicated manager</li>
+                        <li>API access</li>
+                        <li>Unlimited team members</li>
+                        <li>Custom integrations</li>
+                    </ul>
+                    <button class="plan-button">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">Jarvish</div>
+                    <div class="footer-tagline">Focus on creation, we handle the rest</div>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Support</a>
+                    <a href="#">SEBI Compliance</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

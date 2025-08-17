@@ -1,0 +1,856 @@
+/* Jarvish Design System - Design Tokens Implementation */
+/* Premium Theme Variables for Financial Services Platform */
+
+/* ============================================
+   THEME 1: EXECUTIVE CLARITY (Light)
+   Target: Senior RIAs, Authority through minimalism
+   ============================================ */
+:root[data-theme="executive-clarity"] {
+  /* Core Colors */
+  --color-primary: #0B1F33;
+  --color-primary-rgb: 11, 31, 51;
+  --color-secondary: #4A5568;
+  --color-secondary-rgb: 74, 85, 104;
+  --color-accent: #CEA200;
+  --color-accent-rgb: 206, 162, 0;
+  --color-background: #FFFFFF;
+  --color-surface: #FAFBFC;
+  --color-border: #E2E8F0;
+  
+  /* Semantic Colors */
+  --color-success: #0C310C;
+  --color-warning: #D97706;
+  --color-error: #DC2626;
+  --color-info: #2563EB;
+  
+  /* Typography Scale */
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  
+  --text-h1: 48px;
+  --text-h2: 36px;
+  --text-h3: 28px;
+  --text-h4: 20px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-caption: 12px;
+  
+  --line-height-tight: 1.2;
+  --line-height-base: 1.6;
+  --line-height-relaxed: 1.8;
+  
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(11, 31, 51, 0.04);
+  --shadow-md: 0 4px 6px rgba(11, 31, 51, 0.07);
+  --shadow-lg: 0 10px 15px rgba(11, 31, 51, 0.1);
+  --shadow-xl: 0 20px 25px rgba(11, 31, 51, 0.12);
+  --shadow-focus: 0 0 0 3px rgba(206, 162, 0, 0.2);
+  
+  /* Borders */
+  --border-width: 1px;
+  --border-style: solid;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+  
+  /* Z-Index Scale */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-tooltip: 600;
+  --z-notification: 700;
+}
+
+/* ============================================
+   THEME 2: TRUST BUILDER (Light)
+   Target: Traditional MFDs, Bank-like familiarity
+   ============================================ */
+:root[data-theme="trust-builder"] {
+  /* Core Colors */
+  --color-primary: #1E3A5F;
+  --color-primary-rgb: 30, 58, 95;
+  --color-secondary: #495057;
+  --color-secondary-rgb: 73, 80, 87;
+  --color-accent: #CEA200;
+  --color-accent-rgb: 206, 162, 0;
+  --color-background: #FFFFFF;
+  --color-surface: #F8F9FA;
+  --color-border: #DEE2E6;
+  
+  /* Semantic Colors */
+  --color-success: #28A745;
+  --color-warning: #FFC107;
+  --color-error: #DC3545;
+  --color-info: #17A2B8;
+  
+  /* Typography Scale */
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  
+  --text-h1: 44px;
+  --text-h2: 32px;
+  --text-h3: 24px;
+  --text-h4: 18px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-caption: 12px;
+  
+  --line-height-tight: 1.2;
+  --line-height-base: 1.7;
+  --line-height-relaxed: 1.9;
+  
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.12);
+  --shadow-focus: 0 0 0 3px rgba(206, 162, 0, 0.25);
+  
+  /* Borders */
+  --border-width: 1.5px;
+  --border-style: solid;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+}
+
+/* ============================================
+   THEME 3: GROWTH CATALYST (Light)
+   Target: Young advisors, Energy without aggression
+   ============================================ */
+:root[data-theme="growth-catalyst"] {
+  /* Core Colors */
+  --color-primary: #0C310C;
+  --color-primary-rgb: 12, 49, 12;
+  --color-secondary: #374151;
+  --color-secondary-rgb: 55, 65, 81;
+  --color-accent: #CEA200;
+  --color-accent-rgb: 206, 162, 0;
+  --color-background: #FFFFFF;
+  --color-surface: #F0FDF4;
+  --color-border: #D1FAE5;
+  
+  /* Semantic Colors */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+  
+  /* Typography Scale */
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  
+  --text-h1: 52px;
+  --text-h2: 38px;
+  --text-h3: 28px;
+  --text-h4: 20px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-caption: 12px;
+  
+  --line-height-tight: 1.1;
+  --line-height-base: 1.6;
+  --line-height-relaxed: 1.8;
+  
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(12, 49, 12, 0.06);
+  --shadow-md: 0 4px 6px rgba(12, 49, 12, 0.08);
+  --shadow-lg: 0 10px 15px rgba(12, 49, 12, 0.1);
+  --shadow-xl: 0 20px 30px rgba(12, 49, 12, 0.12);
+  --shadow-focus: 0 0 0 3px rgba(12, 49, 12, 0.2);
+  
+  /* Borders */
+  --border-width: 1px;
+  --border-style: solid;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   THEME 4: PREMIUM PROFESSIONAL (Light)
+   Target: Fee-only RIAs, Understated luxury
+   ============================================ */
+:root[data-theme="premium-professional"] {
+  /* Core Colors */
+  --color-primary: #0B1F33;
+  --color-primary-rgb: 11, 31, 51;
+  --color-secondary: #2D3748;
+  --color-secondary-rgb: 45, 55, 72;
+  --color-accent: #CEA200;
+  --color-accent-rgb: 206, 162, 0;
+  --color-accent-light: #E5C454;
+  --color-background: #FDFCFB;
+  --color-surface: #FAF8F6;
+  --color-border: #E5DDD5;
+  
+  /* Semantic Colors */
+  --color-success: #0C310C;
+  --color-warning: #B8860B;
+  --color-error: #8B0000;
+  --color-info: #1E3A5F;
+  
+  /* Typography Scale */
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  
+  --text-h1: 56px;
+  --text-h2: 40px;
+  --text-h3: 30px;
+  --text-h4: 22px;
+  --text-body: 17px;
+  --text-small: 15px;
+  --text-caption: 13px;
+  
+  --line-height-tight: 1.1;
+  --line-height-base: 1.7;
+  --line-height-relaxed: 1.9;
+  
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-base: 0;
+  --letter-spacing-wide: 0.05em;
+  
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(206, 162, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(206, 162, 0, 0.08);
+  --shadow-lg: 0 12px 24px rgba(206, 162, 0, 0.12);
+  --shadow-xl: 0 24px 48px rgba(206, 162, 0, 0.15);
+  --shadow-glow: 0 0 20px rgba(206, 162, 0, 0.2);
+  --shadow-focus: 0 0 0 3px rgba(206, 162, 0, 0.3);
+  
+  /* Borders */
+  --border-width: 1px;
+  --border-style: solid;
+  --border-accent: 2px solid #CEA200;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+}
+
+/* ============================================
+   THEME 5: INNOVATION FORWARD (Light)
+   Target: Tech-savvy advisors, AI-optimized
+   ============================================ */
+:root[data-theme="innovation-forward"] {
+  /* Core Colors */
+  --color-primary: #0B1F33;
+  --color-primary-rgb: 11, 31, 51;
+  --color-secondary: #475569;
+  --color-secondary-rgb: 71, 85, 105;
+  --color-accent: #CEA200;
+  --color-accent-rgb: 206, 162, 0;
+  --color-tech-blue: #0EA5E9;
+  --color-background: #FFFFFF;
+  --color-surface: #F8FAFC;
+  --color-border: #E2E8F0;
+  
+  /* Semantic Colors */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #6366F1;
+  
+  /* Glass Effect */
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+  --backdrop-blur: blur(10px);
+  
+  /* Typography Scale */
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  
+  --text-h1: 54px;
+  --text-h2: 38px;
+  --text-h3: 28px;
+  --text-h4: 20px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-caption: 12px;
+  --text-code: 14px;
+  
+  --line-height-tight: 1.1;
+  --line-height-base: 1.6;
+  --line-height-relaxed: 1.8;
+  --line-height-code: 1.4;
+  
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 6px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 10px 20px rgba(15, 23, 42, 0.08);
+  --shadow-xl: 0 20px 40px rgba(15, 23, 42, 0.1);
+  --shadow-focus: 0 0 0 3px rgba(99, 102, 241, 0.3);
+  
+  /* Borders */
+  --border-width: 1px;
+  --border-style: solid;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   THEME 6: MIDNIGHT EXECUTIVE (Dark)
+   Target: Late workers, Reduced eye strain
+   ============================================ */
+:root[data-theme="midnight-executive"] {
+  /* Core Colors */
+  --color-primary: #FFFFFF;
+  --color-primary-rgb: 255, 255, 255;
+  --color-secondary: #E2E8F0;
+  --color-secondary-rgb: 226, 232, 240;
+  --color-accent: #CEA200;
+  --color-accent-rgb: 206, 162, 0;
+  --color-background: #0B1929;
+  --color-surface: #162236;
+  --color-border: #233044;
+  
+  /* Semantic Colors */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+  
+  /* Typography Scale */
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  
+  --text-h1: 48px;
+  --text-h2: 36px;
+  --text-h3: 28px;
+  --text-h4: 20px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-caption: 12px;
+  
+  --line-height-tight: 1.2;
+  --line-height-base: 1.6;
+  --line-height-relaxed: 1.8;
+  
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px rgba(206, 162, 0, 0.3);
+  --shadow-focus: 0 0 0 3px rgba(206, 162, 0, 0.4);
+  
+  /* Borders */
+  --border-width: 1px;
+  --border-style: solid;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+}
+
+/* ============================================
+   THEME 7: STEALTH WEALTH (Dark)
+   Target: Private banking, Understated luxury
+   ============================================ */
+:root[data-theme="stealth-wealth"] {
+  /* Core Colors */
+  --color-primary: #F7F3F0;
+  --color-primary-rgb: 247, 243, 240;
+  --color-secondary: #D4CFC9;
+  --color-secondary-rgb: 212, 207, 201;
+  --color-accent: #CEA200;
+  --color-accent-rgb: 206, 162, 0;
+  --color-accent-muted: #8B7355;
+  --color-background: #1A1815;
+  --color-surface: #252320;
+  --color-border: #3A3733;
+  
+  /* Semantic Colors */
+  --color-success: #4A5D4A;
+  --color-warning: #8B7355;
+  --color-error: #6B3333;
+  --color-info: #3A4D5C;
+  
+  /* Gradients */
+  --gradient-surface: linear-gradient(135deg, #252320 0%, #1A1815 100%);
+  --gradient-gold: linear-gradient(135deg, #CEA200 0%, #8B7355 100%);
+  
+  /* Typography Scale */
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  
+  --text-h1: 52px;
+  --text-h2: 38px;
+  --text-h3: 28px;
+  --text-h4: 20px;
+  --text-body: 17px;
+  --text-small: 15px;
+  --text-caption: 13px;
+  
+  --line-height-tight: 1.1;
+  --line-height-base: 1.7;
+  --line-height-relaxed: 1.9;
+  
+  --letter-spacing-wide: 1px;
+  
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.7);
+  --shadow-focus: 0 0 0 3px rgba(139, 115, 85, 0.4);
+  
+  /* Borders */
+  --border-width: 1px;
+  --border-style: solid;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+}
+
+/* ============================================
+   THEME 8: FOCUS FLOW (Dark)
+   Target: Content creators, Distraction-free
+   ============================================ */
+:root[data-theme="focus-flow"] {
+  /* Core Colors */
+  --color-primary: #E5E7EB;
+  --color-primary-rgb: 229, 231, 235;
+  --color-secondary: #9CA3AF;
+  --color-secondary-rgb: 156, 163, 175;
+  --color-accent: #CEA200;
+  --color-accent-rgb: 206, 162, 0;
+  --color-background: #111827;
+  --color-surface: #1F2937;
+  --color-border: #374151;
+  
+  /* Semantic Colors */
+  --color-success: #059669;
+  --color-warning: #D97706;
+  --color-error: #DC2626;
+  --color-info: #2563EB;
+  
+  /* Typography Scale */
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  
+  --text-h1: 44px;
+  --text-h2: 32px;
+  --text-h3: 24px;
+  --text-h4: 18px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-caption: 12px;
+  
+  --line-height-tight: 1.3;
+  --line-height-base: 1.8;
+  --line-height-relaxed: 2.0;
+  
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.7);
+  --shadow-focus: 0 0 0 3px rgba(206, 162, 0, 0.5);
+  --shadow-glow: 0 0 20px rgba(206, 162, 0, 0.2);
+  
+  /* Borders */
+  --border-width: 1px;
+  --border-style: solid;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+}
+
+/* ============================================
+   THEME 9: ELITE TRADER (Dark)
+   Target: Market-focused, Bloomberg-inspired
+   ============================================ */
+:root[data-theme="elite-trader"] {
+  /* Core Colors */
+  --color-primary: #00FF41;
+  --color-primary-rgb: 0, 255, 65;
+  --color-secondary: #FFFFFF;
+  --color-secondary-rgb: 255, 255, 255;
+  --color-accent: #CEA200;
+  --color-accent-rgb: 206, 162, 0;
+  --color-positive: #00FF41;
+  --color-negative: #FF0033;
+  --color-background: #000000;
+  --color-surface: #0A0A0A;
+  --color-border: #1A1A1A;
+  
+  /* Semantic Colors */
+  --color-success: #00FF41;
+  --color-warning: #FFB800;
+  --color-error: #FF0033;
+  --color-info: #00B4FF;
+  
+  /* Typography Scale */
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  
+  --text-h1: 42px;
+  --text-h2: 30px;
+  --text-h3: 22px;
+  --text-h4: 16px;
+  --text-body: 14px;
+  --text-small: 12px;
+  --text-caption: 11px;
+  --text-mono: 13px;
+  
+  --line-height-tight: 1.1;
+  --line-height-base: 1.5;
+  --line-height-relaxed: 1.7;
+  --line-height-mono: 1.4;
+  
+  --letter-spacing-mono: 0.5px;
+  --text-transform-button: uppercase;
+  
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 0 rgba(0, 255, 65, 0.1);
+  --shadow-md: 0 2px 0 rgba(0, 255, 65, 0.15);
+  --shadow-lg: 0 4px 0 rgba(0, 255, 65, 0.2);
+  --shadow-focus: 0 0 0 2px rgba(0, 255, 65, 0.5);
+  
+  /* Grid System */
+  --grid-line: 1px solid #1A1A1A;
+  --grid-highlight: rgba(0, 255, 65, 0.05);
+  
+  /* Borders */
+  --border-width: 1px;
+  --border-style: solid;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-full: 0;
+  
+  /* Transitions */
+  --transition-fast: 100ms linear;
+  --transition-base: 150ms linear;
+  --transition-slow: 200ms linear;
+}
+
+/* ============================================
+   THEME 10: QUANTUM PROFESSIONAL (Dark)
+   Target: Innovation leaders, Next-gen credibility
+   ============================================ */
+:root[data-theme="quantum-professional"] {
+  /* Core Colors */
+  --color-primary: #E0F2FE;
+  --color-primary-rgb: 224, 242, 254;
+  --color-secondary: #94A3B8;
+  --color-secondary-rgb: 148, 163, 184;
+  --color-accent: #CEA200;
+  --color-accent-rgb: 206, 162, 0;
+  --color-quantum-blue: #00D4FF;
+  --color-quantum-purple: #8B5CF6;
+  --color-background: #0F172A;
+  --color-surface: #1E293B;
+  --color-border: #334155;
+  
+  /* Semantic Colors */
+  --color-success: #10F896;
+  --color-warning: #FFB800;
+  --color-error: #FF0055;
+  --color-info: #00D4FF;
+  
+  /* Gradients */
+  --gradient-holo: linear-gradient(135deg, #00D4FF, #8B5CF6, #CEA200);
+  --gradient-surface: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+  --gradient-button: linear-gradient(135deg, #00D4FF 0%, #8B5CF6 100%);
+  
+  /* Typography Scale */
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  
+  --text-h1: 56px;
+  --text-h2: 40px;
+  --text-h3: 28px;
+  --text-h4: 20px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-caption: 12px;
+  --text-code: 14px;
+  
+  --line-height-tight: 1.0;
+  --line-height-base: 1.6;
+  --line-height-relaxed: 1.8;
+  --line-height-code: 1.4;
+  
+  --letter-spacing-wide: 1px;
+  --text-transform-badge: uppercase;
+  
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Shadows & Effects */
+  --shadow-sm: 0 2px 8px rgba(0, 212, 255, 0.1);
+  --shadow-md: 0 4px 16px rgba(0, 212, 255, 0.15);
+  --shadow-lg: 0 8px 32px rgba(0, 212, 255, 0.2);
+  --shadow-xl: 0 16px 48px rgba(0, 212, 255, 0.25);
+  --shadow-glow: 0 0 30px rgba(0, 212, 255, 0.3);
+  --shadow-focus: 0 0 0 3px rgba(139, 92, 246, 0.5);
+  
+  /* Borders */
+  --border-width: 1px;
+  --border-style: solid;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* Animations */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.6, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.6, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.6, 1);
+  --animation-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animation-holo: holo-shift 3s ease infinite;
+}
+
+/* ============================================
+   GLOBAL UTILITIES & HELPERS
+   ============================================ */
+
+/* Smooth Theme Transitions */
+* {
+  transition: background-color var(--transition-base),
+              color var(--transition-base),
+              border-color var(--transition-base),
+              box-shadow var(--transition-base);
+}
+
+/* Focus Styles */
+*:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+/* Selection Colors */
+::selection {
+  background-color: rgba(var(--color-accent-rgb), 0.2);
+  color: var(--color-primary);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* Animation Keyframes */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes holo-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Responsive Font Scaling */
+@media (max-width: 768px) {
+  :root {
+    --text-h1: calc(var(--text-h1) * 0.85);
+    --text-h2: calc(var(--text-h2) * 0.85);
+    --text-h3: calc(var(--text-h3) * 0.9);
+    --text-h4: calc(var(--text-h4) * 0.95);
+  }
+}
+
+/* Print Styles */
+@media print {
+  :root {
+    --color-background: #FFFFFF;
+    --color-primary: #000000;
+    --color-secondary: #333333;
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+    --shadow-xl: none;
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --border-width: 2px;
+    --shadow-focus: 0 0 0 4px var(--color-accent);
+  }
+}

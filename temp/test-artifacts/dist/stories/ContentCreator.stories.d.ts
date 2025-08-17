@@ -1,0 +1,11 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { ContentCreator } from '../apps/web/components/ContentCreator';
+declare const meta: Meta<typeof ContentCreator>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export declare const Default: Story;
+export declare const AIEnhanced: Story;
+export declare const HindiContent: Story;
+export declare const EditMode: Story;
+export declare const ReviewMode: Story;
+export declare const Mobile: Story;

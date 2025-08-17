@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Clarity - Admin Dashboard</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2c5282;
+            --success: #047857;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --background: #ffffff;
+            --surface: #f8fafc;
+            --border: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+            --radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: var(--primary);
+            color: white;
+            padding: 24px 16px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            background: var(--surface);
+        }
+
+        /* Header */
+        .header {
+            background: var(--background);
+            padding: 20px 24px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .header-subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .timer {
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        /* Metrics Bar */
+        .metrics-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            background: var(--background);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .metric-change {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .positive { color: var(--success); }
+        .negative { color: var(--danger); }
+
+        /* Approval Queue */
+        .queue-container {
+            background: var(--background);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .queue-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .batch-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .queue-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .queue-table th {
+            background: var(--surface);
+            padding: 12px 24px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        .queue-table td {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .queue-table tr:hover {
+            background: var(--surface);
+        }
+
+        .queue-table tr.selected {
+            background: #eff6ff;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .risk-score {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .risk-low {
+            background: #dcfce7;
+            color: var(--success);
+        }
+
+        .risk-medium {
+            background: #fed7aa;
+            color: var(--warning);
+        }
+
+        .risk-high {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+
+        .preview-btn {
+            padding: 6px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preview-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* System Health */
+        .system-health {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--background);
+            padding: 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            min-width: 280px;
+        }
+
+        .health-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .health-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .status-green { background: var(--success); }
+        .status-amber { background: var(--warning); }
+        .status-red { background: var(--danger); }
+
+        /* Keyboard shortcuts hint */
+        .shortcuts-hint {
+            position: fixed;
+            bottom: 24px;
+            left: 256px;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+
+            .metrics-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .queue-table {
+                font-size: 14px;
+            }
+
+            .queue-table th,
+            .queue-table td {
+                padding: 12px;
+            }
+
+            .shortcuts-hint {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">Admin Portal</div>
+            <nav>
+                <div class="nav-item active">
+                    <span>📊</span>
+                    <span>Approval Queue</span>
+                </div>
+                <div class="nav-item">
+                    <span>📝</span>
+                    <span>Templates</span>
+                </div>
+                <div class="nav-item">
+                    <span>📈</span>
+                    <span>Analytics</span>
+                </div>
+                <div class="nav-item">
+                    <span>⚙️</span>
+                    <span>Settings</span>
+                </div>
+                <div class="nav-item">
+                    <span>📋</span>
+                    <span>Compliance Logs</span>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div>
+                    <h1 class="header-title">Nightly Approval Queue</h1>
+                    <p class="header-subtitle">120 items pending • Target: 180 items/hour</p>
+                </div>
+                <div class="header-actions">
+                    <div class="timer">⏱️ Window: 20:30 - 21:30 IST</div>
+                    <button class="btn btn-outline">Export Report</button>
+                </div>
+            </div>
+
+            <!-- Metrics Bar -->
+            <div class="metrics-bar">
+                <div class="metric-card">
+                    <div class="metric-label">Pending Items</div>
+                    <div class="metric-value">120</div>
+                    <div class="metric-change negative">↑ 15 from yesterday</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Approval Rate</div>
+                    <div class="metric-value">94%</div>
+                    <div class="metric-change positive">↑ 2% this week</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Avg Processing Time</div>
+                    <div class="metric-value">18s</div>
+                    <div class="metric-change positive">↓ 3s improvement</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">WhatsApp Quality</div>
+                    <div class="metric-value">98%</div>
+                    <div class="metric-change positive">Stable</div>
+                </div>
+            </div>
+
+            <!-- Approval Queue -->
+            <div class="queue-container">
+                <div class="queue-header">
+                    <div class="batch-controls">
+                        <input type="checkbox" class="checkbox" id="selectAll">
+                        <label for="selectAll">Select All (120)</label>
+                        <span style="color: var(--text-secondary); margin: 0 8px;">|</span>
+                        <span style="font-size: 14px; color: var(--text-secondary);">8 selected</span>
+                    </div>
+                    <div class="batch-controls">
+                        <button class="btn btn-success">✓ Approve Selected</button>
+                        <button class="btn btn-danger">✗ Reject Selected</button>
+                        <button class="btn btn-outline">↻ Refresh</button>
+                    </div>
+                </div>
+
+                <table class="queue-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;">
+                                <input type="checkbox" class="checkbox">
+                            </th>
+                            <th>Content ID</th>
+                            <th>Advisor</th>
+                            <th>Type</th>
+                            <th>AI Risk Score</th>
+                            <th>Compliance Flags</th>
+                            <th>Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="selected">
+                            <td><input type="checkbox" class="checkbox" checked></td>
+                            <td><strong>#CNT-2024-0892</strong></td>
+                            <td>Rajesh Kumar<br><span style="font-size: 12px; color: var(--text-secondary);">RIA/2021/0456</span></td>
+                            <td>Market Update</td>
+                            <td><span class="risk-score risk-low">3.2</span></td>
+                            <td>None</td>
+                            <td>2 min ago</td>
+                            <td>
+                                <button class="preview-btn">Preview</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><strong>#CNT-2024-0893</strong></td>
+                            <td>Priya Sharma<br><span style="font-size: 12px; color: var(--text-secondary);">RIA/2020/0789</span></td>
+                            <td>Investment Tip</td>
+                            <td><span class="risk-score risk-medium">5.7</span></td>
+                            <td>Disclaimer needed</td>
+                            <td>3 min ago</td>
+                            <td>
+                                <button class="preview-btn">Preview</button>
+                            </td>
+                        </tr>
+                        <tr class="selected">
+                            <td><input type="checkbox" class="checkbox" checked></td>
+                            <td><strong>#CNT-2024-0894</strong></td>
+                            <td>Amit Patel<br><span style="font-size: 12px; color: var(--text-secondary);">RIA/2019/0234</span></td>
+                            <td>Product Launch</td>
+                            <td><span class="risk-score risk-high">8.2</span></td>
+                            <td>Return claims</td>
+                            <td>5 min ago</td>
+                            <td>
+                                <button class="preview-btn">Preview</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><strong>#CNT-2024-0895</strong></td>
+                            <td>Neha Gupta<br><span style="font-size: 12px; color: var(--text-secondary);">RIA/2022/0567</span></td>
+                            <td>Educational</td>
+                            <td><span class="risk-score risk-low">2.1</span></td>
+                            <td>None</td>
+                            <td>6 min ago</td>
+                            <td>
+                                <button class="preview-btn">Preview</button>
+                            </td>
+                        </tr>
+                        <tr class="selected">
+                            <td><input type="checkbox" class="checkbox" checked></td>
+                            <td><strong>#CNT-2024-0896</strong></td>
+                            <td>Vikram Singh<br><span style="font-size: 12px; color: var(--text-secondary);">RIA/2021/0890</span></td>
+                            <td>Market News</td>
+                            <td><span class="risk-score risk-low">3.8</span></td>
+                            <td>None</td>
+                            <td>8 min ago</td>
+                            <td>
+                                <button class="preview-btn">Preview</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- System Health Monitor -->
+    <div class="system-health">
+        <div class="health-title">System Health</div>
+        <div class="health-item">
+            <span><span class="status-indicator status-green"></span>WhatsApp API</span>
+            <span style="color: var(--success);">Operational</span>
+        </div>
+        <div class="health-item">
+            <span><span class="status-indicator status-amber"></span>Rate Limit</span>
+            <span style="color: var(--warning);">75% used</span>
+        </div>
+        <div class="health-item">
+            <span><span class="status-indicator status-green"></span>Job Queue</span>
+            <span style="color: var(--success);">12 jobs</span>
+        </div>
+        <div class="health-item">
+            <span><span class="status-indicator status-green"></span>AI Service</span>
+            <span style="color: var(--success);">120ms avg</span>
+        </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Hint -->
+    <div class="shortcuts-hint">
+        Shortcuts: Cmd+A (Select All) • Cmd+Enter (Approve) • Cmd+R (Reject) • Space (Preview)
+    </div>
+</body>
+</html>

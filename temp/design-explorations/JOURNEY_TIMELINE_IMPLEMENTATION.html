@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey Timeline Component - Unified Design System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Core Brand Colors */
+            --ink: #0B1F33;
+            --ink-light: #162943;
+            --ink-dark: #061119;
+            
+            --gold: #CEA200;
+            --gold-light: #E5C454;
+            --gold-subtle: rgba(206, 162, 0, 0.1);
+            --gold-glow: rgba(206, 162, 0, 0.2);
+            
+            --palm: #0C310C;
+            --palm-light: #164716;
+            --palm-glow: rgba(12, 49, 12, 0.15);
+            
+            /* Surface Colors */
+            --surface-white: #FFFFFF;
+            --surface-elevated: #FAFBFC;
+            --surface-sunken: #F4F6F8;
+            --surface-gray: #E5E9ED;
+            
+            /* Typography */
+            --font-headline: 'Fraunces', serif;
+            --font-body: 'Poppins', sans-serif;
+            
+            /* Golden Ratio Scale */
+            --scale-xs: 0.618rem;
+            --scale-sm: 1rem;
+            --scale-md: 1.618rem;
+            --scale-lg: 2.618rem;
+            --scale-xl: 4.236rem;
+            --scale-2xl: 6.854rem;
+            
+            /* Spacing (Golden Ratio) */
+            --space-1: 0.382rem;
+            --space-2: 0.618rem;
+            --space-3: 1rem;
+            --space-4: 1.618rem;
+            --space-5: 2.618rem;
+            --space-6: 4.236rem;
+            
+            /* Animation */
+            --ease-professional: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --duration-quick: 150ms;
+            --duration-base: 250ms;
+            --duration-slow: 350ms;
+            --duration-journey: 800ms;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(11, 31, 51, 0.04);
+            --shadow-md: 0 4px 6px rgba(11, 31, 51, 0.07);
+            --shadow-lg: 0 10px 15px rgba(11, 31, 51, 0.1);
+            --shadow-xl: 0 20px 25px rgba(11, 31, 51, 0.12);
+            --shadow-glow: 0 0 30px rgba(206, 162, 0, 0.15);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(180deg, var(--surface-white) 0%, var(--surface-elevated) 100%);
+            color: var(--ink);
+            line-height: 1.6;
+            padding: var(--space-5);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-6);
+            animation: fadeInUp var(--duration-slow) var(--ease-professional);
+        }
+
+        .section-title {
+            font-family: var(--font-headline);
+            font-size: var(--scale-xl);
+            font-weight: 900;
+            color: var(--ink);
+            margin-bottom: var(--space-3);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .section-subtitle {
+            font-size: var(--scale-md);
+            color: #6B7785;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* HORIZONTAL JOURNEY TIMELINE (Landing Page) */
+        .journey-timeline-horizontal {
+            position: relative;
+            padding: var(--space-6) 0;
+            margin: var(--space-6) 0;
+            background: linear-gradient(180deg, 
+                var(--surface-sunken) 0%,
+                var(--surface-white) 50%,
+                var(--surface-sunken) 100%);
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .journey-timeline-horizontal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                var(--gold-subtle) 50%,
+                transparent 100%);
+        }
+
+        .journey-track {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 var(--space-5);
+        }
+
+        .journey-progress-line {
+            position: absolute;
+            top: 50%;
+            left: var(--space-5);
+            right: var(--space-5);
+            height: 2px;
+            background: var(--surface-gray);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .journey-progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(90deg,
+                var(--gold) 0%,
+                var(--gold-light) 100%);
+            width: 0%;
+            transition: width var(--duration-journey) var(--ease-professional);
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .journey-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+            cursor: pointer;
+            transition: transform var(--duration-base) var(--ease-professional);
+        }
+
+        .journey-step:hover {
+            transform: translateY(-4px);
+        }
+
+        .journey-step-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--space-3);
+            background: var(--surface-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--surface-gray);
+            transition: all var(--duration-slow) var(--ease-professional);
+            position: relative;
+            box-shadow: var(--shadow-md);
+        }
+
+        .journey-step.active .journey-step-icon {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, var(--gold-subtle) 0%, var(--surface-white) 100%);
+            transform: scale(1.1);
+            box-shadow: 0 0 0 8px var(--gold-glow), var(--shadow-lg);
+        }
+
+        .journey-step.completed .journey-step-icon {
+            border-color: var(--palm);
+            background: var(--palm);
+        }
+
+        .journey-step-icon::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity var(--duration-slow) var(--ease-professional);
+            pointer-events: none;
+        }
+
+        .journey-step.active .journey-step-icon::after {
+            opacity: 1;
+            animation: pulse 2s var(--ease-professional) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+        }
+
+        .journey-step-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--ink);
+            transition: all var(--duration-base) var(--ease-professional);
+        }
+
+        .journey-step.completed .journey-step-icon svg {
+            fill: var(--surface-white);
+        }
+
+        .journey-step-content {
+            max-width: 180px;
+        }
+
+        .journey-step-day {
+            font-size: var(--scale-xs);
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-1);
+        }
+
+        .journey-step-title {
+            font-family: var(--font-headline);
+            font-size: var(--scale-md);
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: var(--space-2);
+            line-height: 1.2;
+        }
+
+        .journey-step-description {
+            font-size: var(--scale-xs);
+            color: #6B7785;
+            line-height: 1.4;
+        }
+
+        /* VERTICAL JOURNEY SIDEBAR (Dashboard) */
+        .journey-timeline-vertical {
+            background: var(--surface-white);
+            border-radius: 12px;
+            padding: var(--space-4);
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: var(--space-4);
+            max-width: 320px;
+        }
+
+        .journey-timeline-vertical .journey-header {
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-3);
+            border-bottom: 1px solid var(--surface-gray);
+        }
+
+        .journey-timeline-vertical .journey-title {
+            font-family: var(--font-headline);
+            font-size: var(--scale-md);
+            color: var(--ink);
+            margin-bottom: var(--space-2);
+        }
+
+        .journey-timeline-vertical .journey-progress-text {
+            font-size: var(--scale-xs);
+            color: #6B7785;
+        }
+
+        .journey-timeline-vertical .journey-progress-bar {
+            height: 8px;
+            background: var(--surface-sunken);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: var(--space-2);
+        }
+
+        .journey-timeline-vertical .journey-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+            width: 33%;
+            transition: width var(--duration-journey) var(--ease-professional);
+        }
+
+        .journey-steps-vertical {
+            position: relative;
+            padding-left: var(--space-4);
+        }
+
+        .journey-steps-vertical::before {
+            content: '';
+            position: absolute;
+            left: 16px;
+            top: 20px;
+            bottom: 20px;
+            width: 2px;
+            background: var(--surface-gray);
+        }
+
+        .journey-step-vertical {
+            position: relative;
+            margin-bottom: var(--space-4);
+            padding-left: var(--space-4);
+            cursor: pointer;
+            transition: transform var(--duration-base) var(--ease-professional);
+        }
+
+        .journey-step-vertical:hover {
+            transform: translateX(4px);
+        }
+
+        .journey-step-vertical::before {
+            content: '';
+            position: absolute;
+            left: -var(--space-4);
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--surface-white);
+            border: 3px solid var(--surface-gray);
+            transition: all var(--duration-base) var(--ease-professional);
+        }
+
+        .journey-step-vertical.active::before {
+            border-color: var(--gold);
+            background: var(--gold);
+            box-shadow: 0 0 0 4px var(--gold-glow);
+        }
+
+        .journey-step-vertical.completed::before {
+            border-color: var(--palm);
+            background: var(--palm);
+        }
+
+        .journey-step-vertical .step-content {
+            background: var(--surface-sunken);
+            padding: var(--space-3);
+            border-radius: 8px;
+            transition: all var(--duration-base) var(--ease-professional);
+        }
+
+        .journey-step-vertical.active .step-content {
+            background: linear-gradient(135deg, var(--gold-subtle) 0%, var(--surface-sunken) 100%);
+            box-shadow: var(--shadow-md);
+        }
+
+        .journey-step-vertical .step-day {
+            font-size: 10px;
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .journey-step-vertical .step-title {
+            font-weight: 600;
+            color: var(--ink);
+            margin: var(--space-1) 0;
+            font-size: var(--scale-sm);
+        }
+
+        .journey-step-vertical .step-description {
+            font-size: var(--scale-xs);
+            color: #6B7785;
+            line-height: 1.4;
+        }
+
+        .journey-step-vertical .step-action {
+            margin-top: var(--space-2);
+            font-size: var(--scale-xs);
+            color: var(--gold);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            opacity: 0;
+            transition: opacity var(--duration-base) var(--ease-professional);
+        }
+
+        .journey-step-vertical.active .step-action {
+            opacity: 1;
+        }
+
+        /* MINI JOURNEY INDICATOR (Admin Overview) */
+        .journey-mini {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--surface-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .journey-mini-dots {
+            display: flex;
+            gap: var(--space-1);
+        }
+
+        .journey-mini-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--surface-gray);
+            transition: all var(--duration-base) var(--ease-professional);
+        }
+
+        .journey-mini-dot.active {
+            background: var(--gold);
+            transform: scale(1.5);
+        }
+
+        .journey-mini-dot.completed {
+            background: var(--palm);
+        }
+
+        .journey-mini-text {
+            font-size: var(--scale-xs);
+            color: #6B7785;
+            font-weight: 500;
+        }
+
+        /* Interactive Modal Preview */
+        .journey-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(11, 31, 51, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+
+        .journey-modal.active {
+            display: flex;
+            animation: fadeIn var(--duration-base) var(--ease-professional);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .journey-modal-content {
+            background: var(--surface-white);
+            border-radius: 16px;
+            padding: var(--space-5);
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            animation: slideUp var(--duration-slow) var(--ease-professional);
+            box-shadow: var(--shadow-xl);
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .journey-modal-close {
+            position: absolute;
+            top: var(--space-3);
+            right: var(--space-3);
+            width: 32px;
+            height: 32px;
+            background: var(--surface-sunken);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--duration-base) var(--ease-professional);
+        }
+
+        .journey-modal-close:hover {
+            background: var(--surface-gray);
+            transform: rotate(90deg);
+        }
+
+        .journey-modal-header {
+            margin-bottom: var(--space-4);
+        }
+
+        .journey-modal-day {
+            font-size: var(--scale-xs);
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .journey-modal-title {
+            font-family: var(--font-headline);
+            font-size: var(--scale-lg);
+            color: var(--ink);
+            margin: var(--space-2) 0;
+        }
+
+        .journey-modal-description {
+            color: #6B7785;
+            line-height: 1.6;
+            margin-bottom: var(--space-4);
+        }
+
+        .journey-modal-features {
+            background: var(--surface-sunken);
+            border-radius: 8px;
+            padding: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .journey-modal-features h4 {
+            font-size: var(--scale-sm);
+            color: var(--ink);
+            margin-bottom: var(--space-2);
+            font-weight: 600;
+        }
+
+        .journey-modal-features ul {
+            list-style: none;
+        }
+
+        .journey-modal-features li {
+            padding: var(--space-1) 0;
+            padding-left: var(--space-4);
+            position: relative;
+            color: #6B7785;
+            font-size: var(--scale-xs);
+        }
+
+        .journey-modal-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--palm);
+            font-weight: bold;
+        }
+
+        .journey-modal-cta {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: var(--space-3) var(--space-4);
+            background: linear-gradient(135deg, var(--ink) 0%, var(--ink-light) 100%);
+            color: var(--surface-white);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: var(--scale-sm);
+            cursor: pointer;
+            transition: all var(--duration-base) var(--ease-professional);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: var(--space-3) var(--space-4);
+            background: var(--surface-white);
+            color: var(--ink);
+            border: 2px solid var(--surface-gray);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: var(--scale-sm);
+            cursor: pointer;
+            transition: all var(--duration-base) var(--ease-professional);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            background: var(--gold-subtle);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .journey-track {
+                flex-direction: column;
+                gap: var(--space-4);
+            }
+
+            .journey-progress-line {
+                display: none;
+            }
+
+            .journey-step {
+                width: 100%;
+            }
+
+            .journey-step-content {
+                max-width: 100%;
+            }
+
+            .journey-timeline-vertical {
+                max-width: 100%;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Demo Controls */
+        .demo-controls {
+            position: fixed;
+            bottom: var(--space-4);
+            right: var(--space-4);
+            background: var(--surface-white);
+            padding: var(--space-3);
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            z-index: 100;
+        }
+
+        .demo-controls h4 {
+            font-size: var(--scale-xs);
+            color: var(--ink);
+            margin-bottom: var(--space-2);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-controls button {
+            display: block;
+            width: 100%;
+            padding: var(--space-2);
+            margin-bottom: var(--space-1);
+            background: var(--surface-sunken);
+            border: 1px solid var(--surface-gray);
+            border-radius: 4px;
+            font-size: var(--scale-xs);
+            cursor: pointer;
+            transition: all var(--duration-quick) var(--ease-professional);
+        }
+
+        .demo-controls button:hover {
+            background: var(--gold-subtle);
+            border-color: var(--gold);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header">
+            <h1 class="section-title">From Setup to Scale in 30 Days</h1>
+            <p class="section-subtitle">Your proven path to automated content excellence with AI-powered WhatsApp delivery</p>
+        </div>
+
+        <!-- Horizontal Timeline (Landing Page Version) -->
+        <div class="journey-timeline-horizontal">
+            <div class="journey-track">
+                <div class="journey-progress-line">
+                    <div class="journey-progress-fill" id="progressFill"></div>
+                </div>
+                
+                <div class="journey-step completed" data-step="1">
+                    <div class="journey-step-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M13 3L4 14h6v7l9-11h-6V3z"/>
+                        </svg>
+                    </div>
+                    <div class="journey-step-content">
+                        <div class="journey-step-day">Day 1-3</div>
+                        <h3 class="journey-step-title">Smart Setup</h3>
+                        <p class="journey-step-description">AI-powered onboarding completes in minutes</p>
+                    </div>
+                </div>
+
+                <div class="journey-step active" data-step="2">
+                    <div class="journey-step-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <div class="journey-step-content">
+                        <div class="journey-step-day">Day 4-10</div>
+                        <h3 class="journey-step-title">Content Mastery</h3>
+                        <p class="journey-step-description">Personalized content flowing daily at 6 AM</p>
+                    </div>
+                </div>
+
+                <div class="journey-step" data-step="3">
+                    <div class="journey-step-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <div class="journey-step-content">
+                        <div class="journey-step-day">Day 11-20</div>
+                        <h3 class="journey-step-title">Client Delight</h3>
+                        <p class="journey-step-description">100% compliance with engaging content</p>
+                    </div>
+                </div>
+
+                <div class="journey-step" data-step="4">
+                    <div class="journey-step-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                        </svg>
+                    </div>
+                    <div class="journey-step-content">
+                        <div class="journey-step-day">Day 21-30</div>
+                        <h3 class="journey-step-title">Scale Success</h3>
+                        <p class="journey-step-description">Automated excellence serving 1000+ clients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vertical Timeline (Dashboard Sidebar Version) -->
+        <div style="display: flex; gap: var(--space-5); margin-top: var(--space-6);">
+            <div class="journey-timeline-vertical">
+                <div class="journey-header">
+                    <h3 class="journey-title">Your Journey Progress</h3>
+                    <div class="journey-progress-text">Day 7 of 30 • On Track</div>
+                    <div class="journey-progress-bar">
+                        <div class="journey-progress-fill"></div>
+                    </div>
+                </div>
+
+                <div class="journey-steps-vertical">
+                    <div class="journey-step-vertical completed">
+                        <div class="step-content">
+                            <div class="step-day">Day 1-3</div>
+                            <div class="step-title">Smart Setup</div>
+                            <div class="step-description">Setup complete! Your AI is trained and ready.</div>
+                        </div>
+                    </div>
+
+                    <div class="journey-step-vertical active">
+                        <div class="step-content">
+                            <div class="step-day">Day 4-10</div>
+                            <div class="step-title">Content Mastery</div>
+                            <div class="step-description">3 content packs active. 97% compliance score.</div>
+                            <div class="step-action">
+                                <span>Continue Setup →</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="journey-step-vertical">
+                        <div class="step-content">
+                            <div class="step-day">Day 11-20</div>
+                            <div class="step-title">Client Delight</div>
+                            <div class="step-description">Unlock advanced personalization features</div>
+                        </div>
+                    </div>
+
+                    <div class="journey-step-vertical">
+                        <div class="step-content">
+                            <div class="step-day">Day 21-30</div>
+                            <div class="step-title">Scale Success</div>
+                            <div class="step-description">Full automation and analytics unlocked</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mini Journey Indicators -->
+            <div style="flex: 1;">
+                <h3 style="font-family: var(--font-headline); margin-bottom: var(--space-3);">Mini Journey Indicators</h3>
+                
+                <div class="journey-mini" style="margin-bottom: var(--space-3);">
+                    <div class="journey-mini-dots">
+                        <div class="journey-mini-dot completed"></div>
+                        <div class="journey-mini-dot active"></div>
+                        <div class="journey-mini-dot"></div>
+                        <div class="journey-mini-dot"></div>
+                    </div>
+                    <div class="journey-mini-text">Day 7 of 30 • Content Mastery Phase</div>
+                </div>
+
+                <div style="background: var(--surface-white); padding: var(--space-4); border-radius: 12px; box-shadow: var(--shadow-md);">
+                    <h4 style="font-size: var(--scale-md); color: var(--ink); margin-bottom: var(--space-3);">Next Milestone</h4>
+                    <p style="color: #6B7785; margin-bottom: var(--space-3);">Complete 5 content packs to unlock Client Delight features</p>
+                    <div style="display: flex; gap: var(--space-2);">
+                        <button class="btn-primary" style="flex: initial; padding: var(--space-2) var(--space-3);">View Packs</button>
+                        <button class="btn-secondary" style="flex: initial; padding: var(--space-2) var(--space-3);">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Journey Modal -->
+    <div class="journey-modal" id="journeyModal">
+        <div class="journey-modal-content">
+            <button class="journey-modal-close" onclick="closeModal()">×</button>
+            
+            <div class="journey-modal-header">
+                <div class="journey-modal-day">Day 4-10</div>
+                <h2 class="journey-modal-title">Content Mastery Phase</h2>
+            </div>
+            
+            <p class="journey-modal-description">
+                This is where the magic happens. Your AI learns your style, understands your clients, 
+                and begins delivering personalized content that resonates. Watch your compliance score 
+                soar as you master the art of automated engagement.
+            </p>
+            
+            <div class="journey-modal-features">
+                <h4>What You'll Achieve:</h4>
+                <ul>
+                    <li>Set up 5+ content packs tailored to your audience</li>
+                    <li>Achieve 95%+ SEBI compliance score</li>
+                    <li>Personalize content for different client segments</li>
+                    <li>Schedule your first week of automated delivery</li>
+                    <li>Track engagement metrics in real-time</li>
+                </ul>
+            </div>
+            
+            <div class="journey-modal-cta">
+                <button class="btn-primary">Start This Phase</button>
+                <button class="btn-secondary" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo Controls -->
+    <div class="demo-controls">
+        <h4>Demo Controls</h4>
+        <button onclick="animateProgress()">Animate Progress</button>
+        <button onclick="showModal()">Show Modal</button>
+        <button onclick="resetJourney()">Reset Journey</button>
+    </div>
+
+    <script>
+        // Animate progress on load
+        setTimeout(() => {
+            document.getElementById('progressFill').style.width = '33%';
+        }, 500);
+
+        // Modal functions
+        function showModal() {
+            document.getElementById('journeyModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('journeyModal').classList.remove('active');
+        }
+
+        // Journey step click handlers
+        document.querySelectorAll('.journey-step').forEach(step => {
+            step.addEventListener('click', function() {
+                showModal();
+            });
+        });
+
+        // Demo functions
+        function animateProgress() {
+            const fill = document.getElementById('progressFill');
+            fill.style.width = '0%';
+            setTimeout(() => fill.style.width = '33%', 100);
+        }
+
+        function resetJourney() {
+            document.querySelectorAll('.journey-step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index === 0) step.classList.add('completed');
+                if (index === 1) step.classList.add('active');
+            });
+            document.getElementById('progressFill').style.width = '33%';
+        }
+
+        // Add hover effects
+        document.querySelectorAll('.journey-step-vertical').forEach(step => {
+            step.addEventListener('mouseenter', function() {
+                this.querySelector('.step-content').style.transform = 'scale(1.02)';
+            });
+            step.addEventListener('mouseleave', function() {
+                this.querySelector('.step-content').style.transform = 'scale(1)';
+            });
+        });
+
+        // Accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligence Hub - Project One Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Intelligence Hub Palette */
+            --intel-void: #0B0F1A;           /* Deep intelligence black */
+            --intel-azure: #4A90E2;          /* Intelligence blue */
+            --intel-cyan: #50E3C2;           /* Neural cyan */
+            --intel-violet: #B48EAD;         /* AI violet */
+            --intel-pearl: #ECEFF4;          /* Neural white */
+            --intel-graphite: #4C566A;       /* Intelligence gray */
+            --intel-crimson: #BF616A;        /* Alert red */
+            --intel-amber: #EBCB8B;          /* Warning amber */
+            --intel-steel: #2E3440;          /* Intelligence steel */
+            --intel-frost: #D8DEE9;          /* Light frost */
+            
+            /* Typography */
+            --font-primary: "Poppins", system-ui, sans-serif;
+            --font-display: "Fraunces", Georgia, serif;
+            --font-mono: "SF Mono", "Monaco", "Inconsolata", monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--intel-void);
+            color: var(--intel-pearl);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Neural Network Background */
+        .neural-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 80%, rgba(74, 144, 226, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(80, 227, 194, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(180, 142, 173, 0.03) 0%, transparent 50%);
+        }
+        
+        .intelligence-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(74, 144, 226, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 144, 226, 0.1) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridFlow 15s linear infinite;
+            opacity: 0.3;
+        }
+        
+        @keyframes gridFlow {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+        
+        /* Intelligence Hub Layout */
+        .intelligence-hub {
+            min-height: 100vh;
+            display: grid;
+            grid-template-areas: 
+                "sidebar header header"
+                "sidebar main insights";
+            grid-template-columns: 320px 1fr 360px;
+            grid-template-rows: 80px 1fr;
+        }
+        
+        /* AI Command Header */
+        .intel-header {
+            grid-area: header;
+            background: var(--intel-steel);
+            border-bottom: 1px solid rgba(74, 144, 226, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            position: relative;
+        }
+        
+        .intel-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(74, 144, 226, 0.1) 50%, 
+                transparent 100%);
+            animation: headerScan 12s linear infinite;
+        }
+        
+        @keyframes headerScan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .intel-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .ai-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--intel-azure), var(--intel-cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--intel-void);
+            font-weight: 800;
+            font-size: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-logo::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: aiPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes aiPulse {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+        
+        .brand-intel {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--intel-pearl);
+            background: linear-gradient(135deg, var(--intel-pearl), var(--intel-azure));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .brand-tagline {
+            font-size: 11px;
+            color: var(--intel-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+        
+        .intel-controls {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(80, 227, 194, 0.1);
+            border: 1px solid var(--intel-cyan);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--intel-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .ai-pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--intel-cyan);
+            border-radius: 50%;
+            animation: intelligencePulse 2s ease-in-out infinite;
+            box-shadow: 0 0 10px var(--intel-cyan);
+        }
+        
+        @keyframes intelligencePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.4); }
+        }
+        
+        .neural-time {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--intel-azure);
+            background: rgba(74, 144, 226, 0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--intel-azure);
+        }
+        
+        .intelligence-level {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(180, 142, 173, 0.1);
+            border: 1px solid var(--intel-violet);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--intel-violet);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .level-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--intel-violet);
+            border-radius: 50%;
+            animation: levelGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes levelGlow {
+            0%, 100% { box-shadow: 0 0 5px var(--intel-violet); }
+            50% { box-shadow: 0 0 15px var(--intel-violet), 0 0 25px var(--intel-violet); }
+        }
+        
+        /* Neural Sidebar */
+        .intel-sidebar {
+            grid-area: sidebar;
+            background: var(--intel-steel);
+            border-right: 1px solid rgba(74, 144, 226, 0.2);
+            padding: 32px 0;
+        }
+        
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid rgba(74, 144, 226, 0.1);
+            margin-bottom: 24px;
+        }
+        
+        .intel-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--intel-pearl);
+            margin-bottom: 4px;
+        }
+        
+        .intel-subtitle {
+            font-size: 11px;
+            color: var(--intel-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .intel-nav {
+            list-style: none;
+        }
+        
+        .nav-section {
+            margin-bottom: 32px;
+        }
+        
+        .section-label {
+            font-size: 11px;
+            color: var(--intel-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 24px 12px;
+            font-weight: 600;
+        }
+        
+        .intel-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 24px;
+            color: var(--intel-graphite);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .intel-link::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--intel-azure);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .intel-link:hover::before,
+        .intel-link.active::before {
+            transform: scaleY(1);
+        }
+        
+        .intel-link:hover,
+        .intel-link.active {
+            background: rgba(74, 144, 226, 0.1);
+            color: var(--intel-pearl);
+        }
+        
+        .link-neural-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .neural-badge {
+            background: var(--intel-crimson);
+            color: var(--intel-pearl);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 8px;
+            margin-left: auto;
+        }
+        
+        /* Main Intelligence Area */
+        .intel-main {
+            grid-area: main;
+            padding: 32px;
+            overflow-y: auto;
+        }
+        
+        .intelligence-header {
+            margin-bottom: 32px;
+        }
+        
+        .intel-dashboard-title {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--intel-pearl);
+            background: linear-gradient(135deg, var(--intel-pearl), var(--intel-azure), var(--intel-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            background-size: 200% 200%;
+            animation: titleShift 8s ease-in-out infinite;
+        }
+        
+        @keyframes titleShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .intel-description {
+            font-size: 16px;
+            color: var(--intel-graphite);
+            margin-bottom: 24px;
+        }
+        
+        .intel-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(74, 144, 226, 0.1);
+            color: var(--intel-azure);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(74, 144, 226, 0.3);
+        }
+        
+        .badge-neural-icon {
+            width: 12px;
+            height: 12px;
+            background: var(--intel-azure);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--intel-void);
+            font-size: 8px;
+            font-weight: 700;
+        }
+        
+        /* Intelligence Metrics */
+        .intel-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .metric-neural {
+            background: var(--intel-steel);
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-neural::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--intel-azure), var(--intel-cyan), var(--intel-violet));
+            background-size: 200% 100%;
+            animation: metricGlow 4s linear infinite;
+        }
+        
+        @keyframes metricGlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+        
+        .metric-neural:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(74, 144, 226, 0.2);
+        }
+        
+        .metric-neural-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--intel-azure), var(--intel-cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            color: var(--intel-void);
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .metric-neural-value {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--intel-azure);
+            margin-bottom: 8px;
+            text-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+        }
+        
+        .metric-neural-label {
+            font-size: 11px;
+            color: var(--intel-graphite);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Neural Analysis */
+        .neural-analysis {
+            background: var(--intel-steel);
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        
+        .analysis-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .analysis-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--intel-pearl);
+        }
+        
+        .analysis-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .analysis-control {
+            background: rgba(74, 144, 226, 0.1);
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            border-radius: 6px;
+            padding: 6px 12px;
+            color: var(--intel-azure);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .analysis-control.active,
+        .analysis-control:hover {
+            background: rgba(74, 144, 226, 0.2);
+        }
+        
+        .neural-visualization {
+            height: 200px;
+            background: linear-gradient(135deg, 
+                rgba(74, 144, 226, 0.05) 0%, 
+                rgba(80, 227, 194, 0.05) 50%, 
+                rgba(180, 142, 173, 0.05) 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .neural-waves {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 15px,
+                rgba(74, 144, 226, 0.1) 15px,
+                rgba(74, 144, 226, 0.1) 30px
+            );
+            animation: neuralFlow 6s linear infinite;
+        }
+        
+        @keyframes neuralFlow {
+            0% { transform: translateX(-30px) translateY(-30px); }
+            100% { transform: translateX(30px) translateY(30px); }
+        }
+        
+        .neural-center {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .neural-main-value {
+            font-family: var(--font-mono);
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--intel-azure);
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+        }
+        
+        .neural-label {
+            color: var(--intel-cyan);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Intelligence Insights Panel */
+        .intel-insights {
+            grid-area: insights;
+            background: var(--intel-steel);
+            border-left: 1px solid rgba(74, 144, 226, 0.2);
+            padding: 32px 24px;
+        }
+        
+        .insights-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .insights-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--intel-violet), var(--intel-azure));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--intel-pearl);
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .insights-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--intel-pearl);
+        }
+        
+        .insights-feed {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .insight-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(74, 144, 226, 0.1);
+        }
+        
+        .insight-item:last-child {
+            border-bottom: none;
+        }
+        
+        .insight-status {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 8px;
+            background: var(--intel-cyan);
+            animation: insightPulse 3s ease-in-out infinite;
+            box-shadow: 0 0 8px var(--intel-cyan);
+        }
+        
+        @keyframes insightPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        
+        .insight-content {
+            flex: 1;
+        }
+        
+        .insight-text {
+            font-size: 13px;
+            color: var(--intel-pearl);
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        
+        .insight-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .insight-time {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--intel-graphite);
+        }
+        
+        .insight-tag {
+            background: rgba(180, 142, 173, 0.1);
+            color: var(--intel-violet);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .intelligence-hub {
+                grid-template-areas: 
+                    "header header"
+                    "main main";
+                grid-template-columns: 1fr;
+                grid-template-rows: 80px 1fr;
+            }
+            
+            .intel-sidebar,
+            .intel-insights {
+                display: none;
+            }
+            
+            .intel-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .intel-controls {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .intel-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .intel-dashboard-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="neural-bg">
+        <div class="intelligence-grid"></div>
+    </div>
+
+    <div class="intelligence-hub">
+        <!-- AI Command Header -->
+        <header class="intel-header">
+            <div class="intel-brand">
+                <div class="ai-logo">🧠</div>
+                <div>
+                    <div class="brand-intel">Project One</div>
+                    <div class="brand-tagline">Intelligence Hub</div>
+                </div>
+            </div>
+            
+            <div class="intel-controls">
+                <div class="ai-status">
+                    <div class="ai-pulse"></div>
+                    <span>AI Systems Online</span>
+                </div>
+                <div class="neural-time" id="neuralTime">16:52:14 IST</div>
+                <div class="intelligence-level">
+                    <div class="level-indicator"></div>
+                    <span>Level 7 Intelligence</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Neural Sidebar -->
+        <nav class="intel-sidebar">
+            <div class="sidebar-header">
+                <div class="intel-title">Intelligence Center</div>
+                <div class="intel-subtitle">Neural Operations</div>
+            </div>
+            
+            <ul class="intel-nav">
+                <li class="nav-section">
+                    <div class="section-label">AI Core</div>
+                    <a href="#" class="intel-link active">
+                        <span class="link-neural-icon">🧠</span>
+                        <span>Neural Dashboard</span>
+                    </a>
+                    <a href="#" class="intel-link">
+                        <span class="link-neural-icon">🔮</span>
+                        <span>Predictive Analytics</span>
+                    </a>
+                    <a href="#" class="intel-link">
+                        <span class="link-neural-icon">⚡</span>
+                        <span>Auto Intelligence</span>
+                    </a>
+                </li>
+                
+                <li class="nav-section">
+                    <div class="section-label">Operations</div>
+                    <a href="#" class="intel-link">
+                        <span class="link-neural-icon">👥</span>
+                        <span>User Intelligence</span>
+                        <span class="neural-badge">2.8K</span>
+                    </a>
+                    <a href="#" class="intel-link">
+                        <span class="link-neural-icon">📊</span>
+                        <span>System Analytics</span>
+                    </a>
+                    <a href="#" class="intel-link">
+                        <span class="link-neural-icon">⚖️</span>
+                        <span>AI Compliance</span>
+                    </a>
+                </li>
+                
+                <li class="nav-section">
+                    <div class="section-label">Intelligence</div>
+                    <a href="#" class="intel-link">
+                        <span class="link-neural-icon">🎯</span>
+                        <span>Pattern Recognition</span>
+                    </a>
+                    <a href="#" class="intel-link">
+                        <span class="link-neural-icon">🚀</span>
+                        <span>Performance AI</span>
+                    </a>
+                    <a href="#" class="intel-link">
+                        <span class="link-neural-icon">🔬</span>
+                        <span>Deep Learning</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Intelligence Area -->
+        <main class="intel-main">
+            <div class="intelligence-header">
+                <h1 class="intel-dashboard-title">Intelligence Hub</h1>
+                <p class="intel-description">AI-powered operations center with advanced neural analytics and predictive intelligence</p>
+                <div class="intel-badge">
+                    <div class="badge-neural-icon">🧠</div>
+                    <span>Neural Intelligence Active</span>
+                </div>
+            </div>
+
+            <!-- Intelligence Metrics -->
+            <section class="intel-metrics">
+                <div class="metric-neural">
+                    <div class="metric-neural-icon">🧠</div>
+                    <div class="metric-neural-value">97.3%</div>
+                    <div class="metric-neural-label">AI Accuracy</div>
+                </div>
+                <div class="metric-neural">
+                    <div class="metric-neural-icon">⚡</div>
+                    <div class="metric-neural-value">0.247s</div>
+                    <div class="metric-neural-label">Neural Response</div>
+                </div>
+                <div class="metric-neural">
+                    <div class="metric-neural-icon">📊</div>
+                    <div class="metric-neural-value">4.7M</div>
+                    <div class="metric-neural-label">Data Points</div>
+                </div>
+                <div class="metric-neural">
+                    <div class="metric-neural-icon">🎯</div>
+                    <div class="metric-neural-value">847K</div>
+                    <div class="metric-neural-label">Predictions</div>
+                </div>
+            </section>
+
+            <!-- Neural Analysis -->
+            <section class="neural-analysis">
+                <div class="analysis-header">
+                    <h2 class="analysis-title">Neural Network Analysis</h2>
+                    <div class="analysis-controls">
+                        <button class="analysis-control active">Real-time</button>
+                        <button class="analysis-control">Patterns</button>
+                        <button class="analysis-control">Deep Scan</button>
+                        <button class="analysis-control">Predictions</button>
+                    </div>
+                </div>
+                
+                <div class="neural-visualization">
+                    <div class="neural-waves"></div>
+                    <div class="neural-center">
+                        <div class="neural-main-value">∞</div>
+                        <div class="neural-label">Neural Processing</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Intelligence Insights Panel -->
+        <aside class="intel-insights">
+            <div class="insights-header">
+                <div class="insights-icon">🔮</div>
+                <h3 class="insights-title">AI Insights</h3>
+            </div>
+            
+            <div class="insights-feed">
+                <div class="insight-item">
+                    <div class="insight-status"></div>
+                    <div class="insight-content">
+                        <div class="insight-text">AI detected anomalous user behavior pattern</div>
+                        <div class="insight-meta">
+                            <div class="insight-time">2 mins ago</div>
+                            <div class="insight-tag">Pattern</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-status"></div>
+                    <div class="insight-content">
+                        <div class="insight-text">Neural network optimized system performance by 12%</div>
+                        <div class="insight-meta">
+                            <div class="insight-time">8 mins ago</div>
+                            <div class="insight-tag">Optimization</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-status"></div>
+                    <div class="insight-content">
+                        <div class="insight-text">Predictive model identified 247 high-risk transactions</div>
+                        <div class="insight-meta">
+                            <div class="insight-time">15 mins ago</div>
+                            <div class="insight-tag">Prediction</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-status"></div>
+                    <div class="insight-content">
+                        <div class="insight-text">Machine learning updated compliance rules automatically</div>
+                        <div class="insight-meta">
+                            <div class="insight-time">23 mins ago</div>
+                            <div class="insight-tag">Learning</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-status"></div>
+                    <div class="insight-content">
+                        <div class="insight-text">Deep analysis completed on user engagement patterns</div>
+                        <div class="insight-meta">
+                            <div class="insight-time">34 mins ago</div>
+                            <div class="insight-tag">Analysis</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-status"></div>
+                    <div class="insight-content">
+                        <div class="insight-text">AI successfully prevented 12 potential security threats</div>
+                        <div class="insight-meta">
+                            <div class="insight-time">42 mins ago</div>
+                            <div class="insight-tag">Security</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Update neural time
+        function updateNeuralTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                hour12: false
+            }) + ' IST';
+            document.getElementById('neuralTime').textContent = timeString;
+        }
+        
+        updateNeuralTime();
+        setInterval(updateNeuralTime, 1000);
+    </script>
+</body>
+</html>

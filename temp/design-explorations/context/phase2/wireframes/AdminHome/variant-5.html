@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home - Warm Human</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes celebrate {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #2D3748;
+        }
+        
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            min-height: 100vh;
+            margin: 0 auto;
+            max-width: 1440px;
+            box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+        }
+        
+        header {
+            background: white;
+            padding: 24px 40px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .greeting {
+            font-size: 14px;
+            color: #718096;
+            margin-top: 4px;
+        }
+        
+        .header-stats {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 8px 16px;
+            background: #F7FAFC;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-emoji {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2D3748;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #718096;
+        }
+        
+        .welcome-banner {
+            background: linear-gradient(135deg, #F6D365 0%, #FDA085 100%);
+            padding: 32px 40px;
+            color: white;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        .welcome-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .welcome-text h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .welcome-text p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-white {
+            background: white;
+            color: #764ba2;
+        }
+        
+        .btn-white:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-success {
+            background: #48BB78;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #38A169;
+            animation: celebrate 0.5s ease;
+        }
+        
+        main {
+            padding: 32px 40px;
+        }
+        
+        .filter-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .chip {
+            padding: 8px 16px;
+            background: #EDF2F7;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .chip:hover {
+            background: #E2E8F0;
+        }
+        
+        .chip.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .queue-grid {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .queue-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .queue-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+        }
+        
+        .queue-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 20px;
+        }
+        
+        .card-title-section {
+            flex: 1;
+        }
+        
+        .card-checkbox {
+            margin-right: 12px;
+        }
+        
+        .card-checkbox input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2D3748;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .advisor-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .advisor-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .risk-indicator {
+            padding: 24px;
+            background: #F7FAFC;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .risk-score {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .risk-low { color: #48BB78; }
+        .risk-medium { color: #ED8936; }
+        .risk-high { color: #F56565; }
+        
+        .risk-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .risk-emoji {
+            font-size: 24px;
+            margin-top: 8px;
+        }
+        
+        .content-preview {
+            background: #F7FAFC;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .preview-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .tab {
+            padding: 6px 12px;
+            background: white;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .preview-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #4A5568;
+        }
+        
+        .highlight {
+            background: #FED7D7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 20px;
+            border: 2px solid #E2E8F0;
+            background: white;
+            color: #4A5568;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-small:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: scale(1.05);
+        }
+        
+        .btn-approve {
+            background: linear-gradient(135deg, #48BB78, #38A169);
+            color: white;
+            border: none;
+        }
+        
+        .btn-approve:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+        }
+        
+        .celebration-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 32px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .celebration-emoji {
+            font-size: 64px;
+            animation: celebrate 1s ease infinite;
+        }
+        
+        .celebration-text {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 16px 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .floating-helper {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 280px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .helper-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .helper-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #F6D365, #FDA085);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .helper-title {
+            font-weight: 600;
+            color: #2D3748;
+        }
+        
+        .helper-message {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #4A5568;
+        }
+        
+        .progress-ring {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin-left: 8px;
+        }
+        
+        .progress-ring circle {
+            stroke: #48BB78;
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 25;
+            transform: rotate(-90deg);
+            transform-origin: center;
+            animation: progress 2s ease-in-out infinite;
+        }
+        
+        @keyframes progress {
+            0% { stroke-dashoffset: 100; }
+            100% { stroke-dashoffset: 25; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">✨</div>
+                    <div>
+                        <div class="logo-text">Jarvishhh Admin</div>
+                        <div class="greeting">Good evening! Ready to make advisors shine? 🌟</div>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-card">
+                        <div class="stat-emoji">📝</div>
+                        <div class="stat-value">47</div>
+                        <div class="stat-label">To Review</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-emoji">✅</div>
+                        <div class="stat-value">92%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-emoji">⚡</div>
+                        <div class="stat-value">2.3m</div>
+                        <div class="stat-label">Avg Speed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-emoji">🎉</div>
+                        <div class="stat-value">1,247</div>
+                        <div class="stat-label">Helped Today</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="welcome-banner">
+            <div class="welcome-content">
+                <div class="welcome-text">
+                    <h1>Evening rush hour! Let's help advisors connect 🚀</h1>
+                    <p>47 pieces of great content waiting for your magic touch</p>
+                </div>
+                <div class="quick-actions">
+                    <button class="btn btn-white" onclick="quickApproveAll()">
+                        ⚡ Quick Approve Safe Items
+                    </button>
+                    <button class="btn btn-white">
+                        📊 View Analytics
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <main>
+            <div class="filter-bar">
+                <div class="filter-chips">
+                    <div class="chip active">All Content (47)</div>
+                    <div class="chip">Low Risk (28)</div>
+                    <div class="chip">Needs Review (15)</div>
+                    <div class="chip">Urgent (4)</div>
+                </div>
+                <button class="btn btn-success" onclick="approveSelected()">
+                    ✅ Approve 3 Selected
+                </button>
+            </div>
+            
+            <div class="queue-grid">
+                <div class="queue-card">
+                    <div class="card-header">
+                        <div style="display: flex; align-items: start;">
+                            <div class="card-checkbox">
+                                <input type="checkbox" checked>
+                            </div>
+                            <div class="card-title-section">
+                                <div class="card-title">
+                                    Market Update: Nifty Hits New High
+                                    <span style="font-size: 20px;">📈</span>
+                                </div>
+                                <div class="advisor-info">
+                                    <div class="advisor-avatar">RK</div>
+                                    <span>Rajesh Kumar is helping 127 families in Mumbai</span>
+                                    <span style="color: #CBD5E0;">• 2 mins ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="risk-indicator">
+                            <div class="risk-score risk-low">8.2</div>
+                            <div class="risk-label risk-low">Great Content!</div>
+                            <div class="risk-emoji">😊</div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-preview">
+                        <div class="preview-tabs">
+                            <div class="tab active">Original</div>
+                            <div class="tab">WhatsApp</div>
+                            <div class="tab">Compliance</div>
+                        </div>
+                        <div class="preview-text">
+                            Markets soared today with Nifty crossing 22,000 for the first time! 
+                            Banking and IT sectors are leading the celebration. This could be a 
+                            perfect moment for your clients to review their portfolios. 
+                            <span style="color: #48BB78; font-weight: 600;">✓ All compliance checks passed!</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn-small">✏️ Suggest Edit</button>
+                        <button class="btn-small btn-approve" onclick="showCelebration()">
+                            ✅ Approve & Celebrate
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="queue-card">
+                    <div class="card-header">
+                        <div style="display: flex; align-items: start;">
+                            <div class="card-checkbox">
+                                <input type="checkbox" checked>
+                            </div>
+                            <div class="card-title-section">
+                                <div class="card-title">
+                                    Tax Saving Tips for FY 2024-25
+                                    <span style="font-size: 20px;">💰</span>
+                                </div>
+                                <div class="advisor-info">
+                                    <div class="advisor-avatar">PS</div>
+                                    <span>Priya Sharma is educating 89 families in Delhi</span>
+                                    <span style="color: #CBD5E0;">• 5 mins ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="risk-indicator">
+                            <div class="risk-score risk-medium">5.7</div>
+                            <div class="risk-label risk-medium">Minor Tweaks</div>
+                            <div class="risk-emoji">🤔</div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-preview">
+                        <div class="preview-tabs">
+                            <div class="tab active">Original</div>
+                            <div class="tab">WhatsApp</div>
+                            <div class="tab">Suggestions</div>
+                        </div>
+                        <div class="preview-text">
+                            Help your clients save up to ₹46,800 in taxes! ELSS funds offer the 
+                            perfect combination of tax benefits and wealth creation. 
+                            <span style="color: #ED8936; font-weight: 600;">
+                            💡 Tip: Add a deadline reminder to create urgency</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn-small">💡 Apply Suggestions</button>
+                        <button class="btn-small">👀 Preview Changes</button>
+                        <button class="btn-small btn-approve">✅ Approve</button>
+                    </div>
+                </div>
+                
+                <div class="queue-card">
+                    <div class="card-header">
+                        <div style="display: flex; align-items: start;">
+                            <div class="card-checkbox">
+                                <input type="checkbox">
+                            </div>
+                            <div class="card-title-section">
+                                <div class="card-title">
+                                    Gold Investment Strategy Update
+                                    <span style="font-size: 20px;">🏆</span>
+                                </div>
+                                <div class="advisor-info">
+                                    <div class="advisor-avatar">AP</div>
+                                    <span>Amit Patel serves 156 families in Gujarat</span>
+                                    <span style="color: #CBD5E0;">• 8 mins ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="risk-indicator">
+                            <div class="risk-score risk-high">3.2</div>
+                            <div class="risk-label risk-high">Needs Help</div>
+                            <div class="risk-emoji">🆘</div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-preview">
+                        <div class="preview-tabs">
+                            <div class="tab active">Issues Found</div>
+                            <div class="tab">Original</div>
+                            <div class="tab">Suggested Fix</div>
+                        </div>
+                        <div class="preview-text">
+                            <div style="background: #FED7D7; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                                ⚠️ <strong>Compliance Alert:</strong> Price predictions need disclaimers
+                            </div>
+                            Let's help Amit fix this! The content has great potential but needs:
+                            <br>• Add risk disclaimer
+                            <br>• Remove specific price targets
+                            <br>• Include "past performance" warning
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn-small">📝 Auto-Fix Issues</button>
+                        <button class="btn-small">💬 Message Amit</button>
+                        <button class="btn-small">🔄 Request Revision</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div class="floating-helper">
+        <div class="helper-header">
+            <div class="helper-avatar">🤖</div>
+            <div class="helper-title">AI Assistant</div>
+        </div>
+        <div class="helper-message">
+            Great progress! You've helped 23 advisors reach 2,847 families today. 
+            <br><br>
+            <strong>Pro tip:</strong> Items from Rajesh and Priya have consistently high scores. 
+            Consider fast-tracking their future content! 
+            <svg class="progress-ring" viewBox="0 0 40 40">
+                <circle cx="20" cy="20" r="15.915494309189533"></circle>
+            </svg>
+        </div>
+    </div>
+    
+    <div class="celebration-modal" id="celebrationModal">
+        <div class="celebration-emoji">🎉</div>
+        <div class="celebration-text">Amazing Work!</div>
+        <p style="color: #718096; margin-bottom: 20px;">
+            You just helped Rajesh connect with 127 families!
+        </p>
+        <button class="btn btn-success" onclick="closeCelebration()">
+            Keep the momentum going! 🚀
+        </button>
+    </div>
+    
+    <script>
+        function showCelebration() {
+            document.getElementById('celebrationModal').style.display = 'block';
+            setTimeout(() => {
+                confetti();
+            }, 100);
+        }
+        
+        function closeCelebration() {
+            document.getElementById('celebrationModal').style.display = 'none';
+        }
+        
+        function confetti() {
+            // Simple confetti effect
+            for(let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.background = ['#667eea', '#764ba2', '#48BB78', '#F6D365', '#FDA085'][Math.floor(Math.random() * 5)];
+                confetti.style.borderRadius = '50%';
+                confetti.style.zIndex = '2000';
+                document.body.appendChild(confetti);
+                
+                confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: 3000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }).onfinish = () => confetti.remove();
+            }
+        }
+        
+        function approveSelected() {
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+            showCelebration();
+        }
+        
+        function quickApproveAll() {
+            alert('Reviewing 28 low-risk items for quick approval...');
+        }
+        
+        // Update checkbox count
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                const count = document.querySelectorAll('input[type="checkbox"]:checked').length;
+                document.querySelector('.btn-success').innerHTML = `✅ Approve ${count} Selected`;
+            });
+        });
+        
+        // Keyboard shortcuts with friendly feedback
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'a' && e.metaKey) {
+                e.preventDefault();
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+                const count = document.querySelectorAll('input[type="checkbox"]:checked').length;
+                document.querySelector('.btn-success').innerHTML = `✅ Approve ${count} Selected`;
+            }
+            if (e.key === 'Enter' && e.metaKey) {
+                approveSelected();
+            }
+        });
+        
+        // Animate cards on load
+        document.querySelectorAll('.queue-card').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+    </script>
+</body>
+</html>

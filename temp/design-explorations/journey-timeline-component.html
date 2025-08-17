@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey Timeline Component - Jarvish FinTech</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           DESIGN TOKENS & THEME
+           ============================================ */
+        :root {
+            /* Core Brand Colors */
+            --ink: #0B1F33;
+            --gold: #CEA200;
+            --cta: #0C310C;
+            --white: #FFFFFF;
+            --surface: #FAFBFC;
+            --border: #E2E8F0;
+            --muted: #64748B;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            
+            /* Typography */
+            --font-heading: 'Fraunces', serif;
+            --font-body: 'Poppins', sans-serif;
+            
+            /* Spacing */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            --space-4xl: 96px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(11, 31, 51, 0.06);
+            --shadow-md: 0 4px 6px rgba(11, 31, 51, 0.08);
+            --shadow-lg: 0 10px 15px rgba(11, 31, 51, 0.1);
+            --shadow-xl: 0 20px 25px rgba(11, 31, 51, 0.12);
+            --shadow-glow: 0 0 20px rgba(206, 162, 0, 0.3);
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Border Radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+        }
+        
+        /* ============================================
+           GLOBAL STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(135deg, #FAFBFC 0%, #F3F4F6 100%);
+            color: var(--ink);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: var(--space-2xl) var(--space-lg);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--ink);
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            margin-bottom: var(--space-4xl);
+        }
+        
+        .section-title {
+            font-size: 32px;
+            margin-bottom: var(--space-xl);
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+        }
+        
+        .variant-label {
+            display: inline-block;
+            background: var(--cta);
+            color: var(--white);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--space-lg);
+        }
+        
+        /* ============================================
+           HORIZONTAL TIMELINE (HERO VARIANT)
+           ============================================ */
+        .timeline-horizontal {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-3xl);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .timeline-horizontal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cta) 0%, var(--gold) 100%);
+        }
+        
+        .timeline-header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+        }
+        
+        .timeline-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            background: linear-gradient(135deg, var(--ink) 0%, var(--cta) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .timeline-subtitle {
+            font-size: 20px;
+            color: var(--muted);
+            font-weight: 400;
+        }
+        
+        .timeline-track {
+            position: relative;
+            padding: var(--space-xl) 0;
+        }
+        
+        .timeline-progress-bg {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--border);
+            transform: translateY(-50%);
+            border-radius: var(--radius-full);
+        }
+        
+        .timeline-progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--cta) 0%, var(--gold) 100%);
+            border-radius: var(--radius-full);
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .timeline-progress-fill.active {
+            width: 100%;
+        }
+        
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .timeline-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: transform var(--transition-base);
+        }
+        
+        .timeline-step:hover {
+            transform: translateY(-4px);
+        }
+        
+        .timeline-step-marker {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--space-lg);
+            background: var(--white);
+            border: 3px solid var(--border);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all var(--transition-base);
+        }
+        
+        .timeline-step.completed .timeline-step-marker {
+            border-color: var(--success);
+            background: var(--success);
+        }
+        
+        .timeline-step.active .timeline-step-marker {
+            border-color: var(--gold);
+            background: var(--gold);
+            box-shadow: var(--shadow-glow);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(206, 162, 0, 0.4);
+            }
+            50% { 
+                box-shadow: 0 0 0 20px rgba(206, 162, 0, 0);
+            }
+        }
+        
+        .timeline-step-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--ink);
+            transition: color var(--transition-base);
+        }
+        
+        .timeline-step.completed .timeline-step-number,
+        .timeline-step.active .timeline-step-number {
+            color: var(--white);
+        }
+        
+        .timeline-step-content {
+            max-width: 200px;
+            margin: 0 auto;
+        }
+        
+        .timeline-step-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+            color: var(--ink);
+        }
+        
+        .timeline-step-description {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.4;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .timeline-step-duration {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-sm);
+            background: var(--surface);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--cta);
+        }
+        
+        /* Checkmark for completed steps */
+        .timeline-step.completed .timeline-step-number::before {
+            content: '✓';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        .timeline-step.completed .timeline-step-number {
+            opacity: 0;
+        }
+        
+        /* ============================================
+           VERTICAL TIMELINE (SIDEBAR VARIANT)
+           ============================================ */
+        .timeline-vertical {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            box-shadow: var(--shadow-md);
+            max-width: 320px;
+        }
+        
+        .timeline-vertical-header {
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .timeline-vertical-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .timeline-vertical-subtitle {
+            font-size: 14px;
+            color: var(--muted);
+        }
+        
+        .timeline-vertical-track {
+            position: relative;
+            padding-left: var(--space-xl);
+        }
+        
+        .timeline-vertical-line {
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        
+        .timeline-vertical-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(180deg, var(--cta) 0%, var(--gold) 100%);
+            height: 0%;
+            transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .timeline-vertical-progress.active {
+            height: 100%;
+        }
+        
+        .timeline-vertical-step {
+            position: relative;
+            padding: var(--space-lg) 0;
+            cursor: pointer;
+            transition: transform var(--transition-base);
+        }
+        
+        .timeline-vertical-step:hover {
+            transform: translateX(4px);
+        }
+        
+        .timeline-vertical-step-marker {
+            position: absolute;
+            left: -24px;
+            top: 28px;
+            width: 24px;
+            height: 24px;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-full);
+            transition: all var(--transition-base);
+        }
+        
+        .timeline-vertical-step.completed .timeline-vertical-step-marker {
+            background: var(--success);
+            border-color: var(--success);
+        }
+        
+        .timeline-vertical-step.active .timeline-vertical-step-marker {
+            background: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 0 8px rgba(206, 162, 0, 0.2);
+        }
+        
+        .timeline-vertical-step-content {
+            padding-left: var(--space-md);
+        }
+        
+        .timeline-vertical-step-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .timeline-vertical-step-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        
+        .timeline-vertical-step-day {
+            font-size: 12px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+        
+        .timeline-vertical-step-description {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+        
+        /* ============================================
+           COMPACT PROGRESS INDICATOR
+           ============================================ */
+        .timeline-compact {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .timeline-compact-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-md);
+        }
+        
+        .timeline-compact-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        
+        .timeline-compact-status {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-xs) var(--space-md);
+            background: var(--surface);
+            border-radius: var(--radius-full);
+        }
+        
+        .timeline-compact-status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: var(--radius-full);
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .timeline-compact-status-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--cta);
+        }
+        
+        .timeline-compact-track {
+            height: 48px;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: var(--space-md);
+        }
+        
+        .timeline-compact-progress {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, 
+                var(--success) 0%, 
+                var(--success) 25%, 
+                var(--gold) 25%, 
+                var(--gold) 50%, 
+                transparent 50%
+            );
+            display: flex;
+            align-items: center;
+            padding: 0 var(--space-md);
+        }
+        
+        .timeline-compact-markers {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .timeline-compact-marker {
+            width: 32px;
+            height: 32px;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+        
+        .timeline-compact-marker.completed {
+            background: var(--success);
+            border-color: var(--success);
+            color: var(--white);
+        }
+        
+        .timeline-compact-marker.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--white);
+            transform: scale(1.2);
+        }
+        
+        .timeline-compact-details {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+        }
+        
+        .timeline-compact-detail {
+            text-align: center;
+            cursor: pointer;
+            padding: var(--space-sm);
+            border-radius: var(--radius-sm);
+            transition: background var(--transition-base);
+        }
+        
+        .timeline-compact-detail:hover {
+            background: var(--surface);
+        }
+        
+        .timeline-compact-detail-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 2px;
+        }
+        
+        .timeline-compact-detail-date {
+            font-size: 11px;
+            color: var(--muted);
+        }
+        
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 1279px) {
+            .timeline-horizontal {
+                padding: var(--space-2xl);
+            }
+            
+            .timeline-title {
+                font-size: 36px;
+            }
+            
+            .timeline-step-title {
+                font-size: 16px;
+            }
+            
+            .timeline-step-description {
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            body {
+                padding: var(--space-lg) var(--space-md);
+            }
+            
+            .timeline-horizontal {
+                padding: var(--space-xl);
+            }
+            
+            .timeline-title {
+                font-size: 28px;
+            }
+            
+            .timeline-subtitle {
+                font-size: 16px;
+            }
+            
+            .timeline-steps {
+                flex-direction: column;
+                gap: var(--space-xl);
+            }
+            
+            .timeline-progress-bg {
+                width: 4px;
+                height: 100%;
+                left: 50%;
+                top: 0;
+                transform: translateX(-50%);
+            }
+            
+            .timeline-step-marker {
+                width: 48px;
+                height: 48px;
+            }
+            
+            .timeline-step-number {
+                font-size: 20px;
+            }
+            
+            .timeline-compact-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* ============================================
+           INTERACTIONS & ANIMATIONS
+           ============================================ */
+        .animate-in {
+            animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .timeline-step {
+            animation-delay: calc(var(--step-index) * 0.1s);
+        }
+        
+        /* Hover Effects */
+        .interactive-element {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .interactive-element::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), 
+                rgba(206, 162, 0, 0.1) 0%, 
+                transparent 50%);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+            pointer-events: none;
+        }
+        
+        .interactive-element:hover::before {
+            opacity: 1;
+        }
+        
+        /* Loading State */
+        .loading-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading-shimmer::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.5) 50%, 
+                transparent 100%);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(100%);
+            }
+        }
+        
+        /* Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Focus indicators */
+        .timeline-step:focus-visible,
+        .timeline-vertical-step:focus-visible,
+        .timeline-compact-marker:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 3px;
+            border-radius: var(--radius-sm);
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .timeline-horizontal,
+            .timeline-vertical,
+            .timeline-compact {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Horizontal Timeline (Hero Variant) -->
+        <section class="section">
+            <h2 class="section-title">Hero Timeline Component</h2>
+            <div class="variant-label">Landing Page Hero</div>
+            
+            <div class="timeline-horizontal">
+                <div class="timeline-header">
+                    <h1 class="timeline-title">From Setup to Scale in 30 Days</h1>
+                    <p class="timeline-subtitle">Transform your advisory practice with AI-powered WhatsApp automation</p>
+                </div>
+                
+                <div class="timeline-track">
+                    <div class="timeline-progress-bg">
+                        <div class="timeline-progress-fill" id="horizontalProgress"></div>
+                    </div>
+                    
+                    <div class="timeline-steps">
+                        <div class="timeline-step completed" style="--step-index: 0;" tabindex="0" role="button" aria-label="Step 1: Quick Setup">
+                            <div class="timeline-step-marker">
+                                <span class="timeline-step-number">1</span>
+                            </div>
+                            <div class="timeline-step-content">
+                                <h3 class="timeline-step-title">Quick Setup</h3>
+                                <p class="timeline-step-description">Connect WhatsApp, verify credentials, set preferences</p>
+                                <span class="timeline-step-duration">Day 1-3</span>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-step completed" style="--step-index: 1;" tabindex="0" role="button" aria-label="Step 2: First Campaign">
+                            <div class="timeline-step-marker">
+                                <span class="timeline-step-number">2</span>
+                            </div>
+                            <div class="timeline-step-content">
+                                <h3 class="timeline-step-title">First Campaign</h3>
+                                <p class="timeline-step-description">Launch AI-powered content with compliance checking</p>
+                                <span class="timeline-step-duration">Day 4-7</span>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-step active" style="--step-index: 2;" tabindex="0" role="button" aria-label="Step 3: Optimize">
+                            <div class="timeline-step-marker">
+                                <span class="timeline-step-number">3</span>
+                            </div>
+                            <div class="timeline-step-content">
+                                <h3 class="timeline-step-title">Optimize</h3>
+                                <p class="timeline-step-description">Analyze performance, refine strategy, build audience</p>
+                                <span class="timeline-step-duration">Day 8-21</span>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-step" style="--step-index: 3;" tabindex="0" role="button" aria-label="Step 4: Scale">
+                            <div class="timeline-step-marker">
+                                <span class="timeline-step-number">4</span>
+                            </div>
+                            <div class="timeline-step-content">
+                                <h3 class="timeline-step-title">Scale</h3>
+                                <p class="timeline-step-description">Expand reach, advanced features, premium branding</p>
+                                <span class="timeline-step-duration">Day 22-30</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Vertical Timeline (Sidebar Variant) -->
+        <section class="section">
+            <h2 class="section-title">Sidebar Timeline Component</h2>
+            <div class="variant-label">Dashboard Sidebar</div>
+            
+            <div class="timeline-vertical">
+                <div class="timeline-vertical-header">
+                    <h3 class="timeline-vertical-title">Your Journey</h3>
+                    <p class="timeline-vertical-subtitle">Track your progress to success</p>
+                </div>
+                
+                <div class="timeline-vertical-track">
+                    <div class="timeline-vertical-line">
+                        <div class="timeline-vertical-progress" id="verticalProgress"></div>
+                    </div>
+                    
+                    <div class="timeline-vertical-step completed" tabindex="0" role="button">
+                        <div class="timeline-vertical-step-marker"></div>
+                        <div class="timeline-vertical-step-content">
+                            <div class="timeline-vertical-step-header">
+                                <h4 class="timeline-vertical-step-title">Quick Setup</h4>
+                                <span class="timeline-vertical-step-day">Day 1-3</span>
+                            </div>
+                            <p class="timeline-vertical-step-description">WhatsApp connected, credentials verified</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-vertical-step completed" tabindex="0" role="button">
+                        <div class="timeline-vertical-step-marker"></div>
+                        <div class="timeline-vertical-step-content">
+                            <div class="timeline-vertical-step-header">
+                                <h4 class="timeline-vertical-step-title">First Campaign</h4>
+                                <span class="timeline-vertical-step-day">Day 4-7</span>
+                            </div>
+                            <p class="timeline-vertical-step-description">AI content launched with compliance</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-vertical-step active" tabindex="0" role="button">
+                        <div class="timeline-vertical-step-marker"></div>
+                        <div class="timeline-vertical-step-content">
+                            <div class="timeline-vertical-step-header">
+                                <h4 class="timeline-vertical-step-title">Optimize</h4>
+                                <span class="timeline-vertical-step-day">Day 8-21</span>
+                            </div>
+                            <p class="timeline-vertical-step-description">Analyzing performance metrics</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-vertical-step" tabindex="0" role="button">
+                        <div class="timeline-vertical-step-marker"></div>
+                        <div class="timeline-vertical-step-content">
+                            <div class="timeline-vertical-step-header">
+                                <h4 class="timeline-vertical-step-title">Scale</h4>
+                                <span class="timeline-vertical-step-day">Day 22-30</span>
+                            </div>
+                            <p class="timeline-vertical-step-description">Ready for premium features</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Compact Progress Indicator -->
+        <section class="section">
+            <h2 class="section-title">Compact Progress Component</h2>
+            <div class="variant-label">Admin Overview</div>
+            
+            <div class="timeline-compact">
+                <div class="timeline-compact-header">
+                    <h3 class="timeline-compact-title">Advisor Onboarding Progress</h3>
+                    <div class="timeline-compact-status">
+                        <div class="timeline-compact-status-dot"></div>
+                        <span class="timeline-compact-status-text">In Progress</span>
+                    </div>
+                </div>
+                
+                <div class="timeline-compact-track">
+                    <div class="timeline-compact-progress">
+                        <div class="timeline-compact-markers">
+                            <div class="timeline-compact-marker completed" tabindex="0" role="button" aria-label="Step 1">1</div>
+                            <div class="timeline-compact-marker completed" tabindex="0" role="button" aria-label="Step 2">2</div>
+                            <div class="timeline-compact-marker active" tabindex="0" role="button" aria-label="Step 3">3</div>
+                            <div class="timeline-compact-marker" tabindex="0" role="button" aria-label="Step 4">4</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-compact-details">
+                    <div class="timeline-compact-detail" tabindex="0">
+                        <div class="timeline-compact-detail-title">Setup</div>
+                        <div class="timeline-compact-detail-date">Completed</div>
+                    </div>
+                    <div class="timeline-compact-detail" tabindex="0">
+                        <div class="timeline-compact-detail-title">Campaign</div>
+                        <div class="timeline-compact-detail-date">Completed</div>
+                    </div>
+                    <div class="timeline-compact-detail" tabindex="0">
+                        <div class="timeline-compact-detail-title">Optimize</div>
+                        <div class="timeline-compact-detail-date">Day 15 of 14</div>
+                    </div>
+                    <div class="timeline-compact-detail" tabindex="0">
+                        <div class="timeline-compact-detail-title">Scale</div>
+                        <div class="timeline-compact-detail-date">Upcoming</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // Initialize timeline animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate horizontal progress bar
+            const horizontalProgress = document.getElementById('horizontalProgress');
+            setTimeout(() => {
+                horizontalProgress.classList.add('active');
+            }, 500);
+            
+            // Animate vertical progress bar
+            const verticalProgress = document.getElementById('verticalProgress');
+            setTimeout(() => {
+                verticalProgress.classList.add('active');
+            }, 700);
+            
+            // Add animation classes to elements
+            const animateElements = document.querySelectorAll('.timeline-step, .timeline-vertical-step, .timeline-compact-marker');
+            animateElements.forEach((el, index) => {
+                el.classList.add('animate-in');
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Interactive click handlers for all timeline steps
+            const allSteps = document.querySelectorAll('.timeline-step, .timeline-vertical-step, .timeline-compact-marker, .timeline-compact-detail');
+            allSteps.forEach(step => {
+                step.addEventListener('click', function() {
+                    // Add click feedback
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                    
+                    // Log interaction (in real app, this would trigger navigation or modal)
+                    console.log('Step clicked:', this.innerText);
+                });
+                
+                // Keyboard support
+                step.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+            
+            // Add mouse position tracking for interactive elements
+            const interactiveElements = document.querySelectorAll('.timeline-horizontal');
+            interactiveElements.forEach(el => {
+                el.classList.add('interactive-element');
+                el.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    this.style.setProperty('--mouse-x', `${x}px`);
+                    this.style.setProperty('--mouse-y', `${y}px`);
+                });
+            });
+            
+            // Simulate progress updates (in real app, this would be data-driven)
+            let currentStep = 2;
+            setInterval(() => {
+                const horizontalSteps = document.querySelectorAll('.timeline-step');
+                const verticalSteps = document.querySelectorAll('.timeline-vertical-step');
+                const compactMarkers = document.querySelectorAll('.timeline-compact-marker');
+                
+                // Update step states
+                [horizontalSteps, verticalSteps, compactMarkers].forEach(stepGroup => {
+                    stepGroup.forEach((step, index) => {
+                        step.classList.remove('active');
+                        if (index < currentStep) {
+                            step.classList.add('completed');
+                        } else if (index === currentStep) {
+                            step.classList.add('active');
+                        } else {
+                            step.classList.remove('completed');
+                        }
+                    });
+                });
+                
+                // Update progress bars
+                const progressPercentage = (currentStep / 3) * 100;
+                horizontalProgress.style.width = `${progressPercentage}%`;
+                verticalProgress.style.height = `${progressPercentage}%`;
+                
+                // Cycle through steps
+                currentStep = (currentStep + 1) % 4;
+            }, 3000);
+            
+            // Accessibility: Announce step changes to screen readers
+            const announcer = document.createElement('div');
+            announcer.className = 'visually-hidden';
+            announcer.setAttribute('aria-live', 'polite');
+            announcer.setAttribute('aria-atomic', 'true');
+            document.body.appendChild(announcer);
+            
+            // Function to announce updates
+            function announceUpdate(message) {
+                announcer.textContent = message;
+                setTimeout(() => {
+                    announcer.textContent = '';
+                }, 1000);
+            }
+            
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -10% 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(section);
+            });
+        });
+        
+        // Performance monitoring (in production, integrate with analytics)
+        if (window.performance && performance.mark) {
+            performance.mark('timeline-interactive');
+            
+            // Log performance metrics
+            window.addEventListener('load', () => {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                console.log('Page Load Performance:', {
+                    domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+                    loadComplete: perfData.loadEventEnd - perfData.loadEventStart,
+                    totalTime: perfData.loadEventEnd - perfData.fetchStart
+                });
+            });
+        }
+    </script>
+</body>
+</html>

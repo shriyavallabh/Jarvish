@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growth Catalyst - Admin Dashboard</title>
+    <style>
+        :root {
+            --primary: #10b981;
+            --secondary: #059669;
+            --accent: #f59e0b;
+            --success: #22c55e;
+            --warning: #f97316;
+            --danger: #ef4444;
+            --background: #ffffff;
+            --surface: #f0fdf4;
+            --border: #d1fae5;
+            --text-primary: #064e3b;
+            --text-secondary: #047857;
+            --shadow-sm: 0 1px 3px rgba(16,185,129,0.1);
+            --shadow-md: 0 4px 12px rgba(16,185,129,0.15);
+            --radius: 12px;
+            --gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Energetic Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--background);
+            border-right: 2px solid var(--border);
+            padding: 24px;
+        }
+
+        .logo-container {
+            background: var(--gradient);
+            padding: 16px;
+            border-radius: var(--radius);
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .logo-text {
+            flex: 1;
+        }
+
+        .logo-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .logo-subtitle {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .nav-group {
+            margin-bottom: 24px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            background: var(--gradient);
+            transition: width 0.3s;
+        }
+
+        .nav-item:hover {
+            background: var(--surface);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: var(--gradient);
+            color: white;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        .nav-text {
+            z-index: 1;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--accent);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            z-index: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 24px;
+        }
+
+        /* Dynamic Header */
+        .header {
+            background: var(--background);
+            padding: 24px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid var(--border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .greeting {
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .quick-stat {
+            text-align: center;
+            padding: 0 16px;
+            border-left: 2px solid var(--border);
+        }
+
+        .quick-stat:first-child {
+            border-left: none;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* Performance Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            background: var(--background);
+            padding: 20px;
+            border-radius: var(--radius);
+            border: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .metric-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            opacity: 0.1;
+            border-radius: 50%;
+            transform: translate(20px, -20px);
+        }
+
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--surface);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .metric-progress {
+            height: 4px;
+            background: var(--surface);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 2px;
+            transition: width 0.5s;
+        }
+
+        /* Action Queue */
+        .queue-section {
+            background: var(--background);
+            border-radius: var(--radius);
+            border: 2px solid var(--border);
+            overflow: hidden;
+        }
+
+        .queue-header {
+            background: var(--gradient);
+            color: white;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .queue-title {
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .queue-controls {
+            padding: 16px 24px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .tab:hover {
+            background: var(--surface);
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid;
+            transition: all 0.3s;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-success {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            border-color: var(--warning);
+            color: white;
+        }
+
+        .btn-outline {
+            background: white;
+            border-color: var(--border);
+            color: var(--text-primary);
+        }
+
+        /* Queue Items */
+        .queue-list {
+            padding: 0;
+        }
+
+        .queue-item {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s;
+        }
+
+        .queue-item:hover {
+            background: var(--surface);
+        }
+
+        .queue-item.selected {
+            background: linear-gradient(90deg, var(--surface) 0%, rgba(16,185,129,0.05) 100%);
+            border-left: 4px solid var(--primary);
+        }
+
+        .item-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .item-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .item-risk {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .risk-score {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .risk-low {
+            background: #dcfce7;
+            color: #14532d;
+        }
+
+        .risk-medium {
+            background: #fed7aa;
+            color: #7c2d12;
+        }
+
+        .risk-high {
+            background: #fee2e2;
+            color: #7f1d1d;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid var(--border);
+            background: white;
+        }
+
+        .action-icon:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* Speed Dial */
+        .speed-dial {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .speed-dial-main {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s;
+        }
+
+        .speed-dial-main:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .shortcuts-panel {
+            background: white;
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            font-size: 12px;
+            border: 2px solid var(--border);
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .shortcut-key {
+            background: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .queue-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Energetic Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">🚀</div>
+                <div class="logo-text">
+                    <div class="logo-title">Growth Hub</div>
+                    <div class="logo-subtitle">Admin Dashboard</div>
+                </div>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-label">Operations</div>
+                <div class="nav-item active">
+                    <span class="nav-icon">⚡</span>
+                    <span class="nav-text">Quick Approve</span>
+                    <span class="nav-badge">124</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Analytics</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🎯</span>
+                    <span class="nav-text">Targets</span>
+                </div>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-label">Team Tools</div>
+                <div class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">Advisors</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-text">Templates</span>
+                    <span class="nav-badge">New</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🏆</span>
+                    <span class="nav-text">Leaderboard</span>
+                </div>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-label">Growth</div>
+                <div class="nav-item">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-text">Performance</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">💡</span>
+                    <span class="nav-text">Insights</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🎓</span>
+                    <span class="nav-text">Training</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dynamic Header -->
+            <div class="header">
+                <div class="header-content">
+                    <div class="header-left">
+                        <h1 class="greeting">Power Hour Active! 🔥</h1>
+                        <p class="subtitle">20:30 - 21:30 IST • Let's crush those targets!</p>
+                    </div>
+                    <div class="header-right">
+                        <div class="quick-stat">
+                            <div class="stat-value">124</div>
+                            <div class="stat-label">Pending</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="stat-value">156</div>
+                            <div class="stat-label">Per Hour</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="stat-value">94%</div>
+                            <div class="stat-label">Success</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">⚡</div>
+                    <div class="metric-value">18s</div>
+                    <div class="metric-label">Avg Speed</div>
+                    <div class="metric-progress">
+                        <div class="progress-bar" style="width: 85%;"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">🎯</div>
+                    <div class="metric-value">92%</div>
+                    <div class="metric-label">Accuracy</div>
+                    <div class="metric-progress">
+                        <div class="progress-bar" style="width: 92%;"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">📈</div>
+                    <div class="metric-value">+24%</div>
+                    <div class="metric-label">Growth Rate</div>
+                    <div class="metric-progress">
+                        <div class="progress-bar" style="width: 75%;"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">💚</div>
+                    <div class="metric-value">98%</div>
+                    <div class="metric-label">System Health</div>
+                    <div class="metric-progress">
+                        <div class="progress-bar" style="width: 98%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Queue -->
+            <div class="queue-section">
+                <div class="queue-header">
+                    <div class="queue-title">
+                        <span>🚀 Speed Queue</span>
+                        <div class="live-indicator">
+                            <span class="live-dot"></span>
+                            <span>LIVE</span>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-outline">Select All</button>
+                        <button class="btn btn-success">✓ Quick Approve</button>
+                        <button class="btn btn-warning">⚠ Flag for Review</button>
+                    </div>
+                </div>
+
+                <div class="queue-controls">
+                    <div class="filter-tabs">
+                        <div class="tab active">All (124)</div>
+                        <div class="tab">Low Risk (78)</div>
+                        <div class="tab">Medium (36)</div>
+                        <div class="tab">High (10)</div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-outline">🔄 Refresh</button>
+                        <button class="btn btn-primary">⚡ Batch Process</button>
+                    </div>
+                </div>
+
+                <div class="queue-list">
+                    <div class="queue-item selected">
+                        <input type="checkbox" class="item-checkbox" checked>
+                        <div class="item-avatar">RK</div>
+                        <div class="item-content">
+                            <div class="item-title">Market Weekly Update - Nifty Analysis</div>
+                            <div class="item-meta">
+                                <span class="meta-item">📄 CNT-2024-0902</span>
+                                <span class="meta-item">👤 Rahul Kumar</span>
+                                <span class="meta-item">🏢 RIA/2021/0345</span>
+                                <span class="meta-item">⏱️ 30s ago</span>
+                            </div>
+                        </div>
+                        <div class="item-risk">
+                            <span class="risk-score risk-low">
+                                <span>✅</span>
+                                <span>2.4 Low</span>
+                            </span>
+                        </div>
+                        <div class="item-actions">
+                            <div class="action-icon">👁️</div>
+                            <div class="action-icon">✓</div>
+                            <div class="action-icon">✗</div>
+                        </div>
+                    </div>
+
+                    <div class="queue-item">
+                        <input type="checkbox" class="item-checkbox">
+                        <div class="item-avatar">PS</div>
+                        <div class="item-content">
+                            <div class="item-title">Investment Strategy for Q1 2025</div>
+                            <div class="item-meta">
+                                <span class="meta-item">📄 CNT-2024-0903</span>
+                                <span class="meta-item">👤 Priya Singh</span>
+                                <span class="meta-item">🏢 RIA/2020/0678</span>
+                                <span class="meta-item">⏱️ 1m ago</span>
+                            </div>
+                        </div>
+                        <div class="item-risk">
+                            <span class="risk-score risk-medium">
+                                <span>⚠️</span>
+                                <span>5.8 Medium</span>
+                            </span>
+                        </div>
+                        <div class="item-actions">
+                            <div class="action-icon">👁️</div>
+                            <div class="action-icon">✓</div>
+                            <div class="action-icon">✗</div>
+                        </div>
+                    </div>
+
+                    <div class="queue-item selected">
+                        <input type="checkbox" class="item-checkbox" checked>
+                        <div class="item-avatar">AV</div>
+                        <div class="item-content">
+                            <div class="item-title">Tax Saving Tips for FY 2024-25</div>
+                            <div class="item-meta">
+                                <span class="meta-item">📄 CNT-2024-0904</span>
+                                <span class="meta-item">👤 Amit Verma</span>
+                                <span class="meta-item">🏢 RIA/2019/0234</span>
+                                <span class="meta-item">⏱️ 2m ago</span>
+                            </div>
+                        </div>
+                        <div class="item-risk">
+                            <span class="risk-score risk-low">
+                                <span>✅</span>
+                                <span>1.8 Low</span>
+                            </span>
+                        </div>
+                        <div class="item-actions">
+                            <div class="action-icon">👁️</div>
+                            <div class="action-icon">✓</div>
+                            <div class="action-icon">✗</div>
+                        </div>
+                    </div>
+
+                    <div class="queue-item">
+                        <input type="checkbox" class="item-checkbox">
+                        <div class="item-avatar">NM</div>
+                        <div class="item-content">
+                            <div class="item-title">New Fund Launch - High Growth Opportunity</div>
+                            <div class="item-meta">
+                                <span class="meta-item">📄 CNT-2024-0905</span>
+                                <span class="meta-item">👤 Neha Mehta</span>
+                                <span class="meta-item">🏢 RIA/2022/0567</span>
+                                <span class="meta-item">⏱️ 3m ago</span>
+                            </div>
+                        </div>
+                        <div class="item-risk">
+                            <span class="risk-score risk-high">
+                                <span>🔴</span>
+                                <span>7.9 High</span>
+                            </span>
+                        </div>
+                        <div class="item-actions">
+                            <div class="action-icon">👁️</div>
+                            <div class="action-icon">✓</div>
+                            <div class="action-icon">✗</div>
+                        </div>
+                    </div>
+
+                    <div class="queue-item selected">
+                        <input type="checkbox" class="item-checkbox" checked>
+                        <div class="item-avatar">SK</div>
+                        <div class="item-content">
+                            <div class="item-title">Educational: Understanding Mutual Fund NAV</div>
+                            <div class="item-meta">
+                                <span class="meta-item">📄 CNT-2024-0906</span>
+                                <span class="meta-item">👤 Suresh Kamath</span>
+                                <span class="meta-item">🏢 RIA/2021/0890</span>
+                                <span class="meta-item">⏱️ 4m ago</span>
+                            </div>
+                        </div>
+                        <div class="item-risk">
+                            <span class="risk-score risk-low">
+                                <span>✅</span>
+                                <span>3.1 Low</span>
+                            </span>
+                        </div>
+                        <div class="item-actions">
+                            <div class="action-icon">👁️</div>
+                            <div class="action-icon">✓</div>
+                            <div class="action-icon">✗</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Speed Dial -->
+    <div class="speed-dial">
+        <div class="shortcuts-panel">
+            <div class="shortcut-item">
+                <span>Select All</span>
+                <span class="shortcut-key">Cmd+A</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Approve</span>
+                <span class="shortcut-key">Cmd+Enter</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Reject</span>
+                <span class="shortcut-key">Cmd+R</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Preview</span>
+                <span class="shortcut-key">Space</span>
+            </div>
+        </div>
+        <div class="speed-dial-main">⚡</div>
+    </div>
+</body>
+</html>

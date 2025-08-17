@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innovation Forward - AI-Powered Admin Dashboard</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --background: #ffffff;
+            --surface: #f8fafc;
+            --border: #e0e7ff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --ai-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --tech-gradient: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
+            --shadow-sm: 0 1px 3px rgba(99,102,241,0.1);
+            --shadow-md: 0 4px 12px rgba(99,102,241,0.15);
+            --shadow-lg: 0 10px 24px rgba(99,102,241,0.2);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Futuristic Sidebar */
+        .sidebar {
+            width: 300px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--border);
+            padding: 24px;
+        }
+
+        .logo-section {
+            background: var(--tech-gradient);
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .logo-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+        }
+
+        .ai-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .logo-text {
+            flex: 1;
+        }
+
+        .logo-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .logo-subtitle {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            margin-bottom: 4px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--tech-gradient);
+            border-radius: 3px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .nav-item:hover {
+            background: var(--surface);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(6,182,212,0.1) 100%);
+        }
+
+        .nav-item.active::before {
+            opacity: 1;
+        }
+
+        .nav-item-icon {
+            width: 20px;
+            font-size: 18px;
+        }
+
+        .nav-item-label {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item-badge {
+            background: var(--tech-gradient);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 24px;
+        }
+
+        /* AI Header */
+        .ai-header {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background: var(--ai-gradient);
+            opacity: 0.05;
+            transform: skewX(-20deg);
+        }
+
+        .ai-header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-title-section {
+            flex: 1;
+        }
+
+        .ai-title {
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--tech-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .ai-subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,182,212,0.1) 100%);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.5;
+                transform: scale(1.5);
+            }
+        }
+
+        .ai-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .ai-assistant {
+            padding: 10px 20px;
+            background: var(--ai-gradient);
+            color: white;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .ai-assistant:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* AI Metrics */
+        .ai-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .ai-metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .ai-metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .ai-metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--tech-gradient);
+        }
+
+        .ai-metric-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(6,182,212,0.1) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .ai-metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            background: var(--tech-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+
+        .ai-metric-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .ai-prediction {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            padding: 4px 8px;
+            background: var(--surface);
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+
+        /* Smart Queue */
+        .smart-queue {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .smart-queue-header {
+            background: linear-gradient(135deg, var(--surface) 0%, white 100%);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .smart-queue-title {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-badge {
+            background: var(--ai-gradient);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .smart-filters {
+            padding: 16px 24px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-pills {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-pill {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-pill:hover {
+            border-color: var(--primary);
+        }
+
+        .filter-pill.active {
+            background: var(--tech-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        .ai-sort {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-ai {
+            background: var(--ai-gradient);
+            color: white;
+        }
+
+        .btn-ai:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        /* Queue Items */
+        .queue-items {
+            padding: 8px;
+        }
+
+        .queue-item {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .queue-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .queue-item.ai-recommended {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(6,182,212,0.05) 0%, rgba(99,102,241,0.05) 100%);
+        }
+
+        .ai-indicator {
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            background: var(--ai-gradient);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .item-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .item-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--tech-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .item-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .ai-insights {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-score {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 12px;
+            background: var(--surface);
+            border-radius: 12px;
+        }
+
+        .ai-score-value {
+            font-size: 20px;
+            font-weight: 700;
+            background: var(--tech-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ai-score-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .risk-meter {
+            width: 120px;
+            height: 6px;
+            background: var(--surface);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .risk-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s;
+        }
+
+        .risk-low { background: var(--success); }
+        .risk-medium { background: var(--warning); }
+        .risk-high { background: var(--danger); }
+
+        .item-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* AI Assistant Panel */
+        .ai-panel {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 20px;
+            min-width: 320px;
+            border: 2px solid var(--border);
+        }
+
+        .ai-panel-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--ai-gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .ai-panel-title {
+            flex: 1;
+        }
+
+        .ai-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .ai-status-text {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .ai-suggestions {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .suggestion-icon {
+            color: var(--primary);
+        }
+
+        .ai-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .ai-action-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .ai-action-primary {
+            background: var(--ai-gradient);
+            color: white;
+        }
+
+        .ai-action-secondary {
+            background: var(--surface);
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+
+            .ai-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-panel {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Futuristic Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <div class="logo-content">
+                    <div class="ai-icon">🤖</div>
+                    <div class="logo-text">
+                        <div class="logo-title">AI Command</div>
+                        <div class="logo-subtitle">Intelligent Operations</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">AI Operations</div>
+                <div class="nav-item active">
+                    <span class="nav-item-icon">⚡</span>
+                    <span class="nav-item-label">Smart Queue</span>
+                    <span class="nav-item-badge">AI</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-item-icon">🧠</span>
+                    <span class="nav-item-label">AI Insights</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-item-icon">📊</span>
+                    <span class="nav-item-label">Predictions</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-item-icon">🔄</span>
+                    <span class="nav-item-label">Automation</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Intelligence</div>
+                <div class="nav-item">
+                    <span class="nav-item-icon">🎯</span>
+                    <span class="nav-item-label">Risk Analysis</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-item-icon">📈</span>
+                    <span class="nav-item-label">Trends</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-item-icon">🔍</span>
+                    <span class="nav-item-label">Anomalies</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">System</div>
+                <div class="nav-item">
+                    <span class="nav-item-icon">⚙️</span>
+                    <span class="nav-item-label">AI Config</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-item-icon">🔐</span>
+                    <span class="nav-item-label">Security</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-item-icon">📡</span>
+                    <span class="nav-item-label">API Status</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- AI Header -->
+            <div class="ai-header">
+                <div class="ai-header-content">
+                    <div class="ai-title-section">
+                        <h1 class="ai-title">AI-Powered Approval Center</h1>
+                        <div class="ai-subtitle">
+                            <div class="ai-status">
+                                <span class="pulse-dot"></span>
+                                <span>AI Active</span>
+                            </div>
+                            <span>• 127 items prioritized • 94% confidence • Nightly window: 20:30-21:30 IST</span>
+                        </div>
+                    </div>
+                    <div class="ai-controls">
+                        <div class="ai-assistant">
+                            <span>🤖</span>
+                            <span>AI Assist ON</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Metrics -->
+            <div class="ai-metrics">
+                <div class="ai-metric-card">
+                    <div class="ai-metric-icon">📋</div>
+                    <div class="ai-metric-value">127</div>
+                    <div class="ai-metric-label">Smart Queue</div>
+                    <div class="ai-prediction">
+                        <span>🔮</span>
+                        <span>AI predicts 15min completion</span>
+                    </div>
+                </div>
+                <div class="ai-metric-card">
+                    <div class="ai-metric-icon">🎯</div>
+                    <div class="ai-metric-value">97.2%</div>
+                    <div class="ai-metric-label">AI Accuracy</div>
+                    <div class="ai-prediction">
+                        <span>📈</span>
+                        <span>+2.3% vs last week</span>
+                    </div>
+                </div>
+                <div class="ai-metric-card">
+                    <div class="ai-metric-icon">⚡</div>
+                    <div class="ai-metric-value">12s</div>
+                    <div class="ai-metric-label">Avg Processing</div>
+                    <div class="ai-prediction">
+                        <span>🚀</span>
+                        <span>40% faster with AI</span>
+                    </div>
+                </div>
+                <div class="ai-metric-card">
+                    <div class="ai-metric-icon">🛡️</div>
+                    <div class="ai-metric-value">3.4</div>
+                    <div class="ai-metric-label">Avg Risk Score</div>
+                    <div class="ai-prediction">
+                        <span>✅</span>
+                        <span>Low risk batch</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Queue -->
+            <div class="smart-queue">
+                <div class="smart-queue-header">
+                    <div class="smart-queue-title">
+                        <span>Intelligent Approval Queue</span>
+                        <span class="ai-badge">AI Optimized</span>
+                    </div>
+                    <div class="table-controls">
+                        <button class="btn btn-outline">Select All</button>
+                        <button class="btn btn-ai">
+                            <span>🤖</span>
+                            AI Batch Approve
+                        </button>
+                        <button class="btn btn-success">
+                            <span>✓</span>
+                            Manual Approve
+                        </button>
+                    </div>
+                </div>
+
+                <div class="smart-filters">
+                    <div class="filter-pills">
+                        <div class="filter-pill active">All (127)</div>
+                        <div class="filter-pill">AI Recommended (89)</div>
+                        <div class="filter-pill">Review Needed (28)</div>
+                        <div class="filter-pill">High Risk (10)</div>
+                    </div>
+                    <div class="ai-sort">
+                        <span>🤖</span>
+                        <span>AI Priority Sort</span>
+                        <span>▼</span>
+                    </div>
+                </div>
+
+                <div class="queue-items">
+                    <div class="queue-item ai-recommended">
+                        <span class="ai-indicator">AI Ready</span>
+                        <input type="checkbox" class="item-checkbox" checked>
+                        <div class="item-avatar">VK</div>
+                        <div class="item-details">
+                            <div class="item-header">
+                                <span class="item-title">Weekly Market Insights - Tech Sector Analysis</span>
+                            </div>
+                            <div class="item-meta">
+                                <span>📄 AI-2024-0912</span>
+                                <span>👤 Vivek Kumar</span>
+                                <span>🏢 RIA/2021/0234</span>
+                                <span>⏱️ 30s ago</span>
+                            </div>
+                        </div>
+                        <div class="ai-insights">
+                            <div class="ai-score">
+                                <span class="ai-score-value">98</span>
+                                <span class="ai-score-label">AI Score</span>
+                            </div>
+                            <div>
+                                <div class="risk-meter">
+                                    <div class="risk-fill risk-low" style="width: 20%"></div>
+                                </div>
+                                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">Risk: 2.1 (Low)</div>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <div class="action-btn">👁️</div>
+                            <div class="action-btn">✓</div>
+                            <div class="action-btn">✗</div>
+                        </div>
+                    </div>
+
+                    <div class="queue-item">
+                        <input type="checkbox" class="item-checkbox">
+                        <div class="item-avatar">AS</div>
+                        <div class="item-details">
+                            <div class="item-header">
+                                <span class="item-title">Investment Strategy Update - Q1 2025</span>
+                            </div>
+                            <div class="item-meta">
+                                <span>📄 AI-2024-0913</span>
+                                <span>👤 Anjali Sharma</span>
+                                <span>🏢 RIA/2020/0567</span>
+                                <span>⏱️ 1m ago</span>
+                            </div>
+                        </div>
+                        <div class="ai-insights">
+                            <div class="ai-score">
+                                <span class="ai-score-value">76</span>
+                                <span class="ai-score-label">AI Score</span>
+                            </div>
+                            <div>
+                                <div class="risk-meter">
+                                    <div class="risk-fill risk-medium" style="width: 55%"></div>
+                                </div>
+                                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">Risk: 5.5 (Medium)</div>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <div class="action-btn">👁️</div>
+                            <div class="action-btn">✓</div>
+                            <div class="action-btn">✗</div>
+                        </div>
+                    </div>
+
+                    <div class="queue-item ai-recommended">
+                        <span class="ai-indicator">AI Ready</span>
+                        <input type="checkbox" class="item-checkbox" checked>
+                        <div class="item-avatar">RM</div>
+                        <div class="item-details">
+                            <div class="item-header">
+                                <span class="item-title">Tax Planning Guide for FY 2024-25</span>
+                            </div>
+                            <div class="item-meta">
+                                <span>📄 AI-2024-0914</span>
+                                <span>👤 Rahul Mehta</span>
+                                <span>🏢 RIA/2019/0890</span>
+                                <span>⏱️ 2m ago</span>
+                            </div>
+                        </div>
+                        <div class="ai-insights">
+                            <div class="ai-score">
+                                <span class="ai-score-value">95</span>
+                                <span class="ai-score-label">AI Score</span>
+                            </div>
+                            <div>
+                                <div class="risk-meter">
+                                    <div class="risk-fill risk-low" style="width: 18%"></div>
+                                </div>
+                                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">Risk: 1.8 (Low)</div>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <div class="action-btn">👁️</div>
+                            <div class="action-btn">✓</div>
+                            <div class="action-btn">✗</div>
+                        </div>
+                    </div>
+
+                    <div class="queue-item">
+                        <input type="checkbox" class="item-checkbox">
+                        <div class="item-avatar">PJ</div>
+                        <div class="item-details">
+                            <div class="item-header">
+                                <span class="item-title">New Fund Launch - High Growth Opportunity</span>
+                            </div>
+                            <div class="item-meta">
+                                <span>📄 AI-2024-0915</span>
+                                <span>👤 Pooja Jain</span>
+                                <span>🏢 RIA/2022/0345</span>
+                                <span>⏱️ 3m ago</span>
+                            </div>
+                        </div>
+                        <div class="ai-insights">
+                            <div class="ai-score">
+                                <span class="ai-score-value">42</span>
+                                <span class="ai-score-label">AI Score</span>
+                            </div>
+                            <div>
+                                <div class="risk-meter">
+                                    <div class="risk-fill risk-high" style="width: 78%"></div>
+                                </div>
+                                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">Risk: 7.8 (High)</div>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <div class="action-btn">👁️</div>
+                            <div class="action-btn">✓</div>
+                            <div class="action-btn">✗</div>
+                        </div>
+                    </div>
+
+                    <div class="queue-item ai-recommended">
+                        <span class="ai-indicator">AI Ready</span>
+                        <input type="checkbox" class="item-checkbox" checked>
+                        <div class="item-avatar">SK</div>
+                        <div class="item-details">
+                            <div class="item-header">
+                                <span class="item-title">Educational: Understanding SIP Benefits</span>
+                            </div>
+                            <div class="item-meta">
+                                <span>📄 AI-2024-0916</span>
+                                <span>👤 Sanjay Kapoor</span>
+                                <span>🏢 RIA/2021/0678</span>
+                                <span>⏱️ 4m ago</span>
+                            </div>
+                        </div>
+                        <div class="ai-insights">
+                            <div class="ai-score">
+                                <span class="ai-score-value">92</span>
+                                <span class="ai-score-label">AI Score</span>
+                            </div>
+                            <div>
+                                <div class="risk-meter">
+                                    <div class="risk-fill risk-low" style="width: 25%"></div>
+                                </div>
+                                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">Risk: 2.5 (Low)</div>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <div class="action-btn">👁️</div>
+                            <div class="action-btn">✓</div>
+                            <div class="action-btn">✗</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- AI Assistant Panel -->
+    <div class="ai-panel">
+        <div class="ai-panel-header">
+            <div class="ai-avatar">🤖</div>
+            <div class="ai-panel-title">
+                <div class="ai-name">AI Assistant</div>
+                <div class="ai-status-text">Analyzing queue patterns...</div>
+            </div>
+        </div>
+
+        <div class="ai-suggestions">
+            <div class="suggestion-item">
+                <span class="suggestion-icon">✅</span>
+                <span>89 items ready for auto-approval</span>
+            </div>
+            <div class="suggestion-item">
+                <span class="suggestion-icon">⚠️</span>
+                <span>3 items need disclaimer updates</span>
+            </div>
+            <div class="suggestion-item">
+                <span class="suggestion-icon">🔍</span>
+                <span>2 anomalies detected in risk patterns</span>
+            </div>
+            <div class="suggestion-item">
+                <span class="suggestion-icon">⚡</span>
+                <span>Est. completion: 14 minutes</span>
+            </div>
+        </div>
+
+        <div class="ai-actions">
+            <button class="ai-action-btn ai-action-primary">Apply AI Suggestions</button>
+            <button class="ai-action-btn ai-action-secondary">Review Details</button>
+        </div>
+    </div>
+</body>
+</html>

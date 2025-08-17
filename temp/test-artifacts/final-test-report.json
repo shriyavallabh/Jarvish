@@ -1,0 +1,33 @@
+{
+  "timestamp": "2025-08-17T05:47:54.306Z",
+  "performance": {
+    "domContentLoaded": 162,
+    "loadComplete": 449,
+    "firstPaint": 353.2000000476837,
+    "firstContentfulPaint": 353.2000000476837,
+    "resourceCount": 14
+  },
+  "accessibility": {
+    "colorContrast": [],
+    "textReadability": [
+      "Font too small: \"SEBI...\" (12px)"
+    ],
+    "semanticStructure": [],
+    "interactiveElements": []
+  },
+  "design": {
+    "spacing": [],
+    "consistency": [],
+    "visualHierarchy": [
+      "Heading hierarchy issue at position 6",
+      "Heading hierarchy issue at position 13"
+    ]
+  },
+  "mobile": [
+    "Text too small on mobile: 12px"
+  ],
+  "summary": {
+    "totalIssues": 4,
+    "performanceScore": "EXCELLENT"
+  }
+}

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advisor Overview - Card-Grid Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #F9FAFB;
+            color: #111827;
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            background: #FFFFFF;
+            border-bottom: 1px solid #E5E7EB;
+            padding: 1rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .greeting {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+        
+        /* Navigation Tabs (Desktop) */
+        .nav-tabs {
+            background: #FFFFFF;
+            border-bottom: 1px solid #E5E7EB;
+            padding: 0 1rem;
+            display: none;
+        }
+        
+        .nav-tabs nav {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-tab {
+            padding: 0.75rem 0;
+            border-bottom: 2px solid transparent;
+            color: #6B7280;
+            font-weight: 500;
+        }
+        
+        .nav-tab.active {
+            color: #2563EB;
+            border-bottom-color: #2563EB;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 1rem;
+            gap: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Status Card */
+        .status-card {
+            background: #FFFFFF;
+            border-radius: 0.5rem;
+            border: 1px solid #E5E7EB;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #ECFDF5;
+            color: #059669;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        
+        .compliance-score {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #059669;
+            font-weight: 500;
+        }
+        
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .metric-card {
+            background: #FFFFFF;
+            border-radius: 0.5rem;
+            border: 1px solid #E5E7EB;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .metric-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-title {
+            font-size: 0.875rem;
+            color: #6B7280;
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-value {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+        }
+        
+        .metric-change {
+            font-size: 0.75rem;
+            color: #059669;
+        }
+        
+        /* Action Buttons */
+        .action-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .action-button {
+            background: #2563EB;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 0.375rem;
+            padding: 0.75rem 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .action-button.secondary {
+            background: #F3F4F6;
+            color: #374151;
+        }
+        
+        /* Activity Feed */
+        .activity-section {
+            background: #FFFFFF;
+            border-radius: 0.5rem;
+            border: 1px solid #E5E7EB;
+            padding: 1.5rem;
+        }
+        
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .activity-list {
+            list-style: none;
+        }
+        
+        .activity-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #F3F4F6;
+            color: #6B7280;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #FFFFFF;
+            border-top: 1px solid #E5E7EB;
+            padding: 0.75rem;
+            display: flex;
+            justify-content: space-around;
+            height: 60px;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #6B7280;
+            font-size: 0.75rem;
+            gap: 0.25rem;
+            min-width: 44px;
+        }
+        
+        .nav-item.active {
+            color: #2563EB;
+        }
+        
+        /* Desktop Styles */
+        @media (min-width: 1024px) {
+            .header {
+                height: 72px;
+                padding: 1rem 2rem;
+            }
+            
+            .nav-tabs {
+                display: block;
+                padding: 0 2rem;
+                height: 48px;
+                display: flex;
+                align-items: center;
+            }
+            
+            .main-content {
+                padding: 2rem;
+                gap: 2rem;
+            }
+            
+            .status-card {
+                padding: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            .status-content {
+                flex: 1;
+            }
+            
+            .status-actions {
+                display: flex;
+                gap: 1rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .content-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            
+            .bottom-nav {
+                display: none;
+            }
+        }
+        
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            .metric-card,
+            .status-card,
+            .activity-section {
+                border-width: 2px;
+                border-color: #000000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button aria-label="Menu">☰</button>
+            <h1>Project One</h1>
+            <span class="greeting">Good morning, Raj Kumar</span>
+        </div>
+        <div class="header-right">
+            <button aria-label="Notifications">🔔</button>
+            <button aria-label="Settings">⚙️</button>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs (Desktop) -->
+    <div class="nav-tabs">
+        <nav role="navigation" aria-label="Main navigation">
+            <a href="#" class="nav-tab active">Dashboard</a>
+            <a href="#" class="nav-tab">Create</a>
+            <a href="#" class="nav-tab">Library</a>
+            <a href="#" class="nav-tab">Analytics</a>
+            <a href="#" class="nav-tab">Branding</a>
+            <a href="#" class="nav-tab">Settings</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content container">
+        <!-- Today's Status -->
+        <section class="status-card" aria-labelledby="status-title">
+            <div class="status-content">
+                <h2 id="status-title">📱 Today's Content Pack</h2>
+                <div class="status-badge">
+                    ✅ READY FOR DELIVERY
+                </div>
+                <p>Scheduled: 06:00 IST Tomorrow</p>
+                <div class="compliance-score">
+                    Compliance: 96/100 🟢
+                </div>
+            </div>
+            <div class="status-actions">
+                <button class="action-button">View Details</button>
+                <button class="action-button secondary">Edit Content</button>
+            </div>
+        </section>
+
+        <!-- Metrics Grid -->
+        <section aria-label="Key Metrics">
+            <div class="metrics-grid">
+                <article class="metric-card">
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-title">Created This Week</div>
+                    <div class="metric-value">5</div>
+                    <div class="metric-change">100% Approved</div>
+                </article>
+                
+                <article class="metric-card">
+                    <div class="metric-icon">🎯</div>
+                    <div class="metric-title">Performance</div>
+                    <div class="metric-value">78%</div>
+                    <div class="metric-change">+15% vs Month</div>
+                </article>
+                
+                <article class="metric-card">
+                    <div class="metric-icon">🛡️</div>
+                    <div class="metric-title">Compliance</div>
+                    <div class="metric-value">98/100</div>
+                    <div class="metric-change">Zero Issues</div>
+                </article>
+                
+                <article class="metric-card">
+                    <div class="metric-icon">📈</div>
+                    <div class="metric-title">Growth</div>
+                    <div class="metric-value">23</div>
+                    <div class="metric-change">New Clients</div>
+                </article>
+                
+                <article class="metric-card">
+                    <div class="metric-icon">📱</div>
+                    <div class="metric-title">Delivery Success</div>
+                    <div class="metric-value">98.2%</div>
+                    <div class="metric-change">Above Target</div>
+                </article>
+            </div>
+        </section>
+
+        <div class="content-grid">
+            <!-- Quick Actions -->
+            <section class="action-section" aria-label="Quick Actions">
+                <h3>🚀 Quick Actions</h3>
+                <button class="action-button">
+                    ➕ Create New Content
+                </button>
+                <button class="action-button secondary">
+                    📚 Browse Templates
+                </button>
+                <button class="action-button secondary">
+                    📈 View Analytics
+                </button>
+                <button class="action-button secondary">
+                    ⚙️ WhatsApp Settings
+                </button>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="activity-section" aria-labelledby="activity-title">
+                <h3 id="activity-title" class="activity-title">📝 Recent Activity</h3>
+                <ul class="activity-list" role="log" aria-live="polite">
+                    <li class="activity-item">• Market Update delivered 2h ago</li>
+                    <li class="activity-item">• SIP Guide approved yesterday</li>
+                    <li class="activity-item">• Tax Planning pending review</li>
+                    <li class="activity-item">• 23 clients added this week</li>
+                </ul>
+                <button class="action-button secondary" style="margin-top: 1rem;">
+                    View Full Activity Log
+                </button>
+            </section>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav" role="navigation" aria-label="Mobile navigation">
+        <a href="#" class="nav-item active" aria-label="Home">
+            <span>🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item" aria-label="Create">
+            <span>➕</span>
+            <span>Create</span>
+        </a>
+        <a href="#" class="nav-item" aria-label="Library">
+            <span>📚</span>
+            <span>Library</span>
+        </a>
+        <a href="#" class="nav-item" aria-label="Stats">
+            <span>📊</span>
+            <span>Stats</span>
+        </a>
+        <a href="#" class="nav-item" aria-label="Profile">
+            <span>👤</span>
+            <span>Profile</span>
+        </a>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "headerIssues": [],
+  "skipLinkIssues": [],
+  "colorIssues": [],
+  "typographyIssues": [
+    "Text element 3: Font too small (10px) - \"SEBI...\"",
+    "Text element 14: Line height too small (70.4px for 64px font)",
+    "Text element 122: Line height too small (48px for 48px font)",
+    "Text element 132: Line height too small (48px for 48px font)",
+    "Text element 143: Line height too small (48px for 48px font)"
+  ],
+  "layoutIssues": []
+}

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home - Editorial Minimal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #FAFAF9;
+            color: #111;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: white;
+            border-bottom: 4px solid #111;
+            padding: 32px 48px;
+        }
+        
+        .header-content {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 48px;
+            align-items: baseline;
+        }
+        
+        .logo {
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            text-transform: lowercase;
+        }
+        
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 32px;
+            padding-left: 48px;
+            border-left: 2px solid #111;
+        }
+        
+        .metric {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .metric-value {
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+        
+        .metric-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        main {
+            max-width: 1440px;
+            margin: 48px auto;
+            padding: 0 48px;
+        }
+        
+        .page-title {
+            font-size: 72px;
+            font-weight: 900;
+            letter-spacing: -3px;
+            margin-bottom: 48px;
+            line-height: 0.9;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 2px solid #111;
+        }
+        
+        .batch-actions {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .btn {
+            padding: 16px 32px;
+            border: 2px solid #111;
+            background: white;
+            color: #111;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .btn:hover {
+            background: #111;
+            color: white;
+            transform: translate(-4px, -4px);
+            box-shadow: 4px 4px 0 #FFD700;
+        }
+        
+        .btn-primary {
+            background: #111;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: white;
+            color: #111;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+        }
+        
+        select {
+            padding: 16px;
+            border: 2px solid #111;
+            background: white;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+        
+        .queue-grid {
+            display: grid;
+            gap: 0;
+        }
+        
+        .queue-item {
+            background: white;
+            border: 2px solid #111;
+            margin-bottom: -2px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .queue-item:hover {
+            z-index: 10;
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        
+        .item-grid {
+            display: grid;
+            grid-template-columns: 48px 1fr 200px;
+            min-height: 180px;
+        }
+        
+        .checkbox-cell {
+            border-right: 2px solid #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F5F5F5;
+        }
+        
+        input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: #111;
+        }
+        
+        .content-cell {
+            padding: 32px;
+        }
+        
+        .item-header {
+            margin-bottom: 24px;
+        }
+        
+        .item-title {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .item-meta {
+            display: flex;
+            gap: 24px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+        }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .preview-block {
+            padding: 16px;
+            background: #F5F5F5;
+            border: 1px solid #DDD;
+        }
+        
+        .preview-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: #666;
+        }
+        
+        .preview-content {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .risk-cell {
+            border-left: 2px solid #111;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: white;
+        }
+        
+        .risk-score {
+            text-align: center;
+            padding: 24px 0;
+        }
+        
+        .risk-value {
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -2px;
+        }
+        
+        .risk-low { color: #00C851; }
+        .risk-medium { color: #FFB300; }
+        .risk-high { color: #FF3B30; }
+        
+        .risk-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+        
+        .item-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .btn-small {
+            padding: 12px 16px;
+            font-size: 11px;
+            border: 2px solid #111;
+            background: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-small:hover {
+            background: #111;
+            color: white;
+        }
+        
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #111;
+            color: white;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .status-text {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .status-stats {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .status-stat {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        
+        .status-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: #FFD700;
+        }
+        
+        .status-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .highlight {
+            background: #FFD700;
+            padding: 2px 4px;
+            font-weight: 700;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .queue-item {
+            animation: slideDown 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">jarvishhh</div>
+            <div class="metrics-row">
+                <div class="metric">
+                    <div class="metric-value">47</div>
+                    <div class="metric-label">Pending</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">92%</div>
+                    <div class="metric-label">Approved</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">2.3</div>
+                    <div class="metric-label">Min Avg</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">1,247</div>
+                    <div class="metric-label">Today</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <h1 class="page-title">Approval<br>Queue.</h1>
+        
+        <div class="controls">
+            <div class="batch-actions">
+                <button class="btn btn-primary" onclick="approveSelected()">Approve 3 Selected</button>
+                <button class="btn" onclick="rejectSelected()">Reject</button>
+                <button class="btn" onclick="bulkEdit()">Bulk Edit</button>
+            </div>
+            <div class="filters">
+                <select>
+                    <option>All Risk</option>
+                    <option>Low Risk</option>
+                    <option>Medium</option>
+                    <option>High Risk</option>
+                </select>
+                <select>
+                    <option>Priority</option>
+                    <option>Recent</option>
+                    <option>Risk Score</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="queue-grid">
+            <div class="queue-item">
+                <div class="item-grid">
+                    <div class="checkbox-cell">
+                        <input type="checkbox" id="item1" checked>
+                    </div>
+                    <div class="content-cell">
+                        <div class="item-header">
+                            <h2 class="item-title">Market Update: Nifty Hits New High</h2>
+                            <div class="item-meta">
+                                <span>Rajesh Kumar</span>
+                                <span>Mumbai</span>
+                                <span>2 Minutes Ago</span>
+                            </div>
+                        </div>
+                        <div class="preview-grid">
+                            <div class="preview-block">
+                                <div class="preview-label">Original Content</div>
+                                <div class="preview-content">
+                                    Markets soared today with <span class="highlight">Nifty crossing 22,000</span> for the first time. 
+                                    Banking and IT sectors led the rally.
+                                </div>
+                            </div>
+                            <div class="preview-block">
+                                <div class="preview-label">WhatsApp Format</div>
+                                <div class="preview-content">
+                                    <strong>Market Update</strong><br>
+                                    Nifty: 22,000 ↑<br>
+                                    Banking +2.3% | IT +1.8%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="risk-cell">
+                        <div class="risk-score">
+                            <div class="risk-value risk-low">8.2</div>
+                            <div class="risk-label">Low Risk</div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-small">Approve</button>
+                            <button class="btn-small">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="queue-item">
+                <div class="item-grid">
+                    <div class="checkbox-cell">
+                        <input type="checkbox" id="item2" checked>
+                    </div>
+                    <div class="content-cell">
+                        <div class="item-header">
+                            <h2 class="item-title">Tax Saving Tips for FY 2024-25</h2>
+                            <div class="item-meta">
+                                <span>Priya Sharma</span>
+                                <span>Delhi NCR</span>
+                                <span>5 Minutes Ago</span>
+                            </div>
+                        </div>
+                        <div class="preview-grid">
+                            <div class="preview-block">
+                                <div class="preview-label">Original Content</div>
+                                <div class="preview-content">
+                                    Maximize tax savings with <span class="highlight">Section 80C</span> investments. 
+                                    ELSS funds offer dual benefits.
+                                </div>
+                            </div>
+                            <div class="preview-block">
+                                <div class="preview-label">WhatsApp Format</div>
+                                <div class="preview-content">
+                                    <strong>Tax Alert</strong><br>
+                                    Save ₹46,800<br>
+                                    ELSS | PPF | NPS
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="risk-cell">
+                        <div class="risk-score">
+                            <div class="risk-value risk-medium">5.7</div>
+                            <div class="risk-label">Medium Risk</div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-small">Review</button>
+                            <button class="btn-small">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="queue-item">
+                <div class="item-grid">
+                    <div class="checkbox-cell">
+                        <input type="checkbox" id="item3">
+                    </div>
+                    <div class="content-cell">
+                        <div class="item-header">
+                            <h2 class="item-title">Gold Investment Strategy Update</h2>
+                            <div class="item-meta">
+                                <span>Amit Patel</span>
+                                <span>Gujarat</span>
+                                <span>8 Minutes Ago</span>
+                            </div>
+                        </div>
+                        <div class="preview-grid">
+                            <div class="preview-block">
+                                <div class="preview-label">Original Content</div>
+                                <div class="preview-content">
+                                    Gold prices expected to reach <span class="highlight" style="background: #FF3B30; color: white;">₹75,000</span> by month end.
+                                </div>
+                            </div>
+                            <div class="preview-block">
+                                <div class="preview-label">Compliance Issues</div>
+                                <div class="preview-content" style="color: #FF3B30;">
+                                    ⚠ Price prediction<br>
+                                    ⚠ No disclaimer<br>
+                                    ⚠ Specific timeframe
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="risk-cell">
+                        <div class="risk-score">
+                            <div class="risk-value risk-high">3.2</div>
+                            <div class="risk-label">High Risk</div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-small">Reject</button>
+                            <button class="btn-small">Revise</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div class="status-bar">
+        <div class="status-text">Real-Time Queue Status</div>
+        <div class="status-stats">
+            <div class="status-stat">
+                <span class="status-number">47</span>
+                <span class="status-label">Pending</span>
+            </div>
+            <div class="status-stat">
+                <span class="status-number">3</span>
+                <span class="status-label">Selected</span>
+            </div>
+            <div class="status-stat">
+                <span class="status-number">2.3</span>
+                <span class="status-label">Min Avg</span>
+            </div>
+            <div class="status-stat">
+                <span class="status-number">92%</span>
+                <span class="status-label">Success</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function approveSelected() {
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+            alert(`Approving ${checked.length} items...`);
+        }
+        
+        function rejectSelected() {
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+            alert(`Rejecting ${checked.length} items...`);
+        }
+        
+        function bulkEdit() {
+            alert('Opening bulk edit interface...');
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'a' && e.metaKey) {
+                e.preventDefault();
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+            }
+            if (e.key === 'Enter' && e.metaKey) {
+                approveSelected();
+            }
+            if (e.key === 'Escape') {
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            }
+        });
+        
+        // Update selected count
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                const count = document.querySelectorAll('input[type="checkbox"]:checked').length;
+                document.querySelector('.btn-primary').textContent = `Approve ${count} Selected`;
+            });
+        });
+    </script>
+</body>
+</html>

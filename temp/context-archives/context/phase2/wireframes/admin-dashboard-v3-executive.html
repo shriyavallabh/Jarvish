@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Suite - Project One Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Executive Suite Palette */
+            --exec-obsidian: #1C1C1E;        /* Deep executive black */
+            --exec-platinum: #F2F2F7;        /* Premium platinum */
+            --exec-gold: #FF9500;            /* Executive gold */
+            --exec-sapphire: #007AFF;        /* Executive blue */
+            --exec-emerald: #30D158;         /* Success emerald */
+            --exec-pearl: #FFFFFF;           /* Pure white */
+            --exec-graphite: #8E8E93;        /* Executive gray */
+            --exec-crimson: #FF3B30;         /* Executive red */
+            --exec-amber: #FF9F0A;           /* Executive amber */
+            --exec-steel: #2C2C2E;           /* Executive steel */
+            
+            /* Typography */
+            --font-primary: "Poppins", system-ui, sans-serif;
+            --font-display: "Fraunces", Georgia, serif;
+            --font-mono: "SF Mono", "Monaco", "Inconsolata", monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--exec-platinum);
+            color: var(--exec-obsidian);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Executive Background */
+        .executive-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, 
+                var(--exec-platinum) 0%, 
+                rgba(255, 149, 0, 0.03) 50%, 
+                var(--exec-pearl) 100%);
+        }
+        
+        .executive-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="execGrid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="%23FF9500" stroke-width="0.3" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23execGrid)"/></svg>');
+            opacity: 0.4;
+        }
+        
+        /* Executive Dashboard Layout */
+        .executive-dashboard {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Executive Header */
+        .executive-header {
+            background: var(--exec-pearl);
+            border-bottom: 1px solid rgba(255, 149, 0, 0.2);
+            padding: 24px 40px;
+            box-shadow: 0 2px 20px rgba(28, 28, 30, 0.08);
+        }
+        
+        .header-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .executive-brand {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .brand-logo {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--exec-gold), var(--exec-sapphire));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--exec-pearl);
+            font-weight: 800;
+            font-size: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .brand-logo::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: logoShimmer 4s ease-in-out infinite;
+        }
+        
+        @keyframes logoShimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+        
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .brand-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--exec-obsidian);
+            margin-bottom: 2px;
+        }
+        
+        .brand-subtitle {
+            font-size: 13px;
+            color: var(--exec-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .nav-link {
+            color: var(--exec-graphite);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 12px 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--exec-gold), var(--exec-sapphire));
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--exec-obsidian);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .executive-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(48, 209, 88, 0.1);
+            color: var(--exec-emerald);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(48, 209, 88, 0.3);
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            background: var(--exec-emerald);
+            border-radius: 50%;
+            animation: execPulse 3s ease-in-out infinite;
+            box-shadow: 0 0 10px var(--exec-emerald);
+        }
+        
+        @keyframes execPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+        
+        .executive-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: background 0.3s ease;
+        }
+        
+        .executive-profile:hover {
+            background: rgba(255, 149, 0, 0.05);
+        }
+        
+        .profile-info {
+            text-align: right;
+        }
+        
+        .profile-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--exec-obsidian);
+            margin-bottom: 2px;
+        }
+        
+        .profile-role {
+            font-size: 12px;
+            color: var(--exec-graphite);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .profile-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--exec-sapphire), var(--exec-emerald));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--exec-pearl);
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        /* Main Executive Content */
+        .executive-main {
+            flex: 1;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 48px 40px;
+            width: 100%;
+        }
+        
+        .main-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .executive-welcome {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--exec-obsidian);
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--exec-obsidian), var(--exec-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .executive-subtitle {
+            font-size: 20px;
+            color: var(--exec-graphite);
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+        
+        .executive-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--exec-gold), rgba(255, 149, 0, 0.8));
+            color: var(--exec-pearl);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 32px rgba(255, 149, 0, 0.3);
+        }
+        
+        .badge-icon {
+            width: 16px;
+            height: 16px;
+            background: var(--exec-pearl);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--exec-gold);
+            font-size: 10px;
+            font-weight: 800;
+        }
+        
+        /* Executive Metrics */
+        .executive-metrics {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+        
+        .metric-executive {
+            background: var(--exec-pearl);
+            border: 1px solid rgba(255, 149, 0, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(28, 28, 30, 0.08);
+        }
+        
+        .metric-executive::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--exec-gold), var(--exec-sapphire), var(--exec-emerald));
+            background-size: 200% 100%;
+            animation: metricFlow 3s linear infinite;
+        }
+        
+        @keyframes metricFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+        
+        .metric-executive:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 64px rgba(28, 28, 30, 0.15);
+        }
+        
+        .metric-exec-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--exec-gold), var(--exec-sapphire));
+            border-radius: 18px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--exec-pearl);
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .metric-exec-value {
+            font-family: var(--font-mono);
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--exec-obsidian);
+            margin-bottom: 8px;
+        }
+        
+        .metric-exec-label {
+            font-size: 13px;
+            color: var(--exec-graphite);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        
+        .metric-exec-change {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 15px;
+            background: rgba(48, 209, 88, 0.1);
+            color: var(--exec-emerald);
+        }
+        
+        /* Executive Overview */
+        .executive-overview {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 48px;
+        }
+        
+        .overview-main {
+            background: var(--exec-pearl);
+            border: 1px solid rgba(255, 149, 0, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 12px 48px rgba(28, 28, 30, 0.08);
+        }
+        
+        .overview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+        
+        .overview-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--exec-obsidian);
+        }
+        
+        .overview-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .overview-control {
+            background: transparent;
+            border: 1px solid rgba(255, 149, 0, 0.3);
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: var(--exec-gold);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .overview-control.active,
+        .overview-control:hover {
+            background: var(--exec-gold);
+            color: var(--exec-pearl);
+        }
+        
+        .overview-chart {
+            height: 320px;
+            background: linear-gradient(135deg, 
+                rgba(255, 149, 0, 0.05) 0%, 
+                rgba(0, 122, 255, 0.05) 50%, 
+                rgba(48, 209, 88, 0.05) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-visualization {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .chart-main-value {
+            font-family: var(--font-mono);
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--exec-gold), var(--exec-sapphire));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        
+        .chart-label {
+            color: var(--exec-emerald);
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .chart-bg-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 20px,
+                rgba(255, 149, 0, 0.05) 20px,
+                rgba(255, 149, 0, 0.05) 40px
+            );
+            animation: chartPattern 6s linear infinite;
+        }
+        
+        @keyframes chartPattern {
+            0% { transform: translateX(-40px) translateY(-40px); }
+            100% { transform: translateX(40px) translateY(40px); }
+        }
+        
+        /* Executive Sidebar */
+        .executive-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        
+        .sidebar-panel {
+            background: var(--exec-pearl);
+            border: 1px solid rgba(255, 149, 0, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(28, 28, 30, 0.08);
+        }
+        
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .panel-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--exec-sapphire), var(--exec-emerald));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--exec-pearl);
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .panel-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--exec-obsidian);
+        }
+        
+        .executive-feed {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .feed-executive-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 149, 0, 0.1);
+        }
+        
+        .feed-executive-item:last-child {
+            border-bottom: none;
+        }
+        
+        .feed-exec-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--exec-gold), var(--exec-sapphire));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--exec-pearl);
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .feed-exec-content {
+            flex: 1;
+        }
+        
+        .feed-exec-text {
+            font-size: 14px;
+            color: var(--exec-obsidian);
+            margin-bottom: 6px;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+        
+        .feed-exec-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .feed-exec-time {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--exec-graphite);
+        }
+        
+        .feed-exec-badge {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--exec-gold);
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1600px) {
+            .executive-metrics {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .executive-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 24px;
+            }
+            
+            .header-nav {
+                display: none;
+            }
+            
+            .executive-metrics {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .executive-welcome {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="executive-bg">
+        <div class="executive-pattern"></div>
+    </div>
+
+    <div class="executive-dashboard">
+        <!-- Executive Header -->
+        <header class="executive-header">
+            <div class="header-container">
+                <div class="executive-brand">
+                    <div class="brand-logo">P1</div>
+                    <div class="brand-info">
+                        <div class="brand-title">Project One</div>
+                        <div class="brand-subtitle">Executive Suite</div>
+                    </div>
+                </div>
+                
+                <nav class="header-nav">
+                    <a href="#" class="nav-link active">Overview</a>
+                    <a href="#" class="nav-link">Operations</a>
+                    <a href="#" class="nav-link">Analytics</a>
+                    <a href="#" class="nav-link">Users</a>
+                    <a href="#" class="nav-link">Settings</a>
+                </nav>
+                
+                <div class="header-actions">
+                    <div class="executive-status">
+                        <div class="status-indicator"></div>
+                        <span>Executive Mode</span>
+                    </div>
+                    <div class="executive-profile">
+                        <div class="profile-info">
+                            <div class="profile-name">C. Executive</div>
+                            <div class="profile-role">Chief Admin</div>
+                        </div>
+                        <div class="profile-avatar">CE</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Executive Content -->
+        <main class="executive-main">
+            <div class="main-header">
+                <h1 class="executive-welcome">Executive Command Center</h1>
+                <p class="executive-subtitle">Your comprehensive platform oversight and strategic control center</p>
+                <div class="executive-badge">
+                    <div class="badge-icon">⚡</div>
+                    <span>Premium Executive Access</span>
+                </div>
+            </div>
+
+            <!-- Executive Metrics -->
+            <section class="executive-metrics">
+                <div class="metric-executive">
+                    <div class="metric-exec-icon">👥</div>
+                    <div class="metric-exec-value">12,847</div>
+                    <div class="metric-exec-label">Total Users</div>
+                    <div class="metric-exec-change">+23.7% Growth</div>
+                </div>
+                <div class="metric-executive">
+                    <div class="metric-exec-icon">💰</div>
+                    <div class="metric-exec-value">₹247Cr</div>
+                    <div class="metric-exec-label">Platform AUM</div>
+                    <div class="metric-exec-change">+18.4% QoQ</div>
+                </div>
+                <div class="metric-executive">
+                    <div class="metric-exec-icon">📊</div>
+                    <div class="metric-exec-value">99.7%</div>
+                    <div class="metric-exec-label">System Health</div>
+                    <div class="metric-exec-change">Optimal</div>
+                </div>
+                <div class="metric-executive">
+                    <div class="metric-exec-icon">⚖️</div>
+                    <div class="metric-exec-value">100%</div>
+                    <div class="metric-exec-label">Compliance</div>
+                    <div class="metric-exec-change">SEBI Certified</div>
+                </div>
+                <div class="metric-executive">
+                    <div class="metric-exec-icon">⚡</div>
+                    <div class="metric-exec-value">247ms</div>
+                    <div class="metric-exec-label">Response Time</div>
+                    <div class="metric-exec-change">Lightning Fast</div>
+                </div>
+            </section>
+
+            <!-- Executive Overview -->
+            <section class="executive-overview">
+                <div class="overview-main">
+                    <div class="overview-header">
+                        <h2 class="overview-title">Platform Performance Overview</h2>
+                        <div class="overview-controls">
+                            <button class="overview-control">Today</button>
+                            <button class="overview-control">Week</button>
+                            <button class="overview-control active">Month</button>
+                            <button class="overview-control">Quarter</button>
+                            <button class="overview-control">Year</button>
+                        </div>
+                    </div>
+                    
+                    <div class="overview-chart">
+                        <div class="chart-bg-pattern"></div>
+                        <div class="chart-visualization">
+                            <div class="chart-main-value">+34.7%</div>
+                            <div class="chart-label">Overall Growth</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="executive-sidebar">
+                    <div class="sidebar-panel">
+                        <div class="panel-header">
+                            <div class="panel-icon">📈</div>
+                            <h3 class="panel-title">Recent Activity</h3>
+                        </div>
+                        
+                        <div class="executive-feed">
+                            <div class="feed-executive-item">
+                                <div class="feed-exec-avatar">AS</div>
+                                <div class="feed-exec-content">
+                                    <div class="feed-exec-text">Major client onboarded with ₹15Cr AUM</div>
+                                    <div class="feed-exec-meta">
+                                        <div class="feed-exec-time">2 hours ago</div>
+                                        <div class="feed-exec-badge">High Value</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="feed-executive-item">
+                                <div class="feed-exec-avatar">SC</div>
+                                <div class="feed-exec-content">
+                                    <div class="feed-exec-text">System performance optimized - 15% improvement</div>
+                                    <div class="feed-exec-meta">
+                                        <div class="feed-exec-time">4 hours ago</div>
+                                        <div class="feed-exec-badge">System</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="feed-executive-item">
+                                <div class="feed-exec-avatar">RK</div>
+                                <div class="feed-exec-content">
+                                    <div class="feed-exec-text">Compliance audit completed - 100% pass rate</div>
+                                    <div class="feed-exec-meta">
+                                        <div class="feed-exec-time">6 hours ago</div>
+                                        <div class="feed-exec-badge">Compliance</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="feed-executive-item">
+                                <div class="feed-exec-avatar">MG</div>
+                                <div class="feed-exec-content">
+                                    <div class="feed-exec-text">New advisor partnership established</div>
+                                    <div class="feed-exec-meta">
+                                        <div class="feed-exec-time">8 hours ago</div>
+                                        <div class="feed-exec-badge">Partnership</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

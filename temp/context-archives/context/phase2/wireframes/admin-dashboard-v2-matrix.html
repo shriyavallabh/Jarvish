@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operations Matrix - Project One Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Operations Matrix Palette */
+            --matrix-void: #000000;          /* Pure matrix black */
+            --matrix-green: #00FF41;         /* Classic matrix green */
+            --matrix-cyan: #00FFFF;          /* Matrix cyan */
+            --matrix-lime: #39FF14;          /* Bright matrix lime */
+            --matrix-dark: #0D1B0D;          /* Dark matrix green */
+            --matrix-gray: #003300;          /* Matrix gray */
+            --matrix-white: #FFFFFF;         /* Pure white */
+            --matrix-red: #FF0040;           /* Matrix alert red */
+            --matrix-yellow: #FFFF00;        /* Matrix warning yellow */
+            
+            /* Typography */
+            --font-primary: "Poppins", system-ui, sans-serif;
+            --font-display: "Fraunces", Georgia, serif;
+            --font-mono: "SF Mono", "Monaco", "Inconsolata", monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-mono);
+            background: var(--matrix-void);
+            color: var(--matrix-green);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Matrix Background */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--matrix-void);
+        }
+        
+        .matrix-rain {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .matrix-column {
+            position: absolute;
+            top: -100px;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: var(--matrix-green);
+            animation: matrixFall linear infinite;
+            text-shadow: 0 0 5px var(--matrix-green);
+        }
+        
+        .matrix-column:nth-child(1) { left: 5%; animation-duration: 8s; animation-delay: 0s; }
+        .matrix-column:nth-child(2) { left: 15%; animation-duration: 12s; animation-delay: 2s; }
+        .matrix-column:nth-child(3) { left: 25%; animation-duration: 10s; animation-delay: 4s; }
+        .matrix-column:nth-child(4) { left: 35%; animation-duration: 14s; animation-delay: 1s; }
+        .matrix-column:nth-child(5) { left: 45%; animation-duration: 9s; animation-delay: 3s; }
+        .matrix-column:nth-child(6) { left: 55%; animation-duration: 11s; animation-delay: 5s; }
+        .matrix-column:nth-child(7) { left: 65%; animation-duration: 13s; animation-delay: 0.5s; }
+        .matrix-column:nth-child(8) { left: 75%; animation-duration: 7s; animation-delay: 2.5s; }
+        .matrix-column:nth-child(9) { left: 85%; animation-duration: 15s; animation-delay: 1.5s; }
+        .matrix-column:nth-child(10) { left: 95%; animation-duration: 6s; animation-delay: 4.5s; }
+        
+        @keyframes matrixFall {
+            0% { transform: translateY(-100vh); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        /* Matrix Dashboard Layout */
+        .matrix-dashboard {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Matrix Header */
+        .matrix-header {
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 2px solid var(--matrix-green);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        .matrix-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(0, 255, 65, 0.1) 50%, 
+                transparent 100%);
+            animation: headerScan 6s linear infinite;
+        }
+        
+        @keyframes headerScan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .matrix-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .matrix-logo {
+            width: 48px;
+            height: 48px;
+            border: 2px solid var(--matrix-green);
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--matrix-green);
+            font-weight: 800;
+            font-size: 20px;
+            position: relative;
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes logoGlow {
+            0%, 100% { 
+                box-shadow: 0 0 10px var(--matrix-green);
+                text-shadow: 0 0 10px var(--matrix-green);
+            }
+            50% { 
+                box-shadow: 0 0 20px var(--matrix-green), 0 0 30px var(--matrix-green);
+                text-shadow: 0 0 20px var(--matrix-green);
+            }
+        }
+        
+        .brand-info {
+            font-family: var(--font-mono);
+        }
+        
+        .brand-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--matrix-green);
+            text-shadow: 0 0 10px var(--matrix-green);
+        }
+        
+        .brand-subtitle {
+            font-size: 11px;
+            color: var(--matrix-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px var(--matrix-cyan);
+        }
+        
+        .matrix-controls {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .matrix-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: 1px solid var(--matrix-green);
+            background: rgba(0, 255, 65, 0.1);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--matrix-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px var(--matrix-green);
+        }
+        
+        .status-pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--matrix-green);
+            animation: matrixPulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 10px var(--matrix-green);
+        }
+        
+        @keyframes matrixPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+        
+        .matrix-time {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--matrix-cyan);
+            text-shadow: 0 0 10px var(--matrix-cyan);
+            background: rgba(0, 255, 255, 0.1);
+            padding: 8px 16px;
+            border: 1px solid var(--matrix-cyan);
+        }
+        
+        .matrix-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: 1px solid var(--matrix-lime);
+            background: rgba(57, 255, 20, 0.1);
+            color: var(--matrix-lime);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px var(--matrix-lime);
+        }
+        
+        .user-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--matrix-lime);
+            box-shadow: 0 0 8px var(--matrix-lime);
+        }
+        
+        /* Main Matrix Content */
+        .matrix-main {
+            flex: 1;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        
+        .operations-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .matrix-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--matrix-green);
+            text-shadow: 0 0 20px var(--matrix-green);
+            margin-bottom: 12px;
+            animation: titleFlicker 4s ease-in-out infinite;
+        }
+        
+        @keyframes titleFlicker {
+            0%, 100% { opacity: 1; }
+            98% { opacity: 1; }
+            99% { opacity: 0.8; }
+        }
+        
+        .matrix-subtitle {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: var(--matrix-cyan);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px var(--matrix-cyan);
+        }
+        
+        /* Matrix Grid */
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .matrix-node {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--matrix-green);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .matrix-node::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .matrix-node:hover::before {
+            left: 100%;
+        }
+        
+        .matrix-node:hover {
+            box-shadow: 0 0 20px var(--matrix-green);
+            transform: translateY(-4px);
+        }
+        
+        .node-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .node-icon {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--matrix-green);
+            background: rgba(0, 255, 65, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--matrix-green);
+            font-size: 14px;
+            font-weight: 700;
+            text-shadow: 0 0 5px var(--matrix-green);
+        }
+        
+        .node-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--matrix-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .node-value {
+            font-family: var(--font-mono);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--matrix-lime);
+            text-shadow: 0 0 15px var(--matrix-lime);
+            margin-bottom: 8px;
+            animation: valueGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes valueGlow {
+            0%, 100% { text-shadow: 0 0 15px var(--matrix-lime); }
+            50% { text-shadow: 0 0 25px var(--matrix-lime), 0 0 35px var(--matrix-lime); }
+        }
+        
+        .node-status {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .node-status.online {
+            color: var(--matrix-green);
+            text-shadow: 0 0 5px var(--matrix-green);
+        }
+        
+        .node-status.warning {
+            color: var(--matrix-yellow);
+            text-shadow: 0 0 5px var(--matrix-yellow);
+        }
+        
+        .node-status.critical {
+            color: var(--matrix-red);
+            text-shadow: 0 0 5px var(--matrix-red);
+            animation: criticalFlash 1s ease-in-out infinite;
+        }
+        
+        @keyframes criticalFlash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Matrix Console */
+        .matrix-console {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+        }
+        
+        .console-main {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--matrix-green);
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .console-main::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--matrix-green), var(--matrix-cyan), var(--matrix-lime));
+            background-size: 200% 100%;
+            animation: consoleBorder 3s linear infinite;
+        }
+        
+        @keyframes consoleBorder {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+        
+        .console-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .console-title {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--matrix-green);
+            text-shadow: 0 0 10px var(--matrix-green);
+        }
+        
+        .console-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .console-btn {
+            background: transparent;
+            border: 1px solid var(--matrix-cyan);
+            color: var(--matrix-cyan);
+            padding: 6px 12px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .console-btn:hover,
+        .console-btn.active {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 10px var(--matrix-cyan);
+        }
+        
+        .matrix-terminal {
+            height: 300px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--matrix-green);
+            padding: 16px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--matrix-green);
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .terminal-line {
+            margin-bottom: 8px;
+            animation: terminalType 0.1s ease-out;
+        }
+        
+        .terminal-line:nth-child(1) { animation-delay: 0.1s; }
+        .terminal-line:nth-child(2) { animation-delay: 0.3s; }
+        .terminal-line:nth-child(3) { animation-delay: 0.5s; }
+        .terminal-line:nth-child(4) { animation-delay: 0.7s; }
+        .terminal-line:nth-child(5) { animation-delay: 0.9s; }
+        
+        @keyframes terminalType {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .terminal-prompt {
+            color: var(--matrix-lime);
+            text-shadow: 0 0 5px var(--matrix-lime);
+        }
+        
+        .terminal-cursor {
+            display: inline-block;
+            background: var(--matrix-green);
+            width: 8px;
+            height: 14px;
+            animation: cursorBlink 1s infinite;
+        }
+        
+        @keyframes cursorBlink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Matrix Sidebar */
+        .matrix-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .matrix-panel {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--matrix-cyan);
+            padding: 20px;
+        }
+        
+        .panel-header {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--matrix-cyan);
+            text-shadow: 0 0 8px var(--matrix-cyan);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .matrix-feed {
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        
+        .feed-item {
+            display: flex;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        
+        .feed-item:last-child {
+            border-bottom: none;
+        }
+        
+        .feed-indicator {
+            width: 6px;
+            height: 6px;
+            background: var(--matrix-green);
+            margin-top: 6px;
+            animation: feedPulse 2s ease-in-out infinite;
+            box-shadow: 0 0 6px var(--matrix-green);
+        }
+        
+        @keyframes feedPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        
+        .feed-content {
+            flex: 1;
+        }
+        
+        .feed-text {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--matrix-green);
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+        
+        .feed-time {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            color: var(--matrix-cyan);
+            text-shadow: 0 0 3px var(--matrix-cyan);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .matrix-console {
+                grid-template-columns: 1fr;
+            }
+            
+            .matrix-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .matrix-controls {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .matrix-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .matrix-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg">
+        <div class="matrix-rain">
+            <div class="matrix-column">1010101<br>1100110<br>0011001<br>1111000<br>0000111</div>
+            <div class="matrix-column">0101010<br>1001100<br>1100011<br>0011110<br>1110000</div>
+            <div class="matrix-column">1111111<br>0000000<br>1010101<br>0101010<br>1100110</div>
+            <div class="matrix-column">0110011<br>1001100<br>0011001<br>1100110<br>0011110</div>
+            <div class="matrix-column">1010101<br>0101010<br>1111000<br>0000111<br>1100110</div>
+            <div class="matrix-column">0011001<br>1100110<br>1010101<br>0101010<br>1111111</div>
+            <div class="matrix-column">1111000<br>0000111<br>1010101<br>0101010<br>0011001</div>
+            <div class="matrix-column">0101010<br>1010101<br>1100110<br>0011001<br>1111000</div>
+            <div class="matrix-column">1100110<br>0011001<br>1010101<br>0101010<br>0000111</div>
+            <div class="matrix-column">0000111<br>1111000<br>0101010<br>1010101<br>1100110</div>
+        </div>
+    </div>
+
+    <div class="matrix-dashboard">
+        <!-- Matrix Header -->
+        <header class="matrix-header">
+            <div class="matrix-brand">
+                <div class="matrix-logo">01</div>
+                <div class="brand-info">
+                    <div class="brand-title">PROJECT ONE</div>
+                    <div class="brand-subtitle">OPERATIONS MATRIX</div>
+                </div>
+            </div>
+            
+            <div class="matrix-controls">
+                <div class="matrix-status">
+                    <div class="status-pulse"></div>
+                    <span>MATRIX ONLINE</span>
+                </div>
+                <div class="matrix-time" id="matrixTime">16:47:23 IST</div>
+                <div class="matrix-user">
+                    <div class="user-indicator"></div>
+                    <span>ADMIN_01</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Matrix Content -->
+        <main class="matrix-main">
+            <div class="operations-header">
+                <h1 class="matrix-title">OPERATIONS MATRIX</h1>
+                <p class="matrix-subtitle">REAL-TIME SYSTEM MONITORING</p>
+            </div>
+
+            <!-- Matrix Grid -->
+            <section class="matrix-grid">
+                <div class="matrix-node">
+                    <div class="node-header">
+                        <div class="node-icon">CPU</div>
+                        <div class="node-title">SYSTEM LOAD</div>
+                    </div>
+                    <div class="node-value">23.7%</div>
+                    <div class="node-status online">OPTIMAL</div>
+                </div>
+                <div class="matrix-node">
+                    <div class="node-header">
+                        <div class="node-icon">NET</div>
+                        <div class="node-title">NETWORK</div>
+                    </div>
+                    <div class="node-value">99.9%</div>
+                    <div class="node-status online">STABLE</div>
+                </div>
+                <div class="matrix-node">
+                    <div class="node-header">
+                        <div class="node-icon">DB</div>
+                        <div class="node-title">DATABASE</div>
+                    </div>
+                    <div class="node-value">847K</div>
+                    <div class="node-status online">ACTIVE</div>
+                </div>
+                <div class="matrix-node">
+                    <div class="node-header">
+                        <div class="node-icon">API</div>
+                        <div class="node-title">API CALLS</div>
+                    </div>
+                    <div class="node-value">2.4M</div>
+                    <div class="node-status warning">HIGH</div>
+                </div>
+            </section>
+
+            <!-- Matrix Console -->
+            <section class="matrix-console">
+                <div class="console-main">
+                    <div class="console-header">
+                        <h2 class="console-title">SYSTEM TERMINAL</h2>
+                        <div class="console-controls">
+                            <button class="console-btn active">REAL-TIME</button>
+                            <button class="console-btn">LOGS</button>
+                            <button class="console-btn">DEBUG</button>
+                        </div>
+                    </div>
+                    
+                    <div class="matrix-terminal">
+                        <div class="terminal-line"><span class="terminal-prompt">matrix@project-one:~$</span> system_status --all</div>
+                        <div class="terminal-line">SYSTEM STATUS: OPERATIONAL</div>
+                        <div class="terminal-line">UPTIME: 847 days, 12 hours, 34 minutes</div>
+                        <div class="terminal-line">ACTIVE USERS: 2,847</div>
+                        <div class="terminal-line">MEMORY USAGE: 67.2% of 64GB</div>
+                        <div class="terminal-line">DISK USAGE: 23.8% of 2TB</div>
+                        <div class="terminal-line">NETWORK THROUGHPUT: 847 Mbps</div>
+                        <div class="terminal-line">DATABASE CONNECTIONS: 234/500</div>
+                        <div class="terminal-line">API RESPONSE TIME: 247ms avg</div>
+                        <div class="terminal-line">COMPLIANCE STATUS: 99.7% SEBI COMPLIANT</div>
+                        <div class="terminal-line">SECURITY ALERTS: 0 CRITICAL, 2 WARNING</div>
+                        <div class="terminal-line"><span class="terminal-prompt">matrix@project-one:~$</span> <span class="terminal-cursor"></span></div>
+                    </div>
+                </div>
+
+                <div class="matrix-sidebar">
+                    <div class="matrix-panel">
+                        <div class="panel-header">SYSTEM EVENTS</div>
+                        <div class="matrix-feed">
+                            <div class="feed-item">
+                                <div class="feed-indicator"></div>
+                                <div class="feed-content">
+                                    <div class="feed-text">DATABASE BACKUP COMPLETED</div>
+                                    <div class="feed-time">14:32:17</div>
+                                </div>
+                            </div>
+                            <div class="feed-item">
+                                <div class="feed-indicator"></div>
+                                <div class="feed-content">
+                                    <div class="feed-text">NEW USER REGISTRATION: 847</div>
+                                    <div class="feed-time">14:28:43</div>
+                                </div>
+                            </div>
+                            <div class="feed-item">
+                                <div class="feed-indicator"></div>
+                                <div class="feed-content">
+                                    <div class="feed-text">API RATE LIMIT REACHED</div>
+                                    <div class="feed-time">14:25:12</div>
+                                </div>
+                            </div>
+                            <div class="feed-item">
+                                <div class="feed-indicator"></div>
+                                <div class="feed-content">
+                                    <div class="feed-text">SECURITY SCAN COMPLETED</div>
+                                    <div class="feed-time">14:20:08</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="matrix-panel">
+                        <div class="panel-header">ACTIVE CONNECTIONS</div>
+                        <div class="matrix-feed">
+                            <div class="feed-item">
+                                <div class="feed-indicator"></div>
+                                <div class="feed-content">
+                                    <div class="feed-text">SERVER_01: MUMBAI</div>
+                                    <div class="feed-time">ONLINE</div>
+                                </div>
+                            </div>
+                            <div class="feed-item">
+                                <div class="feed-indicator"></div>
+                                <div class="feed-content">
+                                    <div class="feed-text">SERVER_02: DELHI</div>
+                                    <div class="feed-time">ONLINE</div>
+                                </div>
+                            </div>
+                            <div class="feed-item">
+                                <div class="feed-indicator"></div>
+                                <div class="feed-content">
+                                    <div class="feed-text">SERVER_03: BANGALORE</div>
+                                    <div class="feed-time">ONLINE</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Update matrix time
+        function updateMatrixTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                hour12: false
+            }) + ' IST';
+            document.getElementById('matrixTime').textContent = timeString;
+        }
+        
+        updateMatrixTime();
+        setInterval(updateMatrixTime, 1000);
+    </script>
+</body>
+</html>

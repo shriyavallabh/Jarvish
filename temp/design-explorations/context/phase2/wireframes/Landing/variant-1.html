@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Transform your advisory practice with AI-powered SEBI compliance. Create compliant WhatsApp content in seconds.">
+    <title>Project One - AI-First Compliance Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --deep-ink: #0F172A;
+            --surface: rgba(30, 41, 59, 0.8);
+            --gold-primary: #CEA200;
+            --gold-light: #FFD700;
+            --trust-blue: #2563EB;
+            --text-primary: #F8FAFC;
+            --text-secondary: #CBD5E1;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes aurora {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        @keyframes fillProgress {
+            from { stroke-dashoffset: 283; }
+            to { stroke-dashoffset: 28.3; }
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Open Sans', sans-serif;
+            background: var(--deep-ink);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Starfield Background */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 20%, white, transparent);
+            background-size: 200% 200%;
+            animation: twinkle 3s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        /* Glass Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo span {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            color: var(--deep-ink);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(206, 162, 0, 0.4);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .aurora-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(139, 92, 246, 0.1) 0%,
+                rgba(206, 162, 0, 0.1) 50%,
+                rgba(37, 99, 235, 0.1) 100%
+            );
+            background-size: 200% 200%;
+            animation: aurora 10s ease infinite;
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            z-index: 1;
+            position: relative;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            color: var(--deep-ink);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-divider {
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+            margin: 2rem auto;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .glass-button {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Trust Indicators */
+        .trust-section {
+            padding: 4rem 2rem;
+            background: var(--surface);
+        }
+
+        .trust-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .trust-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .trust-card:hover {
+            transform: translateY(-4px) rotateX(2deg);
+            box-shadow: 0 20px 40px rgba(206, 162, 0, 0.2);
+        }
+
+        .trust-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .trust-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Feature Cards */
+        .features-section {
+            padding: 4rem 2rem;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            transform-style: preserve-3d;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(2deg) translateZ(20px);
+            box-shadow: 0 30px 60px rgba(206, 162, 0, 0.3);
+        }
+
+        .feature-title {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--gold-primary);
+        }
+
+        .feature-demo {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            border-left: 3px solid var(--gold-primary);
+        }
+
+        .typing-effect {
+            overflow: hidden;
+            border-right: 2px solid var(--gold-primary);
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--gold-primary); }
+        }
+
+        /* Compliance Score Animation */
+        .compliance-ring {
+            width: 120px;
+            height: 120px;
+            margin: 1rem auto;
+        }
+
+        .compliance-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .compliance-ring circle {
+            fill: none;
+            stroke-width: 10;
+        }
+
+        .compliance-bg {
+            stroke: rgba(255, 255, 255, 0.1);
+        }
+
+        .compliance-progress {
+            stroke: var(--gold-primary);
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            animation: fillProgress 2s ease-out forwards;
+        }
+
+        .compliance-text {
+            text-align: center;
+            margin-top: -80px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold-primary);
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 4rem 2rem;
+            background: var(--surface);
+        }
+
+        .pricing-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--gold-primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.popular::before {
+            content: 'Popular';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            color: var(--deep-ink);
+            padding: 0.25rem 1rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(206, 162, 0, 0.2);
+        }
+
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+
+        .pricing-tier {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-period {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .pricing-features li::before {
+            content: '✓ ';
+            color: var(--gold-primary);
+            font-weight: 700;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--gold-primary);
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .pricing-card.popular {
+                transform: none;
+            }
+
+            .trust-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--gold-primary);
+            outline-offset: 4px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="starfield"></div>
+    
+    <header>
+        <nav role="navigation" aria-label="Main navigation">
+            <div class="logo">
+                <h1>Project One</h1>
+                <span>AI-First Compliance</span>
+            </div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#solutions">Solutions</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#resources">Resources</a>
+                <a href="#" class="cta-button">Get Started →</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" aria-label="Hero">
+            <div class="aurora-bg"></div>
+            <div class="hero-content">
+                <span class="badge">SEBI Compliant</span>
+                <h1>Transform Your Advisory Practice With AI-Powered Compliance</h1>
+                <div class="hero-divider"></div>
+                <p class="hero-description">
+                    Create SEBI-compliant WhatsApp content in seconds.<br>
+                    Join 500+ MFDs growing their practice 3x faster.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="cta-button">Executive Access</a>
+                    <a href="#" class="glass-button">Watch Demo (2m)</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="trust-section" aria-label="Trust Indicators">
+            <div class="trust-grid">
+                <div class="trust-card">
+                    <div class="trust-number">500+</div>
+                    <div class="trust-label">MFDs</div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-number">2.5M+</div>
+                    <div class="trust-label">Messages</div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-number">99.9%</div>
+                    <div class="trust-label">Compliant</div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-number">SEBI</div>
+                    <div class="trust-label">Certified</div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-number">4.9★</div>
+                    <div class="trust-label">Rating</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section" aria-label="Platform Features">
+            <div class="features-container">
+                <div class="feature-card">
+                    <h2 class="feature-title">AI Content Generation</h2>
+                    <p>Transform complex market data into personalized client messages instantly.</p>
+                    <div class="feature-demo">
+                        <div class="typing-effect">Generate market updates in Hindi...</div>
+                        <p style="color: var(--gold-primary); margin-top: 1rem;">→ Instant SEBI-compliant content</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h2 class="feature-title">Real-Time Compliance Scoring</h2>
+                    <p>Every message is validated against SEBI guidelines before you send.</p>
+                    <div class="compliance-ring">
+                        <svg width="120" height="120">
+                            <circle class="compliance-bg" cx="60" cy="60" r="45"></circle>
+                            <circle class="compliance-progress" cx="60" cy="60" r="45"></circle>
+                        </svg>
+                    </div>
+                    <div class="compliance-text">98%</div>
+                    <p style="text-align: center; color: var(--text-secondary); margin-top: 1rem;">Compliance Score</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing-section" id="pricing" aria-label="Pricing Tiers">
+            <div class="pricing-container">
+                <h2 class="section-title">Pricing That Scales With Your Practice</h2>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-tier">Starter</div>
+                        <div class="pricing-amount">₹2,999</div>
+                        <div class="pricing-period">/month</div>
+                        <ul class="pricing-features">
+                            <li>100 posts per month</li>
+                            <li>Basic AI assistance</li>
+                            <li>WhatsApp integration</li>
+                            <li>Email support</li>
+                        </ul>
+                        <a href="#" class="glass-button" style="width: 100%;">Start Free Trial</a>
+                    </div>
+
+                    <div class="pricing-card popular">
+                        <div class="pricing-tier">Professional</div>
+                        <div class="pricing-amount">₹5,999</div>
+                        <div class="pricing-period">/month</div>
+                        <ul class="pricing-features">
+                            <li>500 posts per month</li>
+                            <li>Advanced AI models</li>
+                            <li>Multi-channel publishing</li>
+                            <li>Priority support</li>
+                            <li>Analytics dashboard</li>
+                        </ul>
+                        <a href="#" class="cta-button" style="width: 100%;">Start Free Trial</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <div class="pricing-tier">Enterprise</div>
+                        <div class="pricing-amount">Custom</div>
+                        <div class="pricing-period">Pricing</div>
+                        <ul class="pricing-features">
+                            <li>Unlimited posts</li>
+                            <li>Custom AI training</li>
+                            <li>API access</li>
+                            <li>Dedicated support</li>
+                            <li>Custom integrations</li>
+                        </ul>
+                        <a href="#" class="glass-button" style="width: 100%;">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Project One | SEBI Registered | 
+            <a href="#">Privacy</a> | 
+            <a href="#">Terms</a> | 
+            <a href="#">Contact</a>
+        </p>
+    </footer>
+
+    <a href="#main" class="sr-only">Skip to main content</a>
+</body>
+</html>

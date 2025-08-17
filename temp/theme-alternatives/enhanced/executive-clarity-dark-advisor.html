@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Clarity Dark - Advisor Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-bg: #0A0E1A;
+            --secondary-bg: #141824;
+            --card-bg: #1A1F2E;
+            --sidebar-bg: #0D1117;
+            --text-primary: #E8E9ED;
+            --text-secondary: #B4B7C1;
+            --gold-primary: #F0C674;
+            --gold-secondary: #E4C441;
+            --gold-light: #FFE4A3;
+            --navy-dark: #4A7BA7;
+            --navy-light: #6FA0D0;
+            --success: #4ADE80;
+            --warning: #FCD34D;
+            --error: #F87171;
+            --info: #60A5FA;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Top Navigation */
+        .top-nav {
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .nav-tab:hover {
+            color: var(--gold-primary);
+            background: rgba(240, 198, 116, 0.05);
+        }
+        
+        .nav-tab.active {
+            color: var(--gold-primary);
+            background: rgba(240, 198, 116, 0.1);
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .notification-bell {
+            position: relative;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .notification-bell:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--error);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .user-profile:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary-bg);
+        }
+        
+        /* Dashboard Container */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Welcome Section */
+        .welcome-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(240, 198, 116, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(100px, -100px);
+        }
+        
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-title {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--gold-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .welcome-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-secondary) 0%, var(--gold-primary) 100%);
+            color: var(--primary-bg);
+            box-shadow: 0 4px 15px rgba(240, 198, 116, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240, 198, 116, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--gold-primary);
+            border: 2px solid var(--gold-primary);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(240, 198, 116, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Metrics Overview */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            animation: float 3s ease-in-out infinite;
+            animation-delay: calc(var(--card-index) * 0.5s);
+            transition: all 0.3s ease;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-sm);
+            border-color: var(--gold-primary);
+        }
+        
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(240, 198, 116, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.813rem;
+            font-weight: 600;
+        }
+        
+        .metric-trend.up {
+            background: rgba(74, 222, 128, 0.1);
+            color: var(--success);
+        }
+        
+        .metric-trend.down {
+            background: rgba(248, 113, 113, 0.1);
+            color: var(--error);
+        }
+        
+        /* Content Creation Section */
+        .content-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .ai-compose-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .compose-panel {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .compose-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .compose-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .ai-badge {
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-light) 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(240, 198, 116, 0.1);
+        }
+        
+        textarea.input-field {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .content-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .option-chip {
+            padding: 0.5rem 1rem;
+            background: var(--primary-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 0.813rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option-chip.active {
+            background: rgba(240, 198, 116, 0.1);
+            border-color: var(--gold-primary);
+            color: var(--gold-primary);
+        }
+        
+        .option-chip:hover {
+            border-color: var(--gold-primary);
+            color: var(--gold-primary);
+        }
+        
+        /* Compliance Check */
+        .compliance-check {
+            background: var(--primary-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .compliance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .compliance-score {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .score-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--success) 0deg,
+                var(--success) calc(var(--score) * 3.6deg),
+                var(--border) calc(var(--score) * 3.6deg)
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .score-circle::before {
+            content: attr(data-score);
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+            color: var(--success);
+        }
+        
+        .compliance-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .compliance-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.813rem;
+        }
+        
+        .check-icon {
+            color: var(--success);
+        }
+        
+        /* Recent Activity */
+        .activity-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        
+        .activity-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .activity-timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+            animation: slideIn 0.6s ease-out;
+            animation-delay: calc(var(--item-index) * 0.1s);
+            animation-fill-mode: both;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -24px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gold-primary);
+            border: 2px solid var(--card-bg);
+            box-shadow: 0 0 10px rgba(240, 198, 116, 0.5);
+        }
+        
+        .timeline-content {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: translateX(5px);
+            border-color: var(--gold-primary);
+        }
+        
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .timeline-time {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        
+        .timeline-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        /* Performance Chart */
+        .performance-chart {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-tab {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .chart-tab.active {
+            background: rgba(240, 198, 116, 0.1);
+            border-color: var(--gold-primary);
+            color: var(--gold-primary);
+        }
+        
+        .chart-container {
+            height: 250px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 1rem 0;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            margin: 0 0.5rem;
+            background: linear-gradient(180deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            animation: growBar 1.5s ease-out forwards;
+            animation-delay: calc(var(--bar-index) * 0.1s);
+            height: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        @keyframes growBar {
+            to {
+                height: var(--bar-height);
+            }
+        }
+        
+        .chart-bar:hover {
+            opacity: 0.8;
+        }
+        
+        .chart-bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--gold-primary);
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        
+        .chart-bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .ai-compose-area {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                display: none;
+            }
+            
+            .dashboard-container {
+                padding: 1rem;
+            }
+            
+            .welcome-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .quick-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo">Executive Clarity</div>
+            <div class="nav-tabs">
+                <a href="#" class="nav-tab active">Dashboard</a>
+                <a href="#" class="nav-tab">Content</a>
+                <a href="#" class="nav-tab">Clients</a>
+                <a href="#" class="nav-tab">Analytics</a>
+                <a href="#" class="nav-tab">Compliance</a>
+            </div>
+        </div>
+        
+        <div class="nav-right">
+            <div class="notification-bell">
+                <span>🔔</span>
+                <span class="notification-dot"></span>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar">RS</div>
+                <div>
+                    <div style="font-size: 0.875rem; font-weight: 500;">Rajesh Sharma</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">SEBI RIA: INA000012345</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="welcome-content">
+                <h1 class="welcome-title">Good morning, Rajesh!</h1>
+                <p class="welcome-subtitle">You have 12 content pieces ready for review and 5 new client inquiries</p>
+                <div class="quick-actions">
+                    <button class="btn btn-primary">
+                        <span>✨</span>
+                        <span>Create AI Content</span>
+                    </button>
+                    <button class="btn btn-secondary">
+                        <span>📊</span>
+                        <span>View Analytics</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Metrics Overview -->
+        <div class="metrics-grid">
+            <div class="metric-card" style="--card-index: 0;">
+                <div class="metric-icon">📝</div>
+                <div class="metric-value">156</div>
+                <div class="metric-label">Content Created</div>
+                <div class="metric-trend up">
+                    <span>↑</span>
+                    <span>23% this month</span>
+                </div>
+            </div>
+            
+            <div class="metric-card" style="--card-index: 1;">
+                <div class="metric-icon">👥</div>
+                <div class="metric-value">342</div>
+                <div class="metric-label">Active Clients</div>
+                <div class="metric-trend up">
+                    <span>↑</span>
+                    <span>12 new this week</span>
+                </div>
+            </div>
+            
+            <div class="metric-card" style="--card-index: 2;">
+                <div class="metric-icon">💬</div>
+                <div class="metric-value">89%</div>
+                <div class="metric-label">Engagement Rate</div>
+                <div class="metric-trend up">
+                    <span>↑</span>
+                    <span>5.2% increase</span>
+                </div>
+            </div>
+            
+            <div class="metric-card" style="--card-index: 3;">
+                <div class="metric-icon">✓</div>
+                <div class="metric-value">98.5%</div>
+                <div class="metric-label">Compliance Score</div>
+                <div class="metric-trend up">
+                    <span>↑</span>
+                    <span>Excellent</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content Creation Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">AI Content Creation Studio</h2>
+                <span class="ai-badge">AI Powered</span>
+            </div>
+            
+            <div class="ai-compose-area">
+                <div class="compose-panel">
+                    <div class="compose-header">
+                        <span class="compose-title">Create New Content</span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Content Type</label>
+                        <div class="content-options">
+                            <div class="option-chip active">Market Update</div>
+                            <div class="option-chip">Educational</div>
+                            <div class="option-chip">Product Info</div>
+                            <div class="option-chip">News Analysis</div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Target Audience</label>
+                        <select class="input-field">
+                            <option>All Clients</option>
+                            <option>High Net Worth</option>
+                            <option>Retail Investors</option>
+                            <option>New Investors</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Key Message</label>
+                        <textarea class="input-field" placeholder="Enter your key points or let AI suggest..."></textarea>
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%;">
+                        <span>✨</span>
+                        <span>Generate Content</span>
+                    </button>
+                </div>
+                
+                <div class="compose-panel">
+                    <div class="compose-header">
+                        <span class="compose-title">Preview & Compliance</span>
+                    </div>
+                    
+                    <div class="compliance-check">
+                        <div class="compliance-header">
+                            <span style="font-weight: 600;">SEBI Compliance Check</span>
+                            <div class="compliance-score">
+                                <div class="score-circle" style="--score: 98;" data-score="98%"></div>
+                            </div>
+                        </div>
+                        <div class="compliance-items">
+                            <div class="compliance-item">
+                                <span class="check-icon">✓</span>
+                                <span>No misleading claims detected</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="check-icon">✓</span>
+                                <span>Risk disclosure included</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="check-icon">✓</span>
+                                <span>SEBI registration visible</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="check-icon">✓</span>
+                                <span>Disclaimer present</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Content Preview</label>
+                        <div style="padding: 1rem; background: var(--primary-bg); border: 1px solid var(--border); border-radius: 8px; min-height: 150px;">
+                            <p style="color: var(--text-secondary); font-size: 0.875rem;">
+                                Your AI-generated content will appear here...
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn btn-secondary" style="flex: 1;">Save Draft</button>
+                        <button class="btn btn-primary" style="flex: 1;">Publish</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Performance Chart -->
+        <section class="performance-chart">
+            <div class="section-header">
+                <h2 class="section-title">Performance Overview</h2>
+                <div class="chart-tabs">
+                    <button class="chart-tab active">Daily</button>
+                    <button class="chart-tab">Weekly</button>
+                    <button class="chart-tab">Monthly</button>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-bar" style="--bar-height: 70%; --bar-index: 0;">
+                    <span class="chart-bar-value">32</span>
+                    <span class="chart-bar-label">Mon</span>
+                </div>
+                <div class="chart-bar" style="--bar-height: 85%; --bar-index: 1;">
+                    <span class="chart-bar-value">41</span>
+                    <span class="chart-bar-label">Tue</span>
+                </div>
+                <div class="chart-bar" style="--bar-height: 60%; --bar-index: 2;">
+                    <span class="chart-bar-value">28</span>
+                    <span class="chart-bar-label">Wed</span>
+                </div>
+                <div class="chart-bar" style="--bar-height: 95%; --bar-index: 3;">
+                    <span class="chart-bar-value">47</span>
+                    <span class="chart-bar-label">Thu</span>
+                </div>
+                <div class="chart-bar" style="--bar-height: 88%; --bar-index: 4;">
+                    <span class="chart-bar-value">43</span>
+                    <span class="chart-bar-label">Fri</span>
+                </div>
+                <div class="chart-bar" style="--bar-height: 45%; --bar-index: 5;">
+                    <span class="chart-bar-value">21</span>
+                    <span class="chart-bar-label">Sat</span>
+                </div>
+                <div class="chart-bar" style="--bar-height: 30%; --bar-index: 6;">
+                    <span class="chart-bar-value">15</span>
+                    <span class="chart-bar-label">Sun</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Recent Activity -->
+        <section class="activity-section">
+            <div class="section-header">
+                <h2 class="section-title">Recent Activity</h2>
+            </div>
+            
+            <div class="activity-timeline">
+                <div class="timeline-item" style="--item-index: 0;">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span class="timeline-title">New Content Published</span>
+                            <span class="timeline-time">2 minutes ago</span>
+                        </div>
+                        <p class="timeline-description">Market update on Banking sector sent to 125 clients</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" style="--item-index: 1;">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span class="timeline-title">Compliance Check Passed</span>
+                            <span class="timeline-time">15 minutes ago</span>
+                        </div>
+                        <p class="timeline-description">Weekly newsletter approved with 99% compliance score</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" style="--item-index: 2;">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span class="timeline-title">Client Engagement</span>
+                            <span class="timeline-time">1 hour ago</span>
+                        </div>
+                        <p class="timeline-description">45 clients engaged with your morning market analysis</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" style="--item-index: 3;">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span class="timeline-title">AI Content Generated</span>
+                            <span class="timeline-time">2 hours ago</span>
+                        </div>
+                        <p class="timeline-description">5 personalized investment insights created for HNI clients</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" style="--item-index: 4;">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span class="timeline-title">New Client Onboarded</span>
+                            <span class="timeline-time">3 hours ago</span>
+                        </div>
+                        <p class="timeline-description">Priya Mehta added to your client portfolio</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

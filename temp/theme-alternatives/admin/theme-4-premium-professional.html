@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Professional - Admin Dashboard</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #d4af37;
+            --accent-light: #f4e4bc;
+            --success: #065f46;
+            --warning: #b45309;
+            --danger: #991b1b;
+            --background: #ffffff;
+            --surface: #fafaf9;
+            --border: #e7e5e4;
+            --text-primary: #0c0a09;
+            --text-secondary: #57534e;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --radius: 6px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--surface);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Premium Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: white;
+        }
+
+        .sidebar-header {
+            padding: 32px 24px;
+            border-bottom: 1px solid rgba(212,175,55,0.3);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .brand-text {
+            flex: 1;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .brand-tagline {
+            font-size: 11px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 4px;
+        }
+
+        .nav-menu {
+            padding: 24px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 32px;
+        }
+
+        .nav-header {
+            padding: 0 24px;
+            margin-bottom: 12px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(212,175,55,0.6);
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: rgba(212,175,55,0.05);
+        }
+
+        .nav-item.active {
+            background: rgba(212,175,55,0.1);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 24px;
+            background: var(--accent);
+        }
+
+        .nav-icon {
+            width: 20px;
+            font-size: 18px;
+            color: var(--accent);
+        }
+
+        .nav-label {
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            background: var(--background);
+        }
+
+        /* Premium Header */
+        .header {
+            background: white;
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title-section {
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gold-badge {
+            background: linear-gradient(135deg, var(--accent) 0%, #b8941f 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .time-window {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .time-window .gold-text {
+            color: var(--accent);
+        }
+
+        /* Content Area */
+        .content {
+            padding: 32px;
+        }
+
+        /* Premium Stats */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent) 0%, #b8941f 100%);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-light);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 20px;
+        }
+
+        .stat-trend {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .trend-positive {
+            background: #f0fdf4;
+            color: var(--success);
+        }
+
+        .trend-negative {
+            background: #fef2f2;
+            color: var(--danger);
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Premium Table */
+        .table-section {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 24px 32px;
+            background: linear-gradient(135deg, var(--surface) 0%, white 100%);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .table-controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--accent) 0%, #b8941f 100%);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .btn-gold:hover {
+            box-shadow: 0 4px 12px rgba(212,175,55,0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background: white;
+            border-color: var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--surface);
+        }
+
+        .filter-bar {
+            padding: 16px 32px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chip {
+            padding: 6px 16px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip:hover {
+            border-color: var(--accent);
+        }
+
+        .chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .chip.active.gold {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* Data Table */
+        .premium-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .premium-table thead {
+            background: var(--surface);
+        }
+
+        .premium-table th {
+            padding: 16px 32px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .premium-table td {
+            padding: 20px 32px;
+            border-bottom: 1px solid #f5f5f4;
+        }
+
+        .premium-table tbody tr:hover {
+            background: #fffef7;
+        }
+
+        .premium-table tbody tr.selected {
+            background: linear-gradient(90deg, #fffef7 0%, var(--accent-light) 100%);
+        }
+
+        .checkbox-gold {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .advisor-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .advisor-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .advisor-details {
+            flex: 1;
+        }
+
+        .advisor-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .advisor-id {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .content-badge {
+            padding: 4px 12px;
+            background: var(--surface);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .risk-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .risk-low {
+            background: #f0fdf4;
+            color: var(--success);
+        }
+
+        .risk-medium {
+            background: var(--accent-light);
+            color: var(--warning);
+        }
+
+        .risk-high {
+            background: #fef2f2;
+            color: var(--danger);
+        }
+
+        .preview-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .preview-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer-bar {
+            background: white;
+            border-top: 1px solid var(--border);
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            bottom: 0;
+        }
+
+        .system-status {
+            display: flex;
+            gap: 32px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .status-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .status-good { background: var(--success); }
+        .status-warning { background: var(--accent); }
+        .status-critical { background: var(--danger); }
+
+        .keyboard-guide {
+            background: var(--surface);
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+
+            .premium-table {
+                font-size: 13px;
+            }
+
+            .premium-table th,
+            .premium-table td {
+                padding: 12px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Premium Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="brand-icon">👑</div>
+                    <div class="brand-text">
+                        <div class="brand-name">Elite Admin</div>
+                        <div class="brand-tagline">Premium Suite</div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <div class="nav-section">
+                    <div class="nav-header">Operations</div>
+                    <div class="nav-item active">
+                        <span class="nav-icon">⚜️</span>
+                        <span class="nav-label">Approval Center</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-label">Analytics</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-icon">📈</span>
+                        <span class="nav-label">Performance</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-header">Management</div>
+                    <div class="nav-item">
+                        <span class="nav-icon">👔</span>
+                        <span class="nav-label">Elite Advisors</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-icon">📋</span>
+                        <span class="nav-label">Templates</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-icon">⚖️</span>
+                        <span class="nav-label">Compliance</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-header">Premium</div>
+                    <div class="nav-item">
+                        <span class="nav-icon">💎</span>
+                        <span class="nav-label">VIP Services</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-icon">🏆</span>
+                        <span class="nav-label">Achievements</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-icon">🔐</span>
+                        <span class="nav-label">Security</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Premium Header -->
+            <header class="header">
+                <div class="header-title-section">
+                    <h1 class="page-title">Content Approval Center</h1>
+                    <div class="page-subtitle">
+                        <span>Nightly Review Session</span>
+                        <span class="gold-badge">Premium</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="time-window">
+                        <span>⏰</span>
+                        <span>Window: <span class="gold-text">20:30 - 21:30 IST</span></span>
+                    </div>
+                    <button class="btn btn-gold">
+                        <span>📊</span>
+                        Executive Report
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Premium Stats -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">📋</div>
+                            <span class="stat-trend trend-positive">↑ 15%</span>
+                        </div>
+                        <div class="stat-value">127</div>
+                        <div class="stat-label">Pending Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">✅</div>
+                            <span class="stat-trend trend-positive">↑ 3.2%</span>
+                        </div>
+                        <div class="stat-value">96.8%</div>
+                        <div class="stat-label">Approval Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">⚡</div>
+                            <span class="stat-trend trend-positive">↓ 4s</span>
+                        </div>
+                        <div class="stat-value">16s</div>
+                        <div class="stat-label">Avg Processing</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">💎</div>
+                            <span class="stat-trend trend-positive">Excellent</span>
+                        </div>
+                        <div class="stat-value">99.5%</div>
+                        <div class="stat-label">Quality Score</div>
+                    </div>
+                </div>
+
+                <!-- Premium Table -->
+                <div class="table-section">
+                    <div class="table-header">
+                        <h2 class="table-title">Elite Advisor Content Queue</h2>
+                        <div class="table-controls">
+                            <button class="btn btn-outline">Select All</button>
+                            <button class="btn btn-gold">
+                                <span>✓</span>
+                                Approve Premium
+                            </button>
+                            <button class="btn btn-primary">
+                                <span>⚡</span>
+                                Quick Review
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <div class="filter-chips">
+                            <div class="chip active gold">All (127)</div>
+                            <div class="chip">Elite (45)</div>
+                            <div class="chip">Premium (52)</div>
+                            <div class="chip">Standard (30)</div>
+                        </div>
+                        <div class="filter-chips">
+                            <div class="chip">Low Risk</div>
+                            <div class="chip">Medium Risk</div>
+                            <div class="chip">High Risk</div>
+                        </div>
+                    </div>
+
+                    <table class="premium-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">
+                                    <input type="checkbox" class="checkbox-gold">
+                                </th>
+                                <th>Content ID</th>
+                                <th>Elite Advisor</th>
+                                <th>Content Type</th>
+                                <th>Risk Score</th>
+                                <th>Compliance</th>
+                                <th>Timestamp</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="selected">
+                                <td><input type="checkbox" class="checkbox-gold" checked></td>
+                                <td><strong>#PRM-2024-0907</strong></td>
+                                <td>
+                                    <div class="advisor-cell">
+                                        <div class="advisor-avatar">AK</div>
+                                        <div class="advisor-details">
+                                            <div class="advisor-name">Arjun Khanna</div>
+                                            <div class="advisor-id">ELITE/2019/0012</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="content-badge">Wealth Strategy</span></td>
+                                <td><span class="risk-indicator risk-low">Low 2.1</span></td>
+                                <td>Clear</td>
+                                <td>1 min ago</td>
+                                <td><a href="#" class="preview-link">Preview →</a></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox-gold"></td>
+                                <td><strong>#PRM-2024-0908</strong></td>
+                                <td>
+                                    <div class="advisor-cell">
+                                        <div class="advisor-avatar">SM</div>
+                                        <div class="advisor-details">
+                                            <div class="advisor-name">Sanjay Malhotra</div>
+                                            <div class="advisor-id">ELITE/2020/0034</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="content-badge">Portfolio Update</span></td>
+                                <td><span class="risk-indicator risk-medium">Medium 5.3</span></td>
+                                <td>Review needed</td>
+                                <td>2 min ago</td>
+                                <td><a href="#" class="preview-link">Preview →</a></td>
+                            </tr>
+                            <tr class="selected">
+                                <td><input type="checkbox" class="checkbox-gold" checked></td>
+                                <td><strong>#PRM-2024-0909</strong></td>
+                                <td>
+                                    <div class="advisor-cell">
+                                        <div class="advisor-avatar">PG</div>
+                                        <div class="advisor-details">
+                                            <div class="advisor-name">Priya Gupta</div>
+                                            <div class="advisor-id">PREMIUM/2021/0089</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="content-badge">Tax Planning</span></td>
+                                <td><span class="risk-indicator risk-low">Low 1.8</span></td>
+                                <td>Clear</td>
+                                <td>3 min ago</td>
+                                <td><a href="#" class="preview-link">Preview →</a></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox-gold"></td>
+                                <td><strong>#PRM-2024-0910</strong></td>
+                                <td>
+                                    <div class="advisor-cell">
+                                        <div class="advisor-avatar">RV</div>
+                                        <div class="advisor-details">
+                                            <div class="advisor-name">Rohit Verma</div>
+                                            <div class="advisor-id">ELITE/2018/0005</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="content-badge">Fund Launch</span></td>
+                                <td><span class="risk-indicator risk-high">High 7.4</span></td>
+                                <td>Claims flagged</td>
+                                <td>5 min ago</td>
+                                <td><a href="#" class="preview-link">Preview →</a></td>
+                            </tr>
+                            <tr class="selected">
+                                <td><input type="checkbox" class="checkbox-gold" checked></td>
+                                <td><strong>#PRM-2024-0911</strong></td>
+                                <td>
+                                    <div class="advisor-cell">
+                                        <div class="advisor-avatar">NS</div>
+                                        <div class="advisor-details">
+                                            <div class="advisor-name">Neeta Shah</div>
+                                            <div class="advisor-id">PREMIUM/2022/0156</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="content-badge">Market Analysis</span></td>
+                                <td><span class="risk-indicator risk-low">Low 3.2</span></td>
+                                <td>Clear</td>
+                                <td>6 min ago</td>
+                                <td><a href="#" class="preview-link">Preview →</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer-bar">
+                <div class="system-status">
+                    <div class="status-item">
+                        <span class="status-indicator status-good"></span>
+                        <span>WhatsApp API: Optimal</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-indicator status-warning"></span>
+                        <span>Rate Limit: 68%</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-indicator status-good"></span>
+                        <span>AI Service: 89ms</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-indicator status-good"></span>
+                        <span>Queue: 8 jobs</span>
+                    </div>
+                </div>
+                <div class="keyboard-guide">
+                    ⌘A Select All • ⌘↵ Approve • ⌘R Reject • Space Preview
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

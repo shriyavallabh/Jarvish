@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - Accelerate Your Advisory Growth | Growth Catalyst</title>
+    <meta name="description" content="Modern AI-powered platform for ambitious financial advisors. Scale faster, work smarter, grow exponentially.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --ink: #0B1F33;
+            --gold: #CEA200;
+            --cta: #0C310C;
+            --bg: #FFFFFF;
+            --accent-green: #00D084;
+            --accent-purple: #6B46C1;
+            --accent-orange: #FF6B35;
+            --gradient-start: #0C310C;
+            --gradient-end: #00D084;
+            --gray-100: #F9FAFB;
+            --gray-200: #F3F4F6;
+            --gray-300: #E5E7EB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --success: #10B981;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @font-face {
+            font-family: 'Fraunces';
+            src: url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&display=swap');
+        }
+        
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--ink);
+            background: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Typography */
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+        
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+        
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+            line-height: 1.3;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: var(--transition);
+            padding: var(--spacing-sm) 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .logo-spark {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.7; }
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-green);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            min-height: 44px;
+            gap: var(--spacing-xs);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: var(--bg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--ink);
+            border: 2px solid var(--gray-300);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-100);
+            border-color: var(--accent-green);
+            color: var(--gradient-start);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: -8px;
+        }
+        
+        .mobile-menu span {
+            width: 24px;
+            height: 2px;
+            background: var(--ink);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: calc(80px + var(--spacing-2xl)) 0 var(--spacing-2xl);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, var(--accent-green) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-text {
+            animation: slideInLeft 0.8s ease-out;
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .growth-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            background: linear-gradient(135deg, rgba(0, 208, 132, 0.1) 0%, rgba(107, 70, 193, 0.1) 100%);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: var(--gradient-start);
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            border: 1px solid var(--accent-green);
+        }
+        
+        .hero h1 {
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(135deg, var(--ink) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-highlight {
+            color: var(--accent-green);
+            position: relative;
+        }
+        
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.7;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .growth-metrics {
+            display: flex;
+            gap: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: var(--gray-100);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .growth-metrics::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-purple) 50%, var(--accent-orange) 100%);
+        }
+        
+        .growth-item {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .growth-icon {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .growth-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--ink);
+            display: block;
+        }
+        
+        .growth-label {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+        
+        .hero-visual {
+            position: relative;
+            animation: slideInRight 0.8s ease-out 0.2s both;
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .growth-dashboard {
+            background: var(--bg);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            padding: var(--spacing-lg);
+            position: relative;
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: var(--transition);
+        }
+        
+        .growth-dashboard:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .dashboard-title {
+            font-weight: 600;
+            color: var(--ink);
+        }
+        
+        .dashboard-status {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            background: rgba(0, 208, 132, 0.1);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+        
+        .dashboard-chart {
+            height: 200px;
+            background: linear-gradient(135deg, rgba(0, 208, 132, 0.1) 0%, rgba(107, 70, 193, 0.05) 100%);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: flex-end;
+            padding: var(--spacing-md);
+            gap: var(--spacing-sm);
+        }
+        
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--accent-green) 0%, var(--gradient-start) 100%);
+            border-radius: 4px 4px 0 0;
+            animation: growBar 1s ease-out forwards;
+            animation-delay: calc(var(--i) * 0.1s);
+            transform-origin: bottom;
+            transform: scaleY(0);
+        }
+        
+        @keyframes growBar {
+            to { transform: scaleY(1); }
+        }
+        
+        .floating-card {
+            position: absolute;
+            background: var(--bg);
+            border-radius: var(--radius);
+            padding: var(--spacing-sm);
+            box-shadow: var(--shadow-lg);
+            animation: floatCard 3s ease-in-out infinite;
+        }
+        
+        .floating-card.card-1 {
+            top: -20px;
+            right: -20px;
+            animation-delay: 0s;
+        }
+        
+        .floating-card.card-2 {
+            bottom: -20px;
+            left: -20px;
+            animation-delay: 1s;
+        }
+        
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .card-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+        
+        .card-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: var(--spacing-2xl) 0;
+            background: var(--gray-100);
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto var(--spacing-2xl);
+        }
+        
+        .section-tag {
+            display: inline-block;
+            background: var(--accent-green);
+            color: var(--bg);
+            padding: 4px 16px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .section-header h2 {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .section-description {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        
+        .feature-card {
+            background: var(--bg);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-purple) 100%);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-green);
+        }
+        
+        .feature-card:hover::before {
+            opacity: 0.05;
+        }
+        
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--gradient-start) 100%);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--bg);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: rotate(360deg);
+        }
+        
+        .feature-card h3 {
+            margin-bottom: var(--spacing-sm);
+            color: var(--ink);
+        }
+        
+        .feature-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .feature-link {
+            color: var(--accent-green);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            transition: var(--transition);
+        }
+        
+        .feature-link:hover {
+            gap: var(--spacing-sm);
+        }
+        
+        /* Growth Path Section */
+        .growth-path {
+            padding: var(--spacing-2xl) 0;
+            background: var(--bg);
+        }
+        
+        .path-timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+            position: relative;
+        }
+        
+        .path-timeline::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-purple) 50%, var(--accent-orange) 100%);
+            z-index: 0;
+        }
+        
+        .path-step {
+            position: relative;
+            text-align: center;
+            z-index: 1;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--bg);
+            border: 3px solid var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin: 0 auto var(--spacing-md);
+            transition: var(--transition);
+        }
+        
+        .path-step:hover .step-number {
+            background: var(--accent-green);
+            color: var(--bg);
+            transform: scale(1.1);
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .step-description {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: var(--spacing-2xl) 0;
+            background: linear-gradient(135deg, rgba(0, 208, 132, 0.05) 0%, rgba(107, 70, 193, 0.05) 100%);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+        }
+        
+        .pricing-card {
+            background: var(--bg);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            position: relative;
+            transition: var(--transition);
+            border: 2px solid var(--gray-200);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-green);
+        }
+        
+        .pricing-card.popular {
+            border-color: var(--accent-green);
+            transform: scale(1.05);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 24px;
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--gradient-start) 100%);
+            color: var(--bg);
+            padding: 4px 16px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .pricing-tier {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .pricing-amount {
+            display: flex;
+            align-items: baseline;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .pricing-currency {
+            font-size: 1.5rem;
+            color: var(--gray-500);
+        }
+        
+        .pricing-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--ink) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+        
+        .pricing-period {
+            color: var(--gray-500);
+        }
+        
+        .pricing-description {
+            color: var(--gray-600);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .pricing-features li {
+            padding: var(--spacing-sm) 0;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: var(--gray-600);
+        }
+        
+        .pricing-features li::before {
+            content: '⚡';
+            font-size: 1.125rem;
+        }
+        
+        .pricing-cta {
+            width: 100%;
+            padding: var(--spacing-md);
+            font-size: 1rem;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: var(--spacing-2xl) 0;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--accent-purple) 100%);
+            color: var(--bg);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-section h2 {
+            color: var(--bg);
+            margin-bottom: var(--spacing-md);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+        }
+        
+        .cta-description {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: var(--spacing-lg);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+        }
+        
+        .btn-white {
+            background: var(--bg);
+            color: var(--gradient-start);
+            font-weight: 700;
+        }
+        
+        .btn-white:hover {
+            background: var(--gray-100);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        /* Footer */
+        footer {
+            padding: var(--spacing-xl) 0 var(--spacing-lg);
+            background: var(--ink);
+            color: var(--bg);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        
+        .footer-logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--bg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+        
+        .footer-section h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent-green);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-green);
+            transform: translateX(4px);
+        }
+        
+        .footer-bottom {
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg);
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent-green);
+            transform: translateY(-4px) rotate(360deg);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: flex;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .growth-metrics {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .hero-visual {
+                margin-top: var(--spacing-xl);
+            }
+            
+            .path-timeline::before {
+                display: none;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .cta-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.75rem;
+            }
+            
+            .pricing-value {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="logo">
+                    Jarvish
+                    <span class="logo-spark"></span>
+                </a>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#growth">Growth Path</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#" class="btn btn-secondary">Sign In</a>
+                    <a href="#" class="btn btn-primary">Start Growing</a>
+                </div>
+                <div class="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="growth-badge">
+                        🚀 AI-Powered Growth Platform
+                    </div>
+                    <h1>Scale Your Advisory <span class="hero-highlight">10X Faster</span></h1>
+                    <p class="hero-description">
+                        Join the new generation of financial advisors using AI to automate 
+                        compliance, create content in seconds, and engage clients at scale. 
+                        Your growth journey starts here.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#" class="btn btn-primary">
+                            Start Free Trial
+                            <span>→</span>
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            See Demo
+                        </a>
+                    </div>
+                    <div class="growth-metrics">
+                        <div class="growth-item">
+                            <span class="growth-icon">📈</span>
+                            <span class="growth-value">3.2X</span>
+                            <span class="growth-label">Avg Growth Rate</span>
+                        </div>
+                        <div class="growth-item">
+                            <span class="growth-icon">⚡</span>
+                            <span class="growth-value">85%</span>
+                            <span class="growth-label">Time Saved</span>
+                        </div>
+                        <div class="growth-item">
+                            <span class="growth-icon">🎯</span>
+                            <span class="growth-value">500+</span>
+                            <span class="growth-label">Active Advisors</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="growth-dashboard">
+                        <div class="dashboard-header">
+                            <span class="dashboard-title">Growth Analytics</span>
+                            <span class="dashboard-status">
+                                <span>●</span> Live
+                            </span>
+                        </div>
+                        <div class="dashboard-chart">
+                            <div class="chart-bar" style="height: 40%; --i: 1"></div>
+                            <div class="chart-bar" style="height: 60%; --i: 2"></div>
+                            <div class="chart-bar" style="height: 45%; --i: 3"></div>
+                            <div class="chart-bar" style="height: 80%; --i: 4"></div>
+                            <div class="chart-bar" style="height: 65%; --i: 5"></div>
+                            <div class="chart-bar" style="height: 90%; --i: 6"></div>
+                            <div class="chart-bar" style="height: 75%; --i: 7"></div>
+                        </div>
+                        <div class="floating-card card-1">
+                            <div class="card-emoji">💰</div>
+                            <div class="card-value">+45% AUM</div>
+                        </div>
+                        <div class="floating-card card-2">
+                            <div class="card-emoji">👥</div>
+                            <div class="card-value">+120 Clients</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Features</span>
+                <h2>Everything You Need to Accelerate</h2>
+                <p class="section-description">
+                    Powerful tools designed for ambitious advisors who want to 
+                    work smarter, scale faster, and deliver exceptional value.
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Content Engine</h3>
+                    <p class="feature-description">
+                        Generate personalized content in seconds. From market updates 
+                        to educational posts, let AI handle the heavy lifting.
+                    </p>
+                    <a href="#" class="feature-link">
+                        Learn more <span>→</span>
+                    </a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>WhatsApp Automation</h3>
+                    <p class="feature-description">
+                        Reach clients instantly on their favorite platform. Schedule, 
+                        personalize, and track engagement automatically.
+                    </p>
+                    <a href="#" class="feature-link">
+                        Learn more <span>→</span>
+                    </a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>Smart Compliance</h3>
+                    <p class="feature-description">
+                        Never worry about regulations again. Real-time SEBI compliance 
+                        checking with intelligent suggestions.
+                    </p>
+                    <a href="#" class="feature-link">
+                        Learn more <span>→</span>
+                    </a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Growth Analytics</h3>
+                    <p class="feature-description">
+                        Track what matters. Client engagement, content performance, 
+                        and AUM growth insights in real-time.
+                    </p>
+                    <a href="#" class="feature-link">
+                        Learn more <span>→</span>
+                    </a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Client Segmentation</h3>
+                    <p class="feature-description">
+                        Smart grouping based on behavior, preferences, and potential. 
+                        Deliver the right message to the right client.
+                    </p>
+                    <a href="#" class="feature-link">
+                        Learn more <span>→</span>
+                    </a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Campaign Builder</h3>
+                    <p class="feature-description">
+                        Launch multi-channel campaigns in minutes. Templates, 
+                        scheduling, and automation all in one place.
+                    </p>
+                    <a href="#" class="feature-link">
+                        Learn more <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Growth Path Section -->
+    <section class="growth-path" id="growth">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Your Journey</span>
+                <h2>From Setup to Scale in 30 Days</h2>
+                <p class="section-description">
+                    Follow our proven path to transform your advisory practice
+                </p>
+            </div>
+            <div class="path-timeline">
+                <div class="path-step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Quick Setup</h3>
+                    <p class="step-description">
+                        Import clients, connect WhatsApp, customize your brand
+                    </p>
+                </div>
+                <div class="path-step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">First Campaign</h3>
+                    <p class="step-description">
+                        Launch your first AI-powered content campaign
+                    </p>
+                </div>
+                <div class="path-step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Optimize</h3>
+                    <p class="step-description">
+                        Analyze performance and refine your strategy
+                    </p>
+                </div>
+                <div class="path-step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Scale</h3>
+                    <p class="step-description">
+                        Expand reach and watch your practice grow
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Pricing</span>
+                <h2>Investment Plans for Your Growth</h2>
+                <p class="section-description">
+                    Start free, scale as you grow. Cancel anytime.
+                </p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-tier">Starter</div>
+                    <div class="pricing-amount">
+                        <span class="pricing-currency">₹</span>
+                        <span class="pricing-value">2,999</span>
+                        <span class="pricing-period">/month</span>
+                    </div>
+                    <p class="pricing-description">
+                        Perfect for advisors just starting their growth journey
+                    </p>
+                    <ul class="pricing-features">
+                        <li>Up to 500 clients</li>
+                        <li>AI content generation</li>
+                        <li>WhatsApp integration</li>
+                        <li>Basic analytics</li>
+                        <li>Email support</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary pricing-cta">Start Free</a>
+                </div>
+                <div class="pricing-card popular">
+                    <span class="popular-badge">Most Popular</span>
+                    <div class="pricing-tier">Growth</div>
+                    <div class="pricing-amount">
+                        <span class="pricing-currency">₹</span>
+                        <span class="pricing-value">5,999</span>
+                        <span class="pricing-period">/month</span>
+                    </div>
+                    <p class="pricing-description">
+                        For ambitious advisors ready to accelerate their practice
+                    </p>
+                    <ul class="pricing-features">
+                        <li>Up to 2,000 clients</li>
+                        <li>Advanced AI features</li>
+                        <li>Multi-channel campaigns</li>
+                        <li>Growth analytics</li>
+                        <li>Priority support</li>
+                        <li>Custom branding</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary pricing-cta">Start Growing</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-tier">Scale</div>
+                    <div class="pricing-amount">
+                        <span class="pricing-currency">₹</span>
+                        <span class="pricing-value">11,999</span>
+                        <span class="pricing-period">/month</span>
+                    </div>
+                    <p class="pricing-description">
+                        Enterprise features for established advisory firms
+                    </p>
+                    <ul class="pricing-features">
+                        <li>Unlimited clients</li>
+                        <li>Custom AI training</li>
+                        <li>API access</li>
+                        <li>Team collaboration</li>
+                        <li>Dedicated success manager</li>
+                        <li>White-label solution</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary pricing-cta">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to 10X Your Advisory Practice?</h2>
+                <p class="cta-description">
+                    Join 500+ ambitious advisors who are scaling faster with AI. 
+                    Start your free trial today and see results in days, not months.
+                </p>
+                <div class="cta-actions">
+                    <a href="#" class="btn btn-white">
+                        Start Free Trial
+                    </a>
+                    <a href="#" class="btn btn-secondary" style="border-color: rgba(255,255,255,0.3); color: white;">
+                        Watch Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        Jarvish
+                        <span class="logo-spark"></span>
+                    </div>
+                    <p class="footer-description">
+                        AI-powered growth platform for modern financial advisors. 
+                        Scale faster, work smarter, deliver more value.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">Integrations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Guides</a></li>
+                        <li><a href="#">Webinars</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2024 Jarvish. All rights reserved.</div>
+                <div class="social-links">
+                    <a href="#">𝕏</a>
+                    <a href="#">in</a>
+                    <a href="#">▶</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

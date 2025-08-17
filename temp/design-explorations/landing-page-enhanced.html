@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - AI-Powered SEBI Compliance for Financial Advisors</title>
+    <meta name="description" content="Transform your advisory practice with AI-powered SEBI compliance. Daily WhatsApp content at 6 AM. Zero silent days. Trusted by 500+ MFDs & RIAs.">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Core Design System -->
+    <link rel="stylesheet" href="unified-design-system.css">
+    
+    <!-- Whimsy Enhancements -->
+    <link rel="stylesheet" href="whimsy-enhancements.css">
+    
+    <style>
+        /* Enhanced Landing Page Styles */
+        
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient-gold);
+            z-index: 9999;
+            transition: width var(--duration-instant) linear;
+            box-shadow: 0 0 10px rgba(var(--color-gold-rgb), 0.5);
+        }
+        
+        /* Enhanced Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-white) 100%);
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 60%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(206, 162, 0, 0.05) 0%, transparent 70%);
+            animation: floatGentle 20s ease-in-out infinite;
+        }
+        
+        @keyframes floatGentle {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        /* Hero Content with Stagger Animation */
+        .hero-content > * {
+            opacity: 0;
+            animation: fadeInUp var(--duration-graceful) var(--ease-professional) forwards;
+        }
+        
+        .hero-content > *:nth-child(1) { animation-delay: 100ms; }
+        .hero-content > *:nth-child(2) { animation-delay: 200ms; }
+        .hero-content > *:nth-child(3) { animation-delay: 300ms; }
+        .hero-content > *:nth-child(4) { animation-delay: 400ms; }
+        .hero-content > *:nth-child(5) { animation-delay: 500ms; }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Enhanced Hero Badge */
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: var(--gradient-gold);
+            color: var(--color-ink);
+            font-size: var(--text-caption);
+            font-weight: var(--font-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wider);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-6);
+            box-shadow: var(--shadow-gold-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-badge::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: badgeShine 3s infinite;
+        }
+        
+        @keyframes badgeShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* Enhanced Stats Cards */
+        .stats-card {
+            background: var(--color-white);
+            padding: var(--space-8);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: all var(--duration-smooth) var(--ease-professional);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--duration-smooth) var(--ease-professional);
+        }
+        
+        .stats-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(var(--color-ink-rgb), 0.15);
+        }
+        
+        .stats-number {
+            font-family: var(--font-heading);
+            font-size: var(--text-h2);
+            font-weight: var(--font-black);
+            color: var(--color-gold);
+            margin-bottom: var(--space-2);
+            display: inline-block;
+        }
+        
+        .stats-number[data-count] {
+            opacity: 0;
+        }
+        
+        .stats-number.counting {
+            animation: countIn var(--duration-deliberate) var(--ease-professional) forwards;
+        }
+        
+        @keyframes countIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5) rotateX(90deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotateX(0deg);
+            }
+        }
+        
+        /* Enhanced Feature Cards */
+        .feature-card {
+            background: var(--color-white);
+            padding: var(--space-8);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: all var(--duration-smooth) var(--ease-professional);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(var(--color-gold-rgb), 0.1);
+            transform: translate(-50%, -50%);
+            transition: all var(--duration-graceful) var(--ease-professional);
+        }
+        
+        .feature-card:hover::after {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(var(--color-ink-rgb), 0.2);
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-gold);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-6);
+            font-size: var(--text-h3);
+            transition: all var(--duration-smooth) var(--ease-bounce-subtle);
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: rotate(360deg) scale(1.1);
+        }
+        
+        /* Enhanced CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--color-ink) 0%, var(--color-ink-dark) 100%);
+            padding: var(--space-20) 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(var(--color-gold-rgb), 0.1) 0%, transparent 70%);
+            animation: ctaPulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes ctaPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        /* Enhanced Form Inputs */
+        .form-group {
+            position: relative;
+            margin-bottom: var(--space-6);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: var(--space-4);
+            border: 2px solid var(--color-gray-300);
+            border-radius: var(--radius-md);
+            font-size: var(--text-body);
+            transition: all var(--duration-standard) var(--ease-professional);
+            background: var(--color-white);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-gold);
+            box-shadow: 0 0 0 4px rgba(var(--color-gold-rgb), 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .form-label {
+            position: absolute;
+            left: var(--space-4);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-gray-500);
+            pointer-events: none;
+            transition: all var(--duration-standard) var(--ease-professional);
+            background: var(--color-white);
+            padding: 0 var(--space-2);
+        }
+        
+        .form-input:focus ~ .form-label,
+        .form-input:not(:placeholder-shown) ~ .form-label {
+            top: 0;
+            transform: translateY(-50%) scale(0.85);
+            color: var(--color-gold);
+            font-weight: var(--font-medium);
+        }
+        
+        /* Enhanced Trust Badges */
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            background: var(--color-white);
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius-lg);
+            transition: all var(--duration-standard) var(--ease-professional);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .trust-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(var(--color-gold-rgb), 0.1), transparent);
+            transition: left var(--duration-graceful) var(--ease-professional);
+        }
+        
+        .trust-badge:hover::before {
+            left: 100%;
+        }
+        
+        .trust-badge:hover {
+            border-color: var(--color-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -4px rgba(var(--color-gold-rgb), 0.2);
+        }
+        
+        /* Toast Container */
+        .toast-container {
+            position: fixed;
+            top: var(--space-8);
+            right: var(--space-8);
+            z-index: 9999;
+            pointer-events: none;
+        }
+        
+        .toast {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            padding: var(--space-4) var(--space-6);
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            pointer-events: all;
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        
+        .toast.toast-show {
+            animation: toastSlideIn var(--duration-smooth) var(--ease-bounce-subtle) forwards;
+        }
+        
+        /* Mobile Enhancements */
+        @media (max-width: 768px) {
+            .hero-content > * {
+                animation-delay: calc(var(--delay-stagger) * 2);
+            }
+            
+            .stats-card,
+            .feature-card {
+                margin-bottom: var(--space-4);
+            }
+            
+            .toast-container {
+                top: auto;
+                bottom: var(--space-8);
+                left: var(--space-4);
+                right: var(--space-4);
+            }
+            
+            .toast {
+                transform: translateY(100px);
+            }
+        }
+        
+        /* Accessibility Enhancements */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .scroll-progress {
+                display: none;
+            }
+        }
+        
+        /* High Contrast Mode */
+        @media (prefers-contrast: high) {
+            .feature-card,
+            .stats-card,
+            .trust-badge {
+                border: 3px solid currentColor;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress"></div>
+    
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+    
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <span class="logo-text">Jarvish</span>
+                    <span class="logo-badge premium-shimmer">AI</span>
+                </a>
+                
+                <div class="nav-menu">
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#how-it-works" class="nav-link">How It Works</a>
+                    <a href="#pricing" class="nav-link">Pricing</a>
+                    <a href="#about" class="nav-link">About</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <button class="btn btn-secondary touch-ripple">Sign In</button>
+                    <button class="btn btn-primary touch-ripple" data-loading="true">Get Started</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="hero-badge-icon">✓</span>
+                        <span>SEBI Compliant</span>
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        Transform Your Advisory Practice with
+                        <span class="hero-title-accent">AI-Powered Compliance</span>
+                    </h1>
+                    
+                    <p class="hero-description">
+                        Daily WhatsApp content at 6 AM. Pre-approved by AI for SEBI compliance.
+                        Zero silent days. Trusted by 500+ MFDs & RIAs across India.
+                    </p>
+                    
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-lg touch-ripple" onclick="window.microInteractions.openModal('demo-modal')">
+                            Start Free Trial
+                            <span class="btn-arrow">→</span>
+                        </button>
+                        <button class="btn btn-secondary btn-lg touch-ripple">
+                            Watch Demo
+                            <span class="btn-play">▶</span>
+                        </button>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="stats-card" data-reveal>
+                            <div class="stats-number" data-count="500">0</div>
+                            <div class="stats-label">Active Advisors</div>
+                        </div>
+                        <div class="stats-card" data-reveal>
+                            <div class="stats-number" data-count="99.8">0</div>
+                            <div class="stats-label">% Compliance Rate</div>
+                        </div>
+                        <div class="stats-card" data-reveal>
+                            <div class="stats-number" data-count="365">0</div>
+                            <div class="stats-label">Days of Content</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="compliance-score" data-score="92" data-reveal>
+                        <svg class="progress-ring" width="200" height="200">
+                            <circle cx="100" cy="100" r="90" fill="none" stroke="#E5E7EB" stroke-width="8"/>
+                            <circle class="progress-ring-fill" cx="100" cy="100" r="90" fill="none" stroke="#CEA200" stroke-width="8"
+                                stroke-dasharray="565.48" stroke-dashoffset="565.48" transform="rotate(-90 100 100)"/>
+                        </svg>
+                        <div class="score-number">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Features for Modern Advisors</h2>
+                <p class="section-subtitle">Everything you need to maintain compliance and grow your practice</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card" data-reveal>
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI Content Generation</h3>
+                    <p class="feature-description">
+                        Generate SEBI-compliant content in seconds with our advanced AI engine
+                    </p>
+                </div>
+                
+                <div class="feature-card" data-reveal>
+                    <div class="feature-icon">✓</div>
+                    <h3 class="feature-title">Real-time Compliance</h3>
+                    <p class="feature-description">
+                        Instant validation against latest SEBI guidelines and regulations
+                    </p>
+                </div>
+                
+                <div class="feature-card" data-reveal>
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">WhatsApp Automation</h3>
+                    <p class="feature-description">
+                        Schedule and send content automatically at optimal times
+                    </p>
+                </div>
+                
+                <div class="feature-card" data-reveal>
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Analytics Dashboard</h3>
+                    <p class="feature-description">
+                        Track engagement, compliance scores, and client interactions
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Trust Section -->
+    <section class="trust-section">
+        <div class="container">
+            <div class="trust-badges">
+                <div class="trust-badge" data-reveal>
+                    <img src="/api/placeholder/40/40" alt="SEBI" />
+                    <span>SEBI Registered</span>
+                </div>
+                <div class="trust-badge" data-reveal>
+                    <img src="/api/placeholder/40/40" alt="ISO" />
+                    <span>ISO 27001 Certified</span>
+                </div>
+                <div class="trust-badge" data-reveal>
+                    <img src="/api/placeholder/40/40" alt="DPDP" />
+                    <span>DPDP Compliant</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Transform Your Practice?</h2>
+                <p class="cta-subtitle">Join 500+ advisors who never miss a day of client engagement</p>
+                
+                <form class="cta-form" onsubmit="event.preventDefault(); window.microInteractions.showToast('Thank you! We will be in touch soon.', 'success');">
+                    <div class="form-group">
+                        <input type="email" class="form-input input-field" placeholder=" " required data-validate="email">
+                        <label class="form-label">Enter your email</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg touch-ripple">
+                        Start Free Trial
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Demo Modal -->
+    <div id="demo-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="modal-close">×</button>
+            <h3 class="modal-title">Start Your Free Trial</h3>
+            <p class="modal-text">Experience the power of AI-driven compliance for 14 days, no credit card required.</p>
+            <form onsubmit="event.preventDefault(); window.microInteractions.showToast('Account created successfully!', 'success'); window.microInteractions.closeModal('demo-modal');">
+                <div class="form-group">
+                    <input type="text" class="form-input input-field" placeholder=" " required>
+                    <label class="form-label">Full Name</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-input input-field" placeholder=" " required data-validate="email">
+                    <label class="form-label">Email Address</label>
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-input input-field" placeholder=" " required data-validate="phone">
+                    <label class="form-label">Phone Number</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block touch-ripple">
+                    Create Account
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-text">Jarvish</span>
+                    </div>
+                    <p class="footer-tagline">AI-Powered SEBI Compliance Platform</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4 class="footer-title">Product</h4>
+                        <a href="#" class="footer-link">Features</a>
+                        <a href="#" class="footer-link">Pricing</a>
+                        <a href="#" class="footer-link">API</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4 class="footer-title">Company</h4>
+                        <a href="#" class="footer-link">About</a>
+                        <a href="#" class="footer-link">Blog</a>
+                        <a href="#" class="footer-link">Careers</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4 class="footer-title">Legal</h4>
+                        <a href="#" class="footer-link">Privacy</a>
+                        <a href="#" class="footer-link">Terms</a>
+                        <a href="#" class="footer-link">DPDP Policy</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">© 2024 Jarvish. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Load Micro-interactions Script -->
+    <script src="micro-interactions.js"></script>
+    
+    <!-- Additional Initialization -->
+    <script>
+        // Count-up animation for stats
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.5
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const target = parseFloat(element.dataset.count);
+                        const duration = 2000;
+                        const start = performance.now();
+                        
+                        const animate = (currentTime) => {
+                            const elapsed = currentTime - start;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const current = progress * target;
+                            
+                            element.textContent = target % 1 === 0 ? 
+                                Math.floor(current).toLocaleString() : 
+                                current.toFixed(1);
+                            
+                            if (progress < 1) {
+                                requestAnimationFrame(animate);
+                            }
+                        };
+                        
+                        element.classList.add('counting');
+                        requestAnimationFrame(animate);
+                        observer.unobserve(element);
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('[data-count]').forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Show success toast after 3 seconds (demo)
+            setTimeout(() => {
+                if (window.microInteractions) {
+                    window.microInteractions.showToast('Welcome to Jarvish! Start your free trial today.', 'info', 5000);
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Tower - Project One Admin Operations Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Control Tower Palette - Mission Critical */
+            --tower-void: #0A0F1C;           /* Deep command black */
+            --tower-steel: #1A2332;          /* Control steel */
+            --tower-amber: #FF9500;          /* Warning amber */
+            --tower-emerald: #32D74B;        /* Success green */
+            --tower-crimson: #FF3B30;        /* Critical red */
+            --tower-sapphire: #007AFF;       /* Command blue */
+            --tower-pearl: #FFFFFF;          /* Pure white */
+            --tower-graphite: #8E8E93;       /* Control gray */
+            --tower-gold: #FFCC02;           /* Priority gold */
+            --tower-violet: #AF52DE;         /* System purple */
+            
+            /* Typography */
+            --font-primary: "Poppins", system-ui, sans-serif;
+            --font-display: "Fraunces", Georgia, serif;
+            --font-mono: "SF Mono", "Monaco", "Inconsolata", monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--tower-void);
+            color: var(--tower-pearl);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Command Grid Background */
+        .command-grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(0, 122, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 122, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridPulse 10s ease-in-out infinite;
+        }
+        
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* Control Tower Layout */
+        .control-tower {
+            min-height: 100vh;
+            display: grid;
+            grid-template-areas: 
+                "header header header"
+                "sidebar main alerts";
+            grid-template-columns: 280px 1fr 320px;
+            grid-template-rows: 80px 1fr;
+        }
+        
+        /* Command Header */
+        .tower-header {
+            grid-area: header;
+            background: var(--tower-steel);
+            border-bottom: 2px solid var(--tower-sapphire);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            position: relative;
+        }
+        
+        .tower-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(0, 122, 255, 0.05) 50%, 
+                transparent 100%);
+            animation: headerScan 8s linear infinite;
+        }
+        
+        @keyframes headerScan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .tower-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--tower-sapphire), var(--tower-emerald));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--tower-pearl);
+            font-weight: 800;
+            font-size: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .brand-icon::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: iconRotate 4s linear infinite;
+        }
+        
+        @keyframes iconRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .brand-text {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--tower-pearl);
+        }
+        
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--tower-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+        
+        .tower-status-bar {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(50, 215, 75, 0.1);
+            border: 1px solid var(--tower-emerald);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--tower-emerald);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--tower-emerald);
+            border-radius: 50%;
+            animation: systemPulse 2s ease-in-out infinite;
+            box-shadow: 0 0 10px var(--tower-emerald);
+        }
+        
+        @keyframes systemPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.3); }
+        }
+        
+        .mission-clock {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--tower-amber);
+            background: rgba(255, 149, 0, 0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--tower-amber);
+        }
+        
+        .alert-counter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid var(--tower-crimson);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--tower-crimson);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .alert-icon {
+            width: 8px;
+            height: 8px;
+            background: var(--tower-crimson);
+            border-radius: 50%;
+            animation: alertFlash 1s ease-in-out infinite;
+        }
+        
+        @keyframes alertFlash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* Command Sidebar */
+        .tower-sidebar {
+            grid-area: sidebar;
+            background: var(--tower-steel);
+            border-right: 1px solid rgba(0, 122, 255, 0.2);
+            padding: 32px 0;
+        }
+        
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid rgba(0, 122, 255, 0.1);
+            margin-bottom: 24px;
+        }
+        
+        .control-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--tower-pearl);
+            margin-bottom: 4px;
+        }
+        
+        .control-subtitle {
+            font-size: 11px;
+            color: var(--tower-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .tower-nav {
+            list-style: none;
+        }
+        
+        .nav-section {
+            margin-bottom: 32px;
+        }
+        
+        .section-header {
+            font-size: 11px;
+            color: var(--tower-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 24px 12px;
+            font-weight: 600;
+        }
+        
+        .tower-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 24px;
+            color: var(--tower-graphite);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tower-link::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--tower-sapphire);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .tower-link:hover::before,
+        .tower-link.active::before {
+            transform: scaleY(1);
+        }
+        
+        .tower-link:hover,
+        .tower-link.active {
+            background: rgba(0, 122, 255, 0.1);
+            color: var(--tower-pearl);
+        }
+        
+        .link-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .link-badge {
+            background: var(--tower-crimson);
+            color: var(--tower-pearl);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 8px;
+            margin-left: auto;
+        }
+        
+        /* Main Control Area */
+        .tower-main {
+            grid-area: main;
+            padding: 32px;
+            overflow-y: auto;
+        }
+        
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+        
+        .dashboard-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--tower-pearl);
+            background: linear-gradient(135deg, var(--tower-pearl), var(--tower-sapphire));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .control-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            background: rgba(0, 122, 255, 0.1);
+            border: 1px solid var(--tower-sapphire);
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: var(--tower-sapphire);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: rgba(0, 122, 255, 0.2);
+        }
+        
+        .action-btn.primary {
+            background: var(--tower-sapphire);
+            color: var(--tower-pearl);
+        }
+        
+        .action-btn.primary:hover {
+            background: #0056CC;
+        }
+        
+        /* Operations Grid */
+        .operations-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .operation-card {
+            background: var(--tower-steel);
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .operation-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--tower-sapphire), var(--tower-emerald));
+        }
+        
+        .operation-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 122, 255, 0.2);
+        }
+        
+        .op-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--tower-sapphire), var(--tower-emerald));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            color: var(--tower-pearl);
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .op-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--tower-pearl);
+            margin-bottom: 8px;
+        }
+        
+        .op-value {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--tower-sapphire);
+            margin-bottom: 4px;
+        }
+        
+        .op-status {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .op-status.operational {
+            color: var(--tower-emerald);
+        }
+        
+        .op-status.warning {
+            color: var(--tower-amber);
+        }
+        
+        .op-status.critical {
+            color: var(--tower-crimson);
+        }
+        
+        /* System Monitor */
+        .system-monitor {
+            background: var(--tower-steel);
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        
+        .monitor-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .monitor-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--tower-pearl);
+        }
+        
+        .monitor-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .monitor-control {
+            background: rgba(0, 122, 255, 0.1);
+            border: 1px solid rgba(0, 122, 255, 0.3);
+            border-radius: 6px;
+            padding: 6px 12px;
+            color: var(--tower-sapphire);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .monitor-control.active,
+        .monitor-control:hover {
+            background: rgba(0, 122, 255, 0.2);
+        }
+        
+        .system-visualization {
+            height: 200px;
+            background: linear-gradient(135deg, 
+                rgba(0, 122, 255, 0.05) 0%, 
+                rgba(50, 215, 75, 0.05) 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .system-waves {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 20px,
+                rgba(0, 122, 255, 0.1) 20px,
+                rgba(0, 122, 255, 0.1) 40px
+            );
+            animation: systemFlow 4s linear infinite;
+        }
+        
+        @keyframes systemFlow {
+            0% { transform: translateX(-40px); }
+            100% { transform: translateX(40px); }
+        }
+        
+        .system-center {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .system-main-value {
+            font-family: var(--font-mono);
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--tower-sapphire);
+            margin-bottom: 8px;
+        }
+        
+        .system-label {
+            color: var(--tower-emerald);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Alert Panel */
+        .tower-alerts {
+            grid-area: alerts;
+            background: var(--tower-steel);
+            border-left: 1px solid rgba(0, 122, 255, 0.2);
+            padding: 32px 24px;
+        }
+        
+        .alerts-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .alerts-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--tower-crimson), var(--tower-amber));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--tower-pearl);
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .alerts-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--tower-pearl);
+        }
+        
+        .alerts-feed {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .alert-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 59, 48, 0.1);
+        }
+        
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+        
+        .alert-priority {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+        
+        .alert-priority.critical {
+            background: var(--tower-crimson);
+            box-shadow: 0 0 10px var(--tower-crimson);
+            animation: criticalPulse 1s ease-in-out infinite;
+        }
+        
+        .alert-priority.warning {
+            background: var(--tower-amber);
+            box-shadow: 0 0 8px var(--tower-amber);
+        }
+        
+        .alert-priority.info {
+            background: var(--tower-sapphire);
+            box-shadow: 0 0 6px var(--tower-sapphire);
+        }
+        
+        @keyframes criticalPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.3); }
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--tower-pearl);
+            margin-bottom: 4px;
+        }
+        
+        .alert-description {
+            font-size: 12px;
+            color: var(--tower-graphite);
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+        
+        .alert-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .alert-time {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--tower-graphite);
+        }
+        
+        .alert-tag {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--tower-crimson);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .control-tower {
+                grid-template-areas: 
+                    "header header"
+                    "sidebar main";
+                grid-template-columns: 280px 1fr;
+            }
+            
+            .tower-alerts {
+                display: none;
+            }
+            
+            .operations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .control-tower {
+                grid-template-areas: 
+                    "header"
+                    "main";
+                grid-template-columns: 1fr;
+            }
+            
+            .tower-sidebar {
+                display: none;
+            }
+            
+            .operations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tower-status-bar {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="command-grid-bg"></div>
+
+    <div class="control-tower">
+        <!-- Command Header -->
+        <header class="tower-header">
+            <div class="tower-brand">
+                <div class="brand-icon">⚡</div>
+                <div>
+                    <div class="brand-text">Project One</div>
+                    <div class="brand-subtitle">Control Tower</div>
+                </div>
+            </div>
+            
+            <div class="tower-status-bar">
+                <div class="system-status">
+                    <div class="status-dot"></div>
+                    <span>All Systems Operational</span>
+                </div>
+                <div class="mission-clock" id="missionClock">16:42:37 IST</div>
+                <div class="alert-counter">
+                    <div class="alert-icon"></div>
+                    <span>3 Active Alerts</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Command Sidebar -->
+        <nav class="tower-sidebar">
+            <div class="sidebar-header">
+                <div class="control-title">Mission Control</div>
+                <div class="control-subtitle">Operations Center</div>
+            </div>
+            
+            <ul class="tower-nav">
+                <li class="nav-section">
+                    <div class="section-header">Operations</div>
+                    <a href="#" class="tower-link active">
+                        <span class="link-icon">📊</span>
+                        <span>System Overview</span>
+                    </a>
+                    <a href="#" class="tower-link">
+                        <span class="link-icon">👥</span>
+                        <span>User Management</span>
+                        <span class="link-badge">847</span>
+                    </a>
+                    <a href="#" class="tower-link">
+                        <span class="link-icon">📈</span>
+                        <span>Performance Monitor</span>
+                    </a>
+                    <a href="#" class="tower-link">
+                        <span class="link-icon">⚖️</span>
+                        <span>Compliance Center</span>
+                    </a>
+                </li>
+                
+                <li class="nav-section">
+                    <div class="section-header">Security</div>
+                    <a href="#" class="tower-link">
+                        <span class="link-icon">🛡️</span>
+                        <span>Security Dashboard</span>
+                    </a>
+                    <a href="#" class="tower-link">
+                        <span class="link-icon">🔍</span>
+                        <span>Audit Logs</span>
+                    </a>
+                    <a href="#" class="tower-link">
+                        <span class="link-icon">⚠️</span>
+                        <span>Threat Detection</span>
+                        <span class="link-badge">2</span>
+                    </a>
+                </li>
+                
+                <li class="nav-section">
+                    <div class="section-header">System</div>
+                    <a href="#" class="tower-link">
+                        <span class="link-icon">⚙️</span>
+                        <span>Configuration</span>
+                    </a>
+                    <a href="#" class="tower-link">
+                        <span class="link-icon">📋</span>
+                        <span>Health Checks</span>
+                    </a>
+                    <a href="#" class="tower-link">
+                        <span class="link-icon">🔧</span>
+                        <span>Maintenance</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Control Area -->
+        <main class="tower-main">
+            <div class="main-header">
+                <h1 class="dashboard-title">Operations Control</h1>
+                <div class="control-actions">
+                    <button class="action-btn">System Scan</button>
+                    <button class="action-btn">Export Data</button>
+                    <button class="action-btn primary">Emergency Protocol</button>
+                </div>
+            </div>
+
+            <!-- Operations Grid -->
+            <section class="operations-grid">
+                <div class="operation-card">
+                    <div class="op-icon">🖥️</div>
+                    <div class="op-title">System Load</div>
+                    <div class="op-value">23.7%</div>
+                    <div class="op-status operational">Optimal</div>
+                </div>
+                <div class="operation-card">
+                    <div class="op-icon">👥</div>
+                    <div class="op-title">Active Users</div>
+                    <div class="op-value">2,847</div>
+                    <div class="op-status operational">Peak Hours</div>
+                </div>
+                <div class="operation-card">
+                    <div class="op-icon">📊</div>
+                    <div class="op-title">Transactions</div>
+                    <div class="op-value">847K</div>
+                    <div class="op-status operational">Processing</div>
+                </div>
+                <div class="operation-card">
+                    <div class="op-icon">⚡</div>
+                    <div class="op-title">Response Time</div>
+                    <div class="op-value">247ms</div>
+                    <div class="op-status warning">Monitor</div>
+                </div>
+            </section>
+
+            <!-- System Monitor -->
+            <section class="system-monitor">
+                <div class="monitor-header">
+                    <h2 class="monitor-title">System Performance Monitor</h2>
+                    <div class="monitor-controls">
+                        <button class="monitor-control active">Real-time</button>
+                        <button class="monitor-control">1 Hour</button>
+                        <button class="monitor-control">24 Hours</button>
+                        <button class="monitor-control">7 Days</button>
+                    </div>
+                </div>
+                
+                <div class="system-visualization">
+                    <div class="system-waves"></div>
+                    <div class="system-center">
+                        <div class="system-main-value">99.7%</div>
+                        <div class="system-label">System Uptime</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Alert Panel -->
+        <aside class="tower-alerts">
+            <div class="alerts-header">
+                <div class="alerts-icon">🚨</div>
+                <h3 class="alerts-title">Mission Alerts</h3>
+            </div>
+            
+            <div class="alerts-feed">
+                <div class="alert-item">
+                    <div class="alert-priority critical"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">High CPU Usage Detected</div>
+                        <div class="alert-description">Server cluster experiencing 89% CPU utilization</div>
+                        <div class="alert-meta">
+                            <div class="alert-time">2 mins ago</div>
+                            <div class="alert-tag">Critical</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert-item">
+                    <div class="alert-priority warning"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Security Scan Completed</div>
+                        <div class="alert-description">2 minor vulnerabilities found and patched</div>
+                        <div class="alert-meta">
+                            <div class="alert-time">15 mins ago</div>
+                            <div class="alert-tag">Security</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert-item">
+                    <div class="alert-priority info"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Database Backup Complete</div>
+                        <div class="alert-description">Automated backup successfully completed</div>
+                        <div class="alert-meta">
+                            <div class="alert-time">1 hour ago</div>
+                            <div class="alert-tag">System</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert-item">
+                    <div class="alert-priority warning"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Compliance Check Required</div>
+                        <div class="alert-description">Monthly SEBI compliance review due</div>
+                        <div class="alert-meta">
+                            <div class="alert-time">2 hours ago</div>
+                            <div class="alert-tag">Compliance</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert-item">
+                    <div class="alert-priority info"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">System Update Available</div>
+                        <div class="alert-description">New security patches ready for deployment</div>
+                        <div class="alert-meta">
+                            <div class="alert-time">4 hours ago</div>
+                            <div class="alert-tag">Update</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Update mission clock
+        function updateMissionClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                hour12: false
+            }) + ' IST';
+            document.getElementById('missionClock').textContent = timeString;
+        }
+        
+        updateMissionClock();
+        setInterval(updateMissionClock, 1000);
+    </script>
+</body>
+</html>

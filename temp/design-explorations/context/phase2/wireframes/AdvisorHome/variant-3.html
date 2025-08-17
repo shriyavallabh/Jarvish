@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish Advisor Portal | Institutional Trust</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --navy: #001f3f;
+            --dark-blue: #003366;
+            --gold: #b8860b;
+            --cream: #faf8f5;
+            --gray: #4a5568;
+            --light-gray: #e2e8f0;
+            --success: #059669;
+            --warning: #d97706;
+            --serif: 'Merriweather', 'Georgia', serif;
+            --sans: 'Arial', 'Helvetica', sans-serif;
+        }
+        
+        body {
+            font-family: var(--sans);
+            background: white;
+            color: var(--navy);
+            line-height: 1.5;
+            font-size: 16px;
+        }
+        
+        /* Conservative Header */
+        header {
+            background: var(--navy);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            font-family: var(--serif);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        
+        .sebi-reg {
+            font-size: 12px;
+            color: var(--light-gray);
+            opacity: 0.8;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .advisor-name {
+            font-family: var(--serif);
+            font-size: 16px;
+        }
+        
+        .tier-indicator {
+            padding: 6px 12px;
+            background: var(--gold);
+            color: var(--navy);
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 3px;
+        }
+        
+        /* Navigation */
+        nav {
+            background: var(--dark-blue);
+            border-bottom: 3px solid var(--gold);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+        
+        .nav-item {
+            padding: 15px 20px;
+            color: white;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-item.active {
+            background: var(--gold);
+            color: var(--navy);
+            font-weight: 600;
+        }
+        
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        /* Critical Time Display */
+        .deadline-banner {
+            background: linear-gradient(135deg, var(--cream) 0%, white 100%);
+            border: 2px solid var(--gold);
+            border-radius: 5px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .deadline-title {
+            font-family: var(--serif);
+            font-size: 20px;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+        
+        .countdown-display {
+            font-family: 'Courier New', monospace;
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--dark-blue);
+            letter-spacing: 2px;
+            margin: 15px 0;
+        }
+        
+        .deadline-status {
+            display: inline-block;
+            padding: 5px 15px;
+            background: var(--success);
+            color: white;
+            font-size: 14px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .metric-panel {
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.2s;
+        }
+        
+        .metric-panel:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 15px;
+        }
+        
+        .panel-title {
+            font-family: var(--serif);
+            font-size: 16px;
+            color: var(--navy);
+            font-weight: 600;
+        }
+        
+        .panel-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--gold);
+        }
+        
+        .panel-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--dark-blue);
+            margin: 10px 0;
+        }
+        
+        .panel-subtitle {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .panel-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-gray);
+            font-size: 13px;
+        }
+        
+        .trend-positive {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .trend-negative {
+            color: var(--warning);
+            font-weight: 600;
+        }
+        
+        /* Action Section */
+        .action-section {
+            background: var(--cream);
+            border-radius: 5px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .action-title {
+            font-family: var(--serif);
+            font-size: 20px;
+            color: var(--navy);
+            margin-bottom: 20px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 2px solid var(--navy);
+            background: white;
+            color: var(--navy);
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn:hover {
+            background: var(--navy);
+            color: white;
+        }
+        
+        .btn-primary {
+            background: var(--navy);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--dark-blue);
+            border-color: var(--dark-blue);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+        
+        .btn-success:hover {
+            background: #047857;
+            border-color: #047857;
+        }
+        
+        /* Data Table */
+        .data-section {
+            margin: 30px 0;
+        }
+        
+        .section-header {
+            font-family: var(--serif);
+            font-size: 20px;
+            color: var(--navy);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gold);
+        }
+        
+        .data-table {
+            width: 100%;
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .data-table thead {
+            background: var(--navy);
+            color: white;
+        }
+        
+        .data-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--light-gray);
+            font-size: 14px;
+        }
+        
+        .data-table tbody tr:hover {
+            background: var(--cream);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-ready {
+            background: var(--success);
+            color: white;
+        }
+        
+        .status-pending {
+            background: var(--warning);
+            color: white;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .countdown-display {
+                font-size: 36px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo">JARVISH</div>
+                <div class="sebi-reg">SEBI Reg: INA000015141</div>
+            </div>
+            <div class="user-info">
+                <span class="advisor-name">Rajesh Kumar, RIA</span>
+                <span class="tier-indicator">PLATINUM</span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li class="nav-item active">Dashboard</li>
+                <li class="nav-item">Content Management</li>
+                <li class="nav-item">Client Portfolio</li>
+                <li class="nav-item">Compliance</li>
+                <li class="nav-item">Reports</li>
+                <li class="nav-item">Settings</li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Deadline Banner -->
+        <div class="deadline-banner">
+            <h2 class="deadline-title">Daily Distribution Deadline</h2>
+            <div class="countdown-display" id="countdown">04:23:15</div>
+            <span class="deadline-status">✓ CONTENT READY</span>
+        </div>
+        
+        <!-- Metrics Dashboard -->
+        <div class="dashboard-grid">
+            <div class="metric-panel">
+                <div class="panel-header">
+                    <span class="panel-title">Today's Pack</span>
+                    <span>📊</span>
+                </div>
+                <div class="panel-value">5/5</div>
+                <div class="panel-subtitle">All content items approved</div>
+                <div class="panel-footer">
+                    <span>Compliance: Passed</span>
+                    <span class="trend-positive">Ready</span>
+                </div>
+            </div>
+            
+            <div class="metric-panel">
+                <div class="panel-header">
+                    <span class="panel-title">Client Reach</span>
+                    <span>👥</span>
+                </div>
+                <div class="panel-value">1,247</div>
+                <div class="panel-subtitle">Active recipients</div>
+                <div class="panel-footer">
+                    <span>Week: +15</span>
+                    <span class="trend-positive">↑ 1.2%</span>
+                </div>
+            </div>
+            
+            <div class="metric-panel">
+                <div class="panel-header">
+                    <span class="panel-title">WhatsApp Status</span>
+                    <span>📱</span>
+                </div>
+                <div class="panel-value">98%</div>
+                <div class="panel-subtitle">System health score</div>
+                <div class="panel-footer">
+                    <span>API: Active</span>
+                    <span class="trend-positive">Optimal</span>
+                </div>
+            </div>
+            
+            <div class="metric-panel">
+                <div class="panel-header">
+                    <span class="panel-title">Engagement Rate</span>
+                    <span>📈</span>
+                </div>
+                <div class="panel-value">72%</div>
+                <div class="panel-subtitle">Client interaction rate</div>
+                <div class="panel-footer">
+                    <span>Avg: 64%</span>
+                    <span class="trend-positive">↑ 8%</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Section -->
+        <div class="action-section">
+            <h3 class="action-title">Quick Actions</h3>
+            <div class="action-buttons">
+                <button class="btn btn-success">📤 DISTRIBUTE TODAY'S PACK</button>
+                <button class="btn btn-primary">✏️ CREATE CONTENT</button>
+                <button class="btn">📊 VIEW ANALYTICS</button>
+                <button class="btn">👥 MANAGE CLIENTS</button>
+                <button class="btn">📋 COMPLIANCE CHECK</button>
+            </div>
+        </div>
+        
+        <!-- Recent Activity Table -->
+        <div class="data-section">
+            <h3 class="section-header">Recent Content Activity</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Content Title</th>
+                        <th>Type</th>
+                        <th>Recipients</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Today, 10:30 AM</td>
+                        <td>Market Analysis: Nifty 50 Outlook</td>
+                        <td>Research Note</td>
+                        <td>—</td>
+                        <td><span class="status-badge status-pending">PENDING</span></td>
+                    </tr>
+                    <tr>
+                        <td>Yesterday, 6:00 AM</td>
+                        <td>Weekly Portfolio Performance Review</td>
+                        <td>Report</td>
+                        <td>1,232</td>
+                        <td><span class="status-badge status-ready">DELIVERED</span></td>
+                    </tr>
+                    <tr>
+                        <td>Dec 13, 6:00 AM</td>
+                        <td>Tax Planning Strategies for FY 2024-25</td>
+                        <td>Advisory</td>
+                        <td>1,198</td>
+                        <td><span class="status-badge status-ready">DELIVERED</span></td>
+                    </tr>
+                    <tr>
+                        <td>Dec 12, 6:00 AM</td>
+                        <td>Gold vs Equity: Investment Comparison</td>
+                        <td>Educational</td>
+                        <td>1,176</td>
+                        <td><span class="status-badge status-ready">DELIVERED</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    
+    <script>
+        // Countdown timer
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date();
+            target.setHours(6, 0, 0, 0);
+            if (now > target) target.setDate(target.getDate() + 1);
+            
+            const diff = target - now;
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advisor Overview - AI Assistant Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+            color: #0F172A;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, #0EA5E9 0%, #0284C7 100%);
+            color: #FFFFFF;
+            padding: 1rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .ai-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .ai-dot {
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        
+        /* Main Layout */
+        .main-layout {
+            display: flex;
+            min-height: calc(100vh - 64px);
+        }
+        
+        /* AI Chat Sidebar */
+        .chat-sidebar {
+            width: 280px;
+            background: #FFFFFF;
+            border-right: 1px solid #E2E8F0;
+            display: none;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            background: linear-gradient(90deg, #3B82F6 0%, #2563EB 100%);
+            color: #FFFFFF;
+            padding: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            font-size: 0.875rem;
+        }
+        
+        .chat-message {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            max-width: 90%;
+        }
+        
+        .chat-message.ai {
+            background: #EFF6FF;
+            border: 1px solid #DBEAFE;
+            margin-right: auto;
+        }
+        
+        .chat-message.user {
+            background: #F0FDF4;
+            border: 1px solid #DCFCE7;
+            margin-left: auto;
+        }
+        
+        .chat-sender {
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: #64748B;
+            margin-bottom: 0.25rem;
+        }
+        
+        .chat-input {
+            padding: 1rem;
+            border-top: 1px solid #E2E8F0;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .chat-field {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #D1D5DB;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        .ai-greeting {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            border: 1px solid #93C5FD;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            color: #1E40AF;
+        }
+        
+        .greeting-text {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        
+        /* Priority Recommendation */
+        .priority-card {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border: 2px solid #F59E0B;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .priority-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #F59E0B 0%, #D97706 100%);
+        }
+        
+        .priority-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: #92400E;
+            margin-bottom: 1rem;
+        }
+        
+        .priority-content {
+            margin-bottom: 1rem;
+            color: #78350F;
+            line-height: 1.6;
+        }
+        
+        .ai-suggestion {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: #92400E;
+        }
+        
+        .priority-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Smart Insights */
+        .insights-section {
+            background: #FFFFFF;
+            border-radius: 0.5rem;
+            border: 1px solid #E2E8F0;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1E293B;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .insight-list {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+        
+        .insight-item {
+            margin-bottom: 0.75rem;
+            padding-left: 1rem;
+            position: relative;
+            color: #475569;
+        }
+        
+        .insight-item::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #0EA5E9;
+            font-weight: bold;
+        }
+        
+        /* Quick Actions */
+        .action-item {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.15s ease-in-out;
+        }
+        
+        .action-item:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-color: #0EA5E9;
+        }
+        
+        .action-header {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #1E293B;
+        }
+        
+        .action-description {
+            font-size: 0.875rem;
+            color: #64748B;
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Quick Stats */
+        .quick-stats {
+            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            color: #475569;
+            font-size: 0.875rem;
+        }
+        
+        /* Buttons */
+        .btn {
+            border: none;
+            border-radius: 0.375rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%);
+            color: #FFFFFF;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-magic {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            color: #FFFFFF;
+        }
+        
+        .btn-secondary {
+            background: #F8FAFC;
+            color: #374151;
+            border: 1px solid #E2E8F0;
+        }
+        
+        .btn-secondary:hover {
+            background: #F1F5F9;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: #FFFFFF;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #FFFFFF;
+            border-top: 1px solid #E2E8F0;
+            padding: 0.75rem;
+            display: flex;
+            justify-content: space-around;
+            height: 60px;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #64748B;
+            font-size: 0.75rem;
+            gap: 0.25rem;
+            text-decoration: none;
+            min-width: 44px;
+            transition: color 0.15s ease-in-out;
+        }
+        
+        .nav-item.active {
+            color: #0EA5E9;
+        }
+        
+        .nav-item:hover {
+            color: #0284C7;
+        }
+        
+        /* Desktop Styles */
+        @media (min-width: 1024px) {
+            .chat-sidebar {
+                display: flex;
+            }
+            
+            .main-content {
+                padding: 2rem;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            
+            .priority-card {
+                grid-column: span 2;
+            }
+            
+            .bottom-nav {
+                display: none;
+            }
+        }
+        
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .ai-dot {
+                animation: none;
+            }
+            
+            * {
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            .priority-card,
+            .insights-section,
+            .action-item {
+                border-width: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="ai-title">
+                🤖 AI Assistant for Raj Kumar
+                <div class="ai-dot"></div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 1rem;">
+            <button class="btn btn-secondary">💬 Chat</button>
+            <button class="btn btn-secondary">⚙️ Settings</button>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <!-- AI Chat Sidebar (Desktop) -->
+        <aside class="chat-sidebar">
+            <div class="chat-header">
+                💭 AI CHAT
+            </div>
+            
+            <div class="chat-messages">
+                <div class="chat-message ai">
+                    <div class="chat-sender">AI Assistant</div>
+                    Good morning Raj! Ready for today's goals?
+                </div>
+                
+                <div class="chat-message user">
+                    <div class="chat-sender">You</div>
+                    Yes, what should I focus on?
+                </div>
+                
+                <div class="chat-message ai">
+                    <div class="chat-sender">AI Assistant</div>
+                    Three key priorities:
+                    <br>1. Send market content (ready)
+                    <br>2. Create tax planning content
+                    <br>3. Review ELSS queries
+                </div>
+                
+                <div class="chat-message user">
+                    <div class="chat-sender">You</div>
+                    Generate tax content
+                </div>
+                
+                <div class="chat-message ai">
+                    <div class="chat-sender">AI Assistant</div>
+                    Perfect! I found 3 client ELSS questions. Creating content now...
+                </div>
+                
+                <div class="chat-message ai">
+                    <div class="chat-sender">AI Assistant</div>
+                    Done! Tax planning content ready. Want to review?
+                </div>
+            </div>
+            
+            <div class="chat-input">
+                <div class="input-group">
+                    <input type="text" class="chat-field" placeholder="Type message...">
+                    <button class="btn btn-primary">🎤</button>
+                    <button class="btn btn-secondary">📎</button>
+                </div>
+                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                    <button class="btn btn-secondary" style="font-size: 0.75rem;">Clear Chat</button>
+                    <button class="btn btn-secondary" style="font-size: 0.75rem;">Voice Mode</button>
+                    <button class="btn btn-secondary" style="font-size: 0.75rem;">Save Chat</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- AI Greeting -->
+            <div class="ai-greeting">
+                <div class="greeting-text">
+                    💭 Good morning! Here's your smart briefing for today...
+                </div>
+            </div>
+
+            <!-- Priority Recommendation -->
+            <section class="priority-card" aria-labelledby="priority-title">
+                <div class="priority-header">
+                    ⭐ HIGHEST IMPACT OPPORTUNITY
+                </div>
+                <div class="priority-content">
+                    <strong>Your Market Volatility Guide is content gold! 🏆</strong>
+                    <br><br>
+                    🤖 AI Analysis:
+                    <br>• 96% compliance score (excellent!)
+                    <br>• Perfect timing: Market down 3.2% today
+                    <br>• Your audience engagement peaks at 6:00 AM
+                    <br>• Expected read rate: 85% (vs 78% average)
+                </div>
+                <div class="ai-suggestion">
+                    🤖 AI suggests: Send at 6:00 AM for 23% higher engagement
+                </div>
+                <div class="priority-actions">
+                    <button class="btn btn-magic">✨ Auto-Send at 6:00 AM</button>
+                    <button class="btn btn-primary">📝 Quick Review</button>
+                    <button class="btn btn-secondary">⏰ Schedule for Later</button>
+                    <button class="btn btn-secondary">🎯 Optimize Further</button>
+                </div>
+            </section>
+
+            <!-- Smart Insights -->
+            <section class="insights-section" aria-labelledby="insights-title">
+                <h2 id="insights-title" class="section-title">🧠 CONTENT INTELLIGENCE</h2>
+                
+                <div style="margin-bottom: 1rem;">
+                    <strong>💡 Trending Topics:</strong>
+                </div>
+                <ul class="insight-list">
+                    <li class="insight-item">Tax planning queries ↑ 45% this week</li>
+                    <li class="insight-item">ELSS investments gaining interest</li>
+                    <li class="insight-item">Market recovery discussions trending</li>
+                </ul>
+                
+                <div style="margin-bottom: 1rem;">
+                    <strong>🎯 Best Publishing Times:</strong>
+                </div>
+                <ul class="insight-list">
+                    <li class="insight-item">Thursday 6:30 AM (peak engagement)</li>
+                    <li class="insight-item">Tuesday 7:15 AM (good performance)</li>
+                    <li class="insight-item">Saturday 8:00 AM (moderate)</li>
+                </ul>
+                
+                <button class="btn btn-primary">💡 More Insights</button>
+            </section>
+
+            <!-- Performance Metrics -->
+            <section class="insights-section" aria-labelledby="performance-title">
+                <h2 id="performance-title" class="section-title">📈 SMART PERFORMANCE</h2>
+                
+                <div style="margin-bottom: 1rem;">
+                    <strong>📊 This Week:</strong>
+                </div>
+                <ul class="insight-list">
+                    <li class="insight-item">5 pieces created with AI assistance</li>
+                    <li class="insight-item">78% average engagement (above target)</li>
+                    <li class="insight-item">100% compliance success rate</li>
+                </ul>
+                
+                <div style="margin-bottom: 1rem;">
+                    <strong>🚀 Growth Metrics:</strong>
+                </div>
+                <ul class="insight-list">
+                    <li class="insight-item">+23 new clients this month</li>
+                    <li class="insight-item">34% mobile engagement growth</li>
+                    <li class="insight-item">Top 10% advisor performance ranking</li>
+                </ul>
+                
+                <button class="btn btn-primary">📊 Detailed Analytics</button>
+            </section>
+
+            <!-- AI Task Queue -->
+            <section class="insights-section" aria-labelledby="tasks-title" style="grid-column: span 2;">
+                <h2 id="tasks-title" class="section-title">🤖 AI TASK QUEUE</h2>
+                
+                <div style="margin-bottom: 1rem; font-weight: 600; color: #059669;">
+                    ⚡ READY TO EXECUTE:
+                </div>
+                
+                <div class="action-item">
+                    <div class="action-header">1. 📝 Generate Tax Planning Content</div>
+                    <div class="action-description">
+                        Based on 3 client ELSS queries • Est. time: 2 minutes
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-success">▶ Generate</button>
+                        <button class="btn btn-secondary">⏰ Schedule</button>
+                        <button class="btn btn-secondary">❌ Skip</button>
+                    </div>
+                </div>
+                
+                <div class="action-item">
+                    <div class="action-header">2. 📞 Draft Response to Client Queries</div>
+                    <div class="action-description">
+                        5 pending messages about market volatility • Est. time: 3 minutes
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-success">▶ Draft All</button>
+                        <button class="btn btn-secondary">👀 Review First</button>
+                        <button class="btn btn-secondary">📅 Later</button>
+                    </div>
+                </div>
+                
+                <div class="action-item">
+                    <div class="action-header">3. 📊 Weekly Performance Summary</div>
+                    <div class="action-description">
+                        Auto-generate insights for your review • Est. time: 1 minute
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-success">▶ Generate</button>
+                        <button class="btn btn-secondary">📧 Email to Me</button>
+                        <button class="btn btn-secondary">💾 Save</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                    <button class="btn btn-magic">⚡ Execute All</button>
+                    <button class="btn btn-secondary">⚙️ Customize Queue</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav" role="navigation" aria-label="Mobile navigation">
+        <a href="#" class="nav-item active" aria-label="AI Assistant">
+            <span>🤖</span>
+            <span>AI</span>
+        </a>
+        <a href="#" class="nav-item" aria-label="Create">
+            <span>📝</span>
+            <span>Create</span>
+        </a>
+        <a href="#" class="nav-item" aria-label="Library">
+            <span>📚</span>
+            <span>Library</span>
+        </a>
+        <a href="#" class="nav-item" aria-label="Stats">
+            <span>📊</span>
+            <span>Stats</span>
+        </a>
+        <a href="#" class="nav-item" aria-label="Profile">
+            <span>👤</span>
+            <span>Profile</span>
+        </a>
+    </nav>
+</body>
+</html>

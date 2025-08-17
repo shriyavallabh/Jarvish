@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Flow - Admin Dashboard</title>
+    <style>
+        :root {
+            /* Focus Flow - Content review focus, distraction-free */
+            --bg-primary: #0D0D0D;
+            --bg-secondary: #161616;
+            --bg-tertiary: #1F1F1F;
+            --bg-card: #262626;
+            --bg-hover: #2E2E2E;
+            
+            --text-primary: #FAFAFA;
+            --text-secondary: #C4C4C4;
+            --text-muted: #808080;
+            
+            --accent-primary: #00A8FF;
+            --accent-secondary: #0084CC;
+            --accent-glow: rgba(0, 168, 255, 0.1);
+            
+            --focus-ring: #00D4FF;
+            --focus-glow: rgba(0, 212, 255, 0.3);
+            
+            --success: #00E676;
+            --warning: #FFB300;
+            --danger: #FF5252;
+            --info: #40C4FF;
+            
+            --border: rgba(255, 255, 255, 0.06);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        /* Focus Mode Indicator */
+        @keyframes focusPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Minimalist Sidebar */
+        .sidebar {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .sidebar.collapsed {
+            width: 80px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+        }
+        
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+        }
+        
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 14px;
+            border: 2px solid var(--focus-ring);
+            opacity: 0;
+            animation: focusPulse 2s infinite;
+        }
+        
+        .nav-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            font-size: 0.925rem;
+        }
+        
+        .nav-item:hover {
+            background: var(--bg-hover);
+        }
+        
+        .nav-item.active {
+            background: var(--accent-glow);
+            color: var(--accent-primary);
+        }
+        
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 20px;
+            background: var(--accent-primary);
+            border-radius: 0 3px 3px 0;
+        }
+        
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.9;
+            flex-shrink: 0;
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            min-width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-primary);
+            position: relative;
+        }
+        
+        /* Minimal Header */
+        .header {
+            background: var(--bg-primary);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .focus-mode-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .focus-mode-toggle.active {
+            background: var(--accent-glow);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+        
+        .focus-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: focusPulse 2s infinite;
+        }
+        
+        .header-stats {
+            display: flex;
+            gap: 3rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .focus-timer {
+            padding: 0.625rem 1.25rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-primary);
+            border-radius: 8px;
+            font-family: 'SF Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--accent-primary);
+        }
+        
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+        
+        .icon-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--border);
+        }
+        
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        /* Focus Bar */
+        .focus-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .focus-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .focus-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .focus-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+        
+        .focus-btn.primary {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+        
+        .focus-btn.primary:hover {
+            background: var(--accent-secondary);
+        }
+        
+        .batch-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
+        .batch-progress {
+            width: 120px;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .batch-progress-fill {
+            height: 100%;
+            background: var(--accent-primary);
+            width: 65%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Clean Approval Cards */
+        .approval-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .approval-card {
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 1.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .approval-card:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border);
+        }
+        
+        .approval-card.focused {
+            border-color: var(--accent-primary);
+            background: var(--bg-tertiary);
+            box-shadow: 0 0 0 4px var(--focus-glow);
+        }
+        
+        .approval-content {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: start;
+        }
+        
+        .focus-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--text-muted);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            margin-top: 0.25rem;
+        }
+        
+        .approval-card.focused .focus-checkbox {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        .content-details {
+            flex: 1;
+        }
+        
+        .content-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .content-badge {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-hover);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+        
+        .content-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+        
+        .content-preview {
+            margin: 0.75rem 0;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            font-size: 0.925rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-height: 100px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .content-preview::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(transparent, var(--bg-primary));
+        }
+        
+        .content-metadata {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .risk-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .risk-dots {
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        .risk-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--bg-hover);
+        }
+        
+        .risk-dot.active.low {
+            background: var(--success);
+        }
+        
+        .risk-dot.active.medium {
+            background: var(--warning);
+        }
+        
+        .risk-dot.active.high {
+            background: var(--danger);
+        }
+        
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            border: 1px solid;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        
+        .action-btn.approve {
+            background: rgba(0, 230, 118, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+        
+        .action-btn.approve:hover {
+            background: var(--success);
+            color: white;
+        }
+        
+        .action-btn.review {
+            background: rgba(255, 179, 0, 0.1);
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+        
+        .action-btn.review:hover {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .action-btn.reject {
+            background: rgba(255, 82, 82, 0.1);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+        
+        .action-btn.reject:hover {
+            background: var(--danger);
+            color: white;
+        }
+        
+        /* Focus Metrics */
+        .focus-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .focus-metric {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        
+        .focus-metric-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .focus-metric-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
+        /* Keyboard Focus Indicator */
+        .keyboard-focus {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-primary);
+            border-radius: 10px;
+            display: flex;
+            gap: 2rem;
+            font-size: 0.875rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .key-hint {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .key {
+            padding: 0.25rem 0.625rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: 500;
+            color: var(--accent-primary);
+        }
+        
+        /* Distraction-free Mode */
+        .distraction-free .sidebar {
+            transform: translateX(-100%);
+        }
+        
+        .distraction-free .dashboard {
+            grid-template-columns: 1fr;
+        }
+        
+        .distraction-free .header {
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+        
+        .distraction-free .header:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Minimal Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">FF</div>
+                <div>
+                    <div style="font-weight: 600;">Focus Flow</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Admin</div>
+                </div>
+            </div>
+            
+            <nav class="nav-section">
+                <div class="nav-item active">
+                    <span class="nav-icon">◎</span>
+                    <span>Review Queue</span>
+                    <span class="nav-badge">24</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">◉</span>
+                    <span>AI Analysis</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">○</span>
+                    <span>Templates</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">◌</span>
+                    <span>Compliance</span>
+                    <span class="nav-badge">3</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">◯</span>
+                    <span>System</span>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Minimal Header -->
+            <header class="header">
+                <div class="header-left">
+                    <div class="focus-mode-toggle active">
+                        <div class="focus-indicator"></div>
+                        <span>Focus Mode</span>
+                    </div>
+                    <div class="header-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">24</span>
+                            <span class="stat-label">remaining</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">156</span>
+                            <span class="stat-label">completed</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="focus-timer">25:00</div>
+                    <div class="icon-btn">⚡</div>
+                    <div class="icon-btn">⚙</div>
+                </div>
+            </header>
+            
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Focus Bar -->
+                <div class="focus-bar">
+                    <div class="focus-actions">
+                        <button class="focus-btn primary">Quick Approve (A)</button>
+                        <button class="focus-btn">Quick Review (R)</button>
+                        <button class="focus-btn">Skip (S)</button>
+                    </div>
+                    <div class="batch-info">
+                        <span>Batch Progress:</span>
+                        <div class="batch-progress">
+                            <div class="batch-progress-fill"></div>
+                        </div>
+                        <span>16/24</span>
+                    </div>
+                </div>
+                
+                <!-- Clean Approval Cards -->
+                <div class="approval-container">
+                    <div class="approval-card focused">
+                        <div class="approval-content">
+                            <div class="focus-checkbox">✓</div>
+                            <div class="content-details">
+                                <div class="content-header">
+                                    <span class="content-badge">Template</span>
+                                    <h3 class="content-title">Year-End Tax Planning Strategies for High Net Worth Individuals</h3>
+                                </div>
+                                <div class="content-preview">
+                                    As we approach the year-end, it's crucial to review your tax planning strategies. This comprehensive guide covers key areas including capital gains harvesting, charitable giving optimization, retirement account maximization, and estate planning considerations. Our analysis shows potential tax savings of 15-20% through strategic implementation of these recommendations...
+                                </div>
+                                <div class="content-metadata">
+                                    <div class="metadata-item">
+                                        <span>👤</span>
+                                        <span>Advisor: Elite Team</span>
+                                    </div>
+                                    <div class="metadata-item">
+                                        <span>📍</span>
+                                        <span>Mumbai Region</span>
+                                    </div>
+                                    <div class="risk-indicator">
+                                        <span>Risk:</span>
+                                        <div class="risk-dots">
+                                            <div class="risk-dot active low"></div>
+                                            <div class="risk-dot active low"></div>
+                                            <div class="risk-dot"></div>
+                                            <div class="risk-dot"></div>
+                                            <div class="risk-dot"></div>
+                                        </div>
+                                        <span style="color: var(--success)">Low</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quick-actions">
+                                <button class="action-btn approve">Approve</button>
+                                <button class="action-btn review">Review</button>
+                                <button class="action-btn reject">Reject</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="approval-card">
+                        <div class="approval-content">
+                            <div class="focus-checkbox"></div>
+                            <div class="content-details">
+                                <div class="content-header">
+                                    <span class="content-badge">Fallback</span>
+                                    <h3 class="content-title">Emergency Market Response Pack - Volatility Management</h3>
+                                </div>
+                                <div class="content-preview">
+                                    In response to recent market volatility, we've prepared this emergency communication pack. It addresses common client concerns, provides market context, and offers actionable advice for portfolio protection. Key topics include diversification strategies, hedging options, and psychological aspects of market downturns...
+                                </div>
+                                <div class="content-metadata">
+                                    <div class="metadata-item">
+                                        <span>👤</span>
+                                        <span>Advisor: Crisis Team</span>
+                                    </div>
+                                    <div class="metadata-item">
+                                        <span>📍</span>
+                                        <span>All Regions</span>
+                                    </div>
+                                    <div class="risk-indicator">
+                                        <span>Risk:</span>
+                                        <div class="risk-dots">
+                                            <div class="risk-dot active medium"></div>
+                                            <div class="risk-dot active medium"></div>
+                                            <div class="risk-dot active medium"></div>
+                                            <div class="risk-dot"></div>
+                                            <div class="risk-dot"></div>
+                                        </div>
+                                        <span style="color: var(--warning)">Medium</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quick-actions">
+                                <button class="action-btn approve">Approve</button>
+                                <button class="action-btn review">Review</button>
+                                <button class="action-btn reject">Reject</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="approval-card">
+                        <div class="approval-content">
+                            <div class="focus-checkbox"></div>
+                            <div class="content-details">
+                                <div class="content-header">
+                                    <span class="content-badge">Custom</span>
+                                    <h3 class="content-title">Alternative Investment Opportunities - Crypto & Digital Assets</h3>
+                                </div>
+                                <div class="content-preview">
+                                    Exploring the emerging landscape of digital assets and cryptocurrency investments. This advisory covers regulatory considerations, risk assessment frameworks, and strategic allocation recommendations for sophisticated investors. Please note the heightened risk profile and ensure proper client suitability assessment...
+                                </div>
+                                <div class="content-metadata">
+                                    <div class="metadata-item">
+                                        <span>👤</span>
+                                        <span>Advisor: Tech Team</span>
+                                    </div>
+                                    <div class="metadata-item">
+                                        <span>📍</span>
+                                        <span>Bangalore</span>
+                                    </div>
+                                    <div class="risk-indicator">
+                                        <span>Risk:</span>
+                                        <div class="risk-dots">
+                                            <div class="risk-dot active high"></div>
+                                            <div class="risk-dot active high"></div>
+                                            <div class="risk-dot active high"></div>
+                                            <div class="risk-dot active high"></div>
+                                            <div class="risk-dot"></div>
+                                        </div>
+                                        <span style="color: var(--danger)">High</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quick-actions">
+                                <button class="action-btn approve">Approve</button>
+                                <button class="action-btn review">Review</button>
+                                <button class="action-btn reject">Reject</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Focus Metrics -->
+                <div class="focus-metrics">
+                    <div class="focus-metric">
+                        <div class="focus-metric-value">87%</div>
+                        <div class="focus-metric-label">Approval Rate</div>
+                    </div>
+                    <div class="focus-metric">
+                        <div class="focus-metric-value">1.8m</div>
+                        <div class="focus-metric-label">Avg Review Time</div>
+                    </div>
+                    <div class="focus-metric">
+                        <div class="focus-metric-value">98.5%</div>
+                        <div class="focus-metric-label">Compliance Score</div>
+                    </div>
+                    <div class="focus-metric">
+                        <div class="focus-metric-value">156</div>
+                        <div class="focus-metric-label">Today's Total</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Keyboard Focus Indicator -->
+    <div class="keyboard-focus">
+        <div class="key-hint">
+            <span class="key">↑↓</span>
+            <span>Navigate</span>
+        </div>
+        <div class="key-hint">
+            <span class="key">A</span>
+            <span>Approve</span>
+        </div>
+        <div class="key-hint">
+            <span class="key">R</span>
+            <span>Review</span>
+        </div>
+        <div class="key-hint">
+            <span class="key">X</span>
+            <span>Reject</span>
+        </div>
+        <div class="key-hint">
+            <span class="key">Space</span>
+            <span>Select</span>
+        </div>
+        <div class="key-hint">
+            <span class="key">F</span>
+            <span>Focus Mode</span>
+        </div>
+    </div>
+</body>
+</html>

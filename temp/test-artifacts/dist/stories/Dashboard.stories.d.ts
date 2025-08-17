@@ -1,0 +1,10 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { Dashboard } from '../apps/web/components/Dashboard';
+declare const meta: Meta<typeof Dashboard>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export declare const Default: Story;
+export declare const TodayView: Story;
+export declare const HighRisk: Story;
+export declare const Mobile: Story;
+export declare const Analytics: Story;

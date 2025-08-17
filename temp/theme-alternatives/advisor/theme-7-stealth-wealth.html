@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stealth Wealth - Advisor Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Stealth Wealth Color Palette - Understated Luxury */
+            --bg-primary: #0C0C0C;
+            --bg-secondary: #1A1A1A;
+            --bg-tertiary: #242424;
+            --bg-card: #2E2E2E;
+            --bg-hover: #383838;
+            
+            --text-primary: #E8E8E8;
+            --text-secondary: #A8A8A8;
+            --text-tertiary: #787878;
+            
+            --accent-gold: #D4AF37;
+            --accent-platinum: #E5E4E2;
+            --accent-success: #4A7C4E;
+            --accent-warning: #B8860B;
+            --accent-danger: #8B3A3A;
+            
+            --border-color: rgba(168, 168, 168, 0.15);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.6);
+            --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.8);
+            --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.9);
+        }
+
+        body {
+            font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: 0.3px;
+        }
+
+        /* Subtle texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 35px,
+                    rgba(212, 175, 55, 0.01) 35px,
+                    rgba(212, 175, 55, 0.01) 70px
+                );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .dashboard-container {
+            max-width: 100%;
+            padding: 0;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Minimalist Header */
+        .header {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 300;
+            font-size: 18px;
+            color: var(--bg-primary);
+            border-radius: 2px;
+        }
+
+        .advisor-info {
+            border-left: 1px solid var(--border-color);
+            padding-left: 12px;
+        }
+
+        .advisor-name {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+
+        .advisor-tier {
+            font-size: 10px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        /* Refined Countdown */
+        .countdown-section {
+            background: var(--bg-tertiary);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .countdown-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .countdown-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .countdown-time {
+            font-size: 28px;
+            font-weight: 200;
+            color: var(--accent-gold);
+            font-family: 'SF Mono', 'Monaco', monospace;
+            letter-spacing: 2px;
+        }
+
+        /* Elegant Stats Grid */
+        .stats-section {
+            padding: 20px;
+            background: var(--bg-secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent-gold);
+            opacity: 0.5;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 200;
+            color: var(--accent-platinum);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .stat-change {
+            font-size: 11px;
+            color: var(--accent-success);
+            margin-top: 8px;
+        }
+
+        /* Content Pipeline - Minimalist */
+        .pipeline-section {
+            padding: 20px;
+            background: var(--bg-primary);
+        }
+
+        .section-header {
+            font-size: 11px;
+            font-weight: 300;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .pipeline-flow {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .pipeline-item {
+            min-width: 80px;
+            text-align: center;
+            padding: 12px 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pipeline-item.active {
+            background: var(--bg-hover);
+            border-color: var(--accent-gold);
+        }
+
+        .pipeline-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-gold);
+        }
+
+        .pipeline-count {
+            font-size: 18px;
+            font-weight: 200;
+            color: var(--accent-platinum);
+            margin-bottom: 4px;
+        }
+
+        .pipeline-label {
+            font-size: 9px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* AI Assistant - Subtle */
+        .ai-section {
+            padding: 20px;
+            background: var(--bg-secondary);
+        }
+
+        .ai-card {
+            background: var(--bg-card);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .ai-indicator {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: subtle-pulse 3s infinite;
+        }
+
+        @keyframes subtle-pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .ai-content {
+            margin-top: 12px;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-left: 2px solid var(--accent-gold);
+        }
+
+        .ai-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .btn {
+            padding: 12px;
+            font-size: 12px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .btn-primary {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            border-color: var(--accent-gold);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* WhatsApp Status - Refined */
+        .whatsapp-section {
+            padding: 20px;
+            background: var(--bg-primary);
+        }
+
+        .wa-status-card {
+            background: var(--bg-card);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .wa-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .wa-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-success);
+            border-radius: 50%;
+        }
+
+        .wa-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .wa-metric {
+            text-align: center;
+        }
+
+        .wa-metric-value {
+            font-size: 20px;
+            font-weight: 200;
+            color: var(--accent-platinum);
+        }
+
+        .wa-metric-label {
+            font-size: 9px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* Client Portfolio */
+        .portfolio-section {
+            padding: 20px;
+            background: var(--bg-secondary);
+        }
+
+        .client-cards {
+            display: grid;
+            gap: 12px;
+        }
+
+        .client-card {
+            background: var(--bg-card);
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .client-info {
+            flex: 1;
+        }
+
+        .client-name {
+            font-size: 13px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .client-tier {
+            font-size: 10px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .client-value {
+            text-align: right;
+        }
+
+        .portfolio-amount {
+            font-size: 16px;
+            font-weight: 200;
+            color: var(--accent-platinum);
+        }
+
+        .portfolio-label {
+            font-size: 9px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Bottom Navigation - Minimal */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 12px 0;
+            z-index: 100;
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: var(--accent-gold);
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-bottom: 4px;
+            stroke-width: 1.5;
+        }
+
+        .nav-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        /* Chat Feature - Discreet */
+        .chat-button {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            background: var(--bg-card);
+            border: 1px solid var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99;
+            box-shadow: var(--shadow-md);
+        }
+
+        .chat-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-gold);
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .dashboard-container {
+                max-width: 1200px;
+                padding: 24px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .client-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Loading animation */
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-hover) 50%, var(--bg-card) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="brand">
+                    <div class="logo">P</div>
+                    <div class="advisor-info">
+                        <div class="advisor-name">Priya Sharma</div>
+                        <div class="advisor-tier">Private Wealth</div>
+                    </div>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                </svg>
+            </div>
+        </header>
+
+        <!-- Countdown Timer -->
+        <section class="countdown-section">
+            <div class="countdown-wrapper">
+                <div class="countdown-label">Daily Content Deadline</div>
+                <div class="countdown-time" id="countdown">05:42:18</div>
+            </div>
+        </section>
+
+        <!-- Stats Grid -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">₹48.2Cr</div>
+                    <div class="stat-label">AUM</div>
+                    <div class="stat-change">+12.4%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">127</div>
+                    <div class="stat-label">HNI Clients</div>
+                    <div class="stat-change">+8 this month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">96%</div>
+                    <div class="stat-label">Compliance</div>
+                    <div class="stat-change">Excellent</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">4.9</div>
+                    <div class="stat-label">Client Rating</div>
+                    <div class="stat-change">Top 1%</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Pipeline -->
+        <section class="pipeline-section">
+            <h2 class="section-header">Content Pipeline</h2>
+            <div class="pipeline-flow">
+                <div class="pipeline-item">
+                    <div class="pipeline-count">3</div>
+                    <div class="pipeline-label">Draft</div>
+                </div>
+                <div class="pipeline-item active">
+                    <div class="pipeline-count">2</div>
+                    <div class="pipeline-label">Review</div>
+                </div>
+                <div class="pipeline-item">
+                    <div class="pipeline-count">5</div>
+                    <div class="pipeline-label">Approved</div>
+                </div>
+                <div class="pipeline-item">
+                    <div class="pipeline-count">8</div>
+                    <div class="pipeline-label">Scheduled</div>
+                </div>
+                <div class="pipeline-item">
+                    <div class="pipeline-count">89</div>
+                    <div class="pipeline-label">Delivered</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Assistant -->
+        <section class="ai-section">
+            <h2 class="section-header">
+                <span class="ai-indicator"></span>
+                Intelligent Content Assistant
+            </h2>
+            <div class="ai-card">
+                <div class="ai-content">
+                    <p class="ai-text">
+                        "For your HNI segment: Global market corrections offer strategic entry points in quality blue-chip equities. Consider dollar-cost averaging into international funds for portfolio diversification. Emphasize long-term wealth preservation over short-term gains."
+                    </p>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn">Refine</button>
+                    <button class="btn btn-primary">Apply</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- WhatsApp Status -->
+        <section class="whatsapp-section">
+            <h2 class="section-header">Communication Channel</h2>
+            <div class="wa-status-card">
+                <div class="wa-header">
+                    <div class="wa-status">
+                        <span class="status-indicator"></span>
+                        <span style="font-size: 12px; color: var(--text-secondary);">Operational</span>
+                    </div>
+                    <span style="font-size: 11px; color: var(--text-tertiary);">Last sync: 2 min ago</span>
+                </div>
+                <div class="wa-metrics">
+                    <div class="wa-metric">
+                        <div class="wa-metric-value">847</div>
+                        <div class="wa-metric-label">Sent Today</div>
+                    </div>
+                    <div class="wa-metric">
+                        <div class="wa-metric-value">98%</div>
+                        <div class="wa-metric-label">Delivered</div>
+                    </div>
+                    <div class="wa-metric">
+                        <div class="wa-metric-value">72%</div>
+                        <div class="wa-metric-label">Engagement</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Client Portfolio -->
+        <section class="portfolio-section">
+            <h2 class="section-header">Priority Clients</h2>
+            <div class="client-cards">
+                <div class="client-card">
+                    <div class="client-info">
+                        <div class="client-name">Aditya Birla</div>
+                        <div class="client-tier">Ultra HNI</div>
+                    </div>
+                    <div class="client-value">
+                        <div class="portfolio-amount">₹12.5Cr</div>
+                        <div class="portfolio-label">Portfolio</div>
+                    </div>
+                </div>
+                <div class="client-card">
+                    <div class="client-info">
+                        <div class="client-name">Neha Kapoor</div>
+                        <div class="client-tier">Premium</div>
+                    </div>
+                    <div class="client-value">
+                        <div class="portfolio-amount">₹8.3Cr</div>
+                        <div class="portfolio-label">Portfolio</div>
+                    </div>
+                </div>
+                <div class="client-card">
+                    <div class="client-info">
+                        <div class="client-name">Vikram Singh</div>
+                        <div class="client-tier">Elite</div>
+                    </div>
+                    <div class="client-value">
+                        <div class="portfolio-amount">₹6.7Cr</div>
+                        <div class="portfolio-label">Portfolio</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom padding -->
+        <div style="height: 80px;"></div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-items">
+                <div class="nav-item active">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    </svg>
+                    <span class="nav-label">Home</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <path d="M14 2v6h6"/>
+                    </svg>
+                    <span class="nav-label">Content</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 010 7.75"/>
+                    </svg>
+                    <span class="nav-label">Clients</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M3 3v18h18"/>
+                        <path d="M18 9l-5 5-3-3-5 5"/>
+                    </svg>
+                    <span class="nav-label">Analytics</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                    </svg>
+                    <span class="nav-label">Settings</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Chat Button -->
+        <div class="chat-button">
+            <svg class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        // Countdown Timer
+        function updateCountdown() {
+            const now = new Date();
+            const deadline = new Date();
+            deadline.setHours(6, 0, 0, 0);
+            
+            if (now > deadline) {
+                deadline.setDate(deadline.getDate() + 1);
+            }
+            
+            const diff = deadline - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Touch interactions
+        document.querySelectorAll('.btn, .nav-item, .client-card').forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.opacity = '0.8';
+            });
+            element.addEventListener('touchend', function() {
+                this.style.opacity = '1';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - Your Daily Assistant 💙</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary: #f59e0b;
+            --success: #10b981;
+            --bg-warm: #fef3c7;
+            --bg-light: #fffbeb;
+            --text-dark: #1f2937;
+            --text-medium: #6b7280;
+            --text-light: #9ca3af;
+            --border: #f3f4f6;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --radius: 16px;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #fff 50%, #ddd6fe 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Friendly animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-20deg); }
+        }
+        
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Header */
+        header {
+            background: white;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .user-greeting {
+            font-size: 14px;
+            color: var(--text-medium);
+        }
+        
+        .user-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        
+        /* Welcome Section */
+        .welcome-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+            animation: pulse-soft 4s ease-in-out infinite;
+        }
+        
+        .welcome-emoji {
+            font-size: 48px;
+            animation: wave 2s ease-in-out infinite;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+        
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+        
+        .welcome-subtitle {
+            font-size: 18px;
+            color: var(--text-medium);
+            margin-bottom: 24px;
+        }
+        
+        /* Timer Display */
+        .timer-container {
+            background: linear-gradient(135deg, var(--bg-warm) 0%, var(--bg-light) 100%);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: inline-block;
+        }
+        
+        .timer-label {
+            font-size: 14px;
+            color: var(--text-medium);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .timer-display {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .timer-message {
+            font-size: 14px;
+            color: var(--success);
+            margin-top: 8px;
+            font-weight: 600;
+        }
+        
+        /* Quick Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-card:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .stat-emoji {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-medium);
+            margin-bottom: 8px;
+        }
+        
+        .stat-change {
+            display: inline-block;
+            padding: 4px 8px;
+            background: var(--success);
+            color: white;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .stat-change.warning {
+            background: var(--secondary);
+        }
+        
+        /* Action Buttons */
+        .action-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .action-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .action-btn {
+            padding: 16px;
+            background: linear-gradient(135deg, #f3f4f6 0%, #fff 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-family: inherit;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .action-btn-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .action-btn-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .action-btn.primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .action-btn.primary .action-btn-text {
+            color: white;
+        }
+        
+        .action-btn.primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Activity Feed */
+        .activity-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .activity-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 24px;
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .activity-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .activity-item:hover {
+            background: var(--bg-warm);
+            transform: translateX(4px);
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-text {
+            font-size: 14px;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+        
+        .activity-time {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .activity-badge {
+            padding: 4px 12px;
+            background: var(--success);
+            color: white;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            align-self: center;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timer-display {
+                font-size: 36px;
+            }
+            
+            .welcome-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-icon">✨</div>
+                <div class="logo-text">Jarvish</div>
+            </div>
+            <div class="user-section">
+                <div>
+                    <div class="user-greeting">Welcome back!</div>
+                    <div class="user-name">Rajesh Kumar</div>
+                </div>
+                <div class="user-avatar">RK</div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <div class="welcome-emoji">👋</div>
+            <h1 class="welcome-title">Good morning, Rajesh!</h1>
+            <p class="welcome-subtitle">You're all set for today's content distribution</p>
+            <div class="timer-container">
+                <div class="timer-label">Time until 6:00 AM deadline</div>
+                <div class="timer-display" id="countdown">04:23:15</div>
+                <div class="timer-message">✅ Everything's ready to go!</div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-emoji">📦</div>
+                <div class="stat-value">5/5</div>
+                <div class="stat-label">Today's content ready</div>
+                <span class="stat-change">All approved!</span>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-emoji">👥</div>
+                <div class="stat-value">1,247</div>
+                <div class="stat-label">Happy clients</div>
+                <span class="stat-change">+15 this week</span>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-emoji">💬</div>
+                <div class="stat-value">98%</div>
+                <div class="stat-label">WhatsApp health</div>
+                <span class="stat-change">Excellent!</span>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-emoji">🎯</div>
+                <div class="stat-value">72%</div>
+                <div class="stat-label">Engagement rate</div>
+                <span class="stat-change warning">Above average</span>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="action-section">
+            <h2 class="action-title">
+                <span>🚀</span>
+                <span>Quick Actions</span>
+            </h2>
+            <div class="action-grid">
+                <button class="action-btn primary">
+                    <div class="action-btn-icon">📤</div>
+                    <div class="action-btn-text">Send Today's Pack</div>
+                </button>
+                <button class="action-btn">
+                    <div class="action-btn-icon">✏️</div>
+                    <div class="action-btn-text">Create Content</div>
+                </button>
+                <button class="action-btn">
+                    <div class="action-btn-icon">📊</div>
+                    <div class="action-btn-text">View Analytics</div>
+                </button>
+                <button class="action-btn">
+                    <div class="action-btn-icon">🤖</div>
+                    <div class="action-btn-text">AI Assistant</div>
+                </button>
+                <button class="action-btn">
+                    <div class="action-btn-icon">👥</div>
+                    <div class="action-btn-text">Manage Clients</div>
+                </button>
+                <button class="action-btn">
+                    <div class="action-btn-icon">⚙️</div>
+                    <div class="action-btn-text">Settings</div>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Activity Feed -->
+        <div class="activity-section">
+            <h2 class="activity-title">📋 Recent Activity</h2>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <div class="activity-icon">📝</div>
+                    <div class="activity-content">
+                        <div class="activity-text">Created "Market Update: Nifty Analysis"</div>
+                        <div class="activity-time">2 hours ago</div>
+                    </div>
+                    <span class="activity-badge">Draft</span>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon">✅</div>
+                    <div class="activity-content">
+                        <div class="activity-text">Successfully sent "Weekly Portfolio Review"</div>
+                        <div class="activity-time">Yesterday at 6:00 AM</div>
+                    </div>
+                    <span class="activity-badge">Delivered</span>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon">👍</div>
+                    <div class="activity-content">
+                        <div class="activity-text">15 clients engaged with "Tax Saving Tips"</div>
+                        <div class="activity-time">2 days ago</div>
+                    </div>
+                    <span class="activity-badge">Popular</span>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon">💡</div>
+                    <div class="activity-content">
+                        <div class="activity-text">AI suggested content idea: "Gold Investment Strategy"</div>
+                        <div class="activity-time">3 days ago</div>
+                    </div>
+                    <span class="activity-badge">Tip</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Countdown timer
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date();
+            target.setHours(6, 0, 0, 0);
+            if (now > target) target.setDate(target.getDate() + 1);
+            
+            const diff = target - now;
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>

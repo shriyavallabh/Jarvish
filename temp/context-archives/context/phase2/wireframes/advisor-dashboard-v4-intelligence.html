@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligence Console - Project One Advisor Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Intelligence Console Palette */
+            --intel-void: #0B0F1A;           /* Deep intelligence black */
+            --intel-matrix: #00FF88;         /* Matrix green */
+            --intel-cyan: #00D4FF;           /* Intelligence cyan */
+            --intel-violet: #9D4EDD;         /* Neural violet */
+            --intel-pearl: #FFFFFF;          /* Pure white */
+            --intel-graphite: #6C7B7F;       /* Neural gray */
+            --intel-crimson: #FF4757;        /* Alert red */
+            --intel-amber: #FFA726;          /* Warning amber */
+            --intel-steel: #1A2332;          /* Console steel */
+            
+            /* Typography */
+            --font-primary: "Poppins", system-ui, sans-serif;
+            --font-display: "Fraunces", Georgia, serif;
+            --font-mono: "SF Mono", "Monaco", "Inconsolata", monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--intel-void);
+            color: var(--intel-pearl);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Neural Network Background */
+        .neural-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 30% 70%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(157, 78, 221, 0.03) 0%, transparent 50%);
+        }
+        
+        .neural-nodes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .neural-node {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--intel-matrix);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--intel-matrix);
+            animation: neuralFloat 8s ease-in-out infinite;
+        }
+        
+        .neural-node:nth-child(1) { left: 15%; top: 25%; animation-delay: 0s; }
+        .neural-node:nth-child(2) { left: 35%; top: 65%; animation-delay: 1.5s; }
+        .neural-node:nth-child(3) { left: 65%; top: 35%; animation-delay: 3s; }
+        .neural-node:nth-child(4) { left: 85%; top: 75%; animation-delay: 4.5s; }
+        .neural-node:nth-child(5) { left: 25%; top: 85%; animation-delay: 6s; }
+        
+        @keyframes neuralFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-15px) scale(1.3); opacity: 1; }
+        }
+        
+        /* Intelligence Console Layout */
+        .intelligence-console {
+            min-height: 100vh;
+            display: grid;
+            grid-template-areas: 
+                "sidebar header"
+                "sidebar main";
+            grid-template-columns: 320px 1fr;
+            grid-template-rows: 70px 1fr;
+        }
+        
+        /* AI Command Header */
+        .intel-header {
+            grid-area: header;
+            background: var(--intel-steel);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+        }
+        
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .ai-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--intel-matrix);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--intel-matrix);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .ai-pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--intel-matrix);
+            border-radius: 50%;
+            animation: aiPulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes aiPulse {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 5px var(--intel-matrix); }
+            50% { opacity: 0.7; transform: scale(1.2); box-shadow: 0 0 15px var(--intel-matrix); }
+        }
+        
+        .neural-time {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--intel-cyan);
+        }
+        
+        .ai-commands {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .cmd-button {
+            background: rgba(157, 78, 221, 0.1);
+            border: 1px solid var(--intel-violet);
+            border-radius: 6px;
+            padding: 6px 12px;
+            color: var(--intel-violet);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .cmd-button:hover {
+            background: rgba(157, 78, 221, 0.2);
+        }
+        
+        /* Neural Sidebar */
+        .neural-sidebar {
+            grid-area: sidebar;
+            background: var(--intel-steel);
+            border-right: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 32px 0;
+        }
+        
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            margin-bottom: 24px;
+        }
+        
+        .console-brand {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--intel-matrix), var(--intel-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .console-subtitle {
+            font-size: 11px;
+            color: var(--intel-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+        
+        .neural-nav {
+            list-style: none;
+        }
+        
+        .nav-section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 11px;
+            color: var(--intel-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 24px 12px;
+            font-weight: 600;
+        }
+        
+        .neural-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 24px;
+            color: var(--intel-graphite);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .neural-link::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--intel-matrix);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .neural-link:hover::before,
+        .neural-link.active::before {
+            transform: scaleY(1);
+        }
+        
+        .neural-link:hover,
+        .neural-link.active {
+            background: rgba(0, 255, 136, 0.05);
+            color: var(--intel-pearl);
+        }
+        
+        .link-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* Main Intelligence Area */
+        .intel-main {
+            grid-area: main;
+            padding: 32px;
+            overflow-y: auto;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        
+        /* AI Dashboard */
+        .ai-dashboard {
+            background: var(--intel-steel);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-dashboard::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--intel-matrix), var(--intel-cyan), var(--intel-violet));
+        }
+        
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+        
+        .dashboard-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--intel-pearl);
+        }
+        
+        .ai-badge {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--intel-cyan);
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .intelligence-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .intel-metric {
+            background: rgba(0, 255, 136, 0.03);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .intel-metric:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.1);
+        }
+        
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--intel-matrix), var(--intel-cyan));
+            border-radius: 12px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--intel-void);
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .metric-value {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--intel-matrix);
+            margin-bottom: 8px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+        
+        .metric-label {
+            font-size: 11px;
+            color: var(--intel-graphite);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Neural Analysis */
+        .neural-analysis {
+            background: rgba(0, 255, 136, 0.03);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            border-radius: 12px;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .analysis-waves {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 10px,
+                rgba(0, 255, 136, 0.1) 10px,
+                rgba(0, 255, 136, 0.1) 20px
+            );
+            animation: waveAnalysis 3s linear infinite;
+        }
+        
+        @keyframes waveAnalysis {
+            0% { transform: translateX(-20px); }
+            100% { transform: translateX(20px); }
+        }
+        
+        .analysis-center {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .analysis-title {
+            font-family: var(--font-mono);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--intel-matrix);
+            margin-bottom: 8px;
+        }
+        
+        .analysis-subtitle {
+            color: var(--intel-cyan);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Intelligence Panel */
+        .intelligence-panel {
+            background: var(--intel-steel);
+            border: 1px solid rgba(157, 78, 221, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+        }
+        
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .panel-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--intel-violet), var(--intel-cyan));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--intel-pearl);
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .panel-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--intel-pearl);
+        }
+        
+        .intelligence-feed {
+            max-height: 320px;
+            overflow-y: auto;
+        }
+        
+        .intel-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(157, 78, 221, 0.1);
+        }
+        
+        .intel-item:last-child {
+            border-bottom: none;
+        }
+        
+        .intel-status {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 8px;
+            background: var(--intel-matrix);
+            box-shadow: 0 0 8px var(--intel-matrix);
+            animation: intelPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes intelPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .intel-content {
+            flex: 1;
+        }
+        
+        .intel-text {
+            font-size: 13px;
+            color: var(--intel-pearl);
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        
+        .intel-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .intel-time {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--intel-graphite);
+        }
+        
+        .intel-tag {
+            background: rgba(157, 78, 221, 0.1);
+            color: var(--intel-violet);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* AI Operations */
+        .ai-operations {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .operation-module {
+            background: var(--intel-steel);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .operation-module:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+        }
+        
+        .module-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--intel-cyan), var(--intel-violet));
+            border-radius: 10px;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--intel-pearl);
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .module-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--intel-pearl);
+            margin-bottom: 6px;
+        }
+        
+        .module-status {
+            font-size: 10px;
+            color: var(--intel-matrix);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .intelligence-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .ai-operations {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .intelligence-console {
+                grid-template-areas: 
+                    "header"
+                    "main";
+                grid-template-columns: 1fr;
+                grid-template-rows: 70px 1fr;
+            }
+            
+            .neural-sidebar {
+                display: none;
+            }
+            
+            .intelligence-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-operations {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="neural-bg">
+        <div class="neural-nodes">
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+        </div>
+    </div>
+
+    <div class="intelligence-console">
+        <!-- AI Command Header -->
+        <header class="intel-header">
+            <div class="ai-status">
+                <div class="ai-indicator">
+                    <div class="ai-pulse"></div>
+                    <span>AI System Online</span>
+                </div>
+                <div class="neural-time" id="neuralTime">15:42:17 IST</div>
+            </div>
+            <div class="ai-commands">
+                <button class="cmd-button">Neural Scan</button>
+                <button class="cmd-button">Deep Learning</button>
+                <button class="cmd-button">Auto Pilot</button>
+            </div>
+        </header>
+
+        <!-- Neural Sidebar -->
+        <nav class="neural-sidebar">
+            <div class="sidebar-header">
+                <div class="console-brand">Project One</div>
+                <div class="console-subtitle">Intelligence Console</div>
+            </div>
+            
+            <ul class="neural-nav">
+                <li class="nav-section">
+                    <div class="section-title">AI Core</div>
+                    <a href="#" class="neural-link active">
+                        <span class="link-icon">🧠</span>
+                        <span>Neural Dashboard</span>
+                    </a>
+                    <a href="#" class="neural-link">
+                        <span class="link-icon">🔮</span>
+                        <span>Predictive Analytics</span>
+                    </a>
+                    <a href="#" class="neural-link">
+                        <span class="link-icon">⚡</span>
+                        <span>Auto Execution</span>
+                    </a>
+                </li>
+                
+                <li class="nav-section">
+                    <div class="section-title">Intelligence</div>
+                    <a href="#" class="neural-link">
+                        <span class="link-icon">📊</span>
+                        <span>Market Intelligence</span>
+                    </a>
+                    <a href="#" class="neural-link">
+                        <span class="link-icon">🎯</span>
+                        <span>Client Insights</span>
+                    </a>
+                    <a href="#" class="neural-link">
+                        <span class="link-icon">📈</span>
+                        <span>Performance AI</span>
+                    </a>
+                </li>
+                
+                <li class="nav-section">
+                    <div class="section-title">Operations</div>
+                    <a href="#" class="neural-link">
+                        <span class="link-icon">🚀</span>
+                        <span>AI Campaigns</span>
+                    </a>
+                    <a href="#" class="neural-link">
+                        <span class="link-icon">⚖️</span>
+                        <span>Compliance AI</span>
+                    </a>
+                    <a href="#" class="neural-link">
+                        <span class="link-icon">🛡️</span>
+                        <span>Risk Analysis</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Intelligence Area -->
+        <main class="intel-main">
+            <div class="main-grid">
+                <!-- AI Dashboard -->
+                <section class="ai-dashboard">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Neural Intelligence</h1>
+                        <div class="ai-badge">AI Active</div>
+                    </div>
+                    
+                    <div class="intelligence-grid">
+                        <div class="intel-metric">
+                            <div class="metric-icon">🧠</div>
+                            <div class="metric-value">97.8%</div>
+                            <div class="metric-label">AI Accuracy</div>
+                        </div>
+                        <div class="intel-metric">
+                            <div class="metric-icon">⚡</div>
+                            <div class="metric-value">847ms</div>
+                            <div class="metric-label">Response Time</div>
+                        </div>
+                        <div class="intel-metric">
+                            <div class="metric-icon">🎯</div>
+                            <div class="metric-value">2.4M</div>
+                            <div class="metric-label">Predictions</div>
+                        </div>
+                    </div>
+                    
+                    <div class="neural-analysis">
+                        <div class="analysis-waves"></div>
+                        <div class="analysis-center">
+                            <div class="analysis-title">∞</div>
+                            <div class="analysis-subtitle">Neural Processing</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Intelligence Panel -->
+                <section class="intelligence-panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">🔮</div>
+                        <h3 class="panel-title">AI Intelligence Feed</h3>
+                    </div>
+                    
+                    <div class="intelligence-feed">
+                        <div class="intel-item">
+                            <div class="intel-status"></div>
+                            <div class="intel-content">
+                                <div class="intel-text">AI detected market opportunity in healthcare sector</div>
+                                <div class="intel-meta">
+                                    <div class="intel-time">1 min ago</div>
+                                    <div class="intel-tag">Opportunity</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="intel-item">
+                            <div class="intel-status"></div>
+                            <div class="intel-content">
+                                <div class="intel-text">Neural network optimized portfolio allocation</div>
+                                <div class="intel-meta">
+                                    <div class="intel-time">3 min ago</div>
+                                    <div class="intel-tag">Optimization</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="intel-item">
+                            <div class="intel-status"></div>
+                            <div class="intel-content">
+                                <div class="intel-text">Predictive model identified 47 high-value prospects</div>
+                                <div class="intel-meta">
+                                    <div class="intel-time">8 min ago</div>
+                                    <div class="intel-tag">Prediction</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="intel-item">
+                            <div class="intel-status"></div>
+                            <div class="intel-content">
+                                <div class="intel-text">AI compliance check completed - 100% passed</div>
+                                <div class="intel-meta">
+                                    <div class="intel-time">12 min ago</div>
+                                    <div class="intel-tag">Compliance</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="intel-item">
+                            <div class="intel-status"></div>
+                            <div class="intel-content">
+                                <div class="intel-text">Machine learning model updated with new data</div>
+                                <div class="intel-meta">
+                                    <div class="intel-time">18 min ago</div>
+                                    <div class="intel-tag">Learning</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- AI Operations -->
+            <section class="ai-operations">
+                <div class="operation-module">
+                    <div class="module-icon">🤖</div>
+                    <div class="module-title">Content AI</div>
+                    <div class="module-status">Generating</div>
+                </div>
+                <div class="operation-module">
+                    <div class="module-icon">📊</div>
+                    <div class="module-title">Analytics AI</div>
+                    <div class="module-status">Processing</div>
+                </div>
+                <div class="operation-module">
+                    <div class="module-icon">🎯</div>
+                    <div class="module-title">Targeting AI</div>
+                    <div class="module-status">Optimizing</div>
+                </div>
+                <div class="operation-module">
+                    <div class="module-icon">⚖️</div>
+                    <div class="module-title">Compliance AI</div>
+                    <div class="module-status">Monitoring</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Update neural time
+        function updateNeuralTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                hour12: false
+            }) + ' IST';
+            document.getElementById('neuralTime').textContent = timeString;
+        }
+        
+        updateNeuralTime();
+        setInterval(updateNeuralTime, 1000);
+    </script>
+</body>
+</html>

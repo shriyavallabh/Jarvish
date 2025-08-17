@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish Advisor - Enhanced Executive Clarity Light</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Executive Clarity Navy with Gold Accents */
+            --primary-navy: #1E3A8A;
+            --primary-navy-light: #3B52A5;
+            --primary-navy-dark: #0F1F4C;
+            --accent-gold: #CEA200;
+            --accent-gold-light: #E6BC1F;
+            --accent-gold-subtle: rgba(206, 162, 0, 0.1);
+            
+            /* Professional Grays */
+            --gray-50: #FAFBFC;
+            --gray-100: #F4F6F8;
+            --gray-200: #E5E9ED;
+            --gray-300: #D1D7DE;
+            --gray-400: #98A4B3;
+            --gray-500: #6B7785;
+            --gray-600: #4A5563;
+            --gray-700: #2D3643;
+            --gray-800: #1A202C;
+            --gray-900: #0A0E14;
+            
+            /* Semantic Colors */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --info: #3B82F6;
+            
+            /* Typography */
+            --font-headline: 'Fraunces', serif;
+            --font-body: 'Poppins', sans-serif;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-md);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .advisor-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .advisor-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-navy-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .advisor-info {
+            flex: 1;
+        }
+
+        .advisor-name {
+            font-weight: 600;
+            color: var(--gray-800);
+            font-size: 0.875rem;
+        }
+
+        .advisor-tier {
+            background: var(--accent-gold);
+            color: var(--primary-navy);
+            padding: 0.125rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.625rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 0.25rem;
+        }
+
+        .nav-menu {
+            flex: 1;
+            padding: 1rem 0;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-700);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .nav-item:hover {
+            background: var(--gray-50);
+            color: var(--primary-navy);
+        }
+
+        .nav-item.active {
+            background: var(--accent-gold-subtle);
+            color: var(--primary-navy);
+            font-weight: 600;
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent-gold);
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.75rem;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .welcome-message {
+            font-family: var(--font-headline);
+            font-size: 1.75rem;
+            color: var(--primary-navy);
+            letter-spacing: -0.02em;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .quick-action-btn {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-navy-light) 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(206, 162, 0, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .quick-action-btn:hover::before {
+            left: 100%;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        /* Journey Progress */
+        .journey-progress {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+        }
+
+        .journey-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .journey-title {
+            font-family: var(--font-headline);
+            font-size: 1.5rem;
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .journey-subtitle {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        .journey-timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        .journey-timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gray-300);
+            z-index: 0;
+        }
+
+        .journey-timeline::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-navy), var(--accent-gold));
+            z-index: 1;
+            transition: width 1s ease;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .journey-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+            animation: slideInUp 0.8s ease-out;
+            animation-delay: var(--step-delay);
+            animation-fill-mode: both;
+        }
+
+        .journey-step:nth-child(1) { --step-delay: 0.1s; }
+        .journey-step:nth-child(2) { --step-delay: 0.3s; }
+        .journey-step:nth-child(3) { --step-delay: 0.5s; }
+        .journey-step:nth-child(4) { --step-delay: 0.7s; }
+
+        .journey-step-circle {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 3px solid var(--gray-300);
+            border-radius: 50%;
+            margin: 0 auto 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--gray-500);
+            transition: all 0.3s ease;
+        }
+
+        .journey-step.completed .journey-step-circle {
+            background: var(--primary-navy);
+            border-color: var(--primary-navy);
+            color: white;
+        }
+
+        .journey-step.active .journey-step-circle {
+            background: var(--accent-gold);
+            border-color: var(--accent-gold);
+            color: var(--primary-navy);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(206, 162, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(206, 162, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(206, 162, 0, 0); }
+        }
+
+        .journey-step-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .journey-step.completed .journey-step-label {
+            color: var(--primary-navy);
+            font-weight: 600;
+        }
+
+        .journey-step.active .journey-step-label {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* Performance Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+            animation: float 3.5s ease-in-out infinite;
+            animation-delay: var(--delay);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:nth-child(1) { --delay: 0s; }
+        .metric-card:nth-child(2) { --delay: 0.4s; }
+        .metric-card:nth-child(3) { --delay: 0.8s; }
+
+        .metric-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-gold-light);
+        }
+
+        .metric-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-gold-subtle);
+            border-radius: 50%;
+            transform: translate(20px, -20px);
+        }
+
+        .metric-label {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-family: var(--font-headline);
+            font-size: 2.25rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-navy-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .metric-change {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .metric-change.positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        /* Content Creation Section */
+        .content-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .content-creator {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-family: var(--font-headline);
+            font-size: 1.25rem;
+            color: var(--primary-navy);
+        }
+
+        .ai-badge {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--accent-gold) 100%);
+            color: white;
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .content-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            color: var(--gray-700);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .form-input,
+        .form-textarea {
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-navy);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .ai-suggestions {
+            background: var(--accent-gold-subtle);
+            border: 1px solid var(--accent-gold-light);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .ai-suggestions-title {
+            color: var(--accent-gold);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .suggestion-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .suggestion-pill {
+            background: white;
+            border: 1px solid var(--accent-gold);
+            color: var(--gray-700);
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-pill:hover {
+            background: var(--accent-gold);
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-navy-light) 100%);
+            color: white;
+            padding: 0.875rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            flex: 1;
+            background: white;
+            color: var(--primary-navy);
+            padding: 0.875rem;
+            border: 2px solid var(--primary-navy);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+        }
+
+        /* Compliance Check */
+        .compliance-check {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+        }
+
+        .compliance-score {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .score-ring {
+            transform: rotate(-90deg);
+        }
+
+        .score-ring-bg {
+            fill: none;
+            stroke: var(--gray-200);
+            stroke-width: 8;
+        }
+
+        .score-ring-progress {
+            fill: none;
+            stroke: var(--success);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 339.292;
+            stroke-dashoffset: 33.929;
+            transition: stroke-dashoffset 1s ease;
+            animation: drawRing 2s ease-out;
+        }
+
+        @keyframes drawRing {
+            from { stroke-dashoffset: 339.292; }
+            to { stroke-dashoffset: 33.929; }
+        }
+
+        .score-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-headline);
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--success);
+        }
+
+        .compliance-label {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+
+        .compliance-items {
+            margin-top: 1.5rem;
+        }
+
+        .compliance-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--gray-50);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .compliance-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .compliance-text {
+            flex: 1;
+            color: var(--gray-700);
+            font-size: 0.875rem;
+        }
+
+        /* Recent Activity Table */
+        .activity-table {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+        }
+
+        .table-filters {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            background: var(--gray-100);
+            border: 1px solid var(--gray-300);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-chip.active {
+            background: var(--primary-navy);
+            color: white;
+            border-color: var(--primary-navy);
+        }
+
+        .filter-chip:hover:not(.active) {
+            background: var(--gray-200);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 0.75rem;
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--gray-100);
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: var(--accent-gold-subtle);
+        }
+
+        tbody td {
+            padding: 1rem 0.75rem;
+            color: var(--gray-800);
+            font-size: 0.875rem;
+        }
+
+        .campaign-name {
+            font-weight: 600;
+            color: var(--primary-navy);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-indicator.delivered {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-indicator.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-indicator.scheduled {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-timeline {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .journey-timeline::before,
+            .journey-timeline::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="advisor-profile">
+                    <div class="advisor-avatar">PS</div>
+                    <div class="advisor-info">
+                        <div class="advisor-name">Priya Sharma</div>
+                        <div class="advisor-tier">PREMIUM TIER</div>
+                    </div>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <span class="nav-icon">🏠</span>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">✍️</span>
+                    Content Creator
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📚</span>
+                    Pack Library
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📱</span>
+                    Campaigns
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    Analytics
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    Clients
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">✓</span>
+                    Compliance
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1 class="welcome-message">Welcome back, Priya!</h1>
+                <div class="header-actions">
+                    <button class="quick-action-btn">
+                        Create New Content
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Journey Progress -->
+                <div class="journey-progress">
+                    <div class="journey-header">
+                        <h2 class="journey-title">Your 30-Day Journey to Scale</h2>
+                        <p class="journey-subtitle">Day 18 of 30 - You're making excellent progress!</p>
+                    </div>
+                    <div class="journey-timeline">
+                        <div class="journey-step completed">
+                            <div class="journey-step-circle">✓</div>
+                            <div class="journey-step-label">Quick Setup</div>
+                        </div>
+                        <div class="journey-step completed">
+                            <div class="journey-step-circle">✓</div>
+                            <div class="journey-step-label">First Campaign</div>
+                        </div>
+                        <div class="journey-step active">
+                            <div class="journey-step-circle">3</div>
+                            <div class="journey-step-label">Optimize</div>
+                        </div>
+                        <div class="journey-step">
+                            <div class="journey-step-circle">4</div>
+                            <div class="journey-step-label">Scale</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Messages Sent</div>
+                        <div class="metric-value">12,450</div>
+                        <div class="metric-change positive">+24% this week</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Client Engagement</div>
+                        <div class="metric-value">87.3%</div>
+                        <div class="metric-change positive">+5.2% this week</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Compliance Score</div>
+                        <div class="metric-value">99.8%</div>
+                        <div class="metric-change positive">Excellent</div>
+                    </div>
+                </div>
+
+                <!-- Content Creation Section -->
+                <div class="content-section">
+                    <div class="content-creator">
+                        <div class="section-header">
+                            <h3 class="section-title">AI Content Creator</h3>
+                            <div class="ai-badge">
+                                <span>✨</span>
+                                AI-Powered
+                            </div>
+                        </div>
+                        <form class="content-form">
+                            <div class="form-group">
+                                <label class="form-label">Campaign Topic</label>
+                                <input type="text" class="form-input" placeholder="e.g., Tax-saving mutual funds">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Target Audience</label>
+                                <input type="text" class="form-input" placeholder="e.g., Young professionals">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Message Content</label>
+                                <textarea class="form-textarea" placeholder="Start typing or use AI suggestions..."></textarea>
+                            </div>
+                            <div class="ai-suggestions">
+                                <div class="ai-suggestions-title">AI Suggestions</div>
+                                <div class="suggestion-pills">
+                                    <span class="suggestion-pill">ELSS Benefits</span>
+                                    <span class="suggestion-pill">80C Deduction</span>
+                                    <span class="suggestion-pill">Lock-in Period</span>
+                                    <span class="suggestion-pill">Returns History</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button type="button" class="btn-secondary">Save Draft</button>
+                                <button type="button" class="btn-primary">Generate & Check</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="compliance-check">
+                        <div class="section-header">
+                            <h3 class="section-title">SEBI Compliance</h3>
+                        </div>
+                        <div class="compliance-score">
+                            <div class="score-circle">
+                                <svg class="score-ring" width="120" height="120">
+                                    <circle class="score-ring-bg" cx="60" cy="60" r="54"/>
+                                    <circle class="score-ring-progress" cx="60" cy="60" r="54"/>
+                                </svg>
+                                <div class="score-text">90%</div>
+                            </div>
+                            <div class="compliance-label">Compliance Score</div>
+                        </div>
+                        <div class="compliance-items">
+                            <div class="compliance-item">
+                                <div class="compliance-icon">✓</div>
+                                <div class="compliance-text">No misleading statements</div>
+                            </div>
+                            <div class="compliance-item">
+                                <div class="compliance-icon">✓</div>
+                                <div class="compliance-text">Risk disclosure included</div>
+                            </div>
+                            <div class="compliance-item">
+                                <div class="compliance-icon">✓</div>
+                                <div class="compliance-text">Past performance disclaimer</div>
+                            </div>
+                            <div class="compliance-item">
+                                <div class="compliance-icon">!</div>
+                                <div class="compliance-text">Add SEBI registration number</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="activity-table">
+                    <div class="section-header">
+                        <h3 class="section-title">Recent Campaigns</h3>
+                    </div>
+                    <div class="table-filters">
+                        <span class="filter-chip active">All</span>
+                        <span class="filter-chip">Delivered</span>
+                        <span class="filter-chip">Scheduled</span>
+                        <span class="filter-chip">Draft</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Campaign Name</th>
+                                <th>Recipients</th>
+                                <th>Sent</th>
+                                <th>Engagement</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="campaign-name">Tax Saving ELSS Funds</td>
+                                <td>324</td>
+                                <td>Today, 10:30 AM</td>
+                                <td>92%</td>
+                                <td><span class="status-indicator delivered">Delivered</span></td>
+                            </tr>
+                            <tr>
+                                <td class="campaign-name">Market Update - November</td>
+                                <td>456</td>
+                                <td>Yesterday, 4:00 PM</td>
+                                <td>88%</td>
+                                <td><span class="status-indicator delivered">Delivered</span></td>
+                            </tr>
+                            <tr>
+                                <td class="campaign-name">Portfolio Rebalancing Tips</td>
+                                <td>280</td>
+                                <td>Tomorrow, 9:00 AM</td>
+                                <td>-</td>
+                                <td><span class="status-indicator scheduled">Scheduled</span></td>
+                            </tr>
+                            <tr>
+                                <td class="campaign-name">Diwali Investment Special</td>
+                                <td>512</td>
+                                <td>Nov 10, 10:00 AM</td>
+                                <td>95%</td>
+                                <td><span class="status-indicator delivered">Delivered</span></td>
+                            </tr>
+                            <tr>
+                                <td class="campaign-name">SIP Benefits Explained</td>
+                                <td>185</td>
+                                <td>Nov 15, 11:00 AM</td>
+                                <td>-</td>
+                                <td><span class="status-indicator pending">Draft</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

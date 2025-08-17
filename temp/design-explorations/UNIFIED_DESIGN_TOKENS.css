@@ -1,0 +1,567 @@
+/**
+ * UNIFIED DESIGN TOKENS SYSTEM
+ * ============================
+ * Cohesive design system for Jarvish B2B FinTech Platform
+ * Version: 1.0.0
+ * 
+ * This file contains all design tokens that ensure consistency
+ * across Landing Page, Admin Dashboard, and Advisor Dashboard
+ */
+
+:root {
+  /* ========================================
+     CORE BRAND COLORS
+     ======================================== */
+  
+  /* Primary Brand Colors */
+  --color-ink: #0B1F33;
+  --color-ink-light: #162943;
+  --color-ink-dark: #061119;
+  --color-ink-50: rgba(11, 31, 51, 0.05);
+  --color-ink-10: rgba(11, 31, 51, 0.10);
+  --color-ink-20: rgba(11, 31, 51, 0.20);
+  
+  /* Gold Accent System */
+  --color-gold: #CEA200;
+  --color-gold-light: #E5C454;
+  --color-gold-dark: #A38200;
+  --color-gold-subtle: rgba(206, 162, 0, 0.08);
+  --color-gold-glow: rgba(206, 162, 0, 0.20);
+  --color-gold-intense: rgba(206, 162, 0, 0.40);
+  
+  /* Success/CTA Green */
+  --color-palm: #0C310C;
+  --color-palm-light: #164716;
+  --color-palm-dark: #071C07;
+  --color-palm-subtle: rgba(12, 49, 12, 0.08);
+  --color-palm-glow: rgba(12, 49, 12, 0.15);
+  
+  /* ========================================
+     NEUTRAL PALETTE
+     ======================================== */
+  
+  --color-white: #FFFFFF;
+  --color-gray-50: #FAFBFC;
+  --color-gray-100: #F4F6F8;
+  --color-gray-200: #E5E9ED;
+  --color-gray-300: #D1D7DE;
+  --color-gray-400: #98A4B3;
+  --color-gray-500: #6B7785;
+  --color-gray-600: #4A5563;
+  --color-gray-700: #2D3643;
+  --color-gray-800: #1A202C;
+  --color-gray-900: #0A0E14;
+  
+  /* ========================================
+     SEMANTIC COLORS
+     ======================================== */
+  
+  --color-success: #10B981;
+  --color-success-light: #34D399;
+  --color-success-dark: #059669;
+  --color-success-subtle: rgba(16, 185, 129, 0.10);
+  
+  --color-warning: #F59E0B;
+  --color-warning-light: #FBBf24;
+  --color-warning-dark: #D97706;
+  --color-warning-subtle: rgba(245, 158, 11, 0.10);
+  
+  --color-error: #EF4444;
+  --color-error-light: #F87171;
+  --color-error-dark: #DC2626;
+  --color-error-subtle: rgba(239, 68, 68, 0.10);
+  
+  --color-info: #3B82F6;
+  --color-info-light: #60A5FA;
+  --color-info-dark: #2563EB;
+  --color-info-subtle: rgba(59, 130, 246, 0.10);
+  
+  /* ========================================
+     SURFACE COLORS
+     ======================================== */
+  
+  --surface-base: var(--color-white);
+  --surface-elevated: var(--color-gray-50);
+  --surface-sunken: var(--color-gray-100);
+  --surface-overlay: rgba(255, 255, 255, 0.95);
+  --surface-glass: rgba(255, 255, 255, 0.80);
+  
+  /* Dark Mode Surfaces */
+  --surface-dark-base: #0F172A;
+  --surface-dark-elevated: #1E293B;
+  --surface-dark-sunken: #0B1929;
+  --surface-dark-overlay: rgba(15, 23, 42, 0.95);
+  
+  /* ========================================
+     TYPOGRAPHY SYSTEM
+     ======================================== */
+  
+  /* Font Families */
+  --font-headline: 'Fraunces', serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  
+  /* Golden Ratio Type Scale (1.618) */
+  --text-xs: 0.618rem;     /* 9.888px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px - Base */
+  --text-md: 1.125rem;     /* 18px */
+  --text-lg: 1.618rem;     /* 25.888px */
+  --text-xl: 2.618rem;     /* 41.888px */
+  --text-2xl: 4.236rem;    /* 67.776px */
+  --text-3xl: 6.854rem;    /* 109.664px */
+  
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 1.75;
+  
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-black: 900;
+  
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+  
+  /* ========================================
+     SPACING SYSTEM (Golden Ratio)
+     ======================================== */
+  
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 0.125rem;   /* 2px */
+  --space-1: 0.382rem;     /* 6.112px */
+  --space-2: 0.618rem;     /* 9.888px */
+  --space-3: 1rem;         /* 16px */
+  --space-4: 1.618rem;     /* 25.888px */
+  --space-5: 2.618rem;     /* 41.888px */
+  --space-6: 4.236rem;     /* 67.776px */
+  --space-7: 6.854rem;     /* 109.664px */
+  --space-8: 11.089rem;    /* 177.424px */
+  
+  /* ========================================
+     LAYOUT SYSTEM
+     ======================================== */
+  
+  /* Container Widths */
+  --container-xs: 480px;
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+  
+  /* Breakpoints */
+  --screen-xs: 480px;
+  --screen-sm: 640px;
+  --screen-md: 768px;
+  --screen-lg: 1024px;
+  --screen-xl: 1280px;
+  --screen-2xl: 1536px;
+  
+  /* Grid System */
+  --grid-cols: 12;
+  --grid-gap: var(--space-4);
+  --grid-margin: var(--space-5);
+  
+  /* ========================================
+     BORDER SYSTEM
+     ======================================== */
+  
+  /* Border Widths */
+  --border-0: 0;
+  --border-1: 1px;
+  --border-2: 2px;
+  --border-3: 3px;
+  --border-4: 4px;
+  
+  /* Border Radius (Consistent Curves) */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Border Colors */
+  --border-color-default: var(--color-gray-200);
+  --border-color-light: var(--color-gray-100);
+  --border-color-dark: var(--color-gray-300);
+  --border-color-focus: var(--color-gold);
+  --border-color-error: var(--color-error);
+  --border-color-success: var(--color-success);
+  
+  /* ========================================
+     SHADOW SYSTEM
+     ======================================== */
+  
+  /* Elevation Shadows */
+  --shadow-xs: 0 1px 2px rgba(11, 31, 51, 0.04);
+  --shadow-sm: 0 1px 3px rgba(11, 31, 51, 0.05), 0 1px 2px rgba(11, 31, 51, 0.06);
+  --shadow-md: 0 4px 6px rgba(11, 31, 51, 0.07), 0 2px 4px rgba(11, 31, 51, 0.06);
+  --shadow-lg: 0 10px 15px rgba(11, 31, 51, 0.10), 0 4px 6px rgba(11, 31, 51, 0.05);
+  --shadow-xl: 0 20px 25px rgba(11, 31, 51, 0.12), 0 10px 10px rgba(11, 31, 51, 0.04);
+  --shadow-2xl: 0 25px 50px rgba(11, 31, 51, 0.25);
+  
+  /* Glow Effects */
+  --shadow-glow-gold: 0 0 20px var(--color-gold-glow);
+  --shadow-glow-palm: 0 0 20px var(--color-palm-glow);
+  --shadow-glow-success: 0 0 15px var(--color-success-subtle);
+  --shadow-glow-error: 0 0 15px var(--color-error-subtle);
+  
+  /* Inner Shadows */
+  --shadow-inner-sm: inset 0 1px 2px rgba(11, 31, 51, 0.06);
+  --shadow-inner-md: inset 0 2px 4px rgba(11, 31, 51, 0.08);
+  
+  /* ========================================
+     ANIMATION SYSTEM
+     ======================================== */
+  
+  /* Timing Functions */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-professional: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  /* Durations */
+  --duration-instant: 0ms;
+  --duration-quick: 150ms;
+  --duration-base: 250ms;
+  --duration-moderate: 350ms;
+  --duration-slow: 500ms;
+  --duration-journey: 800ms;
+  --duration-lazy: 1000ms;
+  
+  /* ========================================
+     Z-INDEX SYSTEM
+     ======================================== */
+  
+  --z-auto: auto;
+  --z-0: 0;
+  --z-10: 10;      /* Base content */
+  --z-20: 20;      /* Elevated content */
+  --z-30: 30;      /* Sticky elements */
+  --z-40: 40;      /* Fixed headers */
+  --z-50: 50;      /* Dropdowns */
+  --z-60: 60;      /* Tooltips */
+  --z-70: 70;      /* Modals */
+  --z-80: 80;      /* Notifications */
+  --z-90: 90;      /* Critical alerts */
+  --z-max: 9999;   /* Maximum */
+  
+  /* ========================================
+     COMPONENT TOKENS
+     ======================================== */
+  
+  /* Buttons */
+  --btn-padding-x: var(--space-4);
+  --btn-padding-y: var(--space-3);
+  --btn-font-size: var(--text-base);
+  --btn-font-weight: var(--font-semibold);
+  --btn-border-radius: var(--radius-md);
+  --btn-transition: all var(--duration-base) var(--ease-professional);
+  
+  /* Cards */
+  --card-padding: var(--space-4);
+  --card-border-radius: var(--radius-lg);
+  --card-border-width: var(--border-1);
+  --card-border-color: var(--border-color-default);
+  --card-shadow: var(--shadow-md);
+  --card-bg: var(--surface-base);
+  
+  /* Inputs */
+  --input-padding-x: var(--space-3);
+  --input-padding-y: var(--space-2);
+  --input-font-size: var(--text-base);
+  --input-border-radius: var(--radius-md);
+  --input-border-width: var(--border-1);
+  --input-border-color: var(--border-color-default);
+  --input-focus-ring: 0 0 0 3px var(--color-gold-subtle);
+  
+  /* Navigation */
+  --nav-height: 64px;
+  --nav-padding-x: var(--space-5);
+  --nav-bg: var(--surface-overlay);
+  --nav-border: var(--border-1) solid var(--border-color-light);
+  --nav-shadow: var(--shadow-sm);
+  
+  /* Modals */
+  --modal-padding: var(--space-5);
+  --modal-border-radius: var(--radius-xl);
+  --modal-max-width: 600px;
+  --modal-bg: var(--surface-base);
+  --modal-overlay: rgba(11, 31, 51, 0.80);
+  
+  /* ========================================
+     JOURNEY TIMELINE TOKENS
+     ======================================== */
+  
+  --journey-node-size: 80px;
+  --journey-node-size-sm: 48px;
+  --journey-line-thickness: 2px;
+  --journey-line-color: var(--color-gray-200);
+  --journey-line-active: var(--color-gold);
+  --journey-line-complete: var(--color-palm);
+  --journey-animation: var(--duration-journey) var(--ease-professional);
+  
+  /* ========================================
+     RESPONSIVE TOKENS
+     ======================================== */
+  
+  /* Mobile Touch Targets */
+  --touch-target-min: 44px;
+  --touch-target-comfortable: 48px;
+  --touch-target-spacious: 56px;
+  
+  /* Mobile Specific */
+  --mobile-nav-height: 56px;
+  --mobile-padding: var(--space-3);
+  --mobile-margin: var(--space-3);
+  
+  /* ========================================
+     ACCESSIBILITY TOKENS
+     ======================================== */
+  
+  /* Focus States */
+  --focus-outline-width: 2px;
+  --focus-outline-offset: 2px;
+  --focus-outline-color: var(--color-gold);
+  --focus-outline-style: solid;
+  
+  /* Contrast Ratios (for reference) */
+  --contrast-AA-normal: 4.5; /* Normal text */
+  --contrast-AA-large: 3;    /* Large text */
+  --contrast-AAA-normal: 7;  /* Enhanced normal */
+  --contrast-AAA-large: 4.5; /* Enhanced large */
+}
+
+/* ========================================
+   DARK MODE TOKENS
+   ======================================== */
+
+[data-theme="dark"] {
+  /* Override colors for dark mode */
+  --color-ink: #E0F2FE;
+  --color-ink-light: #BAE6FD;
+  --color-ink-dark: #F0F9FF;
+  
+  --color-gray-50: #0B1929;
+  --color-gray-100: #162236;
+  --color-gray-200: #233044;
+  --color-gray-300: #334155;
+  --color-gray-400: #475569;
+  --color-gray-500: #64748B;
+  --color-gray-600: #94A3B8;
+  --color-gray-700: #CBD5E1;
+  --color-gray-800: #E2E8F0;
+  --color-gray-900: #F1F5F9;
+  
+  --surface-base: var(--surface-dark-base);
+  --surface-elevated: var(--surface-dark-elevated);
+  --surface-sunken: var(--surface-dark-sunken);
+  --surface-overlay: var(--surface-dark-overlay);
+  
+  --border-color-default: var(--color-gray-200);
+  --border-color-light: var(--color-gray-100);
+  --border-color-dark: var(--color-gray-300);
+  
+  /* Adjust shadows for dark mode */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.20);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.30);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.40);
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Text Utilities */
+.text-headline { font-family: var(--font-headline); }
+.text-body { font-family: var(--font-body); }
+.text-mono { font-family: var(--font-mono); }
+
+/* Color Utilities */
+.text-ink { color: var(--color-ink); }
+.text-gold { color: var(--color-gold); }
+.text-palm { color: var(--color-palm); }
+.text-muted { color: var(--color-gray-500); }
+
+.bg-ink { background-color: var(--color-ink); }
+.bg-gold { background-color: var(--color-gold); }
+.bg-palm { background-color: var(--color-palm); }
+.bg-surface { background-color: var(--surface-base); }
+
+/* Shadow Utilities */
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+.shadow-glow-gold { box-shadow: var(--shadow-glow-gold); }
+
+/* Spacing Utilities */
+.p-1 { padding: var(--space-1); }
+.p-2 { padding: var(--space-2); }
+.p-3 { padding: var(--space-3); }
+.p-4 { padding: var(--space-4); }
+.p-5 { padding: var(--space-5); }
+.p-6 { padding: var(--space-6); }
+
+.m-1 { margin: var(--space-1); }
+.m-2 { margin: var(--space-2); }
+.m-3 { margin: var(--space-3); }
+.m-4 { margin: var(--space-4); }
+.m-5 { margin: var(--space-5); }
+.m-6 { margin: var(--space-6); }
+
+/* Border Radius Utilities */
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+.rounded-full { border-radius: var(--radius-full); }
+
+/* Animation Utilities */
+.transition-all { transition: var(--btn-transition); }
+.animate-fade-in { animation: fadeIn var(--duration-base) var(--ease-out); }
+.animate-slide-up { animation: slideUp var(--duration-slow) var(--ease-professional); }
+.animate-pulse { animation: pulse 2s var(--ease-in-out) infinite; }
+
+/* ========================================
+   KEYFRAME ANIMATIONS
+   ======================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px var(--color-gold-glow);
+  }
+  50% { 
+    box-shadow: 0 0 30px var(--color-gold-intense);
+  }
+}
+
+/* ========================================
+   MEDIA QUERIES FOR RESPONSIVE TOKENS
+   ======================================== */
+
+@media (max-width: 768px) {
+  :root {
+    /* Adjust type scale for mobile */
+    --text-2xl: 3.236rem;
+    --text-3xl: 4.854rem;
+    
+    /* Adjust spacing for mobile */
+    --space-6: 3.236rem;
+    --space-7: 5.236rem;
+    --space-8: 8.236rem;
+    
+    /* Mobile specific overrides */
+    --container-padding: var(--mobile-padding);
+    --nav-height: var(--mobile-nav-height);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    /* Disable all animations for accessibility */
+    --duration-quick: 0ms;
+    --duration-base: 0ms;
+    --duration-moderate: 0ms;
+    --duration-slow: 0ms;
+    --duration-journey: 0ms;
+    --duration-lazy: 0ms;
+  }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  :root {
+    /* Optimize colors for print */
+    --color-ink: #000000;
+    --color-gold: #B8860B;
+    --color-palm: #006400;
+    
+    /* Remove shadows for print */
+    --shadow-xs: none;
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+    --shadow-xl: none;
+  }
+}
+
+/**
+ * END OF UNIFIED DESIGN TOKENS
+ * 
+ * Usage Instructions:
+ * 1. Import this file in all three interfaces (Landing, Admin, Advisor)
+ * 2. Use CSS custom properties consistently across all components
+ * 3. Never hardcode values - always use tokens
+ * 4. Maintain this file as the single source of truth
+ * 5. Test changes across all interfaces before deploying
+ * 
+ * Token Naming Convention:
+ * - Colors: --color-[name][-variant]
+ * - Spacing: --space-[size]
+ * - Typography: --text-[size] or --font-[property]
+ * - Shadows: --shadow-[size]
+ * - Animations: --duration-[speed] or --ease-[type]
+ * 
+ * Design Principles:
+ * - Consistency over creativity
+ * - Performance over polish
+ * - Accessibility always
+ * - Mobile-first approach
+ * - Progressive enhancement
+ */

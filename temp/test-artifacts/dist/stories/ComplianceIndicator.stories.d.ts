@@ -1,0 +1,13 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { ComplianceIndicator } from '../apps/web/components/ComplianceIndicator';
+declare const meta: Meta<typeof ComplianceIndicator>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export declare const Perfect: Story;
+export declare const Good: Story;
+export declare const MediumRisk: Story;
+export declare const HighRisk: Story;
+export declare const Critical: Story;
+export declare const Small: Story;
+export declare const Large: Story;
+export declare const Loading: Story;

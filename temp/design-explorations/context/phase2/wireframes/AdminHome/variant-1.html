@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home - Executive Aurora</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%);
+            color: #e8eaed;
+            min-height: 100vh;
+            animation: bgShift 20s ease infinite;
+        }
+        
+        @keyframes bgShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+        
+        header {
+            padding: 24px 40px;
+            background: linear-gradient(90deg, rgba(138, 43, 226, 0.1), rgba(30, 144, 255, 0.1));
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .status-bar {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        
+        .metric {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .metric:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(138, 43, 226, 0.2);
+        }
+        
+        .metric-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .metric-label {
+            font-size: 11px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        main {
+            max-width: 1600px;
+            margin: 32px auto;
+            padding: 0 40px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .batch-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            to { left: 100%; }
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e8eaed;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(138, 43, 226, 0.3);
+        }
+        
+        .filters {
+            display: flex;
+            gap: 12px;
+        }
+        
+        select {
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #e8eaed;
+            font-size: 14px;
+        }
+        
+        .queue-container {
+            display: grid;
+            gap: 16px;
+        }
+        
+        .queue-item {
+            padding: 24px;
+            animation: slideIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .queue-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        
+        .item-info h3 {
+            font-size: 18px;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+        
+        .item-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+        
+        .risk-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .risk-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .risk-low { color: #10b981; }
+        .risk-medium { color: #f59e0b; }
+        .risk-high { color: #ef4444; }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .preview-pane {
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            min-height: 120px;
+        }
+        
+        .preview-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #6b7280;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .preview-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #e8eaed;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            justify-content: flex-end;
+        }
+        
+        .checkbox-wrapper {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+        }
+        
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        .floating-stats {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            padding: 20px;
+            width: 280px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+        
+        .highlight {
+            background: linear-gradient(90deg, rgba(138, 43, 226, 0.2), transparent);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Jarvishhh Admin</div>
+            <div class="status-bar">
+                <div class="metric">
+                    <div class="metric-value">47</div>
+                    <div class="metric-label">Pending</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">92%</div>
+                    <div class="metric-label">Approval Rate</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">2.3m</div>
+                    <div class="metric-label">Avg Time</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">1,247</div>
+                    <div class="metric-label">Today</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="controls">
+            <div class="batch-actions">
+                <button class="btn btn-primary" onclick="approveSelected()">Approve Selected (3)</button>
+                <button class="btn btn-secondary" onclick="rejectSelected()">Reject Selected</button>
+                <button class="btn btn-secondary" onclick="bulkEdit()">Bulk Edit</button>
+            </div>
+            <div class="filters">
+                <select>
+                    <option>All Risk Levels</option>
+                    <option>Low Risk Only</option>
+                    <option>Medium Risk</option>
+                    <option>High Risk</option>
+                </select>
+                <select>
+                    <option>Sort: Priority</option>
+                    <option>Sort: Time</option>
+                    <option>Sort: Risk Score</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="queue-container">
+            <div class="queue-item glass">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item1" checked>
+                </div>
+                <div class="item-header">
+                    <div class="item-info">
+                        <h3>Market Update: Nifty Hits New High</h3>
+                        <div class="item-meta">
+                            <span>Rajesh Kumar</span>
+                            <span>Mumbai Region</span>
+                            <span>2 mins ago</span>
+                        </div>
+                    </div>
+                    <div class="risk-score">
+                        <div class="risk-value risk-low">8.2</div>
+                        <div>
+                            <div style="font-size: 11px; color: #9ca3af;">AI SCORE</div>
+                            <div style="font-size: 12px; color: #10b981;">Low Risk</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-grid">
+                    <div class="preview-pane">
+                        <div class="preview-label">Original Content</div>
+                        <div class="preview-content">
+                            Markets soared today with <span class="highlight">Nifty crossing 22,000</span> for the first time. 
+                            Banking and IT sectors led the rally. Good time to review your portfolio allocation.
+                        </div>
+                    </div>
+                    <div class="preview-pane">
+                        <div class="preview-label">WhatsApp Preview</div>
+                        <div class="preview-content">
+                            📈 *Market Update*<br>
+                            Nifty hits record high of 22,000!<br>
+                            ✅ Banking +2.3%<br>
+                            ✅ IT +1.8%
+                        </div>
+                    </div>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-secondary">Edit</button>
+                    <button class="btn btn-primary">Quick Approve</button>
+                </div>
+            </div>
+            
+            <div class="queue-item glass">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item2" checked>
+                </div>
+                <div class="item-header">
+                    <div class="item-info">
+                        <h3>Tax Saving Tips for FY 2024-25</h3>
+                        <div class="item-meta">
+                            <span>Priya Sharma</span>
+                            <span>Delhi NCR</span>
+                            <span>5 mins ago</span>
+                        </div>
+                    </div>
+                    <div class="risk-score">
+                        <div class="risk-value risk-medium">5.7</div>
+                        <div>
+                            <div style="font-size: 11px; color: #9ca3af;">AI SCORE</div>
+                            <div style="font-size: 12px; color: #f59e0b;">Medium Risk</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-grid">
+                    <div class="preview-pane">
+                        <div class="preview-label">Original Content</div>
+                        <div class="preview-content">
+                            Maximize your tax savings with <span class="highlight">Section 80C investments</span>. 
+                            ELSS funds offer dual benefits of tax saving and wealth creation. Deadline approaching fast!
+                        </div>
+                    </div>
+                    <div class="preview-pane">
+                        <div class="preview-label">WhatsApp Preview</div>
+                        <div class="preview-content">
+                            💰 *Tax Saving Alert*<br>
+                            Save up to ₹46,800 in taxes!<br>
+                            📍 ELSS Funds<br>
+                            📍 PPF & NPS options
+                        </div>
+                    </div>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-secondary">Review Compliance</button>
+                    <button class="btn btn-primary">Approve</button>
+                </div>
+            </div>
+            
+            <div class="queue-item glass">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item3">
+                </div>
+                <div class="item-header">
+                    <div class="item-info">
+                        <h3>Gold Investment Strategy Update</h3>
+                        <div class="item-meta">
+                            <span>Amit Patel</span>
+                            <span>Gujarat</span>
+                            <span>8 mins ago</span>
+                        </div>
+                    </div>
+                    <div class="risk-score">
+                        <div class="risk-value risk-high">3.2</div>
+                        <div>
+                            <div style="font-size: 11px; color: #9ca3af;">AI SCORE</div>
+                            <div style="font-size: 12px; color: #ef4444;">High Risk</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-grid">
+                    <div class="preview-pane">
+                        <div class="preview-label">Original Content</div>
+                        <div class="preview-content">
+                            Gold prices expected to <span class="highlight" style="background: rgba(239, 68, 68, 0.2);">reach ₹75,000</span> by month end. 
+                            Consider sovereign gold bonds for better returns than physical gold.
+                        </div>
+                    </div>
+                    <div class="preview-pane">
+                        <div class="preview-label">Compliance Flags</div>
+                        <div class="preview-content" style="color: #ef4444;">
+                            ⚠️ Price prediction without disclaimer<br>
+                            ⚠️ Missing risk disclosure<br>
+                            ⚠️ Specific timeframe claim
+                        </div>
+                    </div>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-secondary">Request Revision</button>
+                    <button class="btn btn-secondary">Reject</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div class="floating-stats glass">
+        <h4 style="margin-bottom: 12px; font-size: 14px; color: #9ca3af;">REAL-TIME METRICS</h4>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value">47</div>
+                <div class="stat-label">Queue</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">2.3m</div>
+                <div class="stat-label">Avg Time</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">92%</div>
+                <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Escalated</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function approveSelected() {
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+            alert(`Approving ${checked.length} items...`);
+        }
+        
+        function rejectSelected() {
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+            alert(`Rejecting ${checked.length} items...`);
+        }
+        
+        function bulkEdit() {
+            alert('Opening bulk edit interface...');
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'a' && e.metaKey) {
+                e.preventDefault();
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+            }
+            if (e.key === 'Enter' && e.metaKey) {
+                approveSelected();
+            }
+        });
+    </script>
+</body>
+</html>

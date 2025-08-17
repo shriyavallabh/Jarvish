@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Clarity Dark - Professional AI-Powered Advisory Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-bg: #0A0E1A;
+            --secondary-bg: #141824;
+            --card-bg: #1A1F2E;
+            --text-primary: #E8E9ED;
+            --text-secondary: #B4B7C1;
+            --gold-primary: #F0C674;
+            --gold-secondary: #E4C441;
+            --gold-light: #FFE4A3;
+            --navy-dark: #4A7BA7;
+            --navy-light: #6FA0D0;
+            --success: #4ADE80;
+            --warning: #FCD34D;
+            --error: #F87171;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        nav {
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.6s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--gold-primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold-primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, var(--gold-secondary) 0%, var(--gold-primary) 100%);
+            color: var(--primary-bg);
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(240, 198, 116, 0.2);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240, 198, 116, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        
+        /* AI Workflow Section */
+        .ai-workflow {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+        
+        .workflow-title {
+            font-size: 1.5rem;
+            color: var(--gold-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .workflow-step {
+            text-align: center;
+            position: relative;
+            animation: fadeInScale 0.6s ease-out forwards;
+            animation-delay: calc(var(--step-index) * 0.1s);
+            opacity: 0;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .workflow-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold-primary);
+            font-size: 1.5rem;
+            opacity: 0.5;
+        }
+        
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--text-primary);
+            box-shadow: 0 8px 20px rgba(79, 123, 167, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .workflow-step:hover .step-icon {
+            transform: translateY(-5px) rotate(5deg);
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Floating Metrics Cards */
+        .floating-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+        
+        .metric-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            animation: float 3s ease-in-out infinite;
+            animation-delay: calc(var(--card-index) * 0.5s);
+            transition: all 0.3s ease;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow);
+            border-color: var(--gold-primary);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        .metric-change {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(74, 222, 128, 0.1);
+            color: var(--success);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        /* Journey Timeline */
+        .journey-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        
+        .journey-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--gold-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .journey-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--gold-primary) 0%, var(--navy-light) 100%);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+            position: relative;
+            animation: slideIn 0.8s ease-out forwards;
+            animation-delay: calc(var(--item-index) * 0.2s);
+            opacity: 0;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            text-align: right;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            padding: 0 2rem;
+        }
+        
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--gold-primary);
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(240, 198, 116, 0.5);
+        }
+        
+        .timeline-day {
+            font-size: 0.9rem;
+            color: var(--gold-primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-title {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .timeline-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        /* Animated Bar Graph */
+        .growth-visualization {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 3rem 2rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        
+        .graph-title {
+            text-align: center;
+            font-size: 1.75rem;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+        }
+        
+        .bar-graph {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 300px;
+            padding: 2rem 0;
+            border-left: 2px solid var(--border);
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .bar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            margin: 0 1rem;
+        }
+        
+        .bar {
+            width: 60px;
+            background: linear-gradient(180deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            animation: growBar 1.5s ease-out forwards;
+            animation-delay: calc(var(--bar-index) * 0.2s);
+            height: 0;
+            box-shadow: 0 -5px 20px rgba(240, 198, 116, 0.3);
+        }
+        
+        @keyframes growBar {
+            to {
+                height: var(--bar-height);
+            }
+        }
+        
+        .bar-value {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--gold-primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .bar-label {
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Features Grid */
+        .features {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold-primary) 0%, var(--navy-light) 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            border-color: var(--gold-primary);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-light) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(240, 198, 116, 0.05) 100%);
+            border-radius: 24px;
+            border: 1px solid var(--gold-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(240, 198, 116, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--gold-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .cta-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-secondary) 0%, var(--gold-primary) 100%);
+            color: var(--primary-bg);
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(240, 198, 116, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(240, 198, 116, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--gold-primary);
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--gold-primary);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(240, 198, 116, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary-bg);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            color: var(--gold-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--gold-primary);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .workflow-step:not(:last-child)::after {
+                display: none;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                flex-direction: column !important;
+                margin-left: 50px;
+            }
+            
+            .timeline-item:nth-child(even) .timeline-content {
+                text-align: left;
+            }
+            
+            .timeline-dot {
+                left: 30px;
+            }
+            
+            .bar-graph {
+                height: 250px;
+            }
+            
+            .bar {
+                width: 40px;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Executive Clarity</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#journey">Journey</a>
+                <a href="#growth">Growth</a>
+                <a href="#" class="cta-button">Get Started</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Transform Your Advisory Practice with AI-Powered Excellence</h1>
+        <p class="hero-subtitle">Sophisticated automation meets regulatory compliance for modern financial advisors</p>
+        
+        <!-- AI Workflow Section -->
+        <div class="ai-workflow">
+            <h2 class="workflow-title">Your AI-Powered Content Creation Workflow</h2>
+            <div class="workflow-steps">
+                <div class="workflow-step" style="--step-index: 0;">
+                    <div class="step-icon">📊</div>
+                    <div class="step-title">Analyze market trends</div>
+                    <div class="step-description">Real-time market intelligence and insights</div>
+                </div>
+                <div class="workflow-step" style="--step-index: 1;">
+                    <div class="step-icon">🎯</div>
+                    <div class="step-title">Generate personalized content</div>
+                    <div class="step-description">AI-crafted messages for each client segment</div>
+                </div>
+                <div class="workflow-step" style="--step-index: 2;">
+                    <div class="step-icon">✓</div>
+                    <div class="step-title">Check SEBI compliance</div>
+                    <div class="step-description">Automated regulatory review and approval</div>
+                </div>
+                <div class="workflow-step" style="--step-index: 3;">
+                    <div class="step-icon">🚀</div>
+                    <div class="step-title">Content ready for delivery</div>
+                    <div class="step-description">One-click distribution across channels</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Floating Metrics Cards -->
+    <section class="floating-metrics">
+        <div class="metric-card" style="--card-index: 0;">
+            <div class="metric-value">10x</div>
+            <div class="metric-label">Faster Content Creation</div>
+            <span class="metric-change">+85% efficiency</span>
+        </div>
+        <div class="metric-card" style="--card-index: 1;">
+            <div class="metric-value">100%</div>
+            <div class="metric-label">SEBI Compliant</div>
+            <span class="metric-change">Zero violations</span>
+        </div>
+        <div class="metric-card" style="--card-index: 2;">
+            <div class="metric-value">3.5x</div>
+            <div class="metric-label">Client Engagement</div>
+            <span class="metric-change">+250% response rate</span>
+        </div>
+        <div class="metric-card" style="--card-index: 3;">
+            <div class="metric-value">45%</div>
+            <div class="metric-label">Revenue Growth</div>
+            <span class="metric-change">In 90 days</span>
+        </div>
+    </section>
+    
+    <!-- Journey Timeline Section -->
+    <section class="journey-section" id="journey">
+        <h2 class="journey-title">Your Journey from Setup to Scale</h2>
+        <p class="journey-subtitle">Transform your practice in just 30 days with our proven roadmap</p>
+        
+        <div class="timeline">
+            <div class="timeline-item" style="--item-index: 0;">
+                <div class="timeline-content">
+                    <div class="timeline-day">Day 1-5</div>
+                    <div class="timeline-title">Quick Setup & Onboarding</div>
+                    <div class="timeline-description">Get your AI assistant configured, import client data, and complete SEBI registration</div>
+                </div>
+                <div class="timeline-dot"></div>
+                <div class="timeline-content"></div>
+            </div>
+            
+            <div class="timeline-item" style="--item-index: 1;">
+                <div class="timeline-content"></div>
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-day">Day 6-10</div>
+                    <div class="timeline-title">First AI-Generated Content</div>
+                    <div class="timeline-description">Create and send your first compliant market updates and personalized advisories</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item" style="--item-index: 2;">
+                <div class="timeline-content">
+                    <div class="timeline-day">Day 11-20</div>
+                    <div class="timeline-title">Scale & Optimize</div>
+                    <div class="timeline-description">Expand to multiple content types, automate workflows, and fine-tune AI responses</div>
+                </div>
+                <div class="timeline-dot"></div>
+                <div class="timeline-content"></div>
+            </div>
+            
+            <div class="timeline-item" style="--item-index: 3;">
+                <div class="timeline-content"></div>
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-day">Day 21-30</div>
+                    <div class="timeline-title">Full Automation Achieved</div>
+                    <div class="timeline-description">Complete workflow automation, advanced analytics, and 10x productivity gains realized</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Growth Visualization -->
+    <section class="growth-visualization" id="growth">
+        <h2 class="graph-title">Projected Business Growth Trajectory</h2>
+        <div class="bar-graph">
+            <div class="bar-container">
+                <div class="bar" style="--bar-height: 30%; --bar-index: 0;">
+                    <span class="bar-value">₹2.5L</span>
+                </div>
+                <span class="bar-label">Month 1</span>
+            </div>
+            <div class="bar-container">
+                <div class="bar" style="--bar-height: 45%; --bar-index: 1;">
+                    <span class="bar-value">₹3.8L</span>
+                </div>
+                <span class="bar-label">Month 2</span>
+            </div>
+            <div class="bar-container">
+                <div class="bar" style="--bar-height: 65%; --bar-index: 2;">
+                    <span class="bar-value">₹5.5L</span>
+                </div>
+                <span class="bar-label">Month 3</span>
+            </div>
+            <div class="bar-container">
+                <div class="bar" style="--bar-height: 80%; --bar-index: 3;">
+                    <span class="bar-value">₹6.8L</span>
+                </div>
+                <span class="bar-label">Month 4</span>
+            </div>
+            <div class="bar-container">
+                <div class="bar" style="--bar-height: 95%; --bar-index: 4;">
+                    <span class="bar-value">₹8.1L</span>
+                </div>
+                <span class="bar-label">Month 5</span>
+            </div>
+            <div class="bar-container">
+                <div class="bar" style="--bar-height: 100%; --bar-index: 5;">
+                    <span class="bar-value">₹10L+</span>
+                </div>
+                <span class="bar-label">Month 6</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Grid -->
+    <section class="features" id="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3 class="feature-title">AI Content Engine</h3>
+                <p class="feature-description">Generate personalized market updates, investment insights, and educational content in seconds with advanced AI that understands Indian markets.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">✓</div>
+                <h3 class="feature-title">100% SEBI Compliant</h3>
+                <p class="feature-description">Every piece of content is automatically reviewed against latest SEBI guidelines, ensuring complete regulatory compliance without manual effort.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">Multi-Channel Distribution</h3>
+                <p class="feature-description">Seamlessly share content across WhatsApp, email, SMS, and social media with one-click distribution to all your client segments.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Real-Time Analytics</h3>
+                <p class="feature-description">Track engagement, measure impact, and optimize your content strategy with comprehensive analytics and performance insights.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Client Segmentation</h3>
+                <p class="feature-description">Automatically categorize clients and deliver targeted content based on investment profiles, risk appetite, and communication preferences.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3 class="feature-title">Workflow Automation</h3>
+                <p class="feature-description">Set up automated content calendars, scheduled distributions, and trigger-based communications for truly hands-free operation.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Transform Your Practice?</h2>
+            <p class="cta-description">Join 500+ advisors who've already revolutionized their client engagement with AI-powered content automation.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary">Start Free Trial</a>
+                <a href="#" class="btn-secondary">Schedule Demo</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Compliance</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Partners</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">API Reference</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">SEBI Guidelines</a></li>
+                    <li><a href="#">Disclaimers</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Executive Clarity. All rights reserved. | SEBI Registered Platform</p>
+        </div>
+    </footer>
+</body>
+</html>

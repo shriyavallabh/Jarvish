@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project One - AI-First Financial Content Platform for Indian Advisors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <style>
+        /* Authoritative Design Tokens from PRD */
+        :root {
+            /* Authoritative Colors */
+            --color-ink: #0B1F33;        /* primary text */
+            --color-gold: #CEA200;       /* micro-accent */
+            --color-cta: #0C310C;        /* primary action (Palm Green) */
+            --color-bg: #FFFFFF;         /* background */
+            --color-bg-muted: #F6F8FA;   /* muted background */
+            --color-border: #E6E8EB;     /* border */
+            --color-danger: #D92D20;     /* danger */
+            --color-success: #12B76A;    /* success */
+            --color-warning: #F79009;    /* warning */
+            
+            /* Typography - Correct Implementation */
+            --font-primary: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --font-secondary: "Fraunces", Georgia, serif;
+            --font-hindi: "Noto Sans Devanagari", "Poppins", sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--color-bg);
+            color: var(--color-ink);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Professional Header */
+        .header {
+            background: var(--color-bg);
+            border-bottom: 1px solid var(--color-border);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: var(--font-secondary);
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--color-ink);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--color-ink);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--color-cta);
+        }
+        
+        .cta-button {
+            background: var(--color-cta);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s ease;
+        }
+        
+        .cta-button:hover {
+            background: #0A2A0A;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            background: var(--color-bg);
+        }
+        
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-family: var(--font-secondary);
+            font-size: 56px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 24px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-subtitle {
+            font-size: 24px;
+            color: var(--color-ink);
+            margin-bottom: 32px;
+            font-weight: 400;
+            opacity: 0.8;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-description {
+            font-size: 18px;
+            color: var(--color-ink);
+            margin-bottom: 48px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.7;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 48px;
+        }
+        
+        .button-primary {
+            background: var(--color-cta);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: background 0.2s ease;
+        }
+        
+        .button-primary:hover {
+            background: #0A2A0A;
+        }
+        
+        .button-secondary {
+            background: transparent;
+            color: var(--color-ink);
+            padding: 16px 32px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+        
+        .button-secondary:hover {
+            border-color: var(--color-cta);
+            color: var(--color-cta);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: var(--color-bg-muted);
+        }
+        
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        .section-title {
+            font-family: var(--font-secondary);
+            font-size: 42px;
+            font-weight: 600;
+            color: var(--color-ink);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .section-subtitle {
+            font-size: 20px;
+            color: var(--color-ink);
+            text-align: center;
+            margin-bottom: 64px;
+            opacity: 0.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--color-cta);
+            border-radius: 12px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 16px;
+        }
+        
+        .feature-description {
+            font-size: 16px;
+            color: var(--color-ink);
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
+            background: var(--color-bg);
+        }
+        
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+        
+        .pricing-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 40px 32px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .pricing-card.featured {
+            border-color: var(--color-cta);
+            border-width: 2px;
+        }
+        
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-cta);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .pricing-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 8px;
+        }
+        
+        .pricing-price {
+            font-family: var(--font-secondary);
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 8px;
+        }
+        
+        .pricing-period {
+            font-size: 16px;
+            color: var(--color-ink);
+            opacity: 0.6;
+            margin-bottom: 32px;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+        
+        .pricing-features li {
+            padding: 8px 0;
+            font-size: 15px;
+            color: var(--color-ink);
+            opacity: 0.8;
+        }
+        
+        .pricing-features li::before {
+            content: "✓";
+            color: var(--color-success);
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+            background: var(--color-bg-muted);
+        }
+        
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+            text-align: center;
+        }
+        
+        .cta-title {
+            font-family: var(--font-secondary);
+            font-size: 42px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 24px;
+        }
+        
+        .cta-description {
+            font-size: 20px;
+            color: var(--color-ink);
+            margin-bottom: 40px;
+            opacity: 0.7;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--color-ink);
+            color: white;
+            padding: 60px 0 40px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: white;
+        }
+        
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.2s ease;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 32px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 40px;
+            }
+            
+            .hero-subtitle {
+                font-size: 20px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">Project One</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#compliance">Compliance</a></li>
+                    <li><a href="#support">Support</a></li>
+                </ul>
+            </nav>
+            <a href="#demo" class="cta-button">Request Demo</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1 class="hero-title">AI-First Content Platform for Financial Advisors</h1>
+            <p class="hero-subtitle">SEBI-compliant WhatsApp content delivered daily at 6 AM IST</p>
+            <p class="hero-description">
+                Professional content generation with automated compliance checking for Indian MFDs and RIAs. 
+                Scale your practice with confidence.
+            </p>
+            <div class="hero-buttons">
+                <a href="advisor-overview/professional-v1.html" class="button-primary">View Advisor Demo</a>
+                <a href="admin-approval-queue/professional-admin.html" class="button-secondary">Admin Console</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="features-container">
+            <h2 class="section-title">Built for Professional Advisors</h2>
+            <p class="section-subtitle">
+                Everything you need to scale your practice with compliant, professional content
+            </p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">AI</div>
+                    <h3 class="feature-title">AI-Generated Content</h3>
+                    <p class="feature-description">
+                        GPT-4.1 powered content generation with SEBI compliance built-in. 
+                        Professional market insights delivered daily.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚖️</div>
+                    <h3 class="feature-title">SEBI Compliance</h3>
+                    <p class="feature-description">
+                        Three-stage compliance checking with real-time scoring. 
+                        Automated disclaimer insertion and risk assessment.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">WhatsApp Integration</h3>
+                    <p class="feature-description">
+                        Direct delivery via WhatsApp Cloud API. 
+                        Multiple image formats with brand customization.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🇮🇳</div>
+                    <h3 class="feature-title">Multi-Language Support</h3>
+                    <p class="feature-description">
+                        Content in English, Hindi, and Marathi. 
+                        Localized for Indian financial markets.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h3 class="feature-title">Daily Automation</h3>
+                    <p class="feature-description">
+                        Scheduled delivery at 6:00 AM IST. 
+                        99%+ SLA with fallback content systems.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Analytics & Insights</h3>
+                    <p class="feature-description">
+                        Detailed engagement metrics and compliance reports. 
+                        Client segment analysis and performance tracking.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="pricing-container">
+            <h2 class="section-title">Professional Pricing</h2>
+            <p class="section-subtitle">
+                Transparent pricing for advisors of all sizes. Founding 100 discount available.
+            </p>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 class="pricing-title">Basic</h3>
+                    <div class="pricing-price">₹2,999</div>
+                    <div class="pricing-period">per month</div>
+                    <ul class="pricing-features">
+                        <li>Daily content delivery</li>
+                        <li>Basic compliance checking</li>
+                        <li>WhatsApp integration</li>
+                        <li>English content only</li>
+                        <li>Email support</li>
+                    </ul>
+                    <a href="#" class="button-primary">Start Free Trial</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <h3 class="pricing-title">Standard</h3>
+                    <div class="pricing-price">₹5,999</div>
+                    <div class="pricing-period">per month</div>
+                    <ul class="pricing-features">
+                        <li>Everything in Basic</li>
+                        <li>Multi-language support</li>
+                        <li>Advanced compliance scoring</li>
+                        <li>LinkedIn integration</li>
+                        <li>Analytics dashboard</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="#" class="button-primary">Start Free Trial</a>
+                </div>
+                <div class="pricing-card">
+                    <h3 class="pricing-title">Pro</h3>
+                    <div class="pricing-price">₹11,999</div>
+                    <div class="pricing-period">per month</div>
+                    <ul class="pricing-features">
+                        <li>Everything in Standard</li>
+                        <li>Brand customization</li>
+                        <li>Custom content themes</li>
+                        <li>API access</li>
+                        <li>Dedicated account manager</li>
+                        <li>Custom integrations</li>
+                    </ul>
+                    <a href="#" class="button-primary">Start Free Trial</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">Ready to Scale Your Practice?</h2>
+            <p class="cta-description">
+                Join 200+ advisors using Project One to deliver professional, 
+                compliant content to their clients daily.
+            </p>
+            <a href="#demo" class="button-primary">Request Demo</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#integrations">Integrations</a>
+                    <a href="#api">API</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Compliance</h4>
+                    <a href="#sebi">SEBI Guidelines</a>
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#audit">Audit Reports</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <a href="#help">Help Center</a>
+                    <a href="#contact">Contact Us</a>
+                    <a href="#training">Training</a>
+                    <a href="#status">System Status</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="#about">About</a>
+                    <a href="#careers">Careers</a>
+                    <a href="#blog">Blog</a>
+                    <a href="#press">Press</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Project One. All rights reserved. SEBI Registration: INH000000001</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

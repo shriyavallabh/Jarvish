@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 2 UI Variants Dashboard | Financial Advisor Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FFD700;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .content {
+            padding: 3rem 2rem;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #1E3A8A;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            background: #1E3A8A;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+        
+        .variants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .variant-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .variant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .variant-card.executive {
+            border-color: #7C3AED;
+            background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
+            color: white;
+        }
+        
+        .variant-card.editorial {
+            border-color: #000;
+            background: #fff;
+            color: #000;
+        }
+        
+        .variant-card.institutional {
+            border-color: #1E3A8A;
+            background: #F8F9FA;
+            color: #1E3A8A;
+        }
+        
+        .variant-card.neon {
+            border-color: #00FFFF;
+            background: linear-gradient(135deg, #0A0E1A 0%, #1E1B4B 100%);
+            color: #00FFFF;
+        }
+        
+        .variant-card.warm {
+            border-color: #059669;
+            background: #FAF9F7;
+            color: #059669;
+        }
+        
+        .variant-number {
+            font-size: 3rem;
+            font-weight: 700;
+            opacity: 0.3;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+        
+        .variant-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .variant-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        
+        .variant-links {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 2px solid currentColor;
+            text-align: center;
+            flex: 1;
+            min-width: 80px;
+        }
+        
+        .btn-primary {
+            background: currentColor;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: currentColor;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .creative-directions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .direction-badge {
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            border: 2px solid;
+        }
+        
+        .direction-badge.executive {
+            background: linear-gradient(135deg, #0F172A 0%, #7C3AED 100%);
+            color: white;
+            border-color: #7C3AED;
+        }
+        
+        .direction-badge.editorial {
+            background: #fff;
+            color: #000;
+            border-color: #000;
+        }
+        
+        .direction-badge.institutional {
+            background: #F8F9FA;
+            color: #1E3A8A;
+            border-color: #1E3A8A;
+        }
+        
+        .direction-badge.neon {
+            background: linear-gradient(135deg, #0A0E1A 0%, #1E1B4B 100%);
+            color: #00FFFF;
+            border-color: #00FFFF;
+        }
+        
+        .direction-badge.warm {
+            background: #FAF9F7;
+            color: #059669;
+            border-color: #059669;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 2rem 1rem 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 2rem 1rem;
+            }
+            
+            .variants-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .variant-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Phase 2 UI Variants Dashboard</h1>
+            <p>AI-First B2B Financial Advisor Platform • 5 Creative Directions × 3 Target Screens</p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Total Variants</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Target Screens</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Creative Directions</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">30</div>
+                    <div class="stat-label">Files Created</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Creative Directions Overview -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">🎨</span>
+                    Creative Directions
+                </h2>
+                <div class="creative-directions">
+                    <div class="direction-badge executive">
+                        <strong>Executive Aurora</strong><br>
+                        Luxury • Glass Morphism • Starfield
+                    </div>
+                    <div class="direction-badge editorial">
+                        <strong>Editorial Minimal</strong><br>
+                        Typography • Clean • Professional
+                    </div>
+                    <div class="direction-badge institutional">
+                        <strong>Institutional Trust</strong><br>
+                        Conservative • Banking • Trust
+                    </div>
+                    <div class="direction-badge neon">
+                        <strong>Neon Systems</strong><br>
+                        Cyberpunk • Dark Mode • Futuristic
+                    </div>
+                    <div class="direction-badge warm">
+                        <strong>Warm Human</strong><br>
+                        Friendly • Approachable • Rounded
+                    </div>
+                </div>
+            </div>
+
+            <!-- Landing Page Variants -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">🏠</span>
+                    Public Landing Page
+                </h2>
+                <div class="variants-grid">
+                    <div class="variant-card executive">
+                        <div class="variant-number">1</div>
+                        <div class="variant-title">Executive Aurora</div>
+                        <div class="variant-description">Luxury starfield with glass morphism panels and premium aurora gradients. Perfect for high-end financial advisor positioning.</div>
+                        <div class="variant-links">
+                            <a href="Landing/variant-1.html" class="btn btn-primary">View Prototype</a>
+                            <a href="Landing/variant-1.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card editorial">
+                        <div class="variant-number">2</div>
+                        <div class="variant-title">Editorial Minimal</div>
+                        <div class="variant-description">Typography-first design with clean grid system and professional editorial feel. Maximum readability and clarity.</div>
+                        <div class="variant-links">
+                            <a href="Landing/variant-2.html" class="btn btn-primary">View Prototype</a>
+                            <a href="Landing/variant-2.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card institutional">
+                        <div class="variant-number">3</div>
+                        <div class="variant-title">Institutional Trust</div>
+                        <div class="variant-description">Conservative banking aesthetics with compliance focus and traditional data presentation. Maximum trustworthiness.</div>
+                        <div class="variant-links">
+                            <a href="Landing/variant-3.html" class="btn btn-primary">View Prototype</a>
+                            <a href="Landing/variant-3.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card neon">
+                        <div class="variant-number">4</div>
+                        <div class="variant-title">Neon Systems</div>
+                        <div class="variant-description">Cyberpunk dark mode with neon glow effects and gaming-inspired interactions. Appeals to tech-savvy advisors.</div>
+                        <div class="variant-links">
+                            <a href="Landing/variant-4.html" class="btn btn-primary">View Prototype</a>
+                            <a href="Landing/variant-4.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card warm">
+                        <div class="variant-number">5</div>
+                        <div class="variant-title">Warm Human</div>
+                        <div class="variant-description">Friendly rounded design with approachable microcopy and soft shadows. Reduces compliance anxiety for advisors.</div>
+                        <div class="variant-links">
+                            <a href="Landing/variant-5.html" class="btn btn-primary">View Prototype</a>
+                            <a href="Landing/variant-5.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Home Variants -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">⚙️</span>
+                    Admin Home (Approval Queue)
+                </h2>
+                <div class="variants-grid">
+                    <div class="variant-card executive">
+                        <div class="variant-number">1</div>
+                        <div class="variant-title">Executive Command Center</div>
+                        <div class="variant-description">Premium admin experience with glass panels, floating stats, and sophisticated batch operations for power users.</div>
+                        <div class="variant-links">
+                            <a href="AdminHome/variant-1.html" class="btn btn-primary">View Prototype</a>
+                            <a href="AdminHome/variant-1.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card editorial">
+                        <div class="variant-number">2</div>
+                        <div class="variant-title">Editorial Grid Dashboard</div>
+                        <div class="variant-description">Typography-focused interface with grid-based layout and content-first approach for efficient review workflow.</div>
+                        <div class="variant-links">
+                            <a href="AdminHome/variant-2.html" class="btn btn-primary">View Prototype</a>
+                            <a href="AdminHome/variant-2.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card institutional">
+                        <div class="variant-number">3</div>
+                        <div class="variant-title">Traditional Admin Console</div>
+                        <div class="variant-description">Conservative table-based layout with expandable rows and compliance-focused design for familiar admin patterns.</div>
+                        <div class="variant-links">
+                            <a href="AdminHome/variant-3.html" class="btn btn-primary">View Prototype</a>
+                            <a href="AdminHome/variant-3.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card neon">
+                        <div class="variant-number">4</div>
+                        <div class="variant-title">Cyberpunk Admin Terminal</div>
+                        <div class="variant-description">Terminal-style interface with matrix rain effects and neon glow UI elements for tech-forward admin teams.</div>
+                        <div class="variant-links">
+                            <a href="AdminHome/variant-4.html" class="btn btn-primary">View Prototype</a>
+                            <a href="AdminHome/variant-4.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card warm">
+                        <div class="variant-number">5</div>
+                        <div class="variant-title">Friendly Admin Helper</div>
+                        <div class="variant-description">Encouraging interface with celebration animations and AI assistant integration to reduce admin stress.</div>
+                        <div class="variant-links">
+                            <a href="AdminHome/variant-5.html" class="btn btn-primary">View Prototype</a>
+                            <a href="AdminHome/variant-5.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advisor Home Variants -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">👨‍💼</span>
+                    Advisor Home (Overview)
+                </h2>
+                <div class="variants-grid">
+                    <div class="variant-card executive">
+                        <div class="variant-number">1</div>
+                        <div class="variant-title">Executive Advisor Dashboard</div>
+                        <div class="variant-description">Starfield background with luxe countdown timer and glass panel metrics. Reinforces advisor prestige and brand positioning.</div>
+                        <div class="variant-links">
+                            <a href="AdvisorHome/variant-1.html" class="btn btn-primary">View Prototype</a>
+                            <a href="AdvisorHome/variant-1.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card editorial">
+                        <div class="variant-number">2</div>
+                        <div class="variant-title">Editorial Focus Dashboard</div>
+                        <div class="variant-description">Typography-first information hierarchy with minimal visual distractions. Excellent daily usability for content-focused advisors.</div>
+                        <div class="variant-links">
+                            <a href="AdvisorHome/variant-2.html" class="btn btn-primary">View Prototype</a>
+                            <a href="AdvisorHome/variant-2.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card institutional">
+                        <div class="variant-number">3</div>
+                        <div class="variant-title">Professional Advisor Console</div>
+                        <div class="variant-description">Traditional dashboard with compliance score prominence and formal data presentation for maximum professional trust.</div>
+                        <div class="variant-links">
+                            <a href="AdvisorHome/variant-3.html" class="btn btn-primary">View Prototype</a>
+                            <a href="AdvisorHome/variant-3.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card neon">
+                        <div class="variant-number">4</div>
+                        <div class="variant-title">Digital Command Center</div>
+                        <div class="variant-description">Cyberpunk aesthetic with animated grid background and RGB lighting effects. Appeals to younger, tech-forward advisors.</div>
+                        <div class="variant-links">
+                            <a href="AdvisorHome/variant-4.html" class="btn btn-primary">View Prototype</a>
+                            <a href="AdvisorHome/variant-4.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                    
+                    <div class="variant-card warm">
+                        <div class="variant-number">5</div>
+                        <div class="variant-title">Friendly Advisor Hub</div>
+                        <div class="variant-description">Rounded corners with conversational microcopy and milestone celebrations. Excellent daily user experience for relationship advisors.</div>
+                        <div class="variant-links">
+                            <a href="AdvisorHome/variant-5.html" class="btn btn-primary">View Prototype</a>
+                            <a href="AdvisorHome/variant-5.md" class="btn btn-secondary">Wireframe</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Navigation -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">📋</span>
+                    Additional Resources
+                </h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                    <a href="index.yaml" class="btn btn-secondary" style="padding: 1rem; text-align: center; display: block;">
+                        📊 Comprehensive Comparison Matrix
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some subtle interactions
+        document.querySelectorAll('.variant-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add click tracking for analytics
+        document.querySelectorAll('a[href$=".html"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                console.log(`Viewing variant: ${link.href}`);
+            });
+        });
+    </script>
+</body>
+</html>

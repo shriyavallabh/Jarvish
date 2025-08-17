@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Center - Project One Advisor Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Command Center Palette - Military Grade */
+            --command-void: #0A0D14;           /* Deep command black */
+            --command-steel: #1C2128;          /* Command steel */
+            --command-amber: #F79009;          /* Warning amber */
+            --command-emerald: #12B76A;        /* Success green */
+            --command-crimson: #F04438;        /* Alert red */
+            --command-frost: #F9FAFB;          /* Command white */
+            --command-graphite: #667085;       /* Command gray */
+            --command-gold: #DC6803;           /* Command gold */
+            --command-sapphire: #2E90FA;       /* Command blue */
+            --command-silver: #E4E7EC;         /* Light gray */
+            
+            /* Typography */
+            --font-primary: "Poppins", system-ui, sans-serif;
+            --font-display: "Fraunces", Georgia, serif;
+            --font-mono: "SF Mono", "Monaco", "Inconsolata", monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--command-void);
+            color: var(--command-frost);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Command Dashboard Layout */
+        .command-dashboard {
+            min-height: 100vh;
+            display: grid;
+            grid-template-areas: 
+                "sidebar header header"
+                "sidebar main main";
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: 80px 1fr;
+        }
+        
+        /* Command Header */
+        .command-header {
+            grid-area: header;
+            background: var(--command-steel);
+            border-bottom: 1px solid rgba(249, 250, 251, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            position: relative;
+        }
+        
+        .header-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--command-frost);
+            background: linear-gradient(135deg, var(--command-frost) 0%, var(--command-amber) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .command-status {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(18, 183, 106, 0.1);
+            border: 1px solid var(--command-emerald);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--command-emerald);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--command-emerald);
+            border-radius: 50%;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .command-time {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--command-amber);
+        }
+        
+        /* Command Sidebar */
+        .command-sidebar {
+            grid-area: sidebar;
+            background: var(--command-steel);
+            border-right: 1px solid rgba(249, 250, 251, 0.1);
+            padding: 32px 0;
+            position: relative;
+        }
+        
+        .sidebar-logo {
+            padding: 0 24px 32px;
+            border-bottom: 1px solid rgba(249, 250, 251, 0.1);
+            margin-bottom: 32px;
+        }
+        
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--command-frost);
+        }
+        
+        .logo-subtitle {
+            font-size: 12px;
+            color: var(--command-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+        
+        .command-nav {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 4px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 24px;
+            color: var(--command-graphite);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--command-amber);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            transform: scaleY(1);
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(247, 144, 9, 0.1);
+            color: var(--command-frost);
+        }
+        
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        /* Main Command Area */
+        .command-main {
+            grid-area: main;
+            padding: 32px;
+            overflow-y: auto;
+        }
+        
+        .command-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        
+        /* Mission Control Panel */
+        .mission-control {
+            background: var(--command-steel);
+            border: 1px solid rgba(249, 250, 251, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mission-control::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--command-emerald), var(--command-amber), var(--command-crimson));
+        }
+        
+        .mission-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+        
+        .mission-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--command-frost);
+        }
+        
+        .mission-badge {
+            background: rgba(247, 144, 9, 0.1);
+            color: var(--command-amber);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .kpi-card {
+            background: rgba(249, 250, 251, 0.02);
+            border: 1px solid rgba(249, 250, 251, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(247, 144, 9, 0.1);
+        }
+        
+        .kpi-value {
+            font-family: var(--font-mono);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--command-amber);
+            margin-bottom: 8px;
+        }
+        
+        .kpi-label {
+            font-size: 12px;
+            color: var(--command-graphite);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .kpi-change {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        
+        .kpi-change.positive {
+            color: var(--command-emerald);
+        }
+        
+        .kpi-change.negative {
+            color: var(--command-crimson);
+        }
+        
+        /* Chart Area */
+        .chart-container {
+            background: rgba(249, 250, 251, 0.02);
+            border: 1px solid rgba(249, 250, 251, 0.1);
+            border-radius: 12px;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chart-placeholder {
+            text-align: center;
+            color: var(--command-graphite);
+        }
+        
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .chart-value {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--command-emerald);
+        }
+        
+        /* Intelligence Panel */
+        .intelligence-panel {
+            background: var(--command-steel);
+            border: 1px solid rgba(249, 250, 251, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+        }
+        
+        .intelligence-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .intelligence-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--command-sapphire), var(--command-emerald));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--command-frost);
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .intelligence-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--command-frost);
+        }
+        
+        .alert-feed {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(249, 250, 251, 0.05);
+        }
+        
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+        
+        .alert-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 8px;
+        }
+        
+        .alert-status.critical {
+            background: var(--command-crimson);
+            box-shadow: 0 0 10px rgba(240, 68, 56, 0.5);
+        }
+        
+        .alert-status.warning {
+            background: var(--command-amber);
+            box-shadow: 0 0 10px rgba(247, 144, 9, 0.5);
+        }
+        
+        .alert-status.success {
+            background: var(--command-emerald);
+            box-shadow: 0 0 10px rgba(18, 183, 106, 0.5);
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--command-frost);
+            margin-bottom: 4px;
+        }
+        
+        .alert-description {
+            font-size: 13px;
+            color: var(--command-graphite);
+            line-height: 1.4;
+        }
+        
+        .alert-time {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--command-graphite);
+            margin-top: 4px;
+        }
+        
+        /* Operations Grid */
+        .operations-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        
+        .operation-card {
+            background: var(--command-steel);
+            border: 1px solid rgba(249, 250, 251, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .operation-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--command-emerald);
+        }
+        
+        .operation-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(18, 183, 106, 0.1);
+        }
+        
+        .operation-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(18, 183, 106, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            color: var(--command-emerald);
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .operation-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--command-frost);
+            margin-bottom: 8px;
+        }
+        
+        .operation-status {
+            font-size: 12px;
+            color: var(--command-emerald);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .operation-metric {
+            font-family: var(--font-mono);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--command-amber);
+            margin-top: 8px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .command-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .operations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .command-dashboard {
+                grid-template-areas: 
+                    "header"
+                    "main";
+                grid-template-columns: 1fr;
+                grid-template-rows: 80px 1fr;
+            }
+            
+            .command-sidebar {
+                display: none;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .operations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="command-dashboard">
+        <!-- Command Header -->
+        <header class="command-header">
+            <h1 class="header-title">Command Center</h1>
+            <div class="command-status">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>All Systems Operational</span>
+                </div>
+                <div class="command-time" id="currentTime">14:30:45 IST</div>
+            </div>
+        </header>
+
+        <!-- Command Sidebar -->
+        <nav class="command-sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-text">Project One</div>
+                <div class="logo-subtitle">Command Center</div>
+            </div>
+            <ul class="command-nav">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <span class="nav-icon">⚡</span>
+                        <span>Mission Control</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">🎯</span>
+                        <span>Campaigns</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">👥</span>
+                        <span>Clients</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">⚖️</span>
+                        <span>Compliance</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📱</span>
+                        <span>Communications</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Operations</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Command Area -->
+        <main class="command-main">
+            <div class="command-grid">
+                <!-- Mission Control Panel -->
+                <section class="mission-control">
+                    <div class="mission-header">
+                        <h2 class="mission-title">Mission Control</h2>
+                        <span class="mission-badge">Live Data</span>
+                    </div>
+                    
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-value">₹47.2Cr</div>
+                            <div class="kpi-label">Total AUM</div>
+                            <div class="kpi-change positive">+12.4% this month</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-value">847</div>
+                            <div class="kpi-label">Active Clients</div>
+                            <div class="kpi-change positive">+23 new</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-value">99.7%</div>
+                            <div class="kpi-label">Compliance</div>
+                            <div class="kpi-change positive">+0.3%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            <div class="chart-title">Portfolio Performance</div>
+                            <div class="chart-value">+15.7% YTD</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Intelligence Panel -->
+                <section class="intelligence-panel">
+                    <div class="intelligence-header">
+                        <div class="intelligence-icon">🧠</div>
+                        <h3 class="intelligence-title">Intelligence Feed</h3>
+                    </div>
+                    
+                    <div class="alert-feed">
+                        <div class="alert-item">
+                            <div class="alert-status critical"></div>
+                            <div class="alert-content">
+                                <div class="alert-title">Market Alert</div>
+                                <div class="alert-description">Unusual volatility detected in mid-cap segment</div>
+                                <div class="alert-time">2 minutes ago</div>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-status success"></div>
+                            <div class="alert-content">
+                                <div class="alert-title">Compliance Check</div>
+                                <div class="alert-description">All content approved for delivery</div>
+                                <div class="alert-time">5 minutes ago</div>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-status warning"></div>
+                            <div class="alert-content">
+                                <div class="alert-title">Client Opportunity</div>
+                                <div class="alert-description">3 clients ready for portfolio rebalancing</div>
+                                <div class="alert-time">12 minutes ago</div>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-status success"></div>
+                            <div class="alert-content">
+                                <div class="alert-title">Campaign Success</div>
+                                <div class="alert-description">WhatsApp delivery rate: 98.7%</div>
+                                <div class="alert-time">28 minutes ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Operations Grid -->
+            <section class="operations-grid">
+                <div class="operation-card">
+                    <div class="operation-icon">📈</div>
+                    <div class="operation-title">Content Generation</div>
+                    <div class="operation-status">Active</div>
+                    <div class="operation-metric">24/7</div>
+                </div>
+                <div class="operation-card">
+                    <div class="operation-icon">📱</div>
+                    <div class="operation-title">WhatsApp Delivery</div>
+                    <div class="operation-status">Operational</div>
+                    <div class="operation-metric">98.7%</div>
+                </div>
+                <div class="operation-card">
+                    <div class="operation-icon">⚖️</div>
+                    <div class="operation-title">Compliance Engine</div>
+                    <div class="operation-status">Monitoring</div>
+                    <div class="operation-metric">99.7%</div>
+                </div>
+                <div class="operation-card">
+                    <div class="operation-icon">🎯</div>
+                    <div class="operation-title">Client Targeting</div>
+                    <div class="operation-status">Optimizing</div>
+                    <div class="operation-metric">347%</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                hour12: false
+            }) + ' IST';
+            document.getElementById('currentTime').textContent = timeString;
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

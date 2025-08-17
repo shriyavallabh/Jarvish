@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - Automated WhatsApp Content for Indian Financial Advisors | Executive Clarity</title>
+    <meta name="description" content="Daily SEBI-compliant content delivered to your WhatsApp at 06:00 IST. AI-powered compliance checking. Zero silent days. Trusted by 500+ MFDs & RIAs.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --ink: #0B1F33;
+            --gold: #CEA200;
+            --cta: #0C310C;
+            --bg: #FFFFFF;
+            --gray-100: #F7F8FA;
+            --gray-200: #E9ECEF;
+            --gray-300: #DEE2E6;
+            --gray-400: #ADB5BD;
+            --gray-500: #6C757D;
+            --gray-600: #495057;
+            --success: #198754;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+            --shadow-sm: 0 1px 3px rgba(11, 31, 51, 0.08);
+            --shadow-md: 0 4px 12px rgba(11, 31, 51, 0.12);
+            --shadow-lg: 0 8px 24px rgba(11, 31, 51, 0.16);
+            --radius: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @font-face {
+            font-family: 'Fraunces';
+            src: url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&display=swap');
+        }
+        
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--ink);
+            background: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Typography */
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+        
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            line-height: 1.3;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-200);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md) 0;
+        }
+        
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--ink);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .logo-badge {
+            background: var(--gold);
+            color: var(--bg);
+            font-size: 0.625rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            min-height: 44px;
+            gap: var(--spacing-xs);
+        }
+        
+        .btn-primary {
+            background: var(--cta);
+            color: var(--bg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            background: #0A2A0A;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--ink);
+            border: 2px solid var(--gray-300);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-100);
+            border-color: var(--ink);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: -8px;
+        }
+        
+        .mobile-menu span {
+            width: 24px;
+            height: 2px;
+            background: var(--ink);
+            transition: var(--transition);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: calc(80px + var(--spacing-2xl)) 0 var(--spacing-2xl);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--gray-100) 0%, transparent 50%);
+            position: relative;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            align-items: center;
+        }
+        
+        .hero-text {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .compliance-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            background: linear-gradient(135deg, #E8F5E8 0%, #F0FFF0 100%);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: var(--cta);
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            border: 1px solid rgba(12, 49, 12, 0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        /* Journey Timeline Section */
+        .journey-section {
+            padding: var(--spacing-2xl) 0;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--gray-100) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .journey-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23CEA200' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 0;
+        }
+        
+        .journey-section .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .journey-badge {
+            display: inline-block;
+            background: var(--cta);
+            color: var(--bg);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .journey-timeline {
+            margin-top: var(--spacing-2xl);
+            position: relative;
+        }
+        
+        .timeline-progress {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gray-200);
+            border-radius: 1px;
+            z-index: 1;
+        }
+        
+        .progress-line {
+            width: 75%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold) 0%, var(--cta) 100%);
+            border-radius: 1px;
+            animation: progressFill 2s ease-out;
+        }
+        
+        @keyframes progressFill {
+            from { width: 0; }
+            to { width: 75%; }
+        }
+        
+        .timeline-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-lg);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .timeline-step {
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 3px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-md);
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+        }
+        
+        .step-circle::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--cta) 100%);
+            opacity: 0;
+            z-index: -1;
+            transition: var(--transition);
+        }
+        
+        .timeline-step:nth-child(-n+3) .step-circle {
+            border-color: var(--cta);
+        }
+        
+        .timeline-step:nth-child(-n+3) .step-circle::before {
+            opacity: 0.1;
+            animation: stepPulse 2s infinite;
+        }
+        
+        @keyframes stepPulse {
+            0%, 100% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.1); opacity: 0.2; }
+        }
+        
+        .step-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            font-family: 'Fraunces', serif;
+        }
+        
+        .timeline-step:nth-child(-n+3) .step-number {
+            color: var(--cta);
+        }
+        
+        .step-content h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+            color: var(--ink);
+        }
+        
+        .step-content p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.5;
+        }
+        
+        .step-duration {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 12px;
+            background: rgba(206, 162, 0, 0.1);
+            border-radius: 100px;
+            display: inline-block;
+        }
+        
+        .timeline-step:nth-child(-n+3) .step-duration {
+            color: var(--cta);
+            background: rgba(12, 49, 12, 0.1);
+        }
+        
+        .hero h1 {
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(135deg, var(--ink) 0%, var(--gray-600) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.7;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .trust-indicators {
+            display: flex;
+            gap: var(--spacing-lg);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        .trust-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .trust-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        
+        .trust-label {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+        
+        .hero-visual {
+            position: relative;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        
+        .dashboard-preview {
+            background: var(--bg);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 60px rgba(11, 31, 51, 0.15);
+            padding: var(--spacing-lg);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: var(--transition);
+        }
+        
+        .dashboard-preview:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+        
+        .preview-header {
+            display: flex;
+            gap: 6px;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .preview-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gray-300);
+        }
+        
+        .preview-dot:first-child { background: #FF5F57; }
+        .preview-dot:nth-child(2) { background: #FFBD2E; }
+        .preview-dot:nth-child(3) { background: #28CA42; }
+        
+        .preview-content {
+            display: grid;
+            gap: var(--spacing-sm);
+        }
+        
+        .preview-card {
+            background: var(--gray-100);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .preview-stat {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cta);
+            margin-bottom: 4px;
+        }
+        
+        .preview-label {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: var(--spacing-2xl) 0;
+            background: var(--gray-100);
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto var(--spacing-2xl);
+        }
+        
+        .section-header h2 {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .section-description {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        
+        .feature-card {
+            background: var(--bg);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold) 0%, var(--cta) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--cta) 100%);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--bg);
+        }
+        
+        .feature-card h3 {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .feature-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: var(--spacing-2xl) 0;
+            background: var(--bg);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+        }
+        
+        .pricing-card {
+            background: var(--bg);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .pricing-card.featured {
+            border-color: var(--gold);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .pricing-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: var(--bg);
+            padding: 4px 16px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-4px);
+        }
+        
+        .pricing-tier {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .pricing-amount {
+            display: flex;
+            align-items: baseline;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .pricing-currency {
+            font-size: 1.5rem;
+            color: var(--gray-500);
+        }
+        
+        .pricing-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1;
+        }
+        
+        .pricing-period {
+            color: var(--gray-500);
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .pricing-features li {
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: var(--gray-600);
+        }
+        
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+        
+        .pricing-cta {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: var(--spacing-2xl) 0;
+            background: linear-gradient(135deg, var(--ink) 0%, #162B42 100%);
+            color: var(--bg);
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            color: var(--bg);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .cta-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: var(--spacing-lg);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+        }
+        
+        .btn-light {
+            background: var(--bg);
+            color: var(--ink);
+        }
+        
+        .btn-light:hover {
+            background: var(--gray-100);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            padding: var(--spacing-xl) 0 var(--spacing-lg);
+            background: var(--gray-100);
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        
+        .footer-logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--ink);
+        }
+        
+        .footer-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+        
+        .footer-section h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray-500);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .footer-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--ink);
+            transform: translateX(4px);
+        }
+        
+        .footer-bottom {
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-600);
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .social-links a:hover {
+            background: var(--ink);
+            color: var(--bg);
+            transform: translateY(-4px);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: flex;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+            }
+            
+            .trust-indicators {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .hero-visual {
+                display: none;
+            }
+            
+            /* Journey Timeline Mobile */
+            .timeline-steps {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-xl);
+            }
+            
+            .timeline-progress {
+                display: none;
+            }
+            
+            .timeline-step {
+                display: flex;
+                align-items: center;
+                text-align: left;
+                gap: var(--spacing-md);
+            }
+            
+            .step-circle {
+                width: 60px;
+                height: 60px;
+                margin: 0;
+                flex-shrink: 0;
+            }
+            
+            .step-number {
+                font-size: 1.25rem;
+            }
+            
+            .step-content {
+                flex: 1;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .cta-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.75rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+            }
+            
+            .pricing-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="logo">
+                    Jarvish
+                    <span class="logo-badge">SEBI</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#about">About</a>
+                    <a href="#" class="btn btn-secondary">Sign In</a>
+                    <a href="#" class="btn btn-primary">Start Free Trial</a>
+                </div>
+                <div class="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="compliance-badge">
+                        <span>⚡</span>
+                        Daily Content at 06:00 IST • SEBI Compliant
+                    </div>
+                    <h1>Automated WhatsApp Content for Financial Advisors</h1>
+                    <p class="hero-description">
+                        Wake up to ready-to-send WhatsApp content every morning. AI-powered 
+                        SEBI compliance checking, zero silent days guaranteed. Save 2+ hours daily 
+                        on content creation.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#" class="btn btn-primary">
+                            Try 14 Days Free
+                            <span>📱</span>
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            See WhatsApp Demo
+                        </a>
+                    </div>
+                    <div class="trust-indicators">
+                        <div class="trust-item">
+                            <div class="trust-value">500+</div>
+                            <div class="trust-label">MFDs & RIAs</div>
+                        </div>
+                        <div class="trust-item">
+                            <div class="trust-value">2.5M</div>
+                            <div class="trust-label">WhatsApp Messages</div>
+                        </div>
+                        <div class="trust-item">
+                            <div class="trust-value">Zero</div>
+                            <div class="trust-label">Silent Days</div>
+                        </div>
+                        <div class="trust-item">
+                            <div class="trust-value">99%</div>
+                            <div class="trust-label">Delivery SLA</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="dashboard-preview">
+                        <div class="preview-header">
+                            <div class="preview-dot"></div>
+                            <div class="preview-dot"></div>
+                            <div class="preview-dot"></div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-card">
+                                <div class="preview-stat">06:00</div>
+                                <div class="preview-label">Daily WhatsApp Delivery</div>
+                            </div>
+                            <div class="preview-card">
+                                <div class="preview-stat">100%</div>
+                                <div class="preview-label">SEBI Compliant</div>
+                            </div>
+                            <div class="preview-card">
+                                <div class="preview-stat">2.5 hrs</div>
+                                <div class="preview-label">Time Saved Daily</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Journey Timeline Section -->
+    <section class="journey-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="journey-badge">YOUR JOURNEY</div>
+                <h2>From Setup to Scale in 30 Days</h2>
+                <p class="section-description">
+                    Follow our proven path to transform your advisory practice with automated WhatsApp content delivery
+                </p>
+            </div>
+            <div class="journey-timeline">
+                <div class="timeline-progress">
+                    <div class="progress-line"></div>
+                </div>
+                <div class="timeline-steps">
+                    <div class="timeline-step">
+                        <div class="step-circle">
+                            <span class="step-number">1</span>
+                        </div>
+                        <div class="step-content">
+                            <h3>Quick Setup</h3>
+                            <p>Connect WhatsApp, verify credentials, customize your brand</p>
+                            <div class="step-duration">Day 0-3</div>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-circle">
+                            <span class="step-number">2</span>
+                        </div>
+                        <div class="step-content">
+                            <h3>First Campaign</h3>
+                            <p>Launch AI-powered content with compliance checking</p>
+                            <div class="step-duration">Day 4-7</div>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-circle">
+                            <span class="step-number">3</span>
+                        </div>
+                        <div class="step-content">
+                            <h3>Optimize</h3>
+                            <p>Analyze performance and refine your strategy</p>
+                            <div class="step-duration">Day 8-21</div>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-circle">
+                            <span class="step-number">4</span>
+                        </div>
+                        <div class="step-content">
+                            <h3>Scale</h3>
+                            <p>Expand reach and watch your practice grow</p>
+                            <div class="step-duration">Day 22-30</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Built for Indian Financial Advisors</h2>
+                <p class="section-description">
+                    Complete WhatsApp content automation with AI-powered SEBI compliance. 
+                    Perfect for MFDs and RIAs who want professional, compliant communication.
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h3>06:00 IST Auto-Delivery</h3>
+                    <p class="feature-description">
+                        Wake up to fresh, compliant content in your WhatsApp every morning. 
+                        Ready-to-forward images and captions for your clients.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>3-Stage AI Compliance</h3>
+                    <p class="feature-description">
+                        Advanced AI checks every word against SEBI guidelines. 
+                        Rules → AI Evaluation → Final Verification for zero violations.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚫</div>
+                    <h3>Zero Silent Days</h3>
+                    <p class="feature-description">
+                        Pre-approved fallback content ensures you never miss a day. 
+                        Automatic evergreen content when fresh content isn't ready.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏷️</div>
+                    <h3>Your Brand on Images</h3>
+                    <p class="feature-description">
+                        Pro tier adds your logo, name, and registration number to every image. 
+                        Professional branding with compliance-safe placement.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌏</div>
+                    <h3>Multi-Language Support</h3>
+                    <p class="feature-description">
+                        Content in English, Hindi, and Marathi. AI-powered translation 
+                        with proper financial terminology and local compliance.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>ARN/RIA Ready</h3>
+                    <p class="feature-description">
+                        Built for Indian MFDs and RIAs. Automatic AMFI, SEBI compliance 
+                        footers and registration number integration.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>Save 2+ Hours Daily with Automated Content</h2>
+                <p class="section-description">
+                    ROI Calculator: Manual content creation costs ₹12,000+ in time monthly. 
+                    Our automation pays for itself in the first week.
+                </p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-tier">Basic - MFDs</div>
+                    <div class="pricing-amount">
+                        <span class="pricing-currency">₹</span>
+                        <span class="pricing-value">2,999</span>
+                        <span class="pricing-period">/month</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>15 daily content packs/month</li>
+                        <li>06:00 IST WhatsApp delivery</li>
+                        <li>AI compliance checking</li>
+                        <li>1 language (EN/HI/MR)</li>
+                        <li>Zero silent days guarantee</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary pricing-cta">Start 14-Day Trial</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-tier">Standard - MFDs & RIAs</div>
+                    <div class="pricing-amount">
+                        <span class="pricing-currency">₹</span>
+                        <span class="pricing-value">5,999</span>
+                        <span class="pricing-period">/month</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>30 daily content packs/month</li>
+                        <li>2 languages (EN/HI/MR)</li>
+                        <li>3 team seats included</li>
+                        <li>Advanced AI personalization</li>
+                        <li>Priority WhatsApp delivery</li>
+                        <li>Performance analytics</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary pricing-cta">Start 14-Day Trial</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-tier">Pro - Multi-Brand</div>
+                    <div class="pricing-amount">
+                        <span class="pricing-currency">₹</span>
+                        <span class="pricing-value">11,999</span>
+                        <span class="pricing-period">/month</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>60 daily content packs/month</li>
+                        <li>All 3 languages (EN/HI/MR)</li>
+                        <li>Your brand on images</li>
+                        <li>5 team seats + API access</li>
+                        <li>Custom content colorway</li>
+                        <li>Dedicated support manager</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary pricing-cta">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Never Miss Another Content Day</h2>
+            <p class="cta-description">
+                Join 500+ MFDs and RIAs who wake up to fresh, compliant WhatsApp content 
+                every morning at 06:00 IST. Zero violations, zero silent days.
+            </p>
+            <div class="cta-actions">
+                <a href="#" class="btn btn-light">Try 14 Days Free</a>
+                <a href="#" class="btn btn-secondary" style="border-color: rgba(255,255,255,0.3); color: white;">
+                    See WhatsApp Demo
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">Jarvish</div>
+                    <p class="footer-description">
+                        Automated WhatsApp content platform for Indian financial advisors. 
+                        SEBI compliant, ARN/RIA ready, delivering fresh content at 06:00 IST daily. 
+                        Zero silent days guaranteed.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Compliance</a></li>
+                        <li><a href="#">SEBI Guidelines</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2024 Jarvish. All rights reserved.</div>
+                <div class="social-links">
+                    <a href="#">𝕏</a>
+                    <a href="#">in</a>
+                    <a href="#">📧</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

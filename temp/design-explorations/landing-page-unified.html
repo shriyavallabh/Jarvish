@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - AI-Powered SEBI Compliance for Financial Advisors</title>
+    <meta name="description" content="Transform your advisory practice with AI-powered SEBI compliance. Daily WhatsApp content at 6 AM. Zero silent days. Trusted by 500+ MFDs & RIAs.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Unified Design System -->
+    <link rel="stylesheet" href="unified-design-system.css">
+    
+    <style>
+        /* ============================================
+           LANDING PAGE SPECIFIC STYLES
+           ============================================ */
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-white) 100%);
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 60%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(206, 162, 0, 0.05) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: var(--space-20) 0;
+        }
+        
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-16);
+            align-items: center;
+        }
+        
+        .hero-text {
+            animation: fadeInLeft var(--transition-slow) ease-out;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: var(--gradient-gold);
+            color: var(--color-ink);
+            font-size: var(--text-caption);
+            font-weight: var(--font-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wider);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-6);
+            box-shadow: var(--shadow-gold-sm);
+        }
+        
+        .hero-badge-icon {
+            width: 16px;
+            height: 16px;
+            background: var(--color-ink);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-gold);
+            font-size: 10px;
+        }
+        
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: var(--text-hero);
+            font-weight: var(--font-black);
+            line-height: var(--line-tight);
+            color: var(--color-ink);
+            margin-bottom: var(--space-6);
+        }
+        
+        .hero-title-accent {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-description {
+            font-size: var(--text-body-lg);
+            color: var(--color-gray-600);
+            line-height: var(--line-relaxed);
+            margin-bottom: var(--space-8);
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-8);
+        }
+        
+        .hero-trust {
+            display: flex;
+            align-items: center;
+            gap: var(--space-6);
+            flex-wrap: wrap;
+        }
+        
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--color-gray-500);
+            font-size: var(--text-body-sm);
+        }
+        
+        .trust-icon {
+            color: var(--color-success);
+        }
+        
+        /* WhatsApp Demo */
+        .hero-visual {
+            position: relative;
+            animation: fadeInRight var(--transition-slow) ease-out;
+        }
+        
+        .whatsapp-demo {
+            background: var(--color-white);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-2xl);
+            padding: var(--space-6);
+            max-width: 400px;
+            margin: 0 auto;
+            transform: rotate(-2deg);
+            transition: var(--transition-all);
+        }
+        
+        .whatsapp-demo:hover {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: var(--shadow-gold-lg);
+        }
+        
+        .whatsapp-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding-bottom: var(--space-4);
+            border-bottom: 1px solid var(--color-gray-200);
+            margin-bottom: var(--space-4);
+        }
+        
+        .whatsapp-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-gold);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: var(--font-bold);
+            color: var(--color-ink);
+        }
+        
+        .whatsapp-name {
+            flex: 1;
+        }
+        
+        .whatsapp-title {
+            font-weight: var(--font-semibold);
+            color: var(--color-ink);
+        }
+        
+        .whatsapp-status {
+            font-size: var(--text-caption);
+            color: var(--color-success);
+        }
+        
+        .whatsapp-time {
+            font-size: var(--text-caption);
+            color: var(--color-gray-400);
+        }
+        
+        .whatsapp-message {
+            background: #DCF8C6;
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-3);
+            position: relative;
+        }
+        
+        .whatsapp-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -8px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 0 10px 10px;
+            border-color: transparent transparent transparent #DCF8C6;
+        }
+        
+        .whatsapp-text {
+            font-size: var(--text-body-sm);
+            color: var(--color-gray-800);
+            line-height: var(--line-relaxed);
+        }
+        
+        .whatsapp-compliance {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+            padding-top: var(--space-3);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .compliance-badge {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-2);
+            background: white;
+            border-radius: var(--radius-full);
+            font-size: var(--text-micro);
+            font-weight: var(--font-semibold);
+            color: var(--color-success);
+        }
+        
+        /* Journey Timeline Integration */
+        .timeline-section {
+            position: relative;
+            padding: var(--space-20) 0;
+            background: linear-gradient(180deg, var(--color-white) 0%, var(--color-surface) 100%);
+            overflow: hidden;
+        }
+        
+        /* Features Grid */
+        .features {
+            padding: var(--space-20) 0;
+            background: var(--color-white);
+        }
+        
+        .features-header {
+            text-align: center;
+            margin-bottom: var(--space-16);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-8);
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: var(--space-8);
+            transition: var(--transition-all);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--space-6);
+            background: var(--gradient-gold);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            box-shadow: var(--shadow-gold-sm);
+        }
+        
+        .feature-title {
+            font-family: var(--font-heading);
+            font-size: var(--text-h4);
+            font-weight: var(--font-bold);
+            color: var(--color-ink);
+            margin-bottom: var(--space-3);
+        }
+        
+        .feature-description {
+            color: var(--color-gray-600);
+            line-height: var(--line-relaxed);
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: var(--space-20) 0;
+            background: var(--color-surface);
+        }
+        
+        .pricing-header {
+            text-align: center;
+            margin-bottom: var(--space-16);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-8);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-all);
+            position: relative;
+        }
+        
+        .pricing-card.featured {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-gold-lg);
+            border: 2px solid var(--color-gold);
+        }
+        
+        .pricing-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: var(--space-1) var(--space-4);
+            background: var(--gradient-gold);
+            color: var(--color-ink);
+            font-size: var(--text-micro);
+            font-weight: var(--font-bold);
+            letter-spacing: var(--tracking-wider);
+            border-radius: var(--radius-full);
+        }
+        
+        .pricing-name {
+            font-family: var(--font-heading);
+            font-size: var(--text-h4);
+            font-weight: var(--font-bold);
+            color: var(--color-ink);
+            margin-bottom: var(--space-2);
+        }
+        
+        .pricing-price {
+            font-size: var(--text-h2);
+            font-weight: var(--font-black);
+            color: var(--color-gold);
+            margin-bottom: var(--space-2);
+        }
+        
+        .pricing-period {
+            font-size: var(--text-body-sm);
+            color: var(--color-gray-500);
+            margin-bottom: var(--space-6);
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: var(--space-8);
+        }
+        
+        .pricing-feature {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--color-gray-200);
+            font-size: var(--text-body-sm);
+            color: var(--color-gray-700);
+        }
+        
+        .pricing-feature::before {
+            content: '✓';
+            color: var(--color-success);
+            font-weight: var(--font-bold);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--color-ink);
+            color: var(--color-white);
+            padding: var(--space-16) 0 var(--space-8);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-12);
+            margin-bottom: var(--space-12);
+        }
+        
+        .footer-section h4 {
+            font-family: var(--font-heading);
+            font-size: var(--text-h5);
+            margin-bottom: var(--space-4);
+            color: var(--color-gold);
+        }
+        
+        .footer-link {
+            color: var(--color-gray-400);
+            text-decoration: none;
+            display: block;
+            padding: var(--space-2) 0;
+            transition: var(--transition-all);
+        }
+        
+        .footer-link:hover {
+            color: var(--color-white);
+            transform: translateX(4px);
+        }
+        
+        .footer-bottom {
+            padding-top: var(--space-8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--color-gray-400);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-cta {
+                justify-content: center;
+            }
+            
+            .hero-trust {
+                justify-content: center;
+            }
+            
+            .whatsapp-demo {
+                transform: none;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: var(--text-h1);
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav glass">
+        <div class="container">
+            <div class="nav-container">
+                <a href="/" class="nav-logo">
+                    Jarvish
+                    <span class="badge badge-gold">AI</span>
+                </a>
+                <ul class="nav-menu hide-mobile">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#journey" class="nav-link">Journey</a></li>
+                    <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                    <li><a href="#" class="nav-link">Login</a></li>
+                    <li><a href="#" class="btn btn-primary">Start Free Trial</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-grid">
+                    <div class="hero-text">
+                        <div class="hero-badge">
+                            <span class="hero-badge-icon">✓</span>
+                            SEBI Compliant • 500+ Advisors Trust Us
+                        </div>
+                        <h1 class="hero-title">
+                            Never Miss a Day of
+                            <span class="hero-title-accent">Client Engagement</span>
+                        </h1>
+                        <p class="hero-description">
+                            AI-powered SEBI compliance for financial advisors. 
+                            Get daily WhatsApp content at 6 AM sharp. 
+                            Build trust, save 10+ hours weekly, grow your practice.
+                        </p>
+                        <div class="hero-cta">
+                            <button class="btn btn-primary btn-lg">
+                                Start Free Trial - WhatsApp Setup
+                            </button>
+                            <button class="btn btn-outline btn-lg">
+                                Watch 2-Min Demo
+                            </button>
+                        </div>
+                        <div class="hero-trust">
+                            <div class="trust-item">
+                                <span class="trust-icon">✓</span>
+                                100% SEBI Compliant
+                            </div>
+                            <div class="trust-item">
+                                <span class="trust-icon">✓</span>
+                                3 Indian Languages
+                            </div>
+                            <div class="trust-item">
+                                <span class="trust-icon">✓</span>
+                                No Credit Card Required
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-visual">
+                        <div class="whatsapp-demo">
+                            <div class="whatsapp-header">
+                                <div class="whatsapp-avatar">J</div>
+                                <div class="whatsapp-name">
+                                    <div class="whatsapp-title">Jarvish AI</div>
+                                    <div class="whatsapp-status">● Online</div>
+                                </div>
+                                <div class="whatsapp-time">6:00 AM</div>
+                            </div>
+                            <div class="whatsapp-message">
+                                <div class="whatsapp-text">
+                                    Good morning! 🌅<br><br>
+                                    Today's market insight:<br>
+                                    "Systematic Investment Plans (SIPs) have generated 12-15% CAGR over the last decade. 
+                                    Start your wealth creation journey today."<br><br>
+                                    📊 Nifty: 19,783 (+0.8%)<br>
+                                    💰 Sensex: 65,995 (+0.7%)
+                                </div>
+                                <div class="whatsapp-compliance">
+                                    <span class="compliance-badge">
+                                        ✓ SEBI Verified
+                                    </span>
+                                    <span class="compliance-badge">
+                                        ✓ ARN: 123456
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Journey Timeline Section -->
+    <section id="journey" class="timeline-section">
+        <div class="container">
+            <div class="timeline-header">
+                <span class="timeline-subtitle animate-fadeInDown">Your Success Journey</span>
+                <h2 class="timeline-title animate-fadeInUp">From Setup to Scale in 30 Days</h2>
+                <p class="timeline-description animate-fadeIn">
+                    Join 500+ financial advisors who transformed their practice with AI-powered compliance. 
+                    Start creating SEBI-compliant content in minutes, not hours.
+                </p>
+            </div>
+            
+            <div class="timeline-track">
+                <div class="timeline-line">
+                    <div class="timeline-progress"></div>
+                </div>
+                
+                <div class="timeline-steps">
+                    <!-- Day 0: Quick Start -->
+                    <div class="timeline-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-icon">🚀</div>
+                            <span class="step-number">1</span>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-day">Day 0</span>
+                            <h3 class="step-title">Quick Start</h3>
+                            <p class="step-description">
+                                5-minute WhatsApp setup. Your first compliant post ready instantly.
+                            </p>
+                            <div class="step-features">
+                                <div class="step-feature">WhatsApp verification</div>
+                                <div class="step-feature">ARN/RIA validation</div>
+                                <div class="step-feature">First post live</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Day 1-7: Build Momentum -->
+                    <div class="timeline-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-icon">📈</div>
+                            <span class="step-number">2</span>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-day">Day 1-7</span>
+                            <h3 class="step-title">Build Momentum</h3>
+                            <p class="step-description">
+                                Daily 6 AM content delivery. 100% SEBI compliance guaranteed.
+                            </p>
+                            <div class="step-features">
+                                <div class="step-feature">7 posts published</div>
+                                <div class="step-feature">3 languages unlocked</div>
+                                <div class="step-feature">Zero compliance issues</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Day 8-21: Expand Reach -->
+                    <div class="timeline-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-icon">🌟</div>
+                            <span class="step-number">3</span>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-day">Day 8-21</span>
+                            <h3 class="step-title">Expand Reach</h3>
+                            <p class="step-description">
+                                Custom templates, multi-language posts, client engagement soars.
+                            </p>
+                            <div class="step-features">
+                                <div class="step-feature">5 custom templates</div>
+                                <div class="step-feature">50+ engaged clients</div>
+                                <div class="step-feature">2x response rate</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Day 22-30: Scale Success -->
+                    <div class="timeline-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-icon">🏆</div>
+                            <span class="step-number">4</span>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-day">Day 22-30</span>
+                            <h3 class="step-title">Scale Success</h3>
+                            <p class="step-description">
+                                Full automation active. 10+ hours saved weekly. ROI proven.
+                            </p>
+                            <div class="step-features">
+                                <div class="step-feature">30 days zero-silence</div>
+                                <div class="step-feature">₹50K+ value created</div>
+                                <div class="step-feature">Ready to scale 10x</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Success Stats -->
+            <div class="timeline-stats animate-fadeInUp">
+                <div class="stat-item">
+                    <div class="stat-value">500+</div>
+                    <div class="stat-label">Active Advisors</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Compliance Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">10hrs</div>
+                    <div class="stat-label">Saved Weekly</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">30min</div>
+                    <div class="stat-label">To First Post</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="features-header">
+                <h2 class="text-h2 font-heading">Everything You Need to Succeed</h2>
+                <p class="text-body-lg text-gray-600">
+                    Powerful features designed for Indian financial advisors
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI Compliance Engine</h3>
+                    <p class="feature-description">
+                        Real-time SEBI compliance checking with 99.9% accuracy. 
+                        Never worry about violations again.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">WhatsApp Automation</h3>
+                    <p class="feature-description">
+                        Daily content delivered at 6 AM sharp. 
+                        Direct to your clients' WhatsApp.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">Multi-Language Support</h3>
+                    <p class="feature-description">
+                        Create content in English, Hindi, and Marathi. 
+                        Reach every client in their language.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Analytics Dashboard</h3>
+                    <p class="feature-description">
+                        Track engagement, compliance scores, and ROI. 
+                        Data-driven insights for growth.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Custom Templates</h3>
+                    <p class="feature-description">
+                        Professional templates for every occasion. 
+                        Maintain your unique brand voice.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Bank-Grade Security</h3>
+                    <p class="feature-description">
+                        256-bit encryption, DPDP compliant. 
+                        Your data is safer than Fort Knox.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="pricing-header">
+                <h2 class="text-h2 font-heading">Simple, Transparent Pricing</h2>
+                <p class="text-body-lg text-gray-600">
+                    Choose the plan that fits your practice. Upgrade anytime.
+                </p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 class="pricing-name">Starter</h3>
+                    <div class="pricing-price">₹999</div>
+                    <div class="pricing-period">per month</div>
+                    <ul class="pricing-features">
+                        <li class="pricing-feature">Daily WhatsApp content</li>
+                        <li class="pricing-feature">SEBI compliance checking</li>
+                        <li class="pricing-feature">1 language (English)</li>
+                        <li class="pricing-feature">Basic templates</li>
+                        <li class="pricing-feature">Email support</li>
+                    </ul>
+                    <button class="btn btn-outline btn-lg" style="width: 100%;">
+                        Start Free Trial
+                    </button>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <h3 class="pricing-name">Professional</h3>
+                    <div class="pricing-price">₹2,999</div>
+                    <div class="pricing-period">per month</div>
+                    <ul class="pricing-features">
+                        <li class="pricing-feature">Everything in Starter</li>
+                        <li class="pricing-feature">3 languages</li>
+                        <li class="pricing-feature">Custom templates</li>
+                        <li class="pricing-feature">Analytics dashboard</li>
+                        <li class="pricing-feature">Priority support</li>
+                        <li class="pricing-feature">Bulk scheduling</li>
+                    </ul>
+                    <button class="btn btn-primary btn-lg" style="width: 100%;">
+                        Start Free Trial
+                    </button>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3 class="pricing-name">Enterprise</h3>
+                    <div class="pricing-price">Custom</div>
+                    <div class="pricing-period">for teams</div>
+                    <ul class="pricing-features">
+                        <li class="pricing-feature">Everything in Professional</li>
+                        <li class="pricing-feature">Unlimited advisors</li>
+                        <li class="pricing-feature">Custom AI training</li>
+                        <li class="pricing-feature">API access</li>
+                        <li class="pricing-feature">Dedicated support</li>
+                        <li class="pricing-feature">SLA guarantee</li>
+                    </ul>
+                    <button class="btn btn-gold btn-lg" style="width: 100%;">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <a href="#" class="footer-link">Features</a>
+                    <a href="#" class="footer-link">Pricing</a>
+                    <a href="#" class="footer-link">API</a>
+                    <a href="#" class="footer-link">Integrations</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="#" class="footer-link">About Us</a>
+                    <a href="#" class="footer-link">Careers</a>
+                    <a href="#" class="footer-link">Blog</a>
+                    <a href="#" class="footer-link">Press</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <a href="#" class="footer-link">Documentation</a>
+                    <a href="#" class="footer-link">Help Center</a>
+                    <a href="#" class="footer-link">SEBI Guidelines</a>
+                    <a href="#" class="footer-link">Templates</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">DPDP Compliance</a>
+                    <a href="#" class="footer-link">Security</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Jarvish. All rights reserved. Made with ❤️ for Indian Financial Advisors.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe animated elements
+        document.querySelectorAll('[class*="animate-"]').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+        
+        // Timeline animation
+        const progressBar = document.querySelector('.timeline-progress');
+        const timelineSection = document.querySelector('.timeline-section');
+        
+        if (progressBar && timelineSection) {
+            const progressObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        progressBar.style.animation = 'timelineProgress 3s ease-out forwards';
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            progressObserver.observe(timelineSection);
+        }
+        
+        // Add active class to nav links on scroll
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

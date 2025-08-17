@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project One - Professional UI Gallery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <style>
+        /* Authoritative Design Tokens from PRD */
+        :root {
+            /* Authoritative Colors */
+            --color-ink: #0B1F33;        /* primary text */
+            --color-gold: #CEA200;       /* micro-accent */
+            --color-cta: #0C310C;        /* primary action (Palm Green) */
+            --color-bg: #FFFFFF;         /* background */
+            --color-bg-muted: #F6F8FA;   /* muted background */
+            --color-border: #E6E8EB;     /* border */
+            --color-danger: #D92D20;     /* danger */
+            --color-success: #12B76A;    /* success */
+            --color-warning: #F79009;    /* warning */
+            
+            /* Typography - Correct Implementation */
+            --font-primary: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --font-secondary: "Fraunces", Georgia, serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--color-bg);
+            color: var(--color-ink);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .gallery-title {
+            font-family: var(--font-secondary);
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+        
+        .gallery-subtitle {
+            font-size: 20px;
+            color: var(--color-ink);
+            opacity: 0.7;
+            margin-bottom: 8px;
+        }
+        
+        .gallery-description {
+            font-size: 16px;
+            color: var(--color-ink);
+            opacity: 0.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .comparison-note {
+            background: rgba(217, 45, 32, 0.05);
+            border: 1px solid rgba(217, 45, 32, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 40px 0;
+        }
+        
+        .comparison-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-danger);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .comparison-text {
+            color: var(--color-ink);
+            opacity: 0.8;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .interface-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .interface-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .interface-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -8px rgba(11, 31, 51, 0.1);
+            border-color: var(--color-cta);
+        }
+        
+        .card-header {
+            padding: 32px;
+            background: var(--color-bg-muted);
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .card-type {
+            display: inline-block;
+            background: var(--color-cta);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+        
+        .admin-type {
+            background: var(--color-danger);
+        }
+        
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 8px;
+        }
+        
+        .card-description {
+            color: var(--color-ink);
+            opacity: 0.7;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .card-content {
+            padding: 32px;
+        }
+        
+        .features-list {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+        
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: var(--color-ink);
+            opacity: 0.8;
+            font-size: 14px;
+        }
+        
+        .feature-check {
+            width: 20px;
+            height: 20px;
+            background: var(--color-success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .view-button {
+            display: block;
+            width: 100%;
+            background: var(--color-cta);
+            color: white;
+            text-decoration: none;
+            padding: 16px 24px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .view-button:hover {
+            background: #0A2A0A;
+            transform: translateY(-2px);
+        }
+        
+        .admin-button {
+            background: var(--color-danger);
+        }
+        
+        .admin-button:hover {
+            background: #B91C1C;
+        }
+        
+        .old-versions {
+            background: var(--color-bg-muted);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 40px;
+        }
+        
+        .old-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 12px;
+        }
+        
+        .old-description {
+            color: var(--color-ink);
+            opacity: 0.7;
+            margin-bottom: 16px;
+        }
+        
+        .old-link {
+            color: var(--color-ink);
+            opacity: 0.6;
+            text-decoration: underline;
+            font-size: 14px;
+        }
+        
+        .tech-specs {
+            background: var(--color-bg-muted);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 32px;
+            margin-top: 40px;
+        }
+        
+        .tech-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 20px;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        
+        .tech-item {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .tech-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-ink);
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        
+        .tech-value {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-ink);
+        }
+        
+        @media (max-width: 768px) {
+            .interface-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-title {
+                font-size: 36px;
+            }
+            
+            .card-header,
+            .card-content {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery-container">
+        <div class="gallery-header">
+            <h1 class="gallery-title">Project One</h1>
+            <p class="gallery-subtitle">Professional Financial Services Platform</p>
+            <p class="gallery-description">
+                Sophisticated, enterprise-grade interfaces designed for billion-dollar financial advisory platforms.
+                Professional Poppins + Fraunces typography with authoritative light theme.
+            </p>
+        </div>
+        
+        <div class="comparison-note">
+            <div class="comparison-title">
+                <span>⚠️</span>
+                Complete Design System Overhaul - Professional Standards Applied
+            </div>
+            <div class="comparison-text">
+                All interfaces redesigned with authoritative PRD color palette, correct Poppins + Fraunces typography, 
+                professional light theme, and enterprise-grade components matching billion-dollar financial platforms.
+            </div>
+        </div>
+        
+        <div class="interface-grid">
+            <!-- Landing Page -->
+            <div class="interface-card">
+                <div class="card-header">
+                    <div class="card-type">Landing Page</div>
+                    <h2 class="card-title">Professional Marketing Website</h2>
+                    <p class="card-description">
+                        Enterprise marketing landing page showcasing platform capabilities, 
+                        pricing, and professional financial services branding.
+                    </p>
+                </div>
+                <div class="card-content">
+                    <ul class="features-list">
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Professional hero section with platform preview</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Features showcase with AI compliance highlights</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Transparent pricing for all three tiers</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>SEBI compliance messaging throughout</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Direct links to advisor and admin demos</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Professional financial services aesthetic</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Authoritative light theme with PRD colors</span>
+                        </li>
+                    </ul>
+                    <a href="landing-page.html" class="view-button">
+                        View Landing Page →
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Advisor Interface -->
+            <div class="interface-card">
+                <div class="card-header">
+                    <div class="card-type">Advisor Interface</div>
+                    <h2 class="card-title">Professional Advisor Dashboard</h2>
+                    <p class="card-description">
+                        Sophisticated portfolio management interface with integrated AI assistance, 
+                        real-time compliance monitoring, and professional data visualization.
+                    </p>
+                </div>
+                <div class="card-content">
+                    <ul class="features-list">
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Poppins + Fraunces professional typography</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Authoritative PRD color palette implementation</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>AI Chat Integration for compliance assistance</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Real-time SEBI compliance scoring</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Enterprise-grade data tables and metrics</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Professional light theme aesthetic</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Responsive design for mobile advisors</span>
+                        </li>
+                    </ul>
+                    <a href="advisor-overview/professional-v1.html" class="view-button">
+                        View Advisor Dashboard →
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Admin Interface -->
+            <div class="interface-card">
+                <div class="card-header">
+                    <div class="card-type admin-type">Admin Interface</div>
+                    <h2 class="card-title">Operations Command Center</h2>
+                    <p class="card-description">
+                        Mission-critical admin console for content approval, advisor management, 
+                        and system monitoring with real-time alerts and compliance oversight.
+                    </p>
+                </div>
+                <div class="card-content">
+                    <ul class="features-list">
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Professional command center aesthetic</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Critical SEBI violation alert system</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Priority-based approval queue management</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Real-time system health monitoring</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Professional compliance scoring displays</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>Authoritative color palette throughout</span>
+                        </li>
+                        <li>
+                            <div class="feature-check">✓</div>
+                            <span>WhatsApp delivery SLA tracking</span>
+                        </li>
+                    </ul>
+                    <a href="admin-approval-queue/professional-admin.html" class="view-button admin-button">
+                        View Admin Console →
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tech-specs">
+            <h3 class="tech-title">Professional Design Standards</h3>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="tech-label">Color Palette</div>
+                    <div class="tech-value">Authoritative PRD Colors</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">Typography</div>
+                    <div class="tech-value">Poppins + Fraunces</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">Theme</div>
+                    <div class="tech-value">Professional Light Theme</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">Information Density</div>
+                    <div class="tech-value">Data-Rich Professional Tables</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">Compliance Integration</div>
+                    <div class="tech-value">SEBI Scoring Throughout</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">Professional Standards</div>
+                    <div class="tech-value">Billion-Dollar App Quality</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="old-versions">
+            <h3 class="old-title">Previous Versions (Educational Reference)</h3>
+            <p class="old-description">
+                The original wireframes with incorrect dark themes and typography are available for comparison purposes only.
+                These demonstrate what NOT to do for professional financial services platforms.
+            </p>
+            <a href="advisor-overview/index.html" class="old-link">View Original Wireframes (Not Recommended)</a>
+        </div>
+    </div>
+</body>
+</html>

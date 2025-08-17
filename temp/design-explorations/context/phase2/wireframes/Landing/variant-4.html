@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-Powered Compliance for Modern Advisors. Create SEBI-perfect content at the speed of thought.">
+    <title>Project One - Future of FinTech</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0A0E1A;
+            --surface: #1A1F2E;
+            --neon-cyan: #00FFFF;
+            --neon-purple: #FF00FF;
+            --neon-pink: #FF10F0;
+            --text-primary: #FFFFFF;
+            --text-secondary: #94A3B8;
+            --border: rgba(0, 255, 255, 0.2);
+        }
+
+        @font-face {
+            font-family: 'Space Grotesk';
+            font-weight: 400 700;
+            font-display: swap;
+            src: local('Space Grotesk'), local('Inter'), sans-serif;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--neon-cyan); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-20deg); }
+        }
+
+        @keyframes glow {
+            0%, 100% { 
+                box-shadow: 0 0 20px var(--neon-cyan), 
+                           0 0 40px var(--neon-cyan);
+            }
+            50% { 
+                box-shadow: 0 0 30px var(--neon-cyan), 
+                           0 0 60px var(--neon-cyan);
+            }
+        }
+
+        body {
+            font-family: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Grid Background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        /* Neon Text Effects */
+        .neon-cyan {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+        }
+
+        .neon-purple {
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px var(--neon-purple), 0 0 20px var(--neon-purple);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Header */
+        header {
+            background: var(--surface);
+            border-bottom: 2px solid var(--neon-cyan);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 255, 255, 0.2);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: '◉';
+            color: var(--neon-cyan);
+            font-size: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 300ms ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-cyan);
+            transition: width 300ms ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .neon-button {
+            background: transparent;
+            color: var(--neon-cyan);
+            border: 2px solid var(--neon-cyan);
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 300ms ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .neon-button:hover {
+            color: var(--bg-dark);
+            background: var(--neon-cyan);
+            box-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan);
+            transform: scale(1.05);
+        }
+
+        .rocket {
+            animation: wave 2s ease-in-out infinite;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .future-badge {
+            display: inline-block;
+            background: transparent;
+            border: 2px solid var(--neon-purple);
+            color: var(--neon-purple);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .glow-button {
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            color: var(--bg-dark);
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .glow-button:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 255, 255, 0.4);
+        }
+
+        .outline-button {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--text-secondary);
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 300ms ease;
+        }
+
+        .outline-button:hover {
+            border-color: var(--neon-purple);
+            color: var(--neon-purple);
+            background: rgba(255, 0, 255, 0.1);
+        }
+
+        .scroll-indicator {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            animation: float 2s ease-in-out infinite;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 4rem 2rem;
+            background: var(--surface);
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-dark);
+            border: 2px solid var(--border);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-radius: 8px;
+            transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-divider {
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            margin: 0.5rem auto;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Features Grid */
+        .features-section {
+            padding: 4rem 2rem;
+        }
+
+        .features-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            padding: 2rem;
+            border-radius: 8px;
+            transform-style: preserve-3d;
+            transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            opacity: 0;
+            transition: opacity 300ms ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px) rotateY(5deg) rotateX(5deg);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+
+        .feature-emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-divider {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            margin: 1rem 0;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .feature-link {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 200ms ease;
+        }
+
+        .feature-link:hover {
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        /* Interactive Demo */
+        .demo-section {
+            padding: 4rem 2rem;
+            background: var(--surface);
+        }
+
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .demo-box {
+            background: var(--bg-dark);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .demo-input {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            padding: 1rem;
+            border-radius: 4px;
+        }
+
+        .demo-input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .demo-input input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .demo-output {
+            background: var(--surface);
+            border: 2px solid var(--neon-cyan);
+            padding: 1rem;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: var(--neon-cyan);
+            animation: blink 0.75s step-end infinite;
+        }
+
+        /* Pricing */
+        .pricing-section {
+            padding: 4rem 2rem;
+        }
+
+        .pricing-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+            transition: all 300ms ease;
+        }
+
+        .pricing-card.popular {
+            border-color: var(--neon-purple);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-cyan);
+        }
+
+        .popular-tag {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--neon-purple);
+            color: var(--bg-dark);
+            padding: 0.25rem 1rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .pricing-tier {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-posts {
+            font-size: 3rem;
+            margin: 1rem 0;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: var(--surface);
+        }
+
+        .cta-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            color: var(--bg-dark);
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            animation: pulse 2s infinite;
+            transition: all 300ms ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+        }
+
+        .cta-subtext {
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .demo-box {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: opacity 200ms ease !important;
+            }
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--neon-cyan);
+            outline-offset: 4px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    
+    <header>
+        <nav role="navigation" aria-label="Main navigation">
+            <div class="logo">PROJECT ONE</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#docs">Docs</a>
+                <a href="#blog">Blog</a>
+                <a href="#" class="neon-button">Sign In <span class="rocket">🚀</span></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" aria-label="Hero">
+            <div class="hero-content">
+                <div class="future-badge">FUTURE OF FINTECH</div>
+                <h1 class="gradient-text">AI-Powered Compliance<br>for Modern Advisors ⚡</h1>
+                <p class="hero-description">
+                    Create SEBI-perfect content at the speed of thought.<br>
+                    Join the revolution of 500+ digital-first MFDs.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="glow-button">Launch Platform</a>
+                    <a href="#" class="outline-button">View Playground</a>
+                </div>
+                <p class="scroll-indicator">▼ Scroll to explore</p>
+            </div>
+        </section>
+
+        <section class="stats-section" aria-label="Live Stats">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">500+</span>
+                    <div class="stat-divider"></div>
+                    <span class="stat-label">MFDs</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">2.5M</span>
+                    <div class="stat-divider"></div>
+                    <span class="stat-label">Messages</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">99.9%</span>
+                    <div class="stat-divider"></div>
+                    <span class="stat-label">Compliant</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">12</span>
+                    <div class="stat-divider"></div>
+                    <span class="stat-label">Languages</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">⚡30s</span>
+                    <div class="stat-divider"></div>
+                    <span class="stat-label">Speed</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section" aria-label="Feature Grid">
+            <div class="features-container">
+                <h2 class="section-title">How We're Different 🎯</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-emoji">🤖</span>
+                        <h3 class="feature-title">Smart AI Engine</h3>
+                        <div class="feature-divider"></div>
+                        <p class="feature-description">
+                            GPT-4 powered content that actually converts
+                        </p>
+                        <a href="#" class="feature-link">Learn more →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-emoji">🛡️</span>
+                        <h3 class="feature-title">Live Compliance</h3>
+                        <div class="feature-divider"></div>
+                        <p class="feature-description">
+                            Real-time SEBI scoring before you hit send
+                        </p>
+                        <a href="#" class="feature-link">See demo →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-emoji">📱</span>
+                        <h3 class="feature-title">WhatsApp Native</h3>
+                        <div class="feature-divider"></div>
+                        <p class="feature-description">
+                            Direct integration with WhatsApp Business API
+                        </p>
+                        <a href="#" class="feature-link">Connect now →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-emoji">📊</span>
+                        <h3 class="feature-title">Analytics Hub</h3>
+                        <div class="feature-divider"></div>
+                        <p class="feature-description">
+                            Track everything from engagement to compliance
+                        </p>
+                        <a href="#" class="feature-link">Dashboard →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="demo-section" aria-label="Interactive Demo">
+            <div class="demo-container">
+                <h2 class="section-title">Try It Live 🎮</h2>
+                <div class="demo-box">
+                    <div class="demo-input">
+                        <input type="text" placeholder="Type your message...">
+                    </div>
+                    <div class="demo-output">
+                        <p>Generated Content</p>
+                        <p style="color: var(--neon-cyan); margin-top: 1rem;">
+                            Compliance Score: 98%
+                        </p>
+                        <span class="typing-cursor"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing-section" id="pricing" aria-label="Pricing">
+            <div class="pricing-container">
+                <h2 class="section-title">Level Up Your Practice 🚀</h2>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-tier">STARTER</div>
+                        <div class="pricing-amount">₹2,999</div>
+                        <div class="pricing-posts">100</div>
+                        <div>posts/mo</div>
+                        <ul class="pricing-features">
+                            <li>• Basic AI</li>
+                            <li>• WhatsApp</li>
+                            <li>• Support</li>
+                        </ul>
+                        <a href="#" class="neon-button">Start →</a>
+                    </div>
+
+                    <div class="pricing-card popular">
+                        <span class="popular-tag">POPULAR</span>
+                        <div class="pricing-tier">PRO</div>
+                        <div class="pricing-amount">₹5,999</div>
+                        <div class="pricing-posts">500</div>
+                        <div>posts/mo</div>
+                        <ul class="pricing-features">
+                            <li>• Smart AI</li>
+                            <li>• All channels</li>
+                            <li>• Priority</li>
+                        </ul>
+                        <a href="#" class="glow-button">Start →</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <div class="pricing-tier">ENTERPRISE</div>
+                        <div class="pricing-amount">Custom</div>
+                        <div class="pricing-posts">∞</div>
+                        <div>Unlimited</div>
+                        <ul class="pricing-features">
+                            <li>• Custom AI</li>
+                            <li>• API</li>
+                            <li>• Dedicated</li>
+                        </ul>
+                        <a href="#" class="neon-button">Talk →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section" aria-label="CTA">
+            <div class="cta-container">
+                <h2 class="cta-title">Ready to Transform Your Practice?</h2>
+                <a href="#" class="cta-button">Start Your Free Trial →</a>
+                <p class="cta-subtext">No credit card • 14-day trial</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Project One © 2024 | Built with 💜 in Bangalore | SEBI Compliant</p>
+    </footer>
+
+    <a href="#main" class="sr-only">Skip to main content</a>
+</body>
+</html>

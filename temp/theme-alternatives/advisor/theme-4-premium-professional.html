@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Professional - Advisor Dashboard</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #334155;
+            --secondary: #d97706;
+            --accent: #0891b2;
+            --gold: #fbbf24;
+            --success: #059669;
+            --warning: #d97706;
+            --error: #dc2626;
+            --background: #fafafa;
+            --surface: #ffffff;
+            --surface-elevated: #f8fafc;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --radius: 8px;
+            --radius-sm: 6px;
+            --radius-lg: 12px;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Premium Header */
+        .premium-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 0;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .header-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            background: var(--gold);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 20px;
+            font-family: var(--font-display);
+        }
+
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 600;
+            font-family: var(--font-display);
+            letter-spacing: -0.5px;
+        }
+
+        .brand-tagline {
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-item {
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--gold);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .notification-btn {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .notification-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .premium-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 12px;
+            height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+
+        .user-dropdown {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .user-dropdown:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        /* Main Layout */
+        .dashboard-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* Premium Status Bar */
+        .status-bar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 32px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.133 7-7s-3.134-7-7-7-7 3.133-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.133 7-7s-3.134-7-7-7-7 3.133-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .status-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .status-left {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .status-greeting {
+            font-size: 32px;
+            font-weight: 300;
+            font-family: var(--font-display);
+            margin-bottom: 8px;
+        }
+
+        .status-message {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 24px;
+        }
+
+        .status-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            font-family: var(--font-display);
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        .countdown-card {
+            background: var(--gold);
+            color: var(--primary);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .countdown-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .countdown-display {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: var(--font-display);
+            letter-spacing: -2px;
+        }
+
+        /* Premium Cards Grid */
+        .premium-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .premium-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .premium-card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-2px);
+        }
+
+        .premium-card.gold {
+            border-top: 3px solid var(--gold);
+        }
+
+        .premium-card.blue {
+            border-top: 3px solid var(--accent);
+        }
+
+        .premium-card.green {
+            border-top: 3px solid var(--success);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .card-value {
+            font-size: 36px;
+            font-weight: 300;
+            font-family: var(--font-display);
+            color: var(--text-primary);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .card-icon.gold {
+            background: rgba(251, 191, 36, 0.1);
+            color: var(--secondary);
+        }
+
+        .card-icon.blue {
+            background: rgba(8, 145, 178, 0.1);
+            color: var(--accent);
+        }
+
+        .card-icon.green {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--success);
+        }
+
+        .card-footer {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-trend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .trend-positive {
+            color: var(--success);
+        }
+
+        .trend-negative {
+            color: var(--error);
+        }
+
+        .card-action {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Action Buttons */
+        .actions-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .actions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .actions-title {
+            font-size: 18px;
+            font-weight: 600;
+            font-family: var(--font-display);
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .action-btn {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .action-btn:hover {
+            border-color: var(--gold);
+            background: rgba(251, 191, 36, 0.05);
+        }
+
+        .action-emoji {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .action-label {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Activity Timeline */
+        .timeline-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 600;
+            font-family: var(--font-display);
+        }
+
+        .timeline-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .timeline-list {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .timeline-list::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 24px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -28px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 3px solid var(--border);
+        }
+
+        .timeline-dot.gold {
+            border-color: var(--gold);
+            background: var(--gold);
+        }
+
+        .timeline-dot.green {
+            border-color: var(--success);
+            background: var(--success);
+        }
+
+        .timeline-dot.blue {
+            border-color: var(--accent);
+            background: var(--accent);
+        }
+
+        .timeline-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .timeline-event {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .timeline-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Chat Widget */
+        .chat-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            background: var(--primary);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            box-shadow: var(--shadow-xl);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .chat-widget:hover {
+            transform: scale(1.1);
+            background: var(--primary-light);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .header-nav {
+                display: none;
+            }
+
+            .status-content {
+                grid-template-columns: 1fr;
+            }
+
+            .status-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .premium-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .dashboard-container {
+                padding: 16px;
+            }
+
+            .status-bar {
+                padding: 20px;
+            }
+
+            .status-greeting {
+                font-size: 24px;
+            }
+
+            .countdown-display {
+                font-size: 36px;
+            }
+
+            .actions-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .card-value {
+                font-size: 28px;
+            }
+
+            .user-name {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <div class="header-container">
+            <div class="brand-section">
+                <div class="brand-logo">FC</div>
+                <div class="brand-info">
+                    <div class="brand-name">FinComm Premium</div>
+                    <div class="brand-tagline">Professional Tier</div>
+                </div>
+            </div>
+            <nav class="header-nav">
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-item active">Dashboard</a></li>
+                    <li><a href="#" class="nav-item">Content Suite</a></li>
+                    <li><a href="#" class="nav-item">Client Portfolio</a></li>
+                    <li><a href="#" class="nav-item">Analytics</a></li>
+                    <li><a href="#" class="nav-item">Branding</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="notification-btn">
+                    <span>🔔</span>
+                    <span class="premium-badge"></span>
+                </button>
+                <div class="user-dropdown">
+                    <div class="user-avatar">VK</div>
+                    <span class="user-name">Vikram Khanna</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Premium Status Bar -->
+        <section class="status-bar">
+            <div class="status-content">
+                <div class="status-left">
+                    <div>
+                        <h1 class="status-greeting">Good Morning, Vikram</h1>
+                        <p class="status-message">Your premium content suite is ready for today's delivery</p>
+                    </div>
+                    <div class="status-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">5/5</div>
+                            <div class="stat-label">Content Ready</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">487</div>
+                            <div class="stat-label">Premium Clients</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">99.8%</div>
+                            <div class="stat-label">Delivery Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">Client Rating</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="countdown-card">
+                    <div class="countdown-label">Delivery In</div>
+                    <div class="countdown-display" id="countdown">02:34:15</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Premium Cards Grid -->
+        <div class="premium-grid">
+            <div class="premium-card gold">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">WhatsApp Health</div>
+                        <div class="card-value">99.2%</div>
+                    </div>
+                    <div class="card-icon gold">📱</div>
+                </div>
+                <div class="card-footer">
+                    <span class="card-trend trend-positive">↑ 0.5% from yesterday</span>
+                    <a href="#" class="card-action">View Details →</a>
+                </div>
+            </div>
+
+            <div class="premium-card blue">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Client Engagement</div>
+                        <div class="card-value">82%</div>
+                    </div>
+                    <div class="card-icon blue">📊</div>
+                </div>
+                <div class="card-footer">
+                    <span class="card-trend trend-positive">↑ 12% this month</span>
+                    <a href="#" class="card-action">Analytics →</a>
+                </div>
+            </div>
+
+            <div class="premium-card green">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Compliance Score</div>
+                        <div class="card-value">98.7%</div>
+                    </div>
+                    <div class="card-icon green">✅</div>
+                </div>
+                <div class="card-footer">
+                    <span class="card-trend trend-positive">Excellent</span>
+                    <a href="#" class="card-action">Review →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="actions-container">
+            <div class="actions-header">
+                <h2 class="actions-title">Quick Actions</h2>
+            </div>
+            <div class="actions-grid">
+                <a href="#" class="action-btn">
+                    <div class="action-emoji">📝</div>
+                    <div class="action-label">Create Pack</div>
+                </a>
+                <a href="#" class="action-btn">
+                    <div class="action-emoji">📊</div>
+                    <div class="action-label">Analytics</div>
+                </a>
+                <a href="#" class="action-btn">
+                    <div class="action-emoji">🎨</div>
+                    <div class="action-label">Branding</div>
+                </a>
+                <a href="#" class="action-btn">
+                    <div class="action-emoji">👥</div>
+                    <div class="action-label">Clients</div>
+                </a>
+                <a href="#" class="action-btn">
+                    <div class="action-emoji">📱</div>
+                    <div class="action-label">WhatsApp</div>
+                </a>
+                <a href="#" class="action-btn">
+                    <div class="action-emoji">💎</div>
+                    <div class="action-label">Premium</div>
+                </a>
+                <a href="#" class="action-btn">
+                    <div class="action-emoji">⚙️</div>
+                    <div class="action-label">Settings</div>
+                </a>
+                <a href="#" class="action-btn">
+                    <div class="action-emoji">📚</div>
+                    <div class="action-label">Templates</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Activity Timeline -->
+        <div class="timeline-container">
+            <div class="timeline-header">
+                <h3 class="timeline-title">Today's Activity</h3>
+                <a href="#" class="timeline-link">View All →</a>
+            </div>
+            <div class="timeline-list">
+                <div class="timeline-item">
+                    <div class="timeline-dot gold"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-event">Premium Content Pack Approved</div>
+                        <div class="timeline-desc">All 5 pieces ready with perfect compliance score</div>
+                        <div class="timeline-time">30 minutes ago</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot green"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-event">Client Milestone Achieved</div>
+                        <div class="timeline-desc">Reached 500 premium clients - congratulations!</div>
+                        <div class="timeline-time">2 hours ago</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot blue"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-event">Branding Assets Updated</div>
+                        <div class="timeline-desc">New templates applied to all content</div>
+                        <div class="timeline-time">4 hours ago</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot green"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-event">Yesterday's Delivery Complete</div>
+                        <div class="timeline-desc">Successfully delivered to 487 premium clients</div>
+                        <div class="timeline-time">Yesterday at 06:00 IST</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Widget -->
+    <button class="chat-widget">💬</button>
+
+    <script>
+        // Premium Countdown Timer
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date();
+            target.setHours(6, 0, 0, 0);
+            
+            if (now > target) {
+                target.setDate(target.getDate() + 1);
+            }
+            
+            const diff = target - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            const timer = document.getElementById('countdown');
+            if (timer) {
+                timer.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvish - AI-First Financial Advisory Platform | Elite Trader</title>
+    <style>
+        /* Elite Trader Theme - Market-focused, Bloomberg-inspired */
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #0A0A0A;
+            --bg-terminal: #030303;
+            --bg-card: #151515;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --text-muted: #707070;
+            --accent-bloomberg: #FF6200;
+            --accent-profit: #00FF88;
+            --accent-loss: #FF3B3B;
+            --accent-gold: #FFB800;
+            --accent-data: #00B4FF;
+            --accent-cta: #00FF88;
+            --border: #252525;
+            --grid: #1A1A1A;
+            --shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Terminal Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation - Terminal Style */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 2px solid var(--accent-bloomberg);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-bloomberg);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: '[';
+            color: var(--accent-profit);
+        }
+
+        .logo::after {
+            content: ']';
+            color: var(--accent-profit);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-profit);
+        }
+
+        .nav-links a::before {
+            content: '>';
+            position: absolute;
+            left: -15px;
+            color: var(--accent-bloomberg);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .nav-links a:hover::before {
+            opacity: 1;
+        }
+
+        .trade-button {
+            background: var(--accent-profit);
+            color: var(--bg-primary);
+            padding: 0.7rem 1.5rem;
+            text-decoration: none;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s ease;
+            border: 2px solid var(--accent-profit);
+            text-transform: uppercase;
+        }
+
+        .trade-button:hover {
+            background: transparent;
+            color: var(--accent-profit);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Market Ticker */
+        .market-ticker {
+            background: var(--bg-terminal);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: scroll 30s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .ticker-item.up {
+            color: var(--accent-profit);
+        }
+
+        .ticker-item.down {
+            color: var(--accent-loss);
+        }
+
+        /* Hero Section - Trading Terminal Style */
+        .hero {
+            padding: 6rem 0 4rem;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .terminal-text {
+            color: var(--accent-bloomberg);
+        }
+
+        .hero-text h1 .profit-text {
+            color: var(--accent-profit);
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .compliance-ticker {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--bg-card);
+            padding: 0.8rem 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--accent-profit);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .compliance-ticker .status {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-profit);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .terminal-display {
+            background: var(--bg-terminal);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: var(--accent-loss); }
+        .terminal-dot.yellow { background: var(--accent-gold); }
+        .terminal-dot.green { background: var(--accent-profit); }
+
+        .terminal-content {
+            color: var(--accent-profit);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .terminal-content span {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .terminal-content .command {
+            color: var(--text-secondary);
+        }
+
+        .terminal-content .output {
+            color: var(--accent-data);
+        }
+
+        /* Live Stats */
+        .live-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-bloomberg);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-value.profit {
+            color: var(--accent-profit);
+        }
+
+        .stat-value.loss {
+            color: var(--accent-loss);
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Features Grid - Data Terminal Style */
+        .features {
+            padding: 4rem 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-bloomberg);
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: var(--border);
+            padding: 2px;
+        }
+
+        .feature-card {
+            background: var(--bg-terminal);
+            padding: 2rem;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent-bloomberg);
+            transform: scaleY(0);
+            transition: transform 0.2s ease;
+        }
+
+        .feature-card:hover {
+            background: var(--bg-card);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-data);
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-profit);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* Trading Dashboard Preview */
+        .dashboard-preview {
+            padding: 4rem 0;
+            background: var(--bg-primary);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .chart-container {
+            background: var(--bg-terminal);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            height: 400px;
+            position: relative;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .chart-title {
+            color: var(--accent-bloomberg);
+            font-weight: 700;
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chart-control {
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chart-control:hover {
+            border-color: var(--accent-profit);
+            color: var(--accent-profit);
+        }
+
+        .order-book {
+            background: var(--bg-terminal);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+        }
+
+        .order-header {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-bloomberg);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .order-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--grid);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .order-row.buy {
+            color: var(--accent-profit);
+        }
+
+        .order-row.sell {
+            color: var(--accent-loss);
+        }
+
+        /* Pricing Section - Trading Tiers */
+        .pricing {
+            padding: 4rem 0;
+            background: var(--bg-secondary);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: var(--bg-terminal);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent-profit);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'MOST ACTIVE';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-profit);
+            color: var(--bg-primary);
+            padding: 0.3rem 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-bloomberg);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        .tier-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-bloomberg);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-profit);
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .plan-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .plan-features li {
+            padding: 0.6rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .plan-features li::before {
+            content: '+';
+            color: var(--accent-profit);
+            font-weight: bold;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .plan-button {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 2px solid var(--accent-profit);
+            color: var(--accent-profit);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .plan-button:hover {
+            background: var(--accent-profit);
+            color: var(--bg-primary);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-primary);
+            padding: 3rem 0;
+            border-top: 2px solid var(--accent-bloomberg);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-left {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-profit);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .live-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="logo">JARVISH</a>
+                <div class="nav-links">
+                    <a href="#features">Terminal</a>
+                    <a href="#dashboard">Dashboard</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#" class="trade-button">Start Trading</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Market Ticker -->
+    <div class="market-ticker">
+        <div class="ticker-content">
+            <div class="ticker-item up">SENSEX: 72,831.94 ▲ +0.73%</div>
+            <div class="ticker-item down">NIFTY: 22,032.30 ▼ -0.28%</div>
+            <div class="ticker-item up">GOLD: ₹62,350 ▲ +1.2%</div>
+            <div class="ticker-item up">USD/INR: 83.21 ▲ +0.15%</div>
+            <div class="ticker-item down">BITCOIN: $67,234 ▼ -2.1%</div>
+            <div class="ticker-item up">SENSEX: 72,831.94 ▲ +0.73%</div>
+            <div class="ticker-item down">NIFTY: 22,032.30 ▼ -0.28%</div>
+            <div class="ticker-item up">GOLD: ₹62,350 ▲ +1.2%</div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="compliance-ticker">
+                        <div class="status"></div>
+                        <span>SYSTEM ONLINE | SEBI COMPLIANT</span>
+                    </div>
+                    
+                    <h1>
+                        <span class="terminal-text">AI-Powered</span><br>
+                        Financial Advisory<br>
+                        <span class="profit-text">Terminal</span>
+                    </h1>
+                    
+                    <p class="subtitle">
+                        &gt; Professional-grade tools for market-focused advisors<br>
+                        &gt; Real-time compliance monitoring and AI assistance
+                    </p>
+                    
+                    <div class="live-stats">
+                        <div class="stat-card">
+                            <div class="stat-label">Active MFDs</div>
+                            <div class="stat-value profit">500+</div>
+                            <div class="stat-change profit">▲ 12.5%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Messages Sent</div>
+                            <div class="stat-value profit">2.5M</div>
+                            <div class="stat-change profit">▲ 28.3%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Compliance</div>
+                            <div class="stat-value profit">99.9%</div>
+                            <div class="stat-change profit">▲ 0.2%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Uptime</div>
+                            <div class="stat-value profit">100%</div>
+                            <div class="stat-change profit">STABLE</div>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="trade-button" style="display: inline-block; margin-top: 2rem; padding: 1rem 2rem;">
+                        INITIALIZE TERMINAL
+                    </a>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="terminal-display">
+                        <div class="terminal-header">
+                            <div class="terminal-dot red"></div>
+                            <div class="terminal-dot yellow"></div>
+                            <div class="terminal-dot green"></div>
+                        </div>
+                        <div class="terminal-content">
+                            <span class="command">$ jarvish --init</span>
+                            <span class="output">Initializing AI Advisory System...</span>
+                            <span class="output">Loading SEBI compliance module...</span>
+                            <span class="output">Connecting to market data feeds...</span>
+                            <span class="output">WhatsApp API connected</span>
+                            <span class="output" style="color: var(--accent-profit);">✓ System ready</span>
+                            <span class="command">$ jarvish analyze --portfolio</span>
+                            <span class="output">Analyzing 342 portfolios...</span>
+                            <span class="output">Risk assessment: OPTIMAL</span>
+                            <span class="output">Compliance score: 99.9%</span>
+                            <span class="command" style="animation: blink 1s infinite;">$ _</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>TRADING TERMINAL FEATURES</h2>
+                <p>&gt; Professional tools for elite financial advisors</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>REAL-TIME DATA</h3>
+                    <p>Live market feeds with sub-second latency. Direct integration with NSE and BSE data streams.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI ANALYTICS</h3>
+                    <p>Machine learning algorithms for market prediction and automated content generation.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>INSTANT EXECUTION</h3>
+                    <p>One-click publishing to WhatsApp, email, and social channels with real-time delivery tracking.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>COMPLIANCE ENGINE</h3>
+                    <p>Automated SEBI compliance checking with real-time risk scoring and audit trails.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>PORTFOLIO ANALYTICS</h3>
+                    <p>Advanced portfolio analysis with risk metrics, performance attribution, and peer comparison.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>API ACCESS</h3>
+                    <p>RESTful APIs for custom integrations with your existing trading and CRM systems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview -->
+    <section class="dashboard-preview" id="dashboard">
+        <div class="container">
+            <div class="section-header">
+                <h2 style="color: var(--accent-bloomberg);">LIVE DASHBOARD</h2>
+                <p style="color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;">&gt; Monitor everything in real-time</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">PORTFOLIO PERFORMANCE</div>
+                        <div class="chart-controls">
+                            <div class="chart-control">1D</div>
+                            <div class="chart-control">1W</div>
+                            <div class="chart-control">1M</div>
+                            <div class="chart-control">1Y</div>
+                        </div>
+                    </div>
+                    <div style="height: 300px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">
+                        [LIVE CHART VISUALIZATION]
+                    </div>
+                </div>
+                
+                <div class="order-book">
+                    <div class="order-header">Recent Activity</div>
+                    <div class="order-row buy">
+                        <span>14:32:15</span>
+                        <span>PUBLISH</span>
+                        <span>SUCCESS</span>
+                    </div>
+                    <div class="order-row buy">
+                        <span>14:31:42</span>
+                        <span>AI GEN</span>
+                        <span>COMPLETE</span>
+                    </div>
+                    <div class="order-row sell">
+                        <span>14:30:58</span>
+                        <span>COMPLIANCE</span>
+                        <span>REVIEW</span>
+                    </div>
+                    <div class="order-row buy">
+                        <span>14:29:33</span>
+                        <span>WHATSAPP</span>
+                        <span>DELIVERED</span>
+                    </div>
+                    <div class="order-row buy">
+                        <span>14:28:17</span>
+                        <span>TEMPLATE</span>
+                        <span>CREATED</span>
+                    </div>
+                    <div class="order-row buy">
+                        <span>14:27:45</span>
+                        <span>ANALYSIS</span>
+                        <span>COMPLETE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>TRADING TIERS</h2>
+                <p style="font-family: 'JetBrains Mono', monospace;">&gt; Choose your access level</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="tier-name">TIER 1</div>
+                    <div class="plan-name">Retail</div>
+                    <div class="plan-price">₹2,999<span>/month</span></div>
+                    <p class="plan-description">For individual traders starting their journey</p>
+                    <ul class="plan-features">
+                        <li>500 messages/month</li>
+                        <li>Basic AI assistance</li>
+                        <li>Standard compliance</li>
+                        <li>Email support</li>
+                        <li>Basic analytics</li>
+                    </ul>
+                    <button class="plan-button">ACTIVATE</button>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="tier-name">TIER 2</div>
+                    <div class="plan-name">Professional</div>
+                    <div class="plan-price">₹5,999<span>/month</span></div>
+                    <p class="plan-description">For active traders and advisory firms</p>
+                    <ul class="plan-features">
+                        <li>2,000 messages/month</li>
+                        <li>Advanced AI models</li>
+                        <li>Priority compliance</li>
+                        <li>Phone support</li>
+                        <li>Real-time analytics</li>
+                        <li>API access (limited)</li>
+                        <li>Team seats (3)</li>
+                    </ul>
+                    <button class="plan-button">ACTIVATE</button>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="tier-name">TIER 3</div>
+                    <div class="plan-name">Institutional</div>
+                    <div class="plan-price">₹11,999<span>/month</span></div>
+                    <p class="plan-description">For institutions and high-volume traders</p>
+                    <ul class="plan-features">
+                        <li>Unlimited messages</li>
+                        <li>Custom AI training</li>
+                        <li>White-glove support</li>
+                        <li>Dedicated manager</li>
+                        <li>Custom analytics</li>
+                        <li>Full API access</li>
+                        <li>Unlimited seats</li>
+                        <li>Custom integrations</li>
+                    </ul>
+                    <button class="plan-button">CONTACT</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    &gt; 2024 JARVISH TERMINAL | SEBI REGISTERED | SYSTEM ONLINE
+                </div>
+                <div class="footer-links">
+                    <a href="#">DOCUMENTATION</a>
+                    <a href="#">API</a>
+                    <a href="#">STATUS</a>
+                    <a href="#">COMPLIANCE</a>
+                    <a href="#">SUPPORT</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
+</body>
+</html>

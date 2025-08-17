@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visionary Interface - Project One Advisor Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Visionary Interface Palette */
+            --vision-void: #0D1117;          /* Deep space black */
+            --vision-aurora: #BB86FC;        /* Future aurora */
+            --vision-quantum: #03DAC6;       /* Quantum teal */
+            --vision-gold: #FFC107;          /* Vision gold */
+            --vision-pearl: #FFFFFF;         /* Pure white */
+            --vision-graphite: #6E7681;      /* Space gray */
+            --vision-crimson: #F85149;       /* Alert red */
+            --vision-sapphire: #1F6FEB;      /* Vision blue */
+            --vision-steel: #21262D;         /* Vision steel */
+            
+            /* Typography */
+            --font-primary: "Poppins", system-ui, sans-serif;
+            --font-display: "Fraunces", Georgia, serif;
+            --font-mono: "SF Mono", "Monaco", "Inconsolata", monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--vision-void);
+            color: var(--vision-pearl);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Cosmic Background */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 25% 75%, rgba(187, 134, 252, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 75% 25%, rgba(3, 218, 198, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, rgba(255, 193, 7, 0.03) 0%, transparent 50%);
+        }
+        
+        .cosmic-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .cosmic-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--vision-aurora);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--vision-aurora);
+            animation: cosmicFloat 12s ease-in-out infinite;
+        }
+        
+        .cosmic-particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .cosmic-particle:nth-child(2) { left: 30%; top: 70%; animation-delay: 2s; }
+        .cosmic-particle:nth-child(3) { left: 70%; top: 30%; animation-delay: 4s; }
+        .cosmic-particle:nth-child(4) { left: 90%; top: 80%; animation-delay: 6s; }
+        .cosmic-particle:nth-child(5) { left: 20%; top: 90%; animation-delay: 8s; }
+        .cosmic-particle:nth-child(6) { left: 80%; top: 10%; animation-delay: 10s; }
+        
+        @keyframes cosmicFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-25px) scale(1.5); opacity: 1; }
+        }
+        
+        /* Visionary Dashboard Layout */
+        .visionary-dashboard {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Quantum Header */
+        .quantum-header {
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(187, 134, 252, 0.2);
+            padding: 20px 40px;
+            position: relative;
+        }
+        
+        .header-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .quantum-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .quantum-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--vision-aurora), var(--vision-quantum));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--vision-void);
+            font-weight: 800;
+            font-size: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quantum-logo::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: logoShine 3s ease-in-out infinite;
+        }
+        
+        @keyframes logoShine {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+        
+        .brand-text {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--vision-aurora), var(--vision-quantum));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .brand-tagline {
+            font-size: 11px;
+            color: var(--vision-graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+        
+        .quantum-nav {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .quantum-link {
+            color: var(--vision-graphite);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quantum-link::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(187, 134, 252, 0.1), rgba(3, 218, 198, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .quantum-link:hover::before,
+        .quantum-link.active::before {
+            opacity: 1;
+        }
+        
+        .quantum-link:hover,
+        .quantum-link.active {
+            color: var(--vision-pearl);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .vision-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--vision-gold);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        
+        .vision-orb {
+            width: 8px;
+            height: 8px;
+            background: var(--vision-gold);
+            border-radius: 50%;
+            animation: visionPulse 2s ease-in-out infinite;
+            box-shadow: 0 0 10px var(--vision-gold);
+        }
+        
+        @keyframes visionPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.3); }
+        }
+        
+        .quantum-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        
+        .profile-data {
+            text-align: right;
+        }
+        
+        .profile-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--vision-pearl);
+        }
+        
+        .profile-level {
+            font-size: 11px;
+            color: var(--vision-aurora);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--vision-sapphire), var(--vision-aurora));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--vision-pearl);
+            font-weight: 700;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-avatar::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: avatarGlow 4s ease-in-out infinite;
+        }
+        
+        @keyframes avatarGlow {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(360deg); }
+        }
+        
+        /* Main Visionary Content */
+        .visionary-main {
+            flex: 1;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 40px;
+            width: 100%;
+        }
+        
+        .vision-intro {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .vision-greeting {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, 
+                var(--vision-pearl) 0%, 
+                var(--vision-aurora) 25%, 
+                var(--vision-quantum) 50%, 
+                var(--vision-gold) 75%, 
+                var(--vision-pearl) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: greetingShift 6s ease-in-out infinite;
+            margin-bottom: 16px;
+        }
+        
+        @keyframes greetingShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .vision-subtitle {
+            font-size: 18px;
+            color: var(--vision-graphite);
+            margin-bottom: 24px;
+        }
+        
+        .quantum-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(187, 134, 252, 0.1);
+            color: var(--vision-aurora);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(187, 134, 252, 0.3);
+        }
+        
+        .quantum-icon {
+            width: 16px;
+            height: 16px;
+            background: var(--vision-aurora);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--vision-void);
+            font-size: 10px;
+            font-weight: 700;
+        }
+        
+        /* Quantum Grid */
+        .quantum-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+        
+        .quantum-metric {
+            background: rgba(13, 17, 23, 0.8);
+            border: 1px solid rgba(187, 134, 252, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quantum-metric::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--vision-aurora), var(--vision-quantum), var(--vision-gold));
+            background-size: 200% 100%;
+            animation: borderFlow 3s linear infinite;
+        }
+        
+        @keyframes borderFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+        
+        .quantum-metric:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 64px rgba(187, 134, 252, 0.2);
+        }
+        
+        .metric-quantum-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--vision-aurora), var(--vision-quantum));
+            border-radius: 16px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--vision-void);
+            font-size: 24px;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .metric-quantum-icon::after {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--vision-aurora), var(--vision-quantum), var(--vision-gold));
+            border-radius: 18px;
+            z-index: -1;
+            animation: iconGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes iconGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+        
+        .metric-quantum-value {
+            font-family: var(--font-mono);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--vision-aurora);
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(187, 134, 252, 0.5);
+        }
+        
+        .metric-quantum-label {
+            font-size: 12px;
+            color: var(--vision-graphite);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        
+        .metric-quantum-change {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: rgba(3, 218, 198, 0.1);
+            color: var(--vision-quantum);
+        }
+        
+        /* Vision Central */
+        .vision-central {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+        
+        .quantum-dashboard {
+            background: rgba(13, 17, 23, 0.8);
+            border: 1px solid rgba(187, 134, 252, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quantum-dashboard::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--vision-aurora), var(--vision-quantum), var(--vision-gold));
+            background-size: 300% 100%;
+            animation: dashboardFlow 4s linear infinite;
+        }
+        
+        @keyframes dashboardFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 300% 0%; }
+        }
+        
+        .dashboard-quantum-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+        
+        .dashboard-quantum-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--vision-pearl);
+        }
+        
+        .quantum-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .quantum-control {
+            background: rgba(187, 134, 252, 0.1);
+            border: 1px solid rgba(187, 134, 252, 0.3);
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: var(--vision-aurora);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quantum-control.active,
+        .quantum-control:hover {
+            background: rgba(187, 134, 252, 0.2);
+        }
+        
+        .quantum-visualization {
+            height: 300px;
+            background: linear-gradient(135deg, 
+                rgba(187, 134, 252, 0.05) 0%, 
+                rgba(3, 218, 198, 0.05) 50%, 
+                rgba(255, 193, 7, 0.05) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quantum-waves {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 15px,
+                rgba(187, 134, 252, 0.1) 15px,
+                rgba(187, 134, 252, 0.1) 30px
+            );
+            animation: quantumWaves 8s linear infinite;
+        }
+        
+        @keyframes quantumWaves {
+            0% { transform: translateX(-30px) translateY(-30px); }
+            100% { transform: translateX(30px) translateY(30px); }
+        }
+        
+        .quantum-center {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .quantum-main-value {
+            font-family: var(--font-mono);
+            font-size: 64px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--vision-aurora), var(--vision-quantum));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            text-shadow: 0 0 30px rgba(187, 134, 252, 0.5);
+        }
+        
+        .quantum-center-label {
+            color: var(--vision-gold);
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Vision Sidebar */
+        .vision-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        
+        .quantum-insights {
+            background: rgba(13, 17, 23, 0.8);
+            border: 1px solid rgba(3, 218, 198, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+        }
+        
+        .insights-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .insights-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--vision-quantum), var(--vision-aurora));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--vision-void);
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .insights-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--vision-pearl);
+        }
+        
+        .insights-feed {
+            max-height: 320px;
+            overflow-y: auto;
+        }
+        
+        .insight-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(3, 218, 198, 0.1);
+        }
+        
+        .insight-item:last-child {
+            border-bottom: none;
+        }
+        
+        .insight-pulse {
+            width: 6px;
+            height: 6px;
+            background: var(--vision-quantum);
+            border-radius: 50%;
+            margin-top: 8px;
+            animation: insightPulse 3s ease-in-out infinite;
+            box-shadow: 0 0 8px var(--vision-quantum);
+        }
+        
+        @keyframes insightPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        
+        .insight-content {
+            flex: 1;
+        }
+        
+        .insight-text {
+            font-size: 13px;
+            color: var(--vision-pearl);
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        
+        .insight-time {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--vision-graphite);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .quantum-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .vision-central {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .quantum-nav {
+                display: none;
+            }
+            
+            .quantum-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .vision-intro {
+                margin-bottom: 32px;
+            }
+            
+            .vision-greeting {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-bg">
+        <div class="cosmic-particles">
+            <div class="cosmic-particle"></div>
+            <div class="cosmic-particle"></div>
+            <div class="cosmic-particle"></div>
+            <div class="cosmic-particle"></div>
+            <div class="cosmic-particle"></div>
+            <div class="cosmic-particle"></div>
+        </div>
+    </div>
+
+    <div class="visionary-dashboard">
+        <!-- Quantum Header -->
+        <header class="quantum-header">
+            <div class="header-container">
+                <div class="quantum-brand">
+                    <div class="quantum-logo">∞</div>
+                    <div>
+                        <div class="brand-text">Project One</div>
+                        <div class="brand-tagline">Visionary Interface</div>
+                    </div>
+                </div>
+                
+                <nav class="quantum-nav">
+                    <a href="#" class="quantum-link active">Quantum View</a>
+                    <a href="#" class="quantum-link">Neural Networks</a>
+                    <a href="#" class="quantum-link">Future Analytics</a>
+                    <a href="#" class="quantum-link">Consciousness</a>
+                    <a href="#" class="quantum-link">Infinity</a>
+                </nav>
+                
+                <div class="header-actions">
+                    <div class="vision-status">
+                        <div class="vision-orb"></div>
+                        <span>Vision Mode Active</span>
+                    </div>
+                    <div class="quantum-profile">
+                        <div class="profile-data">
+                            <div class="profile-name">Quantum User</div>
+                            <div class="profile-level">Visionary</div>
+                        </div>
+                        <div class="profile-avatar">∞</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Visionary Content -->
+        <main class="visionary-main">
+            <div class="vision-intro">
+                <h1 class="vision-greeting">Welcome to the Future</h1>
+                <p class="vision-subtitle">Your visionary financial intelligence platform transcends traditional boundaries</p>
+                <div class="quantum-badge">
+                    <div class="quantum-icon">∞</div>
+                    <span>Infinite Possibilities</span>
+                </div>
+            </div>
+
+            <!-- Quantum Metrics Grid -->
+            <section class="quantum-grid">
+                <div class="quantum-metric">
+                    <div class="metric-quantum-icon">∞</div>
+                    <div class="metric-quantum-value">∞</div>
+                    <div class="metric-quantum-label">Possibilities</div>
+                    <div class="metric-quantum-change">Unlimited</div>
+                </div>
+                <div class="quantum-metric">
+                    <div class="metric-quantum-icon">🌌</div>
+                    <div class="metric-quantum-value">₹∞Cr</div>
+                    <div class="metric-quantum-label">Potential AUM</div>
+                    <div class="metric-quantum-change">+∞% Growth</div>
+                </div>
+                <div class="quantum-metric">
+                    <div class="metric-quantum-icon">🔮</div>
+                    <div class="metric-quantum-value">2030</div>
+                    <div class="metric-quantum-label">Vision Year</div>
+                    <div class="metric-quantum-change">Future Ready</div>
+                </div>
+                <div class="quantum-metric">
+                    <div class="metric-quantum-icon">⚡</div>
+                    <div class="metric-quantum-value">0.001s</div>
+                    <div class="metric-quantum-label">Neural Speed</div>
+                    <div class="metric-quantum-change">Quantum Fast</div>
+                </div>
+                <div class="quantum-metric">
+                    <div class="metric-quantum-icon">🧠</div>
+                    <div class="metric-quantum-value">AI⁴</div>
+                    <div class="metric-quantum-label">Intelligence</div>
+                    <div class="metric-quantum-change">Evolving</div>
+                </div>
+            </section>
+
+            <!-- Vision Central -->
+            <section class="vision-central">
+                <div class="quantum-dashboard">
+                    <div class="dashboard-quantum-header">
+                        <h2 class="dashboard-quantum-title">Quantum Portfolio</h2>
+                        <div class="quantum-controls">
+                            <button class="quantum-control active">Real-time</button>
+                            <button class="quantum-control">Predictive</button>
+                            <button class="quantum-control">Multiverse</button>
+                        </div>
+                    </div>
+                    
+                    <div class="quantum-visualization">
+                        <div class="quantum-waves"></div>
+                        <div class="quantum-center">
+                            <div class="quantum-main-value">∞%</div>
+                            <div class="quantum-center-label">Quantum Returns</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vision-sidebar">
+                    <div class="quantum-insights">
+                        <div class="insights-header">
+                            <div class="insights-icon">🔮</div>
+                            <h3 class="insights-title">Quantum Insights</h3>
+                        </div>
+                        
+                        <div class="insights-feed">
+                            <div class="insight-item">
+                                <div class="insight-pulse"></div>
+                                <div class="insight-content">
+                                    <div class="insight-text">Quantum entanglement detected in market patterns</div>
+                                    <div class="insight-time">Now</div>
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-pulse"></div>
+                                <div class="insight-content">
+                                    <div class="insight-text">Neural network achieved consciousness level 7</div>
+                                    <div class="insight-time">2 mins ago</div>
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-pulse"></div>
+                                <div class="insight-content">
+                                    <div class="insight-text">Multiverse portfolio optimization complete</div>
+                                    <div class="insight-time">5 mins ago</div>
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-pulse"></div>
+                                <div class="insight-content">
+                                    <div class="insight-text">Future market prediction accuracy: 99.97%</div>
+                                    <div class="insight-time">8 mins ago</div>
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-pulse"></div>
+                                <div class="insight-content">
+                                    <div class="insight-text">Quantum client acquisition protocol activated</div>
+                                    <div class="insight-time">12 mins ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
