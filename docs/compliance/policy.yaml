@@ -1,0 +1,101 @@
+compliance_policy:
+  sebi_ad_code:
+    version: "2024"
+    hard_rules:
+      forbidden_terms:
+        - "guaranteed"
+        - "sure-shot"
+        - "risk-free"
+        - "multibagger"
+        - "double your money"
+        - "assured returns"
+        - "no risk"
+        - "definite profit"
+      
+      mandatory_elements:
+        - disclaimer_text
+        - advisor_identity_footer
+        - risk_disclosure
+      
+      length_limits:
+        max_caption_chars: 500
+        max_disclaimer_chars: 50
+        max_emojis: 3
+        max_hashtags: 2
+      
+      tone_requirements:
+        - educational_only
+        - no_performance_promises
+        - balanced_risk_presentation
+        - neutral_formal_tone
+
+  advisor_types:
+    RIA:
+      footer_template: "{{advisor_name}}, SEBI RIA {{sebi_no}} — Educational only. No investment advice."
+      required_docs:
+        - sebi_reg_cert
+        - pan_card
+        - address_proof
+        - website_optional
+    
+    MFD:
+      footer_template: "{{advisor_name}}, ARN {{arn}} — Mutual fund investments are subject to market risks. Read all scheme related documents carefully."
+      required_docs:
+        - amfi_arn_cert
+        - pan_card
+        - address_proof
+
+  three_stage_engine:
+    stage1_hard_rules:
+      - regex_forbidden_terms
+      - length_validation
+      - emoji_count_check
+      - mandatory_disclaimer
+    
+    stage2_ai_evaluator:
+      model: gpt-4o-mini
+      temperature: 0.2
+      checks:
+        - nuanced_tone_analysis
+        - forward_looking_statements
+        - cultural_sensitivity
+        - bias_detection
+        - risk_score_generation
+    
+    stage3_final_verification:
+      - disclaimer_placement_check
+      - identity_footer_validation
+      - safe_area_overlay_validation
+
+  risk_scoring:
+    thresholds:
+      green: 0-39
+      amber: 40-69
+      red: 70-100
+    
+    uniform_application: true  # no advisor-specific leniency
+    
+    weight_factors:
+      critical_violations: 40
+      performance_implications: 30
+      missing_mandatory: 20
+      tone_issues: 10
+
+  localization:
+    languages: ["EN", "HI", "MR"]
+    disclaimer_enforcement: true
+    cultural_sensitivity_checks: true
+    avoid_heavy_transliteration: true
+
+  audit_requirements:
+    incident_logging: true
+    regulator_feedback_tracking: true
+    content_hash_retention: "5_years"
+    policy_versioning: true
+    change_management_approval: true
+
+  data_protection:
+    ai_data_policy: "content_only_no_pii"
+    training_opt_out: true
+    data_residency: "ap-south-1"
+    cross_border_controls: true
