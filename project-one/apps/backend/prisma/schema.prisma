@@ -1,0 +1,602 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - now represents subscribers (advisors who pay for content)
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  name            String
+  passwordHash    String?   // Optional for OAuth users
+  
+  // Business Information
+  arnNumber       String?   @unique // ARN/RIA registration number
+  companyName     String?
+  businessType    BusinessType @default(INDIVIDUAL)
+  
+  // Contact & Preferences
+  phoneNumber     String?   @unique
+  whatsappNumber  String?
+  languagePrefs   String[]  @default(["EN"])
+  timezone        String    @default("Asia/Kolkata")
+  
+  // WhatsApp Business Integration
+  whatsappBusinessId String? @unique
+  whatsappApiKey     String?
+  whatsappVerified   Boolean @default(false)
+  
+  // User Type
+  role            UserRole  @default(SUBSCRIBER)
+  isVerified      Boolean   @default(false)
+  emailVerified   Boolean   @default(false)
+  
+  // Activity Tracking
+  lastLogin       DateTime?
+  loginCount      Int       @default(0)
+  isActive        Boolean   @default(true)
+  
+  // Metadata
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime? // Soft delete for DPDP compliance
+  
+  // Relations
+  subscriptions   Subscription[]
+  deliveries      ContentDelivery[]
+  auditLogs       AuditLog[]
+  notifications   Notification[]
+  sessions        Session[]
+  
+  // Admin Relations
+  createdTemplates ContentTemplate[] @relation("CreatedBy")
+  approvedTemplates ContentTemplate[] @relation("ApprovedBy")
+  
+  @@index([email])
+  @@index([role])
+  @@index([createdAt])
+  @@map("users")
+}
+
+// Content Templates - admin-created content to be distributed
+model ContentTemplate {
+  id              String        @id @default(cuid())
+  
+  // Content Details
+  type            ContentType
+  title           String?
+  content         String        @db.Text
+  imageUrl        String?
+  mediaUrl        String?       // For videos/documents
+  
+  // LinkedIn specific
+  linkedinHashtags String[]     @default([])
+  
+  // Content Generation
+  aiGenerated     Boolean       @default(false)
+  aiModel         String?       // GPT-4, Claude, etc.
+  aiPrompt        String?       @db.Text
+  webScrapingUrl  String?       // Source URL if scraped
+  
+  // Language Support
+  language        Language      @default(EN)
+  translations    Json?         // Translations in other languages
+  
+  // Categorization
+  category        String?       // Market Updates, Investment Tips, etc.
+  tags            String[]      @default([])
+  topicFamily     String?       // MF, Insurance, PMS, etc.
+  
+  // Scheduling
+  scheduledDate   DateTime?
+  scheduledTime   String?       @default("06:00") // IST time
+  repeatPattern   RepeatPattern? // DAILY, WEEKLY, MONTHLY
+  
+  // Approval Workflow
+  status          ContentStatus @default(DRAFT)
+  approvalNotes   String?
+  
+  // Admin Relations
+  createdById     String
+  createdBy       User          @relation("CreatedBy", fields: [createdById], references: [id])
+  approvedById    String?
+  approvedBy      User?         @relation("ApprovedBy", fields: [approvedById], references: [id])
+  
+  // Timestamps
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  approvedAt      DateTime?
+  publishedAt     DateTime?
+  
+  // Relations
+  deliveries      ContentDelivery[]
+  prompts         AIPrompt[]
+  
+  @@index([status])
+  @@index([scheduledDate])
+  @@index([type])
+  @@index([createdAt])
+  @@map("content_templates")
+}
+
+// AI Prompts for content generation
+model AIPrompt {
+  id              String        @id @default(cuid())
+  
+  name            String        @unique
+  description     String?
+  promptType      PromptType    // SYSTEM, USER, ASSISTANT
+  prompt          String        @db.Text
+  
+  // Model Configuration
+  model           String        @default("gpt-4")
+  temperature     Float         @default(0.7)
+  maxTokens       Int           @default(1000)
+  
+  // Usage
+  category        String?
+  isActive        Boolean       @default(true)
+  useCount        Int           @default(0)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  templates       ContentTemplate[]
+  
+  @@index([promptType])
+  @@index([category])
+  @@map("ai_prompts")
+}
+
+// Subscriptions - advisor payment plans
+model Subscription {
+  id              String        @id @default(cuid())
+  userId          String
+  
+  // Plan Details
+  planType        PlanType      @default(BASIC_499)
+  status          SubscriptionStatus @default(ACTIVE)
+  
+  // Billing
+  amount          Float
+  currency        String        @default("INR")
+  billingCycle    BillingCycle  @default(MONTHLY)
+  
+  // Razorpay Integration
+  razorpaySubscriptionId String? @unique
+  razorpayPlanId  String?
+  razorpayCustomerId String?
+  
+  // Period
+  startedAt       DateTime      @default(now())
+  expiresAt       DateTime
+  trialEnd        DateTime?
+  canceledAt      DateTime?
+  pausedAt        DateTime?
+  
+  // Features
+  whatsappMessages Boolean      @default(true)
+  whatsappImages  Boolean       @default(true)
+  whatsappStatus  Boolean       @default(false)
+  linkedinPosts   Boolean       @default(false)
+  dailyLimit      Int           @default(1) // Messages per day
+  
+  // Metadata
+  metadata        Json?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  user            User          @relation(fields: [userId], references: [id])
+  payments        Payment[]
+  
+  @@index([userId])
+  @@index([status])
+  @@index([expiresAt])
+  @@map("subscriptions")
+}
+
+// Payment Records
+model Payment {
+  id              String        @id @default(cuid())
+  subscriptionId  String
+  
+  // Payment Details
+  amount          Float
+  currency        String        @default("INR")
+  status          PaymentStatus @default(PENDING)
+  paymentMethod   String?       // card, upi, netbanking
+  
+  // Razorpay
+  razorpayPaymentId String?     @unique
+  razorpayOrderId String?       @unique
+  razorpaySignature String?
+  
+  // Invoice
+  invoiceNumber   String?       @unique
+  invoiceUrl      String?
+  
+  // Timestamps
+  paidAt          DateTime?
+  failedAt        DateTime?
+  refundedAt      DateTime?
+  
+  metadata        Json?
+  createdAt       DateTime      @default(now())
+  
+  // Relations
+  subscription    Subscription  @relation(fields: [subscriptionId], references: [id])
+  
+  @@index([subscriptionId])
+  @@index([status])
+  @@map("payments")
+}
+
+// Content Delivery Log
+model ContentDelivery {
+  id              String        @id @default(cuid())
+  templateId      String
+  userId          String
+  
+  // Delivery Details
+  deliveryChannel DeliveryChannel
+  deliveryStatus  DeliveryStatus @default(PENDING)
+  
+  // WhatsApp Details
+  whatsappMessageId String?
+  whatsappStatus  String?       // sent, delivered, read, failed
+  
+  // LinkedIn Details
+  linkedinPostId  String?
+  linkedinUrl     String?
+  
+  // Tracking
+  scheduledFor    DateTime
+  sentAt          DateTime?
+  deliveredAt     DateTime?
+  readAt          DateTime?
+  failedAt        DateTime?
+  
+  // Error Handling
+  retryCount      Int           @default(0)
+  errorMessage    String?
+  errorCode       String?
+  
+  // Metadata
+  metadata        Json?
+  createdAt       DateTime      @default(now())
+  
+  // Relations
+  template        ContentTemplate @relation(fields: [templateId], references: [id])
+  user            User          @relation(fields: [userId], references: [id])
+  
+  @@index([templateId])
+  @@index([userId])
+  @@index([deliveryStatus])
+  @@index([scheduledFor])
+  @@map("content_deliveries")
+}
+
+// Web Scraping Jobs
+model ScrapingJob {
+  id              String        @id @default(cuid())
+  
+  url             String
+  selector        String?       // CSS selector for content extraction
+  jobType         ScrapingType  // NEWS, MARKET_DATA, REGULATORY
+  
+  // Schedule
+  frequency       String?       // cron expression
+  isActive        Boolean       @default(true)
+  lastRunAt       DateTime?
+  nextRunAt       DateTime?
+  
+  // Results
+  lastContent     Json?
+  lastError       String?
+  successCount    Int           @default(0)
+  failureCount    Int           @default(0)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  @@index([jobType])
+  @@index([isActive])
+  @@map("scraping_jobs")
+}
+
+// Distribution Queue for scheduled content
+model DistributionQueue {
+  id              String        @id @default(cuid())
+  templateId      String
+  
+  // Scheduling
+  scheduledFor    DateTime
+  priority        Int           @default(0)
+  
+  // Processing
+  status          QueueStatus   @default(PENDING)
+  processedAt     DateTime?
+  
+  // Batch Processing
+  batchId         String?
+  totalRecipients Int           @default(0)
+  sentCount       Int           @default(0)
+  failedCount     Int           @default(0)
+  
+  // Error Tracking
+  lastError       String?
+  retryCount      Int           @default(0)
+  maxRetries      Int           @default(3)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  @@index([scheduledFor, status])
+  @@index([batchId])
+  @@map("distribution_queue")
+}
+
+// Analytics for content performance
+model ContentAnalytics {
+  id              String        @id @default(cuid())
+  templateId      String
+  
+  // Engagement Metrics
+  totalSent       Int           @default(0)
+  totalDelivered  Int           @default(0)
+  totalRead       Int           @default(0)
+  totalClicked    Int           @default(0)
+  
+  // WhatsApp Metrics
+  whatsappSent    Int           @default(0)
+  whatsappDelivered Int         @default(0)
+  whatsappRead    Int           @default(0)
+  
+  // LinkedIn Metrics
+  linkedinViews   Int           @default(0)
+  linkedinLikes   Int           @default(0)
+  linkedinShares  Int           @default(0)
+  linkedinComments Int          @default(0)
+  
+  // Performance
+  avgDeliveryTime Float?        // in seconds
+  deliveryRate    Float?        // percentage
+  readRate        Float?        // percentage
+  
+  // Time Period
+  periodStart     DateTime
+  periodEnd       DateTime
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  @@unique([templateId, periodStart, periodEnd])
+  @@index([templateId])
+  @@index([periodStart])
+  @@map("content_analytics")
+}
+
+// Audit Logs for Compliance
+model AuditLog {
+  id              String        @id @default(cuid())
+  userId          String?
+  
+  // Action Details
+  action          String
+  entity          String
+  entityId        String
+  
+  // Change Tracking
+  oldValues       Json?
+  newValues       Json?
+  
+  // Context
+  ipAddress       String?
+  userAgent       String?
+  requestId       String?
+  
+  timestamp       DateTime      @default(now())
+  
+  // Relations
+  user            User?         @relation(fields: [userId], references: [id])
+  
+  @@index([userId])
+  @@index([entity, entityId])
+  @@index([timestamp])
+  @@map("audit_logs")
+}
+
+// Notifications
+model Notification {
+  id              String        @id @default(cuid())
+  userId          String
+  
+  // Notification Details
+  type            NotificationType
+  title           String
+  message         String
+  
+  // Status
+  isRead          Boolean       @default(false)
+  readAt          DateTime?
+  
+  // Action
+  actionUrl       String?
+  actionLabel     String?
+  
+  // Metadata
+  metadata        Json?
+  
+  createdAt       DateTime      @default(now())
+  expiresAt       DateTime?
+  
+  // Relations
+  user            User          @relation(fields: [userId], references: [id])
+  
+  @@index([userId, isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+// Session Management
+model Session {
+  id              String        @id @default(cuid())
+  userId          String
+  
+  token           String        @unique
+  refreshToken    String?       @unique
+  
+  // Session Info
+  ipAddress       String?
+  userAgent       String?
+  deviceInfo      Json?
+  
+  // Validity
+  isValid         Boolean       @default(true)
+  expiresAt       DateTime
+  
+  createdAt       DateTime      @default(now())
+  lastActivity    DateTime      @default(now())
+  
+  // Relations
+  user            User          @relation(fields: [userId], references: [id])
+  
+  @@index([token])
+  @@index([userId])
+  @@map("sessions")
+}
+
+// ENUMS
+
+enum UserRole {
+  SUBSCRIBER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum BusinessType {
+  INDIVIDUAL
+  COMPANY
+  PARTNERSHIP
+  LLP
+}
+
+enum ContentType {
+  WHATSAPP_MESSAGE
+  WHATSAPP_IMAGE
+  WHATSAPP_STATUS
+  LINKEDIN_POST
+}
+
+enum Language {
+  EN
+  HI
+  GU
+  MR
+  TA
+  TE
+  KN
+  ML
+  BN
+  PA
+}
+
+enum ContentStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  SCHEDULED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum RepeatPattern {
+  ONCE
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+enum PromptType {
+  SYSTEM
+  USER
+  ASSISTANT
+}
+
+enum PlanType {
+  BASIC_499
+  STANDARD_999
+  PREMIUM_1999
+  ENTERPRISE_CUSTOM
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELED
+  EXPIRED
+  PAUSED
+}
+
+enum BillingCycle {
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum DeliveryChannel {
+  WHATSAPP
+  LINKEDIN
+  EMAIL
+}
+
+enum DeliveryStatus {
+  PENDING
+  QUEUED
+  SENDING
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+enum ScrapingType {
+  NEWS
+  MARKET_DATA
+  REGULATORY
+  SOCIAL_MEDIA
+}
+
+enum QueueStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELED
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+  SUBSCRIPTION_ALERT
+  PAYMENT_ALERT
+  CONTENT_PUBLISHED
+  SYSTEM_UPDATE
+}

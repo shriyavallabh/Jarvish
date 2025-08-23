@@ -1,0 +1,203 @@
+openapi: 3.0.0
+info:
+  title: Project One B2B Financial Content API
+  version: 1.0.0
+  description: AI-first compliance-safe content delivery platform for Indian financial advisors
+
+security:
+  - bearerAuth: []
+  - apiKeyAuth: []
+
+paths:
+  # Advisor Management (Admin)
+  /v1/advisors:
+    get:
+      summary: List all advisors with filtering
+      # TODO: Implement pagination, search, tier filtering
+    post:
+      summary: Create new advisor
+      # TODO: Validate business docs, compliance checks
+  
+  /v1/advisors/{id}:
+    get:
+      summary: Get advisor details
+      # TODO: Include profile, health score, billing status
+    put:
+      summary: Update advisor (approve/suspend)
+      # TODO: Status transitions, audit logging
+    delete:
+      summary: Deactivate advisor
+      # TODO: Handle active content packs, billing cleanup
+
+  /v1/advisors/{id}/whatsapp:
+    post:
+      summary: Connect WhatsApp Business Account
+      # TODO: WABA verification, webhook setup, test message
+    put:
+      summary: Update WhatsApp settings
+      # TODO: Phone number changes, opt-in status
+
+  # Content Pack Management
+  /v1/content-packs:
+    get:
+      summary: List content packs (tenant-scoped)
+      # TODO: Filter by status, date, topic, language
+    post:
+      summary: Create content pack draft
+      # TODO: AI assistance, compliance lint, variant generation
+
+  /v1/content-packs/{id}:
+    get:
+      summary: Get content pack details
+      # TODO: Include render status, delivery stats
+    put:
+      summary: Update content pack
+      # TODO: Re-trigger AI lint, track changes
+    delete:
+      summary: Delete draft content pack
+      # TODO: Prevent deletion of approved/scheduled packs
+
+  /v1/content-packs/{id}/submit:
+    post:
+      summary: Submit pack for admin approval
+      # TODO: Final compliance check, queue placement
+
+  /v1/content-packs/{id}/approve:
+    post:
+      summary: Approve content pack (Admin only)
+      # TODO: Schedule for delivery, trigger pre-render
+  
+  /v1/content-packs/{id}/reject:
+    post:
+      summary: Reject content pack with feedback
+      # TODO: Detailed rejection reasons, improvement suggestions
+
+  # AI Services
+  /v1/ai/lint:
+    post:
+      summary: Run compliance check on content
+      # TODO: Three-stage validation, risk scoring
+  
+  /v1/ai/generate:
+    post:
+      summary: Generate content variants
+      # TODO: Topic-based generation, personalization
+  
+  /v1/ai/translate:
+    post:
+      summary: Translate content to target language
+      # TODO: Confidence scoring, cultural adaptation
+
+  # WhatsApp Templates
+  /v1/templates:
+    get:
+      summary: List approved WhatsApp templates
+      # TODO: Filter by category, language, status
+    post:
+      summary: Submit new template for approval
+      # TODO: Template validation, Meta submission workflow
+
+  # Delivery & Analytics
+  /v1/deliveries:
+    get:
+      summary: Get delivery history and stats
+      # TODO: Read receipts, error analysis, performance metrics
+
+  /v1/analytics/advisor:
+    get:
+      summary: Get advisor-specific analytics
+      # TODO: Engagement metrics, content performance, health score
+
+  /v1/analytics/platform:
+    get:
+      summary: Get platform-wide analytics (Admin)
+      # TODO: Usage trends, compliance metrics, AI performance
+
+  # Fallback Management
+  /v1/fallback/policies:
+    get:
+      summary: Get fallback policies
+    put:
+      summary: Update fallback configuration
+      # TODO: Library management, AI curation settings
+
+  /v1/fallback/packs:
+    get:
+      summary: List fallback content library
+      # TODO: Engagement scoring, seasonal relevance
+    post:
+      summary: Add content to fallback library
+      # TODO: Compliance validation, categorization
+
+  /v1/fallback/simulate:
+    post:
+      summary: Simulate fallback selection
+      # TODO: Dry-run fallback logic, preview assignments
+
+  # Pro API (Export)
+  /v1/export/packs:
+    get:
+      summary: Export content packs (Pro tier)
+      # TODO: ZIP generation, signed URLs, delivery stats
+
+  /v1/export/analytics:
+    get:
+      summary: Export analytics data (Pro tier)
+      # TODO: CSV/JSON formats, date range filtering
+
+  # Webhooks
+  /webhooks/whatsapp:
+    post:
+      summary: WhatsApp Cloud API webhook endpoint
+      # TODO: HMAC verification, delivery status processing
+
+  /webhooks/billing:
+    post:
+      summary: Razorpay billing webhook
+      # TODO: Payment confirmation, tier upgrades, failures
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  schemas:
+    ContentPack:
+      type: object
+      properties:
+        id:
+          type: string
+        topic_family:
+          type: string
+        languages:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [draft, pending, approved, rejected, scheduled, sent]
+        ai_risk_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+
+    Advisor:
+      type: object
+      properties:
+        id:
+          type: string
+        tier:
+          type: string
+          enum: [basic, standard, pro]
+        type:
+          type: string
+          enum: [RIA, MFD]
+        status:
+          type: string
+          enum: [pending, approved, suspended]

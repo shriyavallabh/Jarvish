@@ -1,0 +1,14 @@
+{
+  "name": "jarvish-claude-hooks",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "bun index.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^18",
+    "typescript": "^5"
+  }
+}

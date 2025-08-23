@@ -1,0 +1,15 @@
+{
+  "sound": {
+    "enabled": true,
+    "volume": 0.7,
+    "sounds": {
+      "success": "Glass",
+      "error": "Basso",
+      "notification": "Ping"
+    }
+  },
+  "performance": {
+    "track_metrics": true,
+    "slow_tool_threshold_ms": 5000
+  }
+}

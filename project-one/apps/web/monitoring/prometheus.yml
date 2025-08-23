@@ -1,0 +1,85 @@
+# Prometheus Configuration for JARVISH Platform
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'jarvish-monitor'
+    environment: '${NODE_ENV:-production}'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+
+# Load rules once and periodically evaluate them
+rule_files:
+  - "alerts/*.yml"
+
+# Scrape configurations
+scrape_configs:
+  # JARVISH Application Metrics
+  - job_name: 'jarvish-app'
+    metrics_path: '/api/metrics'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['web:3000']
+        labels:
+          service: 'jarvish'
+          component: 'web'
+    bearer_token: '${METRICS_AUTH_TOKEN}'
+    
+  # Node Exporter (System Metrics)
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node-exporter:9100']
+        labels:
+          service: 'jarvish'
+          component: 'system'
+  
+  # Redis Metrics
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+        labels:
+          service: 'jarvish'
+          component: 'redis'
+  
+  # PostgreSQL Metrics
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+        labels:
+          service: 'jarvish'
+          component: 'database'
+  
+  # Nginx Metrics
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx-exporter:9113']
+        labels:
+          service: 'jarvish'
+          component: 'nginx'
+  
+  # Prometheus Self-Monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'jarvish'
+          component: 'prometheus'
+
+# Remote write configuration for long-term storage
+remote_write:
+  - url: "${PROMETHEUS_REMOTE_WRITE_URL}"
+    basic_auth:
+      username: "${PROMETHEUS_REMOTE_WRITE_USERNAME}"
+      password: "${PROMETHEUS_REMOTE_WRITE_PASSWORD}"
+    write_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'jarvish_.*'
+        action: keep
+
+# Alert Rules
+# These are loaded from separate files in the alerts/ directory

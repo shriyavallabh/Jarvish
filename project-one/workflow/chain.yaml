@@ -1,0 +1,446 @@
+version: 2
+name: "Project One - AI-First B2B Financial Content Platform"
+description: "Executable multi-agent DAG for SEBI-compliant financial advisor platform development"
+
+# Execution Modes
+execution_mode: "production"  # production | dry_run
+dry_run_output: "/context/_scratch"  # Safe sandbox for testing
+
+# Global Context Window Constraints
+global_limits:
+  default_max_tokens: 200000
+  sub_agent_default: 150000
+  critical_path_buffer: 50000
+
+# Rollback Points (maps to workflow/checkpoints.md)
+rollback_points:
+  - name: "UX Ready"
+    checkpoint: "phase1_complete"
+    description: "UX flows documented, compliance patterns validated"
+  - name: "UI Spec Stable" 
+    checkpoint: "phase2_complete"
+    description: "Design system complete, financial branding approved"
+  - name: "FE Scaffold Ready"
+    checkpoint: "phase3_complete" 
+    description: "Dashboard functional, AI integration working"
+  - name: "BE MVP Ready"
+    checkpoint: "phase4_backend_complete"
+    description: "Backend services operational, APIs functional"
+  - name: "Delivery Dry-run Passed"
+    checkpoint: "phase4_complete"
+    description: "99% delivery SLA achieved, full system validated"
+
+phases:
+  phase1:
+    name: "UX Research & Compliance Planning"
+    description: "Financial advisor UX and AI-first compliance workflow design"
+    duration_estimate: "5-7 days"
+    mode: "parallel"
+    
+    steps:
+      - agent: "design/compliance-ux-researcher"
+        reads: 
+          - "docs/PRD.md"
+          - "docs/compliance/policy.yaml" 
+          - "docs/ai/ai-config.yaml"
+          - "context/phase1/*"
+        writes:
+          - "context/phase1/ux-flows/advisor-onboarding-journey.md"
+          - "context/phase1/ux-flows/content-composer-workflow.md"
+          - "context/phase1/ux-flows/approval-tracking.md"
+          - "context/phase1/compliance-patterns.md"
+          - "context/phase1/mobile-ux-guidelines.md"
+          - "context/phase1/whatsapp-integration-flows.md"
+        mode: "parallel"
+        max_tokens_window: 180000  # Large PRD + compliance rules
+        checkpoint_on_write: true
+        
+      - agent: "eng/rapid-prototyper"
+        reads:
+          - "docs/PRD.md"
+          - "workflow/chain.yaml"
+        writes:
+          - "context/phase1/plan/sprint-plan.md"
+          - "context/phase1/plan/user-stories.md"
+        mode: "parallel"
+        max_tokens_window: 120000  # PRD analysis focused
+        checkpoint_on_write: true
+        
+      - agent: "domain/data-modeler"
+        reads:
+          - "context/phase1/data/er-notes.md"
+          - "docs/PRD.md"
+        writes:
+          - "context/phase1/data/advisor-schema-refined.md"
+          - "context/phase1/data/compliance-audit-schema.md"
+        mode: "parallel"
+        max_tokens_window: 100000  # Data modeling focused
+        checkpoint_on_write: true
+    
+    gate:
+      requires: 
+        - "context/phase1/plan/sprint-plan.md"
+        - "context/phase1/ux-flows/content-composer-workflow.md"
+        - "context/phase1/compliance-patterns.md"
+      validates: ["sprint-plan-complete", "ux-spec-complete", "compliance-patterns-defined"]
+
+  phase2:
+    name: "FinTech UI Design & Brand System"
+    description: "Professional financial services design system with shadcn-ui components"
+    duration_estimate: "7-10 days"
+    mode: "sequential_then_parallel"
+    
+    steps:
+      - agent: "design/fintech-ui-designer"
+        reads:
+          - "context/phase1/ux-flows/advisor-onboarding-journey.md"
+          - "context/phase1/ux-flows/content-composer-workflow.md"
+          - "context/phase1/compliance-patterns.md"
+          - "context/phase1/mobile-ux-guidelines.md"
+          - "docs/product/overview.md"
+        writes:
+          - "context/phase2/design-system/tokens.js"
+          - "context/phase2/design-system/components.md"
+          - "context/phase2/financial-components/advisor-dashboard.md"
+          - "context/phase2/financial-components/content-composer.md"
+          - "context/phase2/financial-components/compliance-indicators.md"
+          - "context/phase2/brand-standards/fintech-guidelines.md"
+          - "context/phase2/brand-standards/mobile-patterns.md"
+        mode: "serial"
+        max_tokens_window: 160000  # UX analysis + design generation
+        checkpoint_on_write: true
+        
+      - agent: "design/whimsy-injector" 
+        reads:
+          - "context/phase2/design-system/tokens.js"
+          - "context/phase2/design-system/components.md"
+          - "context/phase2/financial-components/*.md"
+        writes:
+          - "context/phase2/whimsy/micro-interactions.md"
+          - "context/phase2/whimsy/animation-cues.md"
+        mode: "parallel"  # Can run after UI designer starts writing
+        max_tokens_window: 80000   # Enhancement focused, smaller scope
+        checkpoint_on_write: false
+        wait_for: ["context/phase2/design-system/components.md"]  # Dependency
+    
+    parallel_safe: true  # whimsy-injector can start once components.md exists
+    
+    gate:
+      requires:
+        - "context/phase2/design-system/tokens.js"
+        - "context/phase2/design-system/components.md"
+        - "context/phase2/financial-components/advisor-dashboard.md"
+      validates: ["design-system-complete", "financial-branding-approved", "accessibility-validated"]
+
+  phase3:
+    name: "Frontend Development & AI Integration"
+    description: "Next.js dashboard with AI-powered content creation and compliance"
+    duration_estimate: "14-21 days"
+    mode: "serial"
+    
+    steps:
+      - agent: "eng/nextjs-dashboard-developer"
+        reads:
+          - "context/phase2/design-system/tokens.js"
+          - "context/phase2/design-system/components.md"
+          - "context/phase2/financial-components/advisor-dashboard.md"
+          - "context/phase2/financial-components/content-composer.md"
+          - "context/phase2/financial-components/compliance-indicators.md"
+          - "context/phase2/whimsy/micro-interactions.md"
+          - "context/phase1/ux-flows/advisor-onboarding-journey.md"
+          - "context/phase1/ux-flows/content-composer-workflow.md"
+          - "context/phase1/mobile-ux-guidelines.md"
+          - "docs/PRD.md"
+        writes:
+          - "context/phase3/dashboard-app/advisor-layout.tsx"
+          - "context/phase3/dashboard-app/content-composer.tsx"
+          - "context/phase3/dashboard-app/approval-tracker.tsx"
+          - "context/phase3/components/compliance-indicator.tsx"
+          - "context/phase3/components/whatsapp-preview.tsx"
+          - "context/phase3/dashboard-app/analytics-dashboard.tsx"
+          - "context/phase3/dashboard-app/settings-manager.tsx"
+        mode: "serial"
+        max_tokens_window: 190000  # Large design consumption + React generation
+        checkpoint_on_write: true
+    
+    gate:
+      requires:
+        - "context/phase3/dashboard-app/advisor-layout.tsx"
+        - "context/phase3/dashboard-app/content-composer.tsx"
+        - "context/phase3/components/compliance-indicator.tsx"
+      validates: ["dashboard-functional", "ai-integration-working", "mobile-responsive"]
+
+  phase4:
+    name: "Backend Services & AI-First Architecture"  
+    description: "WhatsApp delivery, AI compliance, and financial data services"
+    duration_estimate: "21-28 days"
+    mode: "complex_parallel"  # Multiple parallel groups with dependencies
+    
+    steps:
+      # First Wave - Core Backend (must complete first)
+      - agent: "eng/backend-dev" 
+        reads:
+          - "docs/api/openapi-skeleton.yaml"
+          - "context/phase1/data/er-notes.md"
+          - "context/phase3/dashboard-app/advisor-layout.tsx"
+          - "context/phase3/dashboard-app/content-composer.tsx"
+          - "docs/PRD.md"
+        writes:
+          - "context/phase4/backend/build-plan.md"
+        mode: "serial"
+        max_tokens_window: 200000  # Critical path, full context
+        checkpoint_on_write: true
+        wave: 1
+        
+      # Second Wave - AI & WhatsApp (parallel after backend ready)  
+      - agent: "eng/ai-compliance-engine-dev"
+        reads:
+          - "docs/compliance/policy.yaml"
+          - "docs/ai/ai-config.yaml" 
+          - "context/phase4/backend/build-plan.md"
+        writes:
+          - "context/phase4/compliance-engine/three-stage-validator.js"
+          - "context/phase4/compliance-engine/openai-integration.js"
+          - "context/phase4/compliance-engine/risk-scoring-algorithm.js"
+          - "context/phase4/compliance-engine/prompt-library.json"
+          - "context/phase4/compliance-engine/fallback-handlers.js"
+          - "context/phase4/compliance-api/endpoints.js"
+          - "context/phase4/compliance-engine/audit-logging.js"
+        mode: "parallel"
+        max_tokens_window: 180000  # AI-heavy processing
+        checkpoint_on_write: true
+        wave: 2
+        wait_for: ["context/phase4/backend/build-plan.md"]
+        
+      - agent: "eng/whatsapp-api-specialist"
+        reads:
+          - "docs/wa/templates.md"
+          - "docs/wa/throughput-plan.md"
+          - "context/phase4/backend/build-plan.md"
+          - "docs/ops/observability-slo.md"
+        writes:
+          - "context/phase4/whatsapp-integration/cloud-api-client.js"
+          - "context/phase4/whatsapp-integration/template-manager.js"
+          - "context/phase4/whatsapp-integration/delivery-scheduler.js"
+          - "context/phase4/whatsapp-integration/quality-monitor.js"
+          - "context/phase4/whatsapp-integration/webhook-handlers.js"
+          - "context/phase4/whatsapp-integration/multi-number-strategy.js"
+          - "context/phase4/delivery-analytics/sla-tracker.js"
+        mode: "parallel"
+        max_tokens_window: 170000  # WhatsApp API integration
+        checkpoint_on_write: true
+        wave: 2
+        wait_for: ["context/phase4/backend/build-plan.md"]
+        
+      # Third Wave - Analytics & Compliance Audit (depends on AI + WA)
+      - agent: "domain/analytics-intelligence-dev"
+        reads:
+          - "context/phase4/whatsapp-integration/delivery-scheduler.js"
+          - "context/phase4/compliance-engine/three-stage-validator.js"
+          - "context/phase4/backend/build-plan.md"
+          - "docs/PRD.md"
+        writes:
+          - "context/phase4/analytics-intelligence/advisor-insights-generator.js"
+          - "context/phase4/analytics-intelligence/churn-prediction-model.js"
+          - "context/phase4/analytics-intelligence/content-performance-analyzer.js"
+          - "context/phase4/analytics-intelligence/platform-intelligence-engine.js"
+          - "context/phase4/analytics-intelligence/anomaly-detector.js"
+          - "context/phase4/analytics-intelligence/reporting-dashboard.js"
+          - "context/phase4/insights-engine/natural-language-generator.js"
+        mode: "parallel"
+        max_tokens_window: 190000  # ML analytics processing
+        checkpoint_on_write: true
+        wave: 3
+        wait_for: 
+          - "context/phase4/whatsapp-integration/delivery-scheduler.js"
+          - "context/phase4/compliance-engine/three-stage-validator.js"
+        
+      - agent: "domain/sebi-compliance-auditor"
+        reads:
+          - "docs/compliance/policy.yaml"
+          - "context/phase4/compliance-engine/three-stage-validator.js"
+          - "context/phase4/backend/build-plan.md"
+          - "docs/PRD.md"
+        writes:
+          - "context/phase4/audit-framework/sebi-compliance-tracker.js"
+          - "context/phase4/audit-framework/monthly-report-generator.js"
+          - "context/phase4/audit-framework/incident-management-system.js"
+          - "context/phase4/audit-framework/policy-version-control.js"
+          - "context/phase4/audit-framework/advisor-compliance-profiles.js"
+          - "context/phase4/audit-framework/regulatory-change-monitor.js"
+          - "context/phase4/compliance-reports/audit-export-tools.js"
+        mode: "parallel"
+        max_tokens_window: 150000  # Compliance auditing
+        checkpoint_on_write: true
+        wave: 3
+        wait_for: ["context/phase4/compliance-engine/three-stage-validator.js"]
+        
+      - agent: "domain/fallback-system-architect"
+        reads:
+          - "context/phase4/compliance-engine/three-stage-validator.js"
+          - "context/phase4/backend/build-plan.md"
+          - "docs/PRD.md"
+          - "context/phase4/analytics-intelligence/advisor-insights-generator.js"
+        writes:
+          - "context/phase4/fallback-system/ai-content-curator.js"
+          - "context/phase4/fallback-system/evergreen-library-manager.js"
+          - "context/phase4/fallback-system/seasonal-relevance-engine.js"
+          - "context/phase4/fallback-system/engagement-predictor.js"
+          - "context/phase4/fallback-system/assignment-scheduler.js"
+          - "context/phase4/fallback-system/deduplication-tracker.js"
+          - "context/phase4/continuity-rules/auto-send-controller.js"
+        mode: "parallel"
+        max_tokens_window: 140000  # Fallback system architecture
+        checkpoint_on_write: true
+        wave: 3
+        wait_for:
+          - "context/phase4/compliance-engine/three-stage-validator.js"
+          - "context/phase4/analytics-intelligence/advisor-insights-generator.js"
+    
+    # Parallel execution groups by wave
+    wave_1_parallel: false      # Backend must complete first
+    wave_2_parallel: true       # AI & WhatsApp can run together
+    wave_3_parallel: true       # Analytics, audit, fallback can run together
+    
+    gate:
+      requires:
+        - "context/phase4/compliance-engine/three-stage-validator.js"
+        - "context/phase4/whatsapp-integration/delivery-scheduler.js"
+        - "context/phase4/analytics-intelligence/advisor-insights-generator.js"
+        - "context/phase4/audit-framework/sebi-compliance-tracker.js"
+        - "context/phase4/fallback-system/ai-content-curator.js"
+      validates: ["99-percent-delivery-sla", "compliance-engine-operational", "analytics-functional"]
+
+# Dependency Graph - File-based Execution Order
+dependencies:
+  # Phase 1 → Phase 2
+  - from: "design/compliance-ux-researcher"
+    to: "design/fintech-ui-designer"
+    via_files: 
+      - "context/phase1/ux-flows/advisor-onboarding-journey.md"
+      - "context/phase1/ux-flows/content-composer-workflow.md" 
+      - "context/phase1/compliance-patterns.md"
+      - "context/phase1/mobile-ux-guidelines.md"
+    
+  # Phase 2 → Phase 3  
+  - from: "design/fintech-ui-designer"
+    to: "eng/nextjs-dashboard-developer"
+    via_files:
+      - "context/phase2/design-system/tokens.js"
+      - "context/phase2/design-system/components.md"
+      - "context/phase2/financial-components/advisor-dashboard.md"
+      - "context/phase2/financial-components/content-composer.md"
+      - "context/phase2/financial-components/compliance-indicators.md"
+  
+  - from: "design/whimsy-injector"
+    to: "eng/nextjs-dashboard-developer"
+    via_files:
+      - "context/phase2/whimsy/micro-interactions.md"
+      - "context/phase2/whimsy/animation-cues.md"
+    
+  # Phase 3 → Phase 4 (Frontend → Backend)
+  - from: "eng/nextjs-dashboard-developer"
+    to: "eng/backend-dev"
+    via_files:
+      - "context/phase3/dashboard-app/advisor-layout.tsx"
+      - "context/phase3/dashboard-app/content-composer.tsx"
+    
+  # Phase 4 Internal Dependencies
+  - from: "eng/backend-dev"
+    to: "eng/ai-compliance-engine-dev"
+    via_files: ["context/phase4/backend/build-plan.md"]
+    
+  - from: "eng/backend-dev"
+    to: "eng/whatsapp-api-specialist"
+    via_files: ["context/phase4/backend/build-plan.md"]
+    
+  - from: "eng/ai-compliance-engine-dev"
+    to: "domain/sebi-compliance-auditor"
+    via_files: ["context/phase4/compliance-engine/three-stage-validator.js"]
+    
+  - from: "eng/ai-compliance-engine-dev"
+    to: "domain/fallback-system-architect"
+    via_files: ["context/phase4/compliance-engine/three-stage-validator.js"]
+    
+  - from: "eng/whatsapp-api-specialist"
+    to: "domain/analytics-intelligence-dev"
+    via_files: ["context/phase4/whatsapp-integration/delivery-scheduler.js"]
+    
+  - from: "domain/analytics-intelligence-dev"
+    to: "domain/fallback-system-architect"
+    via_files: ["context/phase4/analytics-intelligence/advisor-insights-generator.js"]
+
+# Execution Configuration
+execution:
+  mode: "hybrid_parallel"  # Phases sequential, steps within phases can be parallel
+  checkpoint_strategy: "on_write_with_validation"
+  rollback_capability: true
+  dry_run_validation: true
+  
+  # Context Window Management
+  memory_management:
+    max_context_per_agent: 200000
+    context_overlap_buffer: 10000
+    file_chunking_threshold: 50000
+    aggressive_summarization: false
+    
+  # Parallel Execution Rules
+  parallel_constraints:
+    max_concurrent_agents: 3
+    resource_contention_detection: true
+    dependency_cycle_prevention: true
+    
+  # Error Handling
+  error_recovery:
+    max_retries: 2
+    backoff_strategy: "exponential"
+    circuit_breaker_threshold: 3
+    fallback_to_serial: true
+
+# Validation & Quality Gates
+validation:
+  pre_execution:
+    - "validate_agent_specs_exist"
+    - "validate_input_files_exist"  
+    - "validate_no_circular_dependencies"
+    - "validate_token_budgets_feasible"
+    
+  post_phase:
+    phase1:
+      - "validate_ux_flows_complete"
+      - "validate_compliance_patterns_defined"
+      - "validate_sprint_plan_actionable"
+    phase2:
+      - "validate_design_tokens_consistent"
+      - "validate_components_accessible"
+      - "validate_fintech_branding_professional"
+    phase3:
+      - "validate_dashboard_functional"
+      - "validate_ai_integration_latency"
+      - "validate_mobile_responsive"
+    phase4:
+      - "validate_99_percent_delivery_sla"
+      - "validate_compliance_engine_accuracy"
+      - "validate_audit_framework_complete"
+
+# Success Metrics & SLAs
+success_metrics:
+  phase1: 
+    description: "UX flows approved, compliance patterns documented, sprint plan complete"
+    sla_hours: 168  # 7 days
+    quality_gates: ["advisor_journey_mapped", "compliance_workflow_designed", "ai_integration_planned"]
+    
+  phase2:
+    description: "Design system complete, financial branding consistent, components specified"  
+    sla_hours: 240  # 10 days
+    quality_gates: ["design_tokens_finalized", "component_library_complete", "mobile_patterns_defined"]
+    
+  phase3:
+    description: "Dashboard functional, AI integration working, mobile responsive"
+    sla_hours: 504  # 21 days  
+    quality_gates: ["dashboard_demo_ready", "ai_latency_under_1_5s", "mobile_usability_validated"]
+    
+  phase4:
+    description: "99% delivery SLA achieved, compliance engine validated, analytics operational"
+    sla_hours: 672  # 28 days
+    quality_gates: ["whatsapp_99_percent_delivery", "compliance_95_percent_accuracy", "analytics_insights_generated"]

@@ -1,0 +1,18 @@
+{
+  "name": "task-completion-sound",
+  "description": "Play a sound when tasks complete",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash|Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/shriyavallabh/Desktop/Jarvish/scripts/play-completion-sound.sh",
+            "description": "Play completion sound after tool execution"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,388 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "jarvish-main",
+    "title": "JARVISH Platform Dashboard",
+    "tags": ["jarvish", "production", "sla"],
+    "timezone": "browser",
+    "schemaVersion": 38,
+    "version": 1,
+    "refresh": "30s",
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+        "type": "stat",
+        "title": "System Health Score",
+        "targets": [
+          {
+            "expr": "jarvish_system_health",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "red", "value": 0 },
+                { "color": "yellow", "value": 50 },
+                { "color": "green", "value": 80 }
+              ]
+            },
+            "unit": "percent",
+            "decimals": 1
+          }
+        }
+      },
+      {
+        "id": 2,
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+        "type": "gauge",
+        "title": "WhatsApp Delivery SLA (Target: 99%)",
+        "targets": [
+          {
+            "expr": "jarvish_whatsapp_delivery_rate",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "red", "value": 0 },
+                { "color": "yellow", "value": 95 },
+                { "color": "green", "value": 99 }
+              ]
+            },
+            "unit": "percent",
+            "min": 90,
+            "max": 100
+          }
+        }
+      },
+      {
+        "id": 3,
+        "gridPos": { "h": 8, "w": 24, "x": 0, "y": 8 },
+        "type": "graph",
+        "title": "API Response Time (P95)",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(jarvish_api_duration_seconds_bucket[5m])) by (le))",
+            "refId": "A",
+            "legendFormat": "P95 Response Time"
+          },
+          {
+            "expr": "1.5",
+            "refId": "B",
+            "legendFormat": "SLA Target (1.5s)"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "s",
+            "label": "Response Time"
+          }
+        ],
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2
+      },
+      {
+        "id": 4,
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+        "type": "stat",
+        "title": "Active Users",
+        "targets": [
+          {
+            "expr": "sum(jarvish_active_users)",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0,
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "green", "value": 0 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 5,
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+        "type": "stat",
+        "title": "Content Generated Today",
+        "targets": [
+          {
+            "expr": "sum(increase(jarvish_content_generated_total[24h]))",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0,
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "green", "value": 0 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 6,
+        "gridPos": { "h": 8, "w": 24, "x": 0, "y": 24 },
+        "type": "graph",
+        "title": "API Request Rate",
+        "targets": [
+          {
+            "expr": "sum(rate(jarvish_api_requests_total[5m])) by (status)",
+            "refId": "A",
+            "legendFormat": "{{status}}"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "reqps",
+            "label": "Requests/sec"
+          }
+        ],
+        "stack": true,
+        "lines": true,
+        "fill": 1
+      },
+      {
+        "id": 7,
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 32 },
+        "type": "graph",
+        "title": "Queue Size",
+        "targets": [
+          {
+            "expr": "jarvish_queue_size",
+            "refId": "A",
+            "legendFormat": "{{queue_name}}"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Messages"
+          }
+        ],
+        "lines": true,
+        "fill": 1
+      },
+      {
+        "id": 8,
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 32 },
+        "type": "graph",
+        "title": "Database Query Performance",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(jarvish_db_query_duration_seconds_bucket[5m])) by (le, operation))",
+            "refId": "A",
+            "legendFormat": "{{operation}} P95"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "s",
+            "label": "Query Time"
+          }
+        ],
+        "lines": true,
+        "fill": 0
+      },
+      {
+        "id": 9,
+        "gridPos": { "h": 8, "w": 8, "x": 0, "y": 40 },
+        "type": "stat",
+        "title": "Error Rate",
+        "targets": [
+          {
+            "expr": "sum(rate(jarvish_api_errors_total[5m])) / sum(rate(jarvish_api_requests_total[5m])) * 100",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "decimals": 2,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "green", "value": 0 },
+                { "color": "yellow", "value": 0.1 },
+                { "color": "red", "value": 1 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 10,
+        "gridPos": { "h": 8, "w": 8, "x": 8, "y": 40 },
+        "type": "stat",
+        "title": "Compliance Rate",
+        "targets": [
+          {
+            "expr": "100 - (sum(rate(jarvish_compliance_violations_total[24h])) / sum(rate(jarvish_compliance_checks_total[24h])) * 100)",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "decimals": 1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "red", "value": 0 },
+                { "color": "yellow", "value": 95 },
+                { "color": "green", "value": 99 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 11,
+        "gridPos": { "h": 8, "w": 8, "x": 16, "y": 40 },
+        "type": "stat",
+        "title": "Monthly Churn Rate",
+        "targets": [
+          {
+            "expr": "jarvish_churn_rate",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "decimals": 1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "green", "value": 0 },
+                { "color": "yellow", "value": 3 },
+                { "color": "red", "value": 5 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 12,
+        "gridPos": { "h": 8, "w": 24, "x": 0, "y": 48 },
+        "type": "table",
+        "title": "Recent Alerts",
+        "targets": [
+          {
+            "expr": "ALERTS{alertstate=\"firing\"}",
+            "format": "table",
+            "instant": true,
+            "refId": "A"
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "alertname": "Alert",
+                "severity": "Severity",
+                "summary": "Description"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 56 },
+        "type": "heatmap",
+        "title": "API Response Time Heatmap",
+        "targets": [
+          {
+            "expr": "sum(increase(jarvish_api_duration_seconds_bucket[1m])) by (le)",
+            "format": "heatmap",
+            "refId": "A"
+          }
+        ],
+        "dataFormat": "timeseries",
+        "yAxis": {
+          "format": "s",
+          "decimals": 2
+        },
+        "color": {
+          "mode": "spectrum",
+          "scheme": "interpolateRdYlGn",
+          "reverse": true
+        }
+      },
+      {
+        "id": 14,
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 56 },
+        "type": "piechart",
+        "title": "Revenue by Tier",
+        "targets": [
+          {
+            "expr": "sum(jarvish_revenue_total) by (tier)",
+            "refId": "A",
+            "legendFormat": "{{tier}}"
+          }
+        ],
+        "pieType": "donut",
+        "displayLabels": ["name", "percent"],
+        "legendDisplayMode": "table",
+        "legendPlacement": "right"
+      }
+    ],
+    "templating": {
+      "list": [
+        {
+          "name": "datasource",
+          "type": "datasource",
+          "query": "prometheus",
+          "current": {
+            "text": "Prometheus",
+            "value": "prometheus"
+          }
+        },
+        {
+          "name": "environment",
+          "type": "custom",
+          "current": {
+            "text": "production",
+            "value": "production"
+          },
+          "options": [
+            { "text": "production", "value": "production" },
+            { "text": "staging", "value": "staging" },
+            { "text": "development", "value": "development" }
+          ]
+        }
+      ]
+    }
+  }
+}

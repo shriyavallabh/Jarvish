@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "project-one-agents": {
+      "command": "node",
+      "args": [
+        "/Users/shriyavallabh/Desktop/Jarvish/project-one/dist/mcp-server.js"
+      ],
+      "env": {
+        "NODE_PATH": "/Users/shriyavallabh/Desktop/Jarvish/project-one/node_modules"
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "919765071249": {
+    "opted_in": true,
+    "consent_date": "2025-08-23T14:33:09.300Z",
+    "method": "text_reply_yes",
+    "conversation_window": "2025-08-24T14:33:09.301Z"
+  },
+  "918975758513": {
+    "opted_in": false,
+    "consent_date": null,
+    "method": null,
+    "conversation_window": null
+  }
+}

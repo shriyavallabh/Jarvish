@@ -1,0 +1,39 @@
+{
+  "timestamp": "2025-08-19T17:36:55.362Z",
+  "tests": [
+    {
+      "page": "Landing",
+      "url": "http://localhost:3000",
+      "checks": {
+        "hasBrand": true,
+        "hasSebiBadge": true,
+        "hasPricing": true,
+        "fontFamily": "__Poppins_51684b, __Poppins_Fallback_51684b"
+      },
+      "status": "PASS"
+    },
+    {
+      "page": "Admin Dashboard",
+      "url": "http://localhost:3000/admin",
+      "checks": {
+        "hasEliteAdmin": false,
+        "hasSidebar": false,
+        "hasPremium": false,
+        "hasStats": true,
+        "hasTable": false
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "page": "Advisor Dashboard",
+      "url": "http://localhost:3000/advisor/dashboard",
+      "checks": {
+        "hasJarvish": true,
+        "hasContentArea": false,
+        "hasWhatsApp": true,
+        "hasCompliance": true
+      },
+      "status": "PASS"
+    }
+  ]
+}

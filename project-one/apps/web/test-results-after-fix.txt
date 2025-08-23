@@ -1,0 +1,940 @@
+
+> @project-one/web@0.1.0 test
+> jest --passWithNoTests
+
+FAIL tests/unit/services/mobile-verification.test.ts
+  ● E01-US-003: Mobile Verification › OTP Generation › should generate a 6-digit OTP
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    - Expected
+    + Received
+
+      Object {
+    -   "message": StringContaining "123456",
+    +   "message": "Your Jarvish verification OTP is: 736002. Valid for 10 minutes. Do not share this OTP with anyone. This is for financial advisory platform registration only.",
+        "to": "+919876543210",
+      },
+
+    Number of calls: 1
+
+      92 |         }),
+      93 |       })
+    > 94 |       expect(mockSendSMS).toHaveBeenCalledWith({
+         |                           ^
+      95 |         to: mobile,
+      96 |         message: expect.stringContaining('123456'),
+      97 |       })
+
+      at Object.toHaveBeenCalledWith (tests/unit/services/mobile-verification.test.ts:94:27)
+
+  ● E01-US-003: Mobile Verification › OTP Verification › should use constant-time comparison for security
+
+    expect(jest.fn()).toHaveBeenCalled()
+
+    Expected number of calls: >= 1
+    Received number of calls:    0
+
+      319 |       await mobileService.verifyOTP(userId, otp)
+      320 |
+    > 321 |       expect(timingSafeEqual).toHaveBeenCalled()
+          |                               ^
+      322 |     })
+      323 |   })
+      324 |
+
+      at Object.toHaveBeenCalled (tests/unit/services/mobile-verification.test.ts:321:31)
+
+FAIL tests/integration/auth/email-verification-api.test.ts
+  ● E01-US-002: Email Verification API › GET /api/auth/verify-email › should verify email with valid token
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:32:19)
+
+  ● E01-US-002: Email Verification API › GET /api/auth/verify-email › should return error for missing token
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:49:19)
+
+  ● E01-US-002: Email Verification API › GET /api/auth/verify-email › should return error for invalid token
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:69:19)
+
+  ● E01-US-002: Email Verification API › GET /api/auth/verify-email › should return error for expired token
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:88:19)
+
+  ● E01-US-002: Email Verification API › GET /api/auth/verify-email › should handle service errors gracefully
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:104:19)
+
+  ● E01-US-002: Email Verification API › POST /api/auth/verify-email › should resend verification email successfully
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:124:19)
+
+  ● E01-US-002: Email Verification API › POST /api/auth/verify-email › should return error for missing userId
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:141:19)
+
+  ● E01-US-002: Email Verification API › POST /api/auth/verify-email › should handle rate limiting
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:164:19)
+
+  ● E01-US-002: Email Verification API › POST /api/auth/verify-email › should handle already verified emails
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:186:19)
+
+  ● E01-US-002: Email Verification API › POST /api/auth/verify-email › should handle service errors gracefully
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:204:19)
+
+  ● E01-US-002: Email Verification API › Integration with registration flow › should work seamlessly after registration
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:239:19)
+
+  ● E01-US-002: Email Verification API › Security considerations › should not expose user information for invalid tokens
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:259:19)
+
+  ● E01-US-002: Email Verification API › Security considerations › should sanitize error messages
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/email-verification-api.test.ts:279:19)
+
+FAIL tests/unit/services/profile-completion.test.ts
+  ● E01-US-004: Advisor Profile Setup › Profile Completion Tracking › should calculate profile completion percentage
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: "profilePhoto"
+    Received array: ["firmRegistrationNumber", "specializations", "languages", "location", "contactInfo", "profilePhotoUrl", "logoUrl", "branding", "clientCount", "aum"]
+
+      428 |
+      429 |       expect(completion.percentage).toBeLessThan(100)
+    > 430 |       expect(completion.missingFields).toContain('profilePhoto')
+          |                                        ^
+      431 |       expect(completion.missingFields).toContain('specializations')
+      432 |       expect(completion.requiredFieldsComplete).toBe(false)
+      433 |     })
+
+      at Object.toContain (tests/unit/services/profile-completion.test.ts:430:40)
+
+  ● E01-US-004: Advisor Profile Setup › Profile Completion Tracking › should mark profile as complete when all required fields are filled
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 100
+    Received: 75
+
+      451 |       const completion = await profileService.getCompletionStatus(userId)
+      452 |
+    > 453 |       expect(completion.percentage).toBe(100)
+          |                                     ^
+      454 |       expect(completion.missingFields).toHaveLength(0)
+      455 |       expect(completion.requiredFieldsComplete).toBe(true)
+      456 |     })
+
+      at Object.toBe (tests/unit/services/profile-completion.test.ts:453:37)
+
+FAIL tests/integration/auth/mobile-verification-api.test.ts
+  ● Mobile Verification API Integration Tests › POST /api/auth/mobile-verify - Generate OTP › should generate and send OTP for authenticated user
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:33:23)
+
+  ● Mobile Verification API Integration Tests › POST /api/auth/mobile-verify - Generate OTP › should reject unauthenticated requests
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:51:23)
+
+  ● Mobile Verification API Integration Tests › POST /api/auth/mobile-verify - Generate OTP › should validate mobile number format
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:66:23)
+
+  ● Mobile Verification API Integration Tests › POST /api/auth/mobile-verify - Generate OTP › should handle rate limiting
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:90:23)
+
+  ● Mobile Verification API Integration Tests › POST /api/auth/mobile-verify - Generate OTP › should accept various Indian mobile number formats
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:116:25)
+
+  ● Mobile Verification API Integration Tests › PUT /api/auth/mobile-verify - Verify OTP › should verify valid OTP successfully
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:138:23)
+
+  ● Mobile Verification API Integration Tests › PUT /api/auth/mobile-verify - Verify OTP › should handle expired OTP
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:165:23)
+
+  ● Mobile Verification API Integration Tests › PUT /api/auth/mobile-verify - Verify OTP › should handle maximum attempts exceeded
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:188:23)
+
+  ● Mobile Verification API Integration Tests › PUT /api/auth/mobile-verify - Verify OTP › should validate OTP format
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:206:25)
+
+  ● Mobile Verification API Integration Tests › PUT /api/auth/mobile-verify - Verify OTP › should capture IP address for audit
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:230:21)
+
+  ● Mobile Verification API Integration Tests › PATCH /api/auth/mobile-verify - Resend OTP › should resend OTP successfully
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:277:23)
+
+  ● Mobile Verification API Integration Tests › PATCH /api/auth/mobile-verify - Resend OTP › should handle cooldown period
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:302:23)
+
+  ● Mobile Verification API Integration Tests › PATCH /api/auth/mobile-verify - Resend OTP › should validate mobile number on resend
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:318:23)
+
+  ● Mobile Verification API Integration Tests › Security Tests › should not leak sensitive information in error messages
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:345:23)
+
+  ● Mobile Verification API Integration Tests › Security Tests › should require authentication for all endpoints
+
+    TypeError: Cannot set property url of #<NextRequest> which has only a getter
+
+      84 |   global.Request = class Request {
+      85 |     constructor(input, init) {
+    > 86 |       this.url = input
+         |               ^
+      87 |       this.method = init?.method || 'GET'
+      88 |       this.headers = new Headers(init?.headers || {})
+      89 |       this.body = init?.body
+
+      at new Request (jest.setup.js:86:15)
+      at new NextRequest (node_modules/next/src/server/web/spec-extension/request.ts:24:10)
+      at Object.<anonymous> (tests/integration/auth/mobile-verification-api.test.ts:365:21)
+
+FAIL tests/integration/auth/registration-api.test.ts
+  ● Integration: Advisor Registration API › POST /api/auth/register › should successfully register a new advisor with valid data
+
+    ReferenceError: mockDb is not defined
+
+      21 | // Ensure all database mocks are set up
+      22 | beforeEach(() => {
+    > 23 |   if (mockDb.otpTokens) {
+         |   ^
+      24 |     mockDb.otpTokens.findMany.mockResolvedValue([]);
+      25 |     mockDb.otpTokens.deleteMany.mockResolvedValue({ count: 0 });
+      26 |   }
+
+      at Object.<anonymous> (tests/integration/auth/registration-api.test.ts:23:3)
+
+  ● Integration: Advisor Registration API › POST /api/auth/register › should reject registration with invalid EUIN
+
+    ReferenceError: mockDb is not defined
+
+      21 | // Ensure all database mocks are set up
+      22 | beforeEach(() => {
+    > 23 |   if (mockDb.otpTokens) {
+         |   ^
+      24 |     mockDb.otpTokens.findMany.mockResolvedValue([]);
+      25 |     mockDb.otpTokens.deleteMany.mockResolvedValue({ count: 0 });
+      26 |   }
+
+      at Object.<anonymous> (tests/integration/auth/registration-api.test.ts:23:3)
+
+  ● Integration: Advisor Registration API › POST /api/auth/register › should prevent duplicate registration
+
+    ReferenceError: mockDb is not defined
+
+      21 | // Ensure all database mocks are set up
+      22 | beforeEach(() => {
+    > 23 |   if (mockDb.otpTokens) {
+         |   ^
+      24 |     mockDb.otpTokens.findMany.mockResolvedValue([]);
+      25 |     mockDb.otpTokens.deleteMany.mockResolvedValue({ count: 0 });
+      26 |   }
+
+      at Object.<anonymous> (tests/integration/auth/registration-api.test.ts:23:3)
+
+  ● Integration: Advisor Registration API › POST /api/auth/register › should validate required fields
+
+    ReferenceError: mockDb is not defined
+
+      21 | // Ensure all database mocks are set up
+      22 | beforeEach(() => {
+    > 23 |   if (mockDb.otpTokens) {
+         |   ^
+      24 |     mockDb.otpTokens.findMany.mockResolvedValue([]);
+      25 |     mockDb.otpTokens.deleteMany.mockResolvedValue({ count: 0 });
+      26 |   }
+
+      at Object.<anonymous> (tests/integration/auth/registration-api.test.ts:23:3)
+
+  ● Integration: Advisor Registration API › POST /api/auth/register › should enforce terms and DPDP consent
+
+    ReferenceError: mockDb is not defined
+
+      21 | // Ensure all database mocks are set up
+      22 | beforeEach(() => {
+    > 23 |   if (mockDb.otpTokens) {
+         |   ^
+      24 |     mockDb.otpTokens.findMany.mockResolvedValue([]);
+      25 |     mockDb.otpTokens.deleteMany.mockResolvedValue({ count: 0 });
+      26 |   }
+
+      at Object.<anonymous> (tests/integration/auth/registration-api.test.ts:23:3)
+
+  ● Integration: Advisor Registration API › POST /api/auth/register › should validate Indian mobile number format
+
+    ReferenceError: mockDb is not defined
+
+      21 | // Ensure all database mocks are set up
+      22 | beforeEach(() => {
+    > 23 |   if (mockDb.otpTokens) {
+         |   ^
+      24 |     mockDb.otpTokens.findMany.mockResolvedValue([]);
+      25 |     mockDb.otpTokens.deleteMany.mockResolvedValue({ count: 0 });
+      26 |   }
+
+      at Object.<anonymous> (tests/integration/auth/registration-api.test.ts:23:3)
+
+  ● Integration: Advisor Registration API › POST /api/auth/register › should handle SEBI compliance violations
+
+    ReferenceError: mockDb is not defined
+
+      21 | // Ensure all database mocks are set up
+      22 | beforeEach(() => {
+    > 23 |   if (mockDb.otpTokens) {
+         |   ^
+      24 |     mockDb.otpTokens.findMany.mockResolvedValue([]);
+      25 |     mockDb.otpTokens.deleteMany.mockResolvedValue({ count: 0 });
+      26 |   }
+
+      at Object.<anonymous> (tests/integration/auth/registration-api.test.ts:23:3)
+
+  ● Integration: Advisor Registration API › POST /api/auth/register › should create audit log for registration attempt
+
+    ReferenceError: mockDb is not defined
+
+      21 | // Ensure all database mocks are set up
+      22 | beforeEach(() => {
+    > 23 |   if (mockDb.otpTokens) {
+         |   ^
+      24 |     mockDb.otpTokens.findMany.mockResolvedValue([]);
+      25 |     mockDb.otpTokens.deleteMany.mockResolvedValue({ count: 0 });
+      26 |   }
+
+      at Object.<anonymous> (tests/integration/auth/registration-api.test.ts:23:3)
+
+  ● Integration: Advisor Registration API › POST /api/auth/register › should send verification email after successful registration
+
+    ReferenceError: mockDb is not defined
+
+      21 | // Ensure all database mocks are set up
+      22 | beforeEach(() => {
+    > 23 |   if (mockDb.otpTokens) {
+         |   ^
+      24 |     mockDb.otpTokens.findMany.mockResolvedValue([]);
+      25 |     mockDb.otpTokens.deleteMany.mockResolvedValue({ count: 0 });
+      26 |   }
+
+      at Object.<anonymous> (tests/integration/auth/registration-api.test.ts:23:3)
+
+FAIL tests/unit/services/email-verification.test.ts
+  ● E01-US-002: Email Verification › TC-E01-002-01: Email verification link generation › should generate unique verification token for new user
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"email": "test@example.com", "type": "email-verification", "userId": "user-123"}
+
+    Number of calls: 0
+
+      68 |       const result = await emailService.createVerificationToken(userId, email)
+      69 |       
+    > 70 |       expect(mockGenerateToken).toHaveBeenCalledWith({
+         |                                 ^
+      71 |         userId,
+      72 |         email,
+      73 |         type: 'email-verification',
+
+      at Object.toHaveBeenCalledWith (tests/unit/services/email-verification.test.ts:70:33)
+
+  ● E01-US-002: Email Verification › TC-E01-002-01: Email verification link generation › should store verification token in database with 24-hour expiry
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    - Expected
+    + Received
+
+      Object {
+        "data": Object {
+          "email": "test@example.com",
+    -     "expiresAt": Any<Date>,
+    -     "token": "test-verification-token-123",
+    +     "expiresAt": 2025-08-21T06:57:33.639Z,
+    +     "token": "$2b$10$BysJuLDcniC2.mr3Eyh32.bLFyqpWV//z9lGTycZQJdMm2LSAds0a",
+          "type": "EMAIL_VERIFICATION",
+          "userId": "user-123",
+        },
+      },
+
+    Number of calls: 1
+
+       95 |       const result = await emailService.createVerificationToken(userId, email)
+       96 |       
+    >  97 |       expect(mockDb.verificationTokens.create).toHaveBeenCalledWith({
+          |                                                ^
+       98 |         data: {
+       99 |           token: 'test-verification-token-123',
+      100 |           userId,
+
+      at Object.toHaveBeenCalledWith (tests/unit/services/email-verification.test.ts:97:48)
+
+  ● E01-US-002: Email Verification › TC-E01-002-02: Email verification sending › should send verification email with correct template
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    - Expected
+    + Received
+
+      Object {
+        "data": Object {
+    +     "disclaimer": "This email is sent in compliance with SEBI regulations for financial advisory services.",
+          "expiryTime": "24 hours",
+          "firstName": "Test",
+    -     "verificationLink": StringContaining "test-verification-token-123",
+    +     "regulatoryNote": "Jarvish is a platform for SEBI-registered financial advisors. Ensure your EUIN is valid and active.",
+    +     "verificationLink": "http://localhost:3000/verify-email?token=84641d572de18ea8e3c94f83c1b741ea5fc101b73e360029b69d9baa60342fb9",
+        },
+        "subject": "Verify your Jarvish account",
+        "template": "email-verification",
+        "to": "test@example.com",
+      },
+
+    Number of calls: 1
+
+      124 |       })
+      125 |       
+    > 126 |       expect(mockSendEmail).toHaveBeenCalledWith({
+          |                             ^
+      127 |         to: email,
+      128 |         subject: 'Verify your Jarvish account',
+      129 |         template: 'email-verification',
+
+      at Object.toHaveBeenCalledWith (tests/unit/services/email-verification.test.ts:126:29)
+
+  ● E01-US-002: Email Verification › TC-E01-002-02: Email verification sending › should include SEBI-compliant disclaimer in email
+
+    expect(received).toMatchObject(expected)
+
+    - Expected  - 1
+    + Received  + 1
+
+      Object {
+        "disclaimer": StringContaining "SEBI",
+    -   "regulatoryNote": StringContaining "financial advisory",
+    +   "regulatoryNote": "Jarvish is a platform for SEBI-registered financial advisors. Ensure your EUIN is valid and active.",
+      }
+
+      147 |       
+      148 |       const emailCall = mockSendEmail.mock.calls[0][0]
+    > 149 |       expect(emailCall.data).toMatchObject({
+          |                              ^
+      150 |         disclaimer: expect.stringContaining('SEBI'),
+      151 |         regulatoryNote: expect.stringContaining('financial advisory'),
+      152 |       })
+
+      at Object.toMatchObject (tests/unit/services/email-verification.test.ts:149:30)
+
+  ● E01-US-002: Email Verification › TC-E01-002-03: Token validation › should validate correct verification token
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 2
+
+      Object {
+    -   "email": "test@example.com",
+    -   "isValid": true,
+    -   "userId": "user-123",
+    +   "error": "Failed to validate token",
+    +   "isValid": false,
+      }
+
+      187 |       const result = await emailService.validateToken(token)
+      188 |       
+    > 189 |       expect(result).toEqual({
+          |                      ^
+      190 |         isValid: true,
+      191 |         userId: 'user-123',
+      192 |         email: 'test@example.com',
+
+      at Object.toEqual (tests/unit/services/email-verification.test.ts:189:22)
+
+  ● E01-US-002: Email Verification › TC-E01-002-03: Token validation › should reject expired tokens
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Object {
+    -   "error": "Verification link has expired",
+    +   "error": "Failed to validate token",
+        "isValid": false,
+      }
+
+      209 |       const result = await emailService.validateToken(token)
+      210 |       
+    > 211 |       expect(result).toEqual({
+          |                      ^
+      212 |         isValid: false,
+      213 |         error: 'Verification link has expired',
+      214 |       })
+
+      at Object.toEqual (tests/unit/services/email-verification.test.ts:211:22)
+
+  ● E01-US-002: Email Verification › TC-E01-002-03: Token validation › should reject already used tokens
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Object {
+    -   "error": "Verification link has already been used",
+    +   "error": "Failed to validate token",
+        "isValid": false,
+      }
+
+      230 |       const result = await emailService.validateToken(token)
+      231 |       
+    > 232 |       expect(result).toEqual({
+          |                      ^
+      233 |         isValid: false,
+      234 |         error: 'Verification link has already been used',
+      235 |       })
+
+      at Object.toEqual (tests/unit/services/email-verification.test.ts:232:22)
+
+  ● E01-US-002: Email Verification › TC-E01-002-03: Token validation › should reject non-existent tokens
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Object {
+    -   "error": "Invalid verification link",
+    +   "error": "Failed to validate token",
+        "isValid": false,
+      }
+
+      243 |       const result = await emailService.validateToken('invalid-token')
+      244 |       
+    > 245 |       expect(result).toEqual({
+          |                      ^
+      246 |         isValid: false,
+      247 |         error: 'Invalid verification link',
+      248 |       })
+
+      at Object.toEqual (tests/unit/services/email-verification.test.ts:245:22)
+
+  ● E01-US-002: Email Verification › TC-E01-002-04: Email verification completion › should mark email as verified in database
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"data": {"emailVerified": true, "emailVerifiedAt": Any<Date>}, "where": {"id": "user-123"}}
+
+    Number of calls: 0
+
+      277 |       const result = await emailService.verifyEmail(token)
+      278 |       
+    > 279 |       expect(mockDb.advisors.update).toHaveBeenCalledWith({
+          |                                      ^
+      280 |         where: { id: userId },
+      281 |         data: {
+      282 |           emailVerified: true,
+
+      at Object.toHaveBeenCalledWith (tests/unit/services/email-verification.test.ts:279:38)
+
+  ● E01-US-002: Email Verification › TC-E01-002-04: Email verification completion › should trigger onboarding flow after verification
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"data": {"advisorId": "user-123", "completedSteps": ["EMAIL_VERIFICATION"], "currentStep": "MOBILE_VERIFICATION"}}
+
+    Number of calls: 0
+
+      326 |       const result = await emailService.verifyEmail(token)
+      327 |       
+    > 328 |       expect(mockDb.onboardingProgress.create).toHaveBeenCalledWith({
+          |                                                ^
+      329 |         data: {
+      330 |           advisorId: userId,
+      331 |           currentStep: 'MOBILE_VERIFICATION',
+
+      at Object.toHaveBeenCalledWith (tests/unit/services/email-verification.test.ts:328:48)
+
+  ● E01-US-002: Email Verification › TC-E01-002-05: Resend verification email › should allow resending verification email
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Object {
+    -   "message": "Verification email sent",
+    +   "message": "Verification email sent successfully",
+        "success": true,
+      }
+
+      373 |       
+      374 |       expect(mockSendEmail).toHaveBeenCalled()
+    > 375 |       expect(result).toEqual({
+          |                      ^
+      376 |         success: true,
+      377 |         message: 'Verification email sent',
+      378 |       })
+
+      at Object.toEqual (tests/unit/services/email-verification.test.ts:375:22)
+
+  ● E01-US-002: Email Verification › Security considerations › should prevent timing attacks on token validation
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 10
+    Received:   19
+
+      492 |       
+      493 |       // Response times should be similar (within 10ms)
+    > 494 |       expect(Math.abs(time1 - time2)).toBeLessThan(10)
+          |                                       ^
+      495 |     })
+      496 |   })
+      497 | })
+
+      at Object.toBeLessThan (tests/unit/services/email-verification.test.ts:494:39)
+
+Test Suites: 6 failed, 2 skipped, 6 of 8 total
+Tests:       53 failed, 27 skipped, 32 passed, 112 total
+Snapshots:   0 total
+Time:        2.681 s, estimated 67 s
+Ran all test suites.

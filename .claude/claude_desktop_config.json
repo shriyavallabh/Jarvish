@@ -1,0 +1,37 @@
+{
+  "mcpServers": {
+    "playwright-jarvish": {
+      "command": "node",
+      "args": [
+        "/Users/shriyavallabh/Desktop/Jarvish/.claude/playwright-mcp-server.js"
+      ],
+      "env": {
+        "NODE_ENV": "development",
+        "JARVISH_MODE": "visual_testing"
+      }
+    }
+  },
+  "toolCallPolicy": {
+    "allowAllToolCalls": true
+  },
+  "defaultBrowser": "chromium",
+  "browserConfig": {
+    "headless": false,
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    },
+    "deviceEmulation": null,
+    "slowMo": 500
+  },
+  "jarvishConfig": {
+    "baseUrl": "http://localhost:3000",
+    "screenshotDir": "./temp/screenshots",
+    "complianceChecks": ["SEBI", "DPDP", "accessibility"],
+    "testViewports": [
+      {"name": "mobile", "width": 375, "height": 667},
+      {"name": "tablet", "width": 768, "height": 1024},
+      {"name": "desktop", "width": 1920, "height": 1080}
+    ]
+  }
+}

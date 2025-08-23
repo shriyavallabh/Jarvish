@@ -1,0 +1,213 @@
+groups:
+  - name: sla_alerts
+    interval: 30s
+    rules:
+      # WhatsApp Delivery SLA Alert
+      - alert: WhatsAppDeliverySLAViolation
+        expr: jarvish_whatsapp_delivery_rate < 99
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+          sla: whatsapp_delivery
+        annotations:
+          summary: "WhatsApp delivery rate below 99% SLA"
+          description: "WhatsApp delivery rate is {{ $value }}%, below the 99% SLA target"
+          runbook_url: "https://wiki.jarvish.ai/runbooks/whatsapp-delivery-sla"
+          dashboard_url: "https://grafana.jarvish.ai/d/jarvish-main"
+
+      # API Response Time SLA Alert
+      - alert: APIResponseTimeSLAViolation
+        expr: histogram_quantile(0.95, sum(rate(jarvish_api_duration_seconds_bucket[5m])) by (le)) > 1.5
+        for: 3m
+        labels:
+          severity: high
+          team: backend
+          sla: api_response_time
+        annotations:
+          summary: "API P95 response time exceeds 1.5s SLA"
+          description: "API P95 response time is {{ $value }}s, exceeding 1.5s target"
+          runbook_url: "https://wiki.jarvish.ai/runbooks/api-performance"
+
+      # API Availability SLA Alert
+      - alert: APIAvailabilitySLAViolation
+        expr: (1 - (sum(rate(jarvish_api_errors_total[5m])) / sum(rate(jarvish_api_requests_total[5m])))) * 100 < 99.9
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+          sla: api_availability
+        annotations:
+          summary: "API availability below 99.9% SLA"
+          description: "API availability is {{ $value }}%, below the 99.9% SLA target"
+
+      # Compliance Validation Time Alert
+      - alert: ComplianceValidationSlow
+        expr: histogram_quantile(0.95, sum(rate(jarvish_compliance_processing_time_seconds_bucket[5m])) by (le)) > 1.5
+        for: 5m
+        labels:
+          severity: medium
+          team: compliance
+          sla: compliance_validation
+        annotations:
+          summary: "Compliance validation P95 exceeds 1.5s"
+          description: "Compliance validation taking {{ $value }}s at P95"
+
+  - name: system_health
+    interval: 60s
+    rules:
+      # System Health Critical
+      - alert: SystemHealthCritical
+        expr: jarvish_system_health < 50
+        for: 2m
+        labels:
+          severity: critical
+          team: platform
+          page: true
+        annotations:
+          summary: "System health critically low"
+          description: "Overall system health is {{ $value }}%, immediate attention required"
+          runbook_url: "https://wiki.jarvish.ai/runbooks/system-health-critical"
+
+      # Database Connection Pool Exhaustion
+      - alert: DatabaseConnectionPoolExhausted
+        expr: jarvish_db_connection_pool_size{state="active"} / jarvish_db_connection_pool_size{state="max"} > 0.9
+        for: 2m
+        labels:
+          severity: high
+          team: backend
+        annotations:
+          summary: "Database connection pool near exhaustion"
+          description: "Database using {{ $value }}% of connection pool"
+
+      # High Error Rate
+      - alert: HighErrorRate
+        expr: sum(rate(jarvish_api_errors_total[5m])) > 100
+        for: 5m
+        labels:
+          severity: high
+          team: backend
+        annotations:
+          summary: "High API error rate detected"
+          description: "API error rate is {{ $value }} errors per second"
+
+      # Queue Backlog Alert
+      - alert: QueueBacklogHigh
+        expr: jarvish_queue_size > 5000
+        for: 10m
+        labels:
+          severity: medium
+          team: platform
+        annotations:
+          summary: "Message queue backlog is high"
+          description: "Queue {{ $labels.queue_name }} has {{ $value }} messages waiting"
+
+  - name: business_metrics
+    interval: 300s
+    rules:
+      # High Churn Rate Alert
+      - alert: HighChurnRate
+        expr: jarvish_churn_rate > 5
+        for: 1h
+        labels:
+          severity: medium
+          team: business
+        annotations:
+          summary: "Customer churn rate exceeds threshold"
+          description: "Monthly churn rate is {{ $value }}%, above 5% threshold"
+
+      # Revenue Drop Alert
+      - alert: RevenueDropDetected
+        expr: rate(jarvish_revenue_total[1h]) < 0
+        for: 2h
+        labels:
+          severity: high
+          team: business
+        annotations:
+          summary: "Revenue declining"
+          description: "Revenue has been declining for the past 2 hours"
+
+      # Content Approval Rate Low
+      - alert: LowContentApprovalRate
+        expr: jarvish_content_approval_rate < 70
+        for: 30m
+        labels:
+          severity: medium
+          team: content
+        annotations:
+          summary: "Content approval rate is low"
+          description: "Content approval rate for advisor {{ $labels.advisor_id }} is {{ $value }}%"
+
+  - name: security_alerts
+    interval: 30s
+    rules:
+      # Suspicious Activity Detection
+      - alert: SuspiciousActivityDetected
+        expr: sum(rate(jarvish_security_events[5m])) > 5
+        for: 1m
+        labels:
+          severity: critical
+          team: security
+          page: true
+        annotations:
+          summary: "Suspicious security activity detected"
+          description: "{{ $value }} security events per second detected"
+          runbook_url: "https://wiki.jarvish.ai/runbooks/security-incident"
+
+      # Compliance Violations
+      - alert: MultipleComplianceViolations
+        expr: sum(increase(jarvish_compliance_violations_total[1h])) > 10
+        for: 5m
+        labels:
+          severity: high
+          team: compliance
+        annotations:
+          summary: "Multiple compliance violations detected"
+          description: "{{ $value }} compliance violations in the last hour"
+
+      # Authentication Failures Spike
+      - alert: AuthenticationFailureSpike
+        expr: sum(rate(jarvish_auth_failures_total[5m])) > 50
+        for: 2m
+        labels:
+          severity: high
+          team: security
+        annotations:
+          summary: "High rate of authentication failures"
+          description: "{{ $value }} authentication failures per second"
+
+  - name: infrastructure_alerts
+    interval: 60s
+    rules:
+      # High Memory Usage
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) > 0.9
+        for: 5m
+        labels:
+          severity: high
+          team: platform
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is {{ $value }}% on {{ $labels.instance }}"
+
+      # High CPU Usage
+      - alert: HighCPUUsage
+        expr: 100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: medium
+          team: platform
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is {{ $value }}% on {{ $labels.instance }}"
+
+      # Disk Space Low
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) < 0.1
+        for: 5m
+        labels:
+          severity: high
+          team: platform
+        annotations:
+          summary: "Low disk space"
+          description: "Only {{ $value }}% disk space remaining on {{ $labels.instance }}"

@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-08-23T04:11:20.041Z",
+  "recipient": {
+    "name": "Shriya Vallabh",
+    "phone": "919765071249",
+    "euin": "E243438"
+  },
+  "content": {
+    "text": "*Hello Shriya Vallabh,*  \n\nI hope you're doing well! This is [Your Name], your financial advisor.  \n\nAs we approach 2025, it’s essential to adopt smart investment strategies. A great option is to start a Systematic Investment Plan (SIP) in mutual funds. SIPs allow you to invest a fixed amount regularly, which helps in averaging out costs and reducing market volatility risks.  \n\n*Consider this:* If you invest ₹5,000 monthly in a mutual fund with an expected return of 12% per annum, after 5 years, you could accumulate approximately ₹3.8 lakhs!  \n\nAlways remember, investments are subject to market risks. Please read all scheme-related documents carefully before investing.  \n\n*EUIN: E243438*  \n\nBest regards,  \n[Your Name]  \n[Your Contact Information]",
+    "length": 756,
+    "language": "English"
+  },
+  "compliance": {
+    "passed": true,
+    "riskScore": 15,
+    "validationTime": 303
+  },
+  "delivery": {
+    "success": true,
+    "messageId": "wamid.1755922280010.HBgMOTE5NzY1MDcxMjQ5",
+    "channel": "whatsapp",
+    "scheduledTime": "06:00 IST",
+    "actualTime": "9:41:20 am"
+  }
+}

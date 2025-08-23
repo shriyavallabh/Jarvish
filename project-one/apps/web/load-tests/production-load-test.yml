@@ -1,0 +1,185 @@
+# Production Load Test Configuration
+# Tests platform capacity for 2000+ concurrent advisors
+
+config:
+  target: "http://localhost:3000"
+  phases:
+    # Warm-up phase
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm-up"
+    
+    # Ramp-up phase
+    - duration: 300
+      arrivalRate: 20
+      rampTo: 100
+      name: "Ramp-up load"
+    
+    # Sustained load phase
+    - duration: 600
+      arrivalRate: 100
+      name: "Sustained high load"
+    
+    # Spike test
+    - duration: 60
+      arrivalRate: 200
+      name: "Spike test"
+    
+    # Cool-down
+    - duration: 60
+      arrivalRate: 10
+      name: "Cool-down"
+
+  payload:
+    path: "./test-data.csv"
+    fields:
+      - "advisorId"
+      - "email"
+      - "contentType"
+      - "language"
+
+  processor: "./load-test-processor.js"
+
+  plugins:
+    ensure:
+      thresholds:
+        - http.response_time.p95: 3500  # Content generation <3.5s
+        - http.response_time.p99: 5000
+        - http.codes.2xx: 95  # 95% success rate minimum
+        - http.request_rate: 100  # Handle 100 req/s
+
+scenarios:
+  # Scenario 1: User Registration
+  - name: "Advisor Registration"
+    weight: 10
+    flow:
+      - get:
+          url: "/"
+          capture:
+            - json: "$.csrfToken"
+              as: "csrfToken"
+      
+      - think: 2
+      
+      - post:
+          url: "/api/auth/register"
+          json:
+            businessName: "Test Advisory {{ $randomNumber() }}"
+            email: "advisor{{ $randomNumber() }}@test.com"
+            phone: "98765{{ $randomNumber(10000, 99999) }}"
+            euin: "E{{ $randomNumber(100000, 999999) }}"
+            password: "SecurePass123!"
+          expect:
+            - statusCode: 201
+            - contentType: json
+          capture:
+            - json: "$.advisorId"
+              as: "newAdvisorId"
+
+  # Scenario 2: Content Generation (Most Critical)
+  - name: "AI Content Generation"
+    weight: 40
+    flow:
+      - post:
+          url: "/api/content/generate"
+          json:
+            advisorId: "{{ advisorId }}"
+            type: "{{ contentType }}"
+            language: "{{ language }}"
+            topic: "Mutual Fund Benefits"
+          headers:
+            Authorization: "Bearer {{ $randomString() }}"
+          expect:
+            - statusCode: 200
+            - contentType: json
+            - hasProperty: content
+            - hasProperty: complianceStatus
+          capture:
+            - json: "$.contentId"
+              as: "contentId"
+            - json: "$.complianceStatus"
+              as: "complianceStatus"
+          
+      # Verify compliance check completed
+      - match:
+          json: "$.complianceStatus"
+          value: "compliant"
+
+  # Scenario 3: WhatsApp Scheduling
+  - name: "WhatsApp Message Scheduling"
+    weight: 30
+    flow:
+      - post:
+          url: "/api/whatsapp/schedule"
+          json:
+            advisorId: "{{ advisorId }}"
+            contentId: "{{ contentId }}"
+            scheduledTime: "06:00"
+            recipients: 100
+          expect:
+            - statusCode: 200
+            - hasProperty: scheduleId
+            - hasProperty: deliveryTime
+          capture:
+            - json: "$.scheduleId"
+              as: "scheduleId"
+
+  # Scenario 4: Dashboard Analytics
+  - name: "Analytics Dashboard"
+    weight: 15
+    flow:
+      - get:
+          url: "/api/analytics/dashboard"
+          qs:
+            advisorId: "{{ advisorId }}"
+            period: "7d"
+          expect:
+            - statusCode: 200
+            - contentType: json
+            - hasProperty: metrics
+            - hasProperty: insights
+          
+      - think: 1
+      
+      - get:
+          url: "/api/analytics/content-performance"
+          qs:
+            advisorId: "{{ advisorId }}"
+          expect:
+            - statusCode: 200
+
+  # Scenario 5: Payment Processing
+  - name: "Subscription Management"
+    weight: 5
+    flow:
+      - post:
+          url: "/api/payments/create-subscription"
+          json:
+            advisorId: "{{ advisorId }}"
+            plan: "STANDARD"
+            interval: "monthly"
+          expect:
+            - statusCode: 200
+            - hasProperty: subscriptionId
+            - hasProperty: paymentLink
+
+# Ensure metrics for production SLAs
+ensure:
+  p95: 3500      # 95% of requests under 3.5s
+  p99: 5000      # 99% of requests under 5s
+  min: 100       # Minimum 100ms (not too fast = caching works)
+  max: 10000     # Maximum 10s (timeout)
+  
+# Custom metrics to track
+customMetrics:
+  - name: "Content Generation Time"
+    regex: "/api/content/generate"
+    
+  - name: "Compliance Check Time"
+    regex: "/api/compliance/validate"
+    
+  - name: "WhatsApp Delivery Rate"
+    regex: "/api/whatsapp/.*"
+    
+  - name: "Database Query Time"
+    regex: "/api/.*/dashboard"

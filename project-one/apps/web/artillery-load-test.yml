@@ -1,0 +1,260 @@
+config:
+  target: 'http://localhost:3000'
+  phases:
+    # Warm-up phase
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm up"
+    
+    # Ramp up load
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 50
+      name: "Ramp up load"
+    
+    # Sustained load (2000 concurrent users target)
+    - duration: 300
+      arrivalRate: 100
+      name: "Sustained load"
+    
+    # Spike test
+    - duration: 60
+      arrivalRate: 200
+      name: "Spike test"
+  
+  defaults:
+    headers:
+      Content-Type: "application/json"
+  
+  processor: "./load-test-processor.js"
+  
+  variables:
+    # Test data
+    euinNumbers:
+      - "E123456"
+      - "E123457"
+      - "E123458"
+      - "E123459"
+      - "E123460"
+    
+    contentTopics:
+      - "Mutual Fund Basics"
+      - "Tax Planning with ELSS"
+      - "SIP Benefits"
+      - "Market Update"
+      - "Investment Strategy"
+    
+    languages:
+      - "en"
+      - "hi"
+      - "mr"
+
+scenarios:
+  # Scenario 1: User Registration and Onboarding
+  - name: "Advisor Registration Flow"
+    weight: 10
+    flow:
+      - post:
+          url: "/api/auth/register"
+          json:
+            business_name: "{{ $randomString() }} Financial Advisory"
+            advisor_name: "{{ $randomFullName() }}"
+            euin: "{{ euinNumbers }}"
+            email: "{{ $randomEmail() }}"
+            mobile: "{{ $randomMobile() }}"
+            password: "SecurePass@2024"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      - think: 2
+      
+      - post:
+          url: "/api/auth/verify-email"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            token: "{{ $randomString() }}"
+      
+      - think: 1
+      
+      - post:
+          url: "/api/auth/verify-mobile"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            otp: "123456"
+
+  # Scenario 2: Content Generation with Compliance
+  - name: "AI Content Generation"
+    weight: 30
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "test.advisor@example.com"
+            password: "TestPass@2024"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      - loop:
+          count: 5
+          actions:
+            - post:
+                url: "/api/content/generate"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  topic: "{{ contentTopics }}"
+                  language: "{{ languages }}"
+                  target_audience: "retail"
+                capture:
+                  - json: "$.content_id"
+                    as: "contentId"
+                  - json: "$.compliance_score"
+                    as: "complianceScore"
+                expect:
+                  - statusCode: 200
+                  - contentType: json
+                  - hasProperty: compliance_score
+                  - hasProperty: generation_time
+                  - custom:
+                      js: "response.generation_time < 3500"
+                      as: "Generation under 3.5s"
+                  - custom:
+                      js: "response.compliance_score >= 95"
+                      as: "Compliance score >= 95%"
+            
+            - think: 2
+
+  # Scenario 3: WhatsApp Delivery Scheduling
+  - name: "WhatsApp Delivery"
+    weight: 25
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "test.advisor@example.com"
+            password: "TestPass@2024"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      - post:
+          url: "/api/whatsapp/schedule"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            content_id: "{{ $randomString() }}"
+            delivery_time: "06:00"
+            recipients: 
+              - "9876543210"
+              - "9876543211"
+              - "9876543212"
+          expect:
+            - statusCode: 200
+            - hasProperty: scheduled_count
+      
+      - get:
+          url: "/api/whatsapp/delivery-status"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: sla_rate
+            - custom:
+                js: "response.sla_rate >= 99"
+                as: "SLA >= 99%"
+
+  # Scenario 4: Analytics Dashboard
+  - name: "Analytics Dashboard Load"
+    weight: 20
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "test.advisor@example.com"
+            password: "TestPass@2024"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      - parallel:
+          - get:
+              url: "/api/analytics/dashboard"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+              expect:
+                - statusCode: 200
+                - contentType: json
+          
+          - get:
+              url: "/api/analytics/content-performance"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+              expect:
+                - statusCode: 200
+          
+          - get:
+              url: "/api/analytics/advisor-insights"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+              expect:
+                - statusCode: 200
+
+  # Scenario 5: Compliance Validation
+  - name: "Real-time Compliance Check"
+    weight: 15
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "test.advisor@example.com"
+            password: "TestPass@2024"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      - loop:
+          count: 10
+          actions:
+            - post:
+                url: "/api/compliance/validate"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  content: "Mutual funds are subject to market risks. Read all scheme documents carefully."
+                  language: "en"
+                expect:
+                  - statusCode: 200
+                  - hasProperty: compliant
+                  - hasProperty: processing_time
+                  - custom:
+                      js: "response.processing_time < 1500"
+                      as: "Compliance check under 1.5s"
+            
+            - think: 1
+
+# Metrics to capture
+metrics:
+  - name: "API Response Time"
+    type: "histogram"
+    
+  - name: "Content Generation Time"
+    type: "histogram"
+    
+  - name: "Compliance Check Time"
+    type: "histogram"
+    
+  - name: "SLA Compliance Rate"
+    type: "counter"
+    
+  - name: "Error Rate"
+    type: "counter"
+
+# Custom expectations
+expect:
+  p95: 1500  # 95th percentile should be under 1.5s
+  p99: 3000  # 99th percentile should be under 3s
+  max: 5000  # Maximum response time should be under 5s
