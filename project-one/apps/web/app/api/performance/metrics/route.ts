@@ -155,21 +155,21 @@ async function getApiMetrics(startTime: number, endTime: number) {
       '/api/whatsapp/send': { requests: 4800, avgResponseTime: 189, errorRate: 0.5 }
     },
     errors: {
-      4xx: 145,
-      5xx: 71,
+      '4xx': 145,
+      '5xx': 71,
       timeouts: 23,
       rateLimited: 12
     },
     statusCodes: {
-      200: 11890,
-      201: 234,
-      400: 89,
-      401: 45,
-      404: 67,
-      429: 12,
-      500: 45,
-      502: 15,
-      503: 11
+      '200': 11890,
+      '201': 234,
+      '400': 89,
+      '401': 45,
+      '404': 67,
+      '429': 12,
+      '500': 45,
+      '502': 15,
+      '503': 11
     }
   };
 }

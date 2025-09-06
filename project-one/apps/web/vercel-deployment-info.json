@@ -1,0 +1,15 @@
+{
+  "name": "jarvish-platform",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install --legacy-peer-deps",
+  "regions": ["bom1"],
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://jqvyrtoohlwiivsronzo.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxdnlydG9vaGx3aWl2c3JvbnpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MTQ2MTYsImV4cCI6MjA3MTE5MDYxNn0.QRiWtn4MKvo5bfDFNlSthz6eYBLaA4qkAEqSn1cmYgY",
+    "DATABASE_URL": "postgresql://postgres.jqvyrtoohlwiivsronzo:Hubix@316572@aws-1-ap-south-1.pooler.supabase.com:5432/postgres",
+    "WHATSAPP_PHONE_NUMBER_ID": "574744175733556",
+    "WHATSAPP_WEBHOOK_VERIFY_TOKEN": "jarvish_webhook_2024"
+  }
+}

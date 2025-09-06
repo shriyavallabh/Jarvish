@@ -138,37 +138,67 @@ async function processStatusUpdate(
   }
 }
 
-// Process incoming messages (for future implementation)
+// Process incoming messages (with consent handling)
 async function processIncomingMessage(message: any) {
   try {
-    const { from, id, timestamp, text, type } = message
+    const { from, id, timestamp, text, type, interactive } = message
 
     console.log('Incoming message:', {
       from,
       messageId: id,
       timestamp: new Date(parseInt(timestamp) * 1000),
       type,
-      text: text?.body
+      text: text?.body,
+      interactive: interactive
     })
 
-    // Handle different message types
-    if (type === 'text' && text?.body) {
-      const messageText = text.body.toLowerCase()
+    // Import consent manager
+    const { ConsentManager } = await import('@/lib/services/consent-manager')
+    const consentManager = new ConsentManager()
 
-      // Handle quick replies
-      if (messageText === 'help') {
-        // Send help message
-        console.log('Help requested from:', from)
-      } else if (messageText === 'stop' || messageText === 'unsubscribe') {
-        // Handle unsubscribe
-        console.log('Unsubscribe requested from:', from)
+    // Handle button replies (consent buttons)
+    if (type === 'interactive' && interactive?.type === 'button_reply') {
+      const buttonText = interactive.button_reply.title
+      
+      if (buttonText === 'YES' || buttonText === 'NO') {
+        // Record consent from button click
+        await consentManager.recordWhatsAppConsent(from, buttonText)
+        console.log(`Consent recorded: ${from} clicked ${buttonText}`)
+        
+        // Send confirmation if opted in
+        if (buttonText === 'YES') {
+          // Import WhatsApp service for sending confirmation
+          const { WhatsAppService } = await import('@/lib/services/whatsapp-service')
+          const whatsappService = new WhatsAppService()
+          await whatsappService.sendWelcomeMessage({
+            phone: from,
+            name: 'Advisor',
+            plan: 'Standard',
+            deliveryTime: '06:00'
+          })
+        }
       }
     }
 
-    // TODO: Implement message handling logic
-    // - Store messages in database
-    // - Trigger automated responses
-    // - Notify advisors of client messages
+    // Handle text messages
+    if (type === 'text' && text?.body) {
+      const messageText = text.body.toLowerCase().trim()
+
+      // Handle consent messages
+      if (messageText === 'yes' || messageText === 'start' || messageText === 'subscribe') {
+        await consentManager.recordWhatsAppConsent(from, 'YES')
+        console.log(`Consent recorded: ${from} replied YES`)
+      } else if (messageText === 'stop' || messageText === 'unsubscribe' || messageText === 'no') {
+        await consentManager.handleOptOut(from, 'whatsapp_stop')
+        console.log(`Opt-out recorded: ${from} replied STOP`)
+      } else if (messageText === 'help') {
+        // Send help message
+        console.log('Help requested from:', from)
+      }
+    }
+
+    // Store message in database for audit
+    // TODO: Implement message storage if needed
   } catch (error) {
     console.error('Error processing incoming message:', error)
   }

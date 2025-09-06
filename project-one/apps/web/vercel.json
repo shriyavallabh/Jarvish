@@ -1,0 +1,91 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "regions": ["bom1"],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_SUPABASE_URL": "@supabase_url",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key",
+      "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_key",
+      "DATABASE_URL": "@database_url",
+      "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "@clerk_public_key",
+      "CLERK_SECRET_KEY": "@clerk_secret_key",
+      "OPENAI_API_KEY": "@openai_api_key",
+      "GEMINI_API_KEY": "@gemini_api_key",
+      "WHATSAPP_ACCESS_TOKEN": "@whatsapp_access_token",
+      "WHATSAPP_APP_SECRET": "@whatsapp_app_secret",
+      "RAZORPAY_KEY_ID": "@razorpay_key_id",
+      "RAZORPAY_KEY_SECRET": "@razorpay_key_secret"
+    }
+  },
+  "functions": {
+    "app/api/webhooks/whatsapp/advanced/route.ts": {
+      "maxDuration": 30,
+      "memory": 1024
+    },
+    "app/api/gemini/generate/route.ts": {
+      "maxDuration": 30,
+      "memory": 1024
+    },
+    "app/api/images/generate/route.ts": {
+      "maxDuration": 30,
+      "memory": 1024
+    },
+    "app/api/billing/advanced/route.ts": {
+      "maxDuration": 30,
+      "memory": 512
+    },
+    "app/api/analytics/advanced/route.ts": {
+      "maxDuration": 10,
+      "memory": 512
+    },
+    "app/api/monitoring/route.ts": {
+      "maxDuration": 10,
+      "memory": 512
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/webhook/whatsapp",
+      "destination": "/api/webhooks/whatsapp/advanced"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/landing",
+      "permanent": false
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/daily-delivery",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}

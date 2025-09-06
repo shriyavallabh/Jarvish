@@ -515,7 +515,7 @@ export function TemplateEditor({ template, onSave, onCancel }: TemplateEditorPro
                       <Card key={variable.key}>
                         <CardContent className="pt-4">
                           <div className="flex items-center justify-between mb-2">
-                            <div className="font-mono text-sm">{{`{{${variable.key}}}`}}</div>
+                            <div className="font-mono text-sm">{`{{${variable.key}}}`}</div>
                             <Badge variant="outline">{variable.type}</Badge>
                           </div>
                           <div className="text-sm text-muted-foreground">
@@ -678,7 +678,7 @@ export function TemplateEditor({ template, onSave, onCancel }: TemplateEditorPro
               <ul className="space-y-2 text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span className="text-primary">•</span>
-                  Use {{`{{variables}}`}} for dynamic content
+                  Use {`{{variables}}`} for dynamic content
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary">•</span>

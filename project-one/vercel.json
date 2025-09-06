@@ -1,0 +1,55 @@
+{
+  "buildCommand": "cd apps/web && npm run build",
+  "outputDirectory": "apps/web/.next",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["bom1"],
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "@supabase_url",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key",
+    "SUPABASE_SERVICE_KEY": "@supabase_service_key",
+    "OPENAI_API_KEY": "@openai_api_key",
+    "WHATSAPP_ACCESS_TOKEN": "@whatsapp_access_token",
+    "WHATSAPP_PHONE_NUMBER_ID": "@whatsapp_phone_number_id",
+    "WHATSAPP_BUSINESS_ACCOUNT_ID": "@whatsapp_business_account_id"
+  },
+  "functions": {
+    "apps/web/pages/api/compliance/*.ts": {
+      "maxDuration": 30,
+      "memory": 1024
+    },
+    "apps/web/pages/api/whatsapp/*.ts": {
+      "maxDuration": 30,
+      "memory": 1024
+    },
+    "apps/web/pages/api/ai/*.ts": {
+      "maxDuration": 50,
+      "memory": 1024
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/v1/:path*",
+      "destination": "/api/:path*"
+    }
+  ]
+}

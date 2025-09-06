@@ -3,6 +3,7 @@ import authRoutes from './auth.routes';
 import adminRoutes from './admin.routes';
 import subscriptionRoutes from './subscription.routes';
 import distributionRoutes from './distribution.routes';
+import imageGenerationRoutes from './image-generation.routes';
 
 const router = Router();
 
@@ -11,6 +12,7 @@ router.use('/auth', authRoutes);
 router.use('/admin', adminRoutes);
 router.use('/subscriptions', subscriptionRoutes);
 router.use('/distribution', distributionRoutes);
+router.use('/images', imageGenerationRoutes);
 
 // API documentation endpoint
 router.get('/', (_req, res) => {
@@ -51,6 +53,13 @@ router.get('/', (_req, res) => {
           uploadImage: 'POST /api/v1/admin/content/upload-image',
         },
       },
+      images: {
+        generate: 'POST /api/v1/images/generate',
+        generateWithBranding: 'POST /api/v1/images/generate-with-branding',
+        generateBatch: 'POST /api/v1/images/generate-batch',
+        templates: 'GET /api/v1/images/templates',
+        testGemini: 'POST /api/v1/images/test-gemini',
+      },
       subscriptions: {
         plans: 'GET /api/v1/subscriptions/plans',
         create: 'POST /api/v1/subscriptions/create',
@@ -83,14 +92,14 @@ router.get('/', (_req, res) => {
     features: {
       contentTypes: ['WHATSAPP_MESSAGE', 'WHATSAPP_IMAGE', 'WHATSAPP_STATUS', 'LINKEDIN_POST'],
       languages: ['EN', 'HI', 'GU', 'MR', 'TA', 'TE', 'KN', 'ML', 'BN', 'PA'],
-      aiModels: ['gpt-4', 'gpt-3.5-turbo'],
+      aiModels: ['gemini-2.0-flash-exp', 'gpt-4', 'gpt-3.5-turbo'],
       scheduling: '6 AM IST daily distribution',
       webScraping: 'Automated content generation from web sources',
     },
     integrations: {
       payments: 'Razorpay',
       messaging: 'WhatsApp Business API',
-      ai: 'OpenAI GPT-4',
+      ai: 'Google Gemini 2.0 Flash (Images), OpenAI GPT-4 (Text)',
       social: 'LinkedIn API',
     },
     documentation: process.env.API_DOCS_URL || 'https://api.jarvish.ai/docs',
